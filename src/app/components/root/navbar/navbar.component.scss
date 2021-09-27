@@ -22,14 +22,18 @@
       margin-left: $ksi-margin;
       flex: 1;
 
-      .nav-btn {
+      > * {
         display: inline-block;
+      }
+
+      .nav-btn {
         color: $ksi-white;
         padding: $ksi-padding;
         text-decoration: none;
+        cursor: pointer;
         transition: background-color 0.1s;
 
-        &.active,&:hover {
+        &.active,&:hover,&[aria-expanded=true] {
           background: $ksi-orange-100;
         }
       }

@@ -13,6 +13,4 @@ export class AppComponent implements OnInit {
     ngOnInit(): void {
         this.theme.setLightTheme();
     }
-
-  title = 'web-frontend-angular';
 }

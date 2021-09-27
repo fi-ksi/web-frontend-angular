@@ -10,6 +10,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FooterComponent } from './components/root/footer/footer.component';
 import { ThemeService } from './services';
 import { WindowService } from './services';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http);
@@ -32,7 +33,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
                 useFactory: HttpLoaderFactory,
                 deps: [HttpClient]
             }
-        })
+        }),
+        NgbModule
     ],
     exports: [
         TranslateModule

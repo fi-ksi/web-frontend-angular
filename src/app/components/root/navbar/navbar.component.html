@@ -20,5 +20,13 @@
     <a class="nav-btn" routerLink="/discussion" routerLinkActive="active">
       {{'root.navbar.category.discussion' | translate}}
     </a>
+
+    <div ngbDropdown>
+      <span id="dropdown-year" class="nav-btn" ngbDropdownToggle>YEAR</span>
+      <div ngbDropdownMenu aria-labelledby="dropdown-year">
+        <button ngbDropdownItem>A</button>
+        <button ngbDropdownItem>B</button>
+      </div>
+    </div>
   </div>
 </nav>

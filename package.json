@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "gen-colors": "./util/gen-scss-colors.sh"
+    "gen-colors": "./util/gen-scss-colors.sh",
+    "gen-api": "./util/gen-api.sh"
   },
   "private": true,
   "dependencies": {

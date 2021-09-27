@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import "src/app/styles/theme";
+@import "assets/font/opensans/opensans";
 
 body {
   font-size: 14px;
+  font-family: 'Open Sans', sans-serif;
 }

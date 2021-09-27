@@ -1,0 +1,4 @@
+# For now we don't need all fonts
+*
+!Apache License.txt
+!OpenSans-Bold.ttf

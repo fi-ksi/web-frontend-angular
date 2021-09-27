@@ -8,7 +8,8 @@ import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { FooterComponent } from './components/root/footer/footer.component';
-import { ThemeService } from "./services/theme.service";
+import { ThemeService } from "./services";
+import { WindowService } from "./services";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -37,7 +38,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     TranslateModule
   ],
   providers: [
-    ThemeService
+    ThemeService,
+    WindowService
   ],
   bootstrap: [AppComponent]
 })

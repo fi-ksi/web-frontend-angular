@@ -1,7 +1,7 @@
 <nav>
   <a class="logo" routerLink="/home" >
-    <img src="../../../../assets/img/karlik_color.png" alt="{{'root.navbar.log' | translate}}">
-    <span>{{'root.navbar.title' | translate}}</span>
+    <img src="../../../../assets/img/karlik_color.png" alt="{{'root.navbar.logo' | translate}}">
+    <span>{{ ((useLongTitle$ | async) ? 'root.navbar.title.long' : 'root.navbar.title.short') | translate}}</span>
   </a>
 
   <div class="categories">

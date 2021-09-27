@@ -6,7 +6,6 @@ import { Injectable } from '@angular/core';
 export class ThemeService {
 
   constructor() {
-    console.log('compiled')
   }
 
   public setLightTheme() {

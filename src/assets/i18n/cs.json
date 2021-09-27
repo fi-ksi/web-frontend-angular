@@ -2,7 +2,10 @@
   "root": {
     "navbar": {
       "logo": "Obrázek tučňáka Karlíka",
-      "title": "Korespondenční seminář z informatiky",
+      "title": {
+        "long": "Korespondenční seminář z informatiky",
+        "short": "KSI"
+      },
       "category": {
         "tasks": "Úlohy",
         "results": "Výsledky",

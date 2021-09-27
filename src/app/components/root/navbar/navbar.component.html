@@ -24,8 +24,12 @@
     <div ngbDropdown>
       <span id="dropdown-year" class="nav-btn" ngbDropdownToggle>YEAR</span>
       <div ngbDropdownMenu aria-labelledby="dropdown-year">
-        <button ngbDropdownItem>A</button>
-        <button ngbDropdownItem>B</button>
+        <button
+          *ngFor="let year of (years$ | async)"
+          ngbDropdownItem
+        >
+          {{year.year}}
+        </button>
       </div>
     </div>
   </div>

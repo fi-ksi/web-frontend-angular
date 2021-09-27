@@ -1,9 +1,38 @@
 @import "src/app/styles/vars";
 
 :host {
-  .nav-btn {
-    display: inline-block;
-    color: $ksi-white;
-    background: $ksi-orange-100;
+  nav {
+    line-height: 1;
+    display: flex;
+
+    .logo {
+      line-break: anywhere;
+      text-decoration: none;
+      color: $ksi-white;
+      display: flex;
+      align-items: center;
+
+      img {
+        height: 3em;
+        margin-right: $ksi-margin-small;
+      }
+    }
+
+    .categories {
+      margin-left: $ksi-margin;
+      flex: 1;
+
+      .nav-btn {
+        display: inline-block;
+        color: $ksi-white;
+        padding: $ksi-padding;
+        text-decoration: none;
+        transition: background-color 0.1s;
+
+        &.active,&:hover {
+          background: $ksi-orange-100;
+        }
+      }
+    }
   }
 }

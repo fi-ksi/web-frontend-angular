@@ -1,4 +1,24 @@
-<div class="logo">
-  <img src="../../../../assets/img/karlik_color.png" alt="{{'root.navbar.log' | translate}}">
-  <span>{{'root.navbar.title' | translate}}</span>
-</div>
+<nav>
+  <a class="logo" routerLink="/home" >
+    <img src="../../../../assets/img/karlik_color.png" alt="{{'root.navbar.log' | translate}}">
+    <span>{{'root.navbar.title' | translate}}</span>
+  </a>
+
+  <div class="categories">
+    <a class="nav-btn" routerLink="/tasks" routerLinkActive="active">
+      {{'root.navbar.category.tasks' | translate}}
+    </a>
+    <a class="nav-btn" routerLink="/results" routerLinkActive="active">
+      {{'root.navbar.category.results' | translate}}
+    </a>
+    <a class="nav-btn" routerLink="/about" routerLinkActive="active">
+      {{'root.navbar.category.about' | translate}}
+    </a>
+    <a class="nav-btn" routerLink="/news" routerLinkActive="active">
+      {{'root.navbar.category.news' | translate}}
+    </a>
+    <a class="nav-btn" routerLink="/discussion" routerLinkActive="active">
+      {{'root.navbar.category.discussion' | translate}}
+    </a>
+  </div>
+</nav>

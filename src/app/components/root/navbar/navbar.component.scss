@@ -1,0 +1,9 @@
+@import "src/app/styles/vars";
+
+:host {
+  .nav-btn {
+    display: inline-block;
+    color: $ksi-white;
+    background: $ksi-orange-100;
+  }
+}

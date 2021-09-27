@@ -1,29 +1,26 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ThemeService {
 
-  constructor() {
-  }
+    public setLightTheme(): void {
+        this.setTheme('light');
+    }
 
-  public setLightTheme() {
-    this.setTheme('light');
-  }
+    public setDarkTheme(): void {
+        this.setTheme('dark');
+    }
 
-  public setDarkTheme() {
-    this.setTheme('dark');
-  }
-
-  public setTheme(themeName: string): void {
-    const oldThemes = [];
-    const {classList} = document.body;
-    classList.forEach((cls) => {
-      if (cls.startsWith('theme-')) {
-        oldThemes.push(cls);
-      }
-    });
-    classList.add(`theme-${themeName}`);
-  }
+    public setTheme(themeName: string): void {
+        const oldThemes = [];
+        const {classList} = document.body;
+        classList.forEach((cls) => {
+            if (cls.startsWith('theme-')) {
+                oldThemes.push(cls);
+            }
+        });
+        classList.add(`theme-${themeName}`);
+    }
 }

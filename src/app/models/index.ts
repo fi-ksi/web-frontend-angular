@@ -1,1 +1,1 @@
-export { WindowSize } from "./window.service";
+export { WindowSize } from './window.service';

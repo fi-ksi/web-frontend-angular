@@ -2,8 +2,10 @@
 
 :host {
   nav {
+    margin: $ksi-padding;
     line-height: 1;
     display: flex;
+    align-items: center;
 
     .logo {
       line-break: anywhere;
@@ -25,18 +27,22 @@
       > * {
         display: inline-block;
       }
+    }
 
-      .nav-btn {
-        color: $ksi-white;
-        padding: $ksi-padding;
-        text-decoration: none;
-        cursor: pointer;
-        transition: background-color 0.1s;
+    .nav-btn {
+      color: $ksi-white;
+      padding: $ksi-padding;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.1s;
 
-        &.active,&:hover,&[aria-expanded=true] {
-          background: $ksi-orange-100;
-        }
+      &.active,&:hover,&[aria-expanded=true] {
+        background: $ksi-orange-100;
       }
+    }
+
+    .login-container {
+      display: inline-block;
     }
   }
 }

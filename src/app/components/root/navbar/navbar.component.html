@@ -22,10 +22,11 @@
     </a>
 
     <div ngbDropdown>
-      <span id="dropdown-year" class="nav-btn" ngbDropdownToggle>YEAR</span>
+      <span id="dropdown-year" class="nav-btn" ngbDropdownToggle>{{(years.selected$ | async)?.year}}</span>
       <div ngbDropdownMenu aria-labelledby="dropdown-year">
         <button
-          *ngFor="let year of (years$ | async)"
+          *ngFor="let year of (selectableYears$ | async)"
+          (click)="years.selected = year"
           ngbDropdownItem
         >
           {{year.year}}

@@ -1,5 +1,5 @@
 <nav>
-  <a class="logo" routerLink="/home" >
+  <a class="logo" routerLink="/home" routerLinkActive="active">
     <img src="../../../../assets/img/karlik_color.png" alt="{{'root.navbar.logo' | translate}}">
     <span>{{ ((useLongTitle$ | async) ? 'root.navbar.title.long' : 'root.navbar.title.short') | translate}}</span>
   </a>

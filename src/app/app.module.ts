@@ -13,6 +13,7 @@ import { WindowService } from './services';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { KsiTitleService } from "./services/shared/ksi-title.service";
 import { PageWelcomeComponent } from './components/root/page-welcome/page-welcome.component';
+import { PageNotFoundComponent } from './components/root/page-not-found/page-not-found.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http);
@@ -23,7 +24,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     AppComponent,
     NavbarComponent,
     FooterComponent,
-    PageWelcomeComponent
+    PageWelcomeComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

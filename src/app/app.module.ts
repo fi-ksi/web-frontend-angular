@@ -11,6 +11,8 @@ import { FooterComponent } from './components/root/footer/footer.component';
 import { BackendService, ThemeService } from './services';
 import { WindowService } from './services';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { KsiTitleService } from "./services/shared/ksi-title.service";
+import { PageWelcomeComponent } from './components/root/page-welcome/page-welcome.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http);
@@ -20,7 +22,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   declarations: [
     AppComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    PageWelcomeComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   providers: [
     ThemeService,
     WindowService,
-    BackendService
+    BackendService,
+    KsiTitleService
   ],
   bootstrap: [AppComponent]
 })

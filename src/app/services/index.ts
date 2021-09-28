@@ -1,3 +1,3 @@
-export { ThemeService } from './theme.service';
-export { WindowService } from './window.service';
-export { BackendService } from './backend.service';
+export { ThemeService } from './shared/theme.service';
+export { WindowService } from './shared/window.service';
+export { BackendService } from './shared/backend.service';

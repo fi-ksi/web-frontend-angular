@@ -26,7 +26,6 @@ import { ArticlesResponse } from '../model/articlesResponse';
 import { AuthRequest } from '../model/authRequest';
 import { AuthResponse } from '../model/authResponse';
 import { BasicProfileResponse } from '../model/basicProfileResponse';
-import { Body1 } from '../model/body1';
 import { ChangePasswordRequest } from '../model/changePasswordRequest';
 import { ChangePasswordResult } from '../model/changePasswordResult';
 import { EmptyDict } from '../model/emptyDict';
@@ -39,6 +38,7 @@ import { ForgottenPasswordRequest } from '../model/forgottenPasswordRequest';
 import { ForgottenPasswordResult } from '../model/forgottenPasswordResult';
 import { InlineResponse200 } from '../model/inlineResponse200';
 import { ModuleResponse } from '../model/moduleResponse';
+import { ModulesIdSubmitBody } from '../model/modulesIdSubmitBody';
 import { PostResponse } from '../model/postResponse';
 import { PostsCreationRequest } from '../model/postsCreationRequest';
 import { PostsEditRequest } from '../model/postsEditRequest';
@@ -787,7 +787,7 @@ export class DefaultService {
 
         if (files) {
             files.forEach((element) => {
-                formParams = formParams.append('files', <any>element) || formParams;
+                formParams = formParams.append('files', <any>element) as any || formParams;
             })
         }
 
@@ -1351,10 +1351,10 @@ export class DefaultService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public modulesSubmitSingle(modulesId: number, body?: Body1, observe?: 'body', reportProgress?: boolean): Observable<ModuleResponse>;
-    public modulesSubmitSingle(modulesId: number, body?: Body1, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ModuleResponse>>;
-    public modulesSubmitSingle(modulesId: number, body?: Body1, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ModuleResponse>>;
-    public modulesSubmitSingle(modulesId: number, body?: Body1, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public modulesSubmitSingle(modulesId: number, body?: ModulesIdSubmitBody, observe?: 'body', reportProgress?: boolean): Observable<ModuleResponse>;
+    public modulesSubmitSingle(modulesId: number, body?: ModulesIdSubmitBody, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ModuleResponse>>;
+    public modulesSubmitSingle(modulesId: number, body?: ModulesIdSubmitBody, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ModuleResponse>>;
+    public modulesSubmitSingle(modulesId: number, body?: ModulesIdSubmitBody, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (modulesId === null || modulesId === undefined) {
             throw new Error('Required parameter modulesId was null or undefined when calling modulesSubmitSingle.');
@@ -1881,16 +1881,21 @@ export class DefaultService {
      * 
      * 
      * @param body 
+     * @param moduleId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public runCode(body: RunCodeRequest, observe?: 'body', reportProgress?: boolean): Observable<RunCodeResponse>;
-    public runCode(body: RunCodeRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<RunCodeResponse>>;
-    public runCode(body: RunCodeRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<RunCodeResponse>>;
-    public runCode(body: RunCodeRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public runCode(body: RunCodeRequest, moduleId: number, observe?: 'body', reportProgress?: boolean): Observable<RunCodeResponse>;
+    public runCode(body: RunCodeRequest, moduleId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<RunCodeResponse>>;
+    public runCode(body: RunCodeRequest, moduleId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<RunCodeResponse>>;
+    public runCode(body: RunCodeRequest, moduleId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling runCode.');
+        }
+
+        if (moduleId === null || moduleId === undefined) {
+            throw new Error('Required parameter moduleId was null or undefined when calling runCode.');
         }
 
         let headers = this.defaultHeaders;
@@ -2578,13 +2583,18 @@ export class DefaultService {
     /**
      * 
      * 
+     * @param threadsId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public threadsMarkVisited(observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
-    public threadsMarkVisited(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
-    public threadsMarkVisited(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
-    public threadsMarkVisited(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public threadsMarkVisited(threadsId: number, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
+    public threadsMarkVisited(threadsId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
+    public threadsMarkVisited(threadsId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
+    public threadsMarkVisited(threadsId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (threadsId === null || threadsId === undefined) {
+            throw new Error('Required parameter threadsId was null or undefined when calling threadsMarkVisited.');
+        }
 
         let headers = this.defaultHeaders;
 

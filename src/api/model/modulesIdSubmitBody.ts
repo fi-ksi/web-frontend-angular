@@ -10,4 +10,4 @@
  * Do not edit the class manually.
  */
 
-export type Body1 = string | Array<string>;
+export type ModulesIdSubmitBody = string | Array<string>;

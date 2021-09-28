@@ -17,6 +17,6 @@ export interface AuthRequestRefreshToken {
 export namespace AuthRequestRefreshToken {
     export type GrantTypeEnum = 'refresh_token';
     export const GrantTypeEnum = {
-        Token: 'refresh_token' as GrantTypeEnum
+        RefreshToken: 'refresh_token' as GrantTypeEnum
     };
 }

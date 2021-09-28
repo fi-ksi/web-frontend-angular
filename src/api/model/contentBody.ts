@@ -10,4 +10,6 @@
  * Do not edit the class manually.
  */
 
-export type Body1 = string | Array<string>;
+export interface ContentBody { 
+    files: Array<Blob>;
+}

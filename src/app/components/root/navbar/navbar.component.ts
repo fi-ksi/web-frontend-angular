@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { YearsService, WindowService } from 'src/app/services';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -10,23 +10,20 @@ import { YearSelect } from "../../../models";
   styleUrls: ['./navbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
   useLongTitle$: Observable<boolean>;
 
   selectableYears$: Observable<YearSelect[]>;
 
   constructor(private window: WindowService, public years: YearsService) {
     this.useLongTitle$ = this.window.windowSize$.pipe(
-      map((size) => size.width > 800)
+      map((size) => size.width > 1150)
     );
 
     // filter out currently selected year from the selection
     this.selectableYears$ = combineLatest([this.years.all$, this.years.selected$]).pipe(
       map(([years, selected]) => years.filter((year) => year.id !== selected?.id))
     );
-  }
-
-  ngOnInit(): void {
   }
 
 }

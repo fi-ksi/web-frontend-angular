@@ -2,17 +2,21 @@
 
 :host {
   nav {
-    margin: $ksi-padding;
+    padding: $ksi-padding;
+    background: $ksi-blue-100;
     line-height: 1;
     display: flex;
     align-items: center;
+    border-bottom: 4px solid $ksi-orange-100;
 
     .logo {
-      line-break: anywhere;
+      white-space: break-spaces;
       text-decoration: none;
       color: $ksi-white;
       display: flex;
       align-items: center;
+      flex-shrink: 3;
+      text-align: center;
 
       img {
         height: 3em;
@@ -21,8 +25,9 @@
     }
 
     .categories {
-      margin-left: $ksi-margin;
-      flex: 1;
+      margin-left: $ksi-margin-x-large;
+      flex-grow: 1;
+      flex-shrink: 0;
 
       > * {
         display: inline-block;
@@ -43,6 +48,17 @@
 
     .login-container {
       display: inline-block;
+
+      .nav-btn {
+        background: $ksi-orange-150;
+
+        .username {
+          display: inline-block;
+          max-width: 40ex;
+          overflow-x: hidden;
+          text-overflow: ellipsis;
+        }
+      }
     }
   }
 }

@@ -13,6 +13,13 @@
         "news": "Novinky",
         "discussion": "Diskuze"
       }
+    },
+    "not-found": {
+      "title": "Nenalezeno",
+      "message": "Tato stránka nebyla nalezena"
+    },
+    "footer": {
+      "license": "Nový KSI web!"
     }
   }
 }

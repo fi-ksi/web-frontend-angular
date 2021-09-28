@@ -10,7 +10,11 @@
     border-bottom: 4px solid $ksi-orange-100;
 
     .logo {
-      &.active, &:hover {
+      &.active {
+        font-weight: bold;
+      }
+
+      &:hover:not(.active) {
         text-shadow: 1px 0 $ksi-white;
       }
 

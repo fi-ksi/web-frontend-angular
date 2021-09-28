@@ -1,0 +1,17 @@
+:host {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    flex-grow: 1;
+
+    .page {
+      flex-grow: 1;
+    }
+  }
+}

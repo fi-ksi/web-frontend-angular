@@ -1,0 +1,11 @@
+@import "src/app/styles/vars";
+
+:host {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  > * {
+    margin-top: $ksi-margin;
+  }
+}

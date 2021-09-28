@@ -1,0 +1,8 @@
+@import "src/app/styles/vars";
+
+:host {
+  padding: $ksi-padding-small $ksi-padding-small 0;
+  display: block;
+  background: $ksi-blue-100;
+  color: $ksi-white;
+}

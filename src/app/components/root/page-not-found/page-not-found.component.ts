@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { KsiTitleService } from "../../../services";
 
 @Component({
   selector: 'ksi-page-not-found',
@@ -8,9 +9,9 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 })
 export class PageNotFoundComponent implements OnInit {
 
-  constructor() { }
+  constructor(private title: KsiTitleService) { }
 
   ngOnInit(): void {
+    this.title.subtitle = 'root.not-found.title';
   }
-
 }

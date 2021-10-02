@@ -14,6 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { KsiTitleService } from "./services/shared/ksi-title.service";
 import { PageWelcomeComponent } from './components/root/page-welcome/page-welcome.component';
 import { PageNotFoundComponent } from './components/root/page-not-found/page-not-found.component';
+import { ArticlePreviewComponent } from './components/root/article-preview/article-preview.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http);
@@ -25,7 +26,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     NavbarComponent,
     FooterComponent,
     PageWelcomeComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ArticlePreviewComponent
   ],
   imports: [
     BrowserModule,

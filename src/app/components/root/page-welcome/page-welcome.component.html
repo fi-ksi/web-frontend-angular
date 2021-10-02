@@ -1,1 +1,5 @@
 <p>page-welcome works!</p>
+<ksi-article-preview
+  *ngFor="let article of (articles$ | async)"
+  [article]="article">
+</ksi-article-preview>

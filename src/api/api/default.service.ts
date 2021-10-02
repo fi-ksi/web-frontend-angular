@@ -272,13 +272,15 @@ export class DefaultService {
      * @param limit 
      * @param start 
      * @param achievement 
+     * @param YEAR 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public achievementsGetAll(limit?: number, start?: number, achievement?: number, observe?: 'body', reportProgress?: boolean): Observable<AchievementsResponse>;
-    public achievementsGetAll(limit?: number, start?: number, achievement?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AchievementsResponse>>;
-    public achievementsGetAll(limit?: number, start?: number, achievement?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AchievementsResponse>>;
-    public achievementsGetAll(limit?: number, start?: number, achievement?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public achievementsGetAll(limit?: number, start?: number, achievement?: number, YEAR?: number, observe?: 'body', reportProgress?: boolean): Observable<AchievementsResponse>;
+    public achievementsGetAll(limit?: number, start?: number, achievement?: number, YEAR?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AchievementsResponse>>;
+    public achievementsGetAll(limit?: number, start?: number, achievement?: number, YEAR?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AchievementsResponse>>;
+    public achievementsGetAll(limit?: number, start?: number, achievement?: number, YEAR?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
 
 
 
@@ -294,6 +296,9 @@ export class DefaultService {
         let headers = this.defaultHeaders;
         if (achievement !== undefined && achievement !== null) {
             headers = headers.set('achievement', String(achievement));
+        }
+        if (YEAR !== undefined && YEAR !== null) {
+            headers = headers.set('YEAR', String(YEAR));
         }
 
         // to determine the Accept header
@@ -531,13 +536,15 @@ export class DefaultService {
      * @param limit 
      * @param start 
      * @param article 
+     * @param YEAR 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public articlesGetAll(limit?: number, start?: number, article?: number, observe?: 'body', reportProgress?: boolean): Observable<ArticlesResponse>;
-    public articlesGetAll(limit?: number, start?: number, article?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ArticlesResponse>>;
-    public articlesGetAll(limit?: number, start?: number, article?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ArticlesResponse>>;
-    public articlesGetAll(limit?: number, start?: number, article?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public articlesGetAll(limit?: number, start?: number, article?: number, YEAR?: number, observe?: 'body', reportProgress?: boolean): Observable<ArticlesResponse>;
+    public articlesGetAll(limit?: number, start?: number, article?: number, YEAR?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ArticlesResponse>>;
+    public articlesGetAll(limit?: number, start?: number, article?: number, YEAR?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ArticlesResponse>>;
+    public articlesGetAll(limit?: number, start?: number, article?: number, YEAR?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
 
 
 
@@ -553,6 +560,9 @@ export class DefaultService {
         let headers = this.defaultHeaders;
         if (article !== undefined && article !== null) {
             headers = headers.set('article', String(article));
+        }
+        if (YEAR !== undefined && YEAR !== null) {
+            headers = headers.set('YEAR', String(YEAR));
         }
 
         // authentication (ksi) required
@@ -2285,15 +2295,20 @@ export class DefaultService {
     /**
      * 
      * 
+     * @param YEAR 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public tasksGetAll(observe?: 'body', reportProgress?: boolean): Observable<TasksResponse>;
-    public tasksGetAll(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<TasksResponse>>;
-    public tasksGetAll(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<TasksResponse>>;
-    public tasksGetAll(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public tasksGetAll(YEAR?: number, observe?: 'body', reportProgress?: boolean): Observable<TasksResponse>;
+    public tasksGetAll(YEAR?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<TasksResponse>>;
+    public tasksGetAll(YEAR?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<TasksResponse>>;
+    public tasksGetAll(YEAR?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
 
         let headers = this.defaultHeaders;
+        if (YEAR !== undefined && YEAR !== null) {
+            headers = headers.set('YEAR', String(YEAR));
+        }
 
         // authentication (ksi) required
         if (this.configuration.accessToken) {
@@ -2483,13 +2498,15 @@ export class DefaultService {
      * 
      * 
      * @param wave 
+     * @param YEAR 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public threadsGetAll(wave?: number, observe?: 'body', reportProgress?: boolean): Observable<ThreadsResponse>;
-    public threadsGetAll(wave?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ThreadsResponse>>;
-    public threadsGetAll(wave?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ThreadsResponse>>;
-    public threadsGetAll(wave?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public threadsGetAll(wave?: number, YEAR?: number, observe?: 'body', reportProgress?: boolean): Observable<ThreadsResponse>;
+    public threadsGetAll(wave?: number, YEAR?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ThreadsResponse>>;
+    public threadsGetAll(wave?: number, YEAR?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ThreadsResponse>>;
+    public threadsGetAll(wave?: number, YEAR?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
 
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
@@ -2498,6 +2515,9 @@ export class DefaultService {
         }
 
         let headers = this.defaultHeaders;
+        if (YEAR !== undefined && YEAR !== null) {
+            headers = headers.set('YEAR', String(YEAR));
+        }
 
         // authentication (ksi) required
         if (this.configuration.accessToken) {
@@ -2683,13 +2703,15 @@ export class DefaultService {
      * 
      * @param filter 
      * @param sort 
+     * @param YEAR 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public usersGetAll(filter?: string, sort?: string, observe?: 'body', reportProgress?: boolean): Observable<UsersResponse>;
-    public usersGetAll(filter?: string, sort?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UsersResponse>>;
-    public usersGetAll(filter?: string, sort?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UsersResponse>>;
-    public usersGetAll(filter?: string, sort?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public usersGetAll(filter?: string, sort?: string, YEAR?: number, observe?: 'body', reportProgress?: boolean): Observable<UsersResponse>;
+    public usersGetAll(filter?: string, sort?: string, YEAR?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UsersResponse>>;
+    public usersGetAll(filter?: string, sort?: string, YEAR?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UsersResponse>>;
+    public usersGetAll(filter?: string, sort?: string, YEAR?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
 
 
 
@@ -2702,6 +2724,9 @@ export class DefaultService {
         }
 
         let headers = this.defaultHeaders;
+        if (YEAR !== undefined && YEAR !== null) {
+            headers = headers.set('YEAR', String(YEAR));
+        }
 
         // authentication (ksi) required
         if (this.configuration.accessToken) {
@@ -2891,15 +2916,20 @@ export class DefaultService {
     /**
      * 
      * 
+     * @param YEAR 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public wavesGetAll(observe?: 'body', reportProgress?: boolean): Observable<Waves>;
-    public wavesGetAll(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Waves>>;
-    public wavesGetAll(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Waves>>;
-    public wavesGetAll(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public wavesGetAll(YEAR?: number, observe?: 'body', reportProgress?: boolean): Observable<Waves>;
+    public wavesGetAll(YEAR?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Waves>>;
+    public wavesGetAll(YEAR?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Waves>>;
+    public wavesGetAll(YEAR?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
 
         let headers = this.defaultHeaders;
+        if (YEAR !== undefined && YEAR !== null) {
+            headers = headers.set('YEAR', String(YEAR));
+        }
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [

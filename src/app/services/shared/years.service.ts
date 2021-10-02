@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from "rxjs";
+import { BehaviorSubject, Observable, of, Subject } from "rxjs";
 import { YearSelect } from "../../models";
 import { Year } from "../../../api";
-import { map, tap } from "rxjs/operators";
+import { map, switchMap, tap } from "rxjs/operators";
 import { BackendService } from "./backend.service";
 
 @Injectable({
@@ -25,12 +25,14 @@ export class YearsService {
   }
 
   selected$: Observable<YearSelect | null>;
+  selectedFull$: Observable<Year | null>;
 
   all$: Observable<Year[]>;
 
   private selectedSubject: Subject<YearSelect | null>;
   private _selected: YearSelect | null;
   private static readonly STORAGE_SELECTED_KEY = 'years/selected';
+  private fullYearCache: {[id: number]: Year} = {};
 
   constructor(private backend: BackendService) {
     const savedYearString = localStorage.getItem(YearsService.STORAGE_SELECTED_KEY);
@@ -39,6 +41,20 @@ export class YearsService {
     this._selected = savedYearValue;
 
     this.selected$ = this.selectedSubject.asObservable();
+    this.selectedFull$ = this.selected$.pipe(switchMap((select) => {
+      if (!select) {
+        return of(null);
+      }
+      if (select.id in this.fullYearCache) {
+        return of(this.fullYearCache[select.id]);
+      }
+      return this.backend.http.yearsGetSingle(select.id).pipe(
+        map((response) => response.year),
+        tap((year) => {
+          this.fullYearCache[select.id] = year;
+        })
+      );
+    }));
 
     this.all$ = this.backend.http.yearsGetAll().pipe(
       // sort years by index DESC

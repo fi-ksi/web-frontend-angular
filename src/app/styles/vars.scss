@@ -9,4 +9,6 @@ $ksi-margin-small: 8px;
 $ksi-margin-large: 32px;
 $ksi-margin-x-large: 32px;
 
+// should be kept in-sync with SIZE_MOBILE and SIZE_MOBILE_SMALL inside WindowService
 $ksi-max-mobile-width: 900px;
+$ksi-max-small-mobile-width: 850px;

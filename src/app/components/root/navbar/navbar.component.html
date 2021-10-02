@@ -1,47 +1,54 @@
-<nav>
-  <a class="logo" routerLink="/home" routerLinkActive="active">
-    <img src="../../../../assets/img/karlik_color.png" alt="{{'root.navbar.logo' | translate}}">
-    <span>{{ ((useLongTitle$ | async) ? 'root.navbar.title.long' : 'root.navbar.title.short') | translate}}</span>
-  </a>
-
-  <div class="categories">
-    <a class="nav-btn" routerLink="/tasks" routerLinkActive="active">
-      {{'root.navbar.category.tasks' | translate}}
-    </a>
-    <a class="nav-btn" routerLink="/results" routerLinkActive="active">
-      {{'root.navbar.category.results' | translate}}
-    </a>
-    <a class="nav-btn" routerLink="/about" routerLinkActive="active">
-      {{'root.navbar.category.about' | translate}}
-    </a>
-    <a class="nav-btn" routerLink="/news" routerLinkActive="active">
-      {{'root.navbar.category.news' | translate}}
-    </a>
-    <a class="nav-btn" routerLink="/discussion" routerLinkActive="active">
-      {{'root.navbar.category.discussion' | translate}}
+<nav [class.clickable]="!(showFullMenu$ | async)" (click)="showFullMenu()">
+  <ng-container *ngIf="(showFullMenu$ | async); else menuOpener">
+    <a class="logo" routerLink="/home" routerLinkActive="active">
+      <img src="../../../../assets/img/karlik_color.png" alt="{{'root.navbar.logo' | translate}}">
+      <span>{{ ((useLongTitle$ | async) ? 'root.navbar.title.long' : 'root.navbar.title.short') | translate}}</span>
     </a>
 
-    <div ngbDropdown>
-      <span id="dropdown-year" class="nav-btn" ngbDropdownToggle>{{(years.selected$ | async)?.year}}</span>
-      <div ngbDropdownMenu aria-labelledby="dropdown-year">
-        <button
-          *ngFor="let year of (selectableYears$ | async)"
-          (click)="years.selected = year"
-          ngbDropdownItem
-        >
-          {{year.year}}
-        </button>
+    <div class="navigation">
+      <div class="categories">
+        <a class="nav-btn" routerLink="/tasks" routerLinkActive="active">
+          {{'root.navbar.category.tasks' | translate}}
+        </a>
+        <a class="nav-btn" routerLink="/results" routerLinkActive="active">
+          {{'root.navbar.category.results' | translate}}
+        </a>
+        <a class="nav-btn" routerLink="/about" routerLinkActive="active">
+          {{'root.navbar.category.about' | translate}}
+        </a>
+        <a class="nav-btn" routerLink="/news" routerLinkActive="active">
+          {{'root.navbar.category.news' | translate}}
+        </a>
+        <a class="nav-btn" routerLink="/discussion" routerLinkActive="active">
+          {{'root.navbar.category.discussion' | translate}}
+        </a>
+
+        <div ngbDropdown>
+          <span id="dropdown-year" class="nav-btn" ngbDropdownToggle>{{(years.selected$ | async)?.year}}</span>
+          <div ngbDropdownMenu aria-labelledby="dropdown-year">
+            <button
+              *ngFor="let year of (selectableYears$ | async)"
+              (click)="years.selected = year"
+              ngbDropdownItem
+            >
+              {{year.year}}
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <div ngbDropdown class="login-container">
+      <div ngbDropdown class="login-container">
     <span id="dropdown-login" class="nav-btn" ngbDropdownToggle>
       <span class="username">Franta</span>
     </span>
-    <div ngbDropdownMenu aria-labelledby="dropdown-login">
-      <button ngbDropdownItem>A</button>
-      <button ngbDropdownItem>B</button>
+        <div ngbDropdownMenu aria-labelledby="dropdown-login">
+          <button ngbDropdownItem>A</button>
+          <button ngbDropdownItem>B</button>
+        </div>
+      </div>
     </div>
-  </div>
+  </ng-container>
+  <ng-template #menuOpener>
+    <div class="menu-opener">&#9776;</div>
+  </ng-template>
 </nav>

@@ -73,9 +73,19 @@
   </slide>
 </carousel>
 
-<div class="articles">
-  <ksi-article-preview
-    *ngFor="let article of (articles$ | async)"
-    [article]="article">
-  </ksi-article-preview>
+<div class="articles-organisators-container">
+  <div class="articles-container">
+    <span class="header">{{'root.welcome.news.title' | translate}}</span>
+    <div class="articles">
+      <ksi-article-preview
+        *ngFor="let article of (articles$ | async)"
+        [article]="article"
+        [clickable]="true"
+      >
+      </ksi-article-preview>
+    </div>
+  </div>
+  <div class="organisators-container">
+    <span class="header">{{'root.welcome.organisators.title' | translate}}</span>
+  </div>
 </div>

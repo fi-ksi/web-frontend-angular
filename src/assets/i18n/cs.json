@@ -38,6 +38,12 @@
         "begin":  "Začni řešit",
         "lets-start": "Jdu na to",
         "more-info": "Zjisti více"
+      },
+      "news": {
+        "title": "Novinky"
+      },
+      "organisators": {
+        "title": "Organizátoři KSI"
       }
     }
   }

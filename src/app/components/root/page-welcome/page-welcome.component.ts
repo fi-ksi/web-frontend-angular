@@ -29,7 +29,7 @@ export class PageWelcomeComponent implements OnInit {
   ngOnInit(): void {
     this.title.subtitle = null;
     this.articles$ = this.years.selected$.pipe(switchMap((year) => {
-      return this.backend.http.articlesGetAll(5, 0, undefined, year?.id || undefined)
+      return this.backend.http.articlesGetAll(6, 0, undefined, year?.id || undefined)
         .pipe(
           map((response) => response.articles.map((article) => ({
             ...article,

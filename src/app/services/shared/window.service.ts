@@ -57,16 +57,44 @@ export class WindowService {
 
     // hook scroll events
     window.addEventListener('load', () => {
-      const appContent = document.getElementById('ksi-app-page-content');
-      if (!appContent) {
-        throw new Error("Cannot find app content");
-      }
-      appContent.addEventListener('scroll', (event) => {
+      WindowService.getAppContent().addEventListener('scroll', (event) => {
         const now = (event.target as HTMLElement).scrollTop;
         const before = this._pageScroll.depth;
         this.pageScroll = {depth: now, change: now - before};
       })
     })
+  }
+
+  /**
+   * Tests if the element is in a visible area of the content
+   * @param element element to test
+   * @param percentage if set, then min percentage of the element must be visible to return true, <0-100>
+   * @return true if at least one pixel (if no percentage is set) or percentage of the element is visible
+   */
+  public static isElementVisible(element: HTMLElement, percentage?: number): boolean {
+    const content = WindowService.getAppContent();
+    const elementRect = element.getBoundingClientRect();
+    const contentRect = content.getBoundingClientRect();
+
+    const contentViewTop = content.scrollTop + contentRect.top;
+    const contentViewBottom = contentViewTop + contentRect.height;
+
+    const invisibleTop = Math.max(contentViewTop - elementRect.top, 0);
+    const invisibleBottom = Math.max(elementRect.bottom - contentViewBottom, 0);
+
+    if (typeof percentage === 'undefined') {
+      return invisibleTop + invisibleBottom < elementRect.height;
+    }
+
+    return (invisibleTop + invisibleBottom) * 100 / elementRect.height <= percentage;
+  }
+
+  public static getAppContent(): HTMLElement {
+    const appContent = document.getElementById('ksi-app-page-content');
+    if (!appContent) {
+      throw new Error("Cannot find app content");
+    }
+    return appContent;
   }
 
   private static getWindowSize(): WindowSize {

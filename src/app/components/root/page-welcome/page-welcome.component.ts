@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { BackendService, KsiTitleService, YearsService } from "../../../services";
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef } from '@angular/core';
+import { BackendService, KsiTitleService, WindowService, YearsService } from "../../../services";
 import { Observable } from "rxjs";
 import { Article, User } from "../../../../api";
 import { map, switchMap } from "rxjs/operators";
@@ -23,6 +23,7 @@ export class PageWelcomeComponent implements OnInit {
     private years: YearsService,
     private backend: BackendService,
     private cd: ChangeDetectorRef,
+    private elRef: ElementRef
   ) {
   }
 
@@ -52,13 +53,24 @@ export class PageWelcomeComponent implements OnInit {
   toggleAboutInfo(slide: number): void {
     if (this.aboutInfoShown && this.aboutInfoSlide === slide) {
       this.aboutInfoShown = false;
-    } else {
-      this.aboutInfoShown = true;
-      this.aboutInfoSlide = slide;
+      this.cd.markForCheck();
+      return;
     }
-    this.cd.markForCheck();
-  }
 
+    this.aboutInfoShown = true;
+    this.aboutInfoSlide = slide;
+    this.cd.detectChanges();
+
+    setTimeout(() => {
+      const carousel = ((this.elRef.nativeElement as HTMLElement).querySelector('.about-carousel') as HTMLElement | null);
+      if (!carousel) {
+        return;
+      }
+      if (!WindowService.isElementVisible(carousel, 50)) {
+        carousel.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+      }
+    });
+  }
 
   onAboutSlideChange(slide: number): void {
     if (!this.aboutInfoShown || this.aboutInfoSlide === slide) {

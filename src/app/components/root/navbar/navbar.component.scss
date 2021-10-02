@@ -6,6 +6,8 @@
     background: $ksi-blue-30;
     line-height: 1;
     display: flex;
+    flex-wrap: wrap;
+    //flex-direction: column;
     align-items: center;
     border-bottom: 4px solid $ksi-orange-100;
 
@@ -34,13 +36,17 @@
     }
 
     .categories {
+      display: flex;
+      flex-wrap: wrap;
       margin-left: $ksi-margin-x-large;
       flex-grow: 1;
-      flex-shrink: 0;
+      justify-content: flex-start;
 
-      > * {
-        display: inline-block;
+      @media screen and (max-width: $ksi-max-mobile-width) {
+        justify-content: center;
       }
+
+      align-items: center;
     }
 
     .nav-btn {

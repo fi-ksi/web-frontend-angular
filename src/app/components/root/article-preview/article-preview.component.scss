@@ -1,0 +1,46 @@
+@import "src/app/styles/vars";
+@import "src/app/styles/mixins";
+
+:host {
+  $article-height: 7em;
+  $article-preview-lines-count: 2;
+
+  display: grid;
+  grid-template-areas: "img title"
+                       "img date"
+                       "img body";
+  grid-template-columns: min-content auto;
+  grid-gap: $ksi-margin-small;
+  line-height: 1;
+  height: $article-height;
+  overflow: hidden;
+
+  .img {
+    grid-area: img;
+
+    > * {
+      @include round-corner;
+      height: $article-height;
+    }
+  }
+
+  .date {
+    grid-area: date;
+    font-size: 0.9rem;
+  }
+
+  .title {
+    grid-area: title;
+    font-weight: bold;
+    font-size: 1.75rem;
+    margin-top: $ksi-margin-small;
+  }
+
+  .body {
+    grid-area: body;
+    margin-bottom: $ksi-margin-small;
+    max-height: #{$article-preview-lines-count}em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}

@@ -18,11 +18,14 @@ $cli generate -l typescript-angular -i ../web-backend-swagger/src/swagger/swagge
 # fix some auto-generated mess
 cd src/api || fail "Cannot cd to api"
 
+echo "Fixing mess"
 for f in $(find . -type f -name '*.ts' -print); do
+  echo "- $f"
   sed -E \
     -e 's/&lt;/</' \
     -e 's/&gt;/>/' \
     -e 's/: Array<(\w+?)> \| Array<Array>;/: Array<\1> | Array<Array<\1>>;/' \
+    -e 's/timePublished: string;/time_published: string;/' \
     -i "$f"
 done
 

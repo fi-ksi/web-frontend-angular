@@ -17,6 +17,9 @@
       "root": "",
       "sourceRoot": "src",
       "prefix": "ksi",
+      "i18n": {
+        "sourceLocale": "cs"
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",

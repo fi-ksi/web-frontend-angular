@@ -18,7 +18,7 @@ export interface Task {
     details: number;
     intro: string;
     maxScore: number;
-    timePublished: string;
+    time_published: string;
     timeDeadline: string;
     state: Task.StateEnum;
     pictureBase: string;

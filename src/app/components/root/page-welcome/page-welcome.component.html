@@ -3,3 +3,4 @@
   *ngFor="let article of (articles$ | async)"
   [article]="article">
 </ksi-article-preview>
+<div *ngFor="let org of (organisators$ | async)">{{org.firstName}}</div>

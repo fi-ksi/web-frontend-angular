@@ -15,7 +15,7 @@ export interface Article {
     body: string;
     published: boolean;
     year: number;
-    timePublished: string;
+    time_published: string;
     picture: string;
     id: number;
     author: number;

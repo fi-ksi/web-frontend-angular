@@ -11,7 +11,7 @@ import { FooterComponent } from './components/root/footer/footer.component';
 import { BackendService, ThemeService } from './services';
 import { WindowService } from './services';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { KsiTitleService } from "./services/shared/ksi-title.service";
+import { KsiTitleService } from "./services";
 import { PageWelcomeComponent } from './components/root/page-welcome/page-welcome.component';
 import { PageNotFoundComponent } from './components/root/page-not-found/page-not-found.component';
 import { ArticlePreviewComponent } from './components/root/article-preview/article-preview.component';

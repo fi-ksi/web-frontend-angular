@@ -1,0 +1,6 @@
+<a class="img" [routerLink]="link">
+  <img [src]="article.picture" alt="">
+</a>
+<a class="title" [routerLink]="link">{{article.title}}</a>
+<span class="date">{{article.time_published | date:'short' }}</span>
+<p class="body" [innerText]="article.body"></p>

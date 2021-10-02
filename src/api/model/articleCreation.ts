@@ -15,6 +15,6 @@ export interface ArticleCreation {
     body: string;
     published: boolean;
     year: number;
-    timePublished: string;
+    time_published: string;
     picture: string;
 }

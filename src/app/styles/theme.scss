@@ -1,4 +1,6 @@
 body {
+  // http://colllor.com/fb9400
+  // http://colllor.com/233140
   &.theme-light {
     --ksi-orange-0: #140C00;
     --ksi-orange-1: #291800;
@@ -11,7 +13,7 @@ body {
     --ksi-orange-70: #B86B00;
     --ksi-orange-80: #CC7700;
     --ksi-orange-90: #E08300;
-    --ksi-orange-100: #FB9400;  // http://colllor.com/fb9400
+    --ksi-orange-100: #FB9400;
     --ksi-orange-110: #FF9900;
     --ksi-orange-120: #FFA21F;
     --ksi-orange-130: #FFAA33;
@@ -25,8 +27,33 @@ body {
     --ksi-orange-210: #FFEED6;
     --ksi-orange-220: #FFF7EB;
 
-    --ksi-blue-100: #233140;
+    --ksi-blue-0: #070A0D;
+    --ksi-blue-1: #0E141A;
+    --ksi-blue-10: #161E27;
+    --ksi-blue-20: #1D2835;
+    --ksi-blue-30: #233140;
+    --ksi-blue-40: #2B3D4F;
+    --ksi-blue-50: #33475C;
+    --ksi-blue-60: #3A5169;
+    --ksi-blue-70: #415B76;
+    --ksi-blue-80: #486584;
+    --ksi-blue-90: #506F91;
+    --ksi-blue-100: #57799E;
+    --ksi-blue-110: #6183A8;
+    --ksi-blue-120: #6E8EAF;
+    --ksi-blue-130: #7B98B7;
+    --ksi-blue-140: #89A2BE;
+    --ksi-blue-150: #96ADC5;
+    --ksi-blue-160: #A3B7CC;
+    --ksi-blue-170: #B0C1D4;
+    --ksi-blue-180: #BDCCDB;
+    --ksi-blue-190: #CAD6E2;
+    --ksi-blue-200: #D8E0E9;
+    --ksi-blue-210: #E5EAF1;
+    --ksi-blue-220: #F2F5F8;
+
     --ksi-white: #fff;
+    --ksi-black: #000;
   }
 
   &.theme-dark {

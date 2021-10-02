@@ -15,6 +15,9 @@ import { KsiTitleService } from "./services";
 import { PageWelcomeComponent } from './components/root/page-welcome/page-welcome.component';
 import { PageNotFoundComponent } from './components/root/page-not-found/page-not-found.component';
 import { ArticlePreviewComponent } from './components/root/article-preview/article-preview.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CarouselModule } from "ngx-bootstrap/carousel";
+import { CollapseModule } from "ngx-bootstrap/collapse";
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http);
@@ -41,7 +44,10 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         deps: [HttpClient]
       }
     }),
-    NgbModule
+    NgbModule,
+    BrowserAnimationsModule,
+    CarouselModule,
+    CollapseModule
   ],
   exports: [
     TranslateModule

@@ -1,0 +1,132 @@
+@import "src/app/styles/vars";
+@import "src/app/styles/mixins";
+
+:host {
+  .about {
+    padding: $ksi-padding;
+    color: $ksi-white;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    grid-row-gap: $ksi-margin;
+    background: $ksi-orange-140;
+
+    .name {
+      display: flex;
+      justify-content: center;
+      margin-bottom: $ksi-margin;
+
+      > * {
+        border-bottom: 2px solid $ksi-orange-90;
+        padding: 0 $ksi-padding $ksi-padding-small;
+      }
+    }
+
+    .sections {
+      display: flex;
+      flex-wrap: wrap-reverse;
+
+      .images {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+
+        @media screen and (max-width: $ksi-max-mobile-width) {
+          justify-content: center;
+        }
+
+        align-items: center;
+        flex-grow: 1;
+
+        > *:not(:last-child) {
+          margin-right: $ksi-margin;
+        }
+
+        img {
+          cursor: pointer;
+          height: 12rem;
+          transition: filter 0.2s;
+
+          &:hover,&.active {
+            filter: brightness(1.1);
+          }
+        }
+      }
+
+      .begin {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 5;
+
+        .tasks {
+          min-width: 70%;
+          margin-bottom: $ksi-margin-small;
+          > * {
+            box-shadow: 2px 2px $ksi-blue-30;
+            background: $ksi-blue-70;
+            transition: background-color 0.2s;
+            color: $ksi-white;
+            width: 100%;
+            @include round-corner;
+
+            &:hover {
+              background: $ksi-blue-100;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .about-carousel {
+    display: block;
+    padding: $ksi-margin;
+    background: $ksi-blue-30;
+    color: $ksi-white;
+    border: 2px solid $ksi-orange-100;
+    border-left: none;
+    border-right: none;
+
+    slide {
+
+      ::ng-deep {
+        .item {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+
+          .content {
+            margin: $ksi-margin 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: justify-all;
+            max-width: min(60%, 60ex);
+
+            .header {
+              font-weight: bold;
+              font-size: 1.25rem;
+              margin-bottom: $ksi-margin-small;
+            }
+
+            .btn-go {
+              box-shadow: 2px 2px $ksi-orange-60;
+              background: $ksi-orange-100;
+              transition: background-color 0.2s;
+              color: $ksi-white;
+              @include round-corner;
+              margin-top: $ksi-margin-large;
+              min-width: 100%;
+
+              &:hover {
+                background: $ksi-orange-130;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

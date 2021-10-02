@@ -1,6 +1,81 @@
-<p>page-welcome works!</p>
-<ksi-article-preview
-  *ngFor="let article of (articles$ | async)"
-  [article]="article">
-</ksi-article-preview>
-<div *ngFor="let org of (organisators$ | async)">{{org.firstName}}</div>
+<div class="about">
+  <h1 class="name">
+    <span>
+      {{'root.navbar.title.long' | translate}}
+    </span>
+  </h1>
+  <div class="sections">
+    <div class="images">
+      <a (click)="toggleAboutInfo(0)">
+        <img src="assets/img/about/seminar.svg"
+             [alt]="'root.welcome.about.seminar.title' | translate"
+             [class.active]="aboutInfoShown && aboutInfoSlide === 0"
+        >
+      </a>
+      <a (click)="toggleAboutInfo(1)">
+        <img src="assets/img/about/kscuk.svg"
+             [alt]="'root.welcome.about.kscuk.title' | translate"
+             [class.active]="aboutInfoShown && aboutInfoSlide === 1"
+        >
+      </a>
+      <a (click)="toggleAboutInfo(2)">
+        <img src="assets/img/about/achievements.svg"
+             [alt]="'root.welcome.about.achievements.title' | translate"
+             [class.active]="aboutInfoShown && aboutInfoSlide === 2"
+        >
+      </a>
+    </div>
+    <div class="begin">
+      <a routerLink="/tasks" class="tasks">
+        <button class="btn-lg btn">{{'root.welcome.about.begin' | translate}}</button>
+      </a>
+      <a  class="more-info" routerLink="/about">- {{'root.welcome.about.more-info' | translate}} -</a>
+    </div>
+  </div>
+</div>
+
+<carousel class="about-carousel"
+          [activeSlide]="aboutInfoSlide"
+          [collapse]="!aboutInfoShown"
+          [showIndicators]="false"
+          [interval]="0"
+          [isAnimated]="true"
+          (activeSlideChange)="onAboutSlideChange($event)"
+>
+  <slide>
+    <div class="content">
+      <span class="header">{{'root.welcome.about.seminar.title' | translate}}</span>
+      <span class="text">{{'root.welcome.about.seminar.text' | translate}}</span>
+      <button class="btn-lg btn btn-go"
+              routerLink="/tasks">
+        {{'root.welcome.about.lets-start' | translate}}
+      </button>
+    </div>
+  </slide>
+  <slide>
+    <div class="content">
+      <span class="header">{{'root.welcome.about.kscuk.title' | translate}}</span>
+      <span class="text">{{'root.welcome.about.kscuk.text' | translate}}</span>
+      <button class="btn-lg btn btn-go" (click)="openKScuk()">
+        {{'root.welcome.about.lets-start' | translate}}
+      </button>
+    </div>
+  </slide>
+  <slide>
+    <div class="content">
+      <span class="header">{{'root.welcome.about.achievements.title' | translate}}</span>
+      <span class="text">{{'root.welcome.about.achievements.text' | translate}}</span>
+      <button class="btn-lg btn btn-go"
+              routerLink="/achievements">
+        {{'root.welcome.about.lets-start' | translate}}
+      </button>
+    </div>
+  </slide>
+</carousel>
+
+<div class="articles">
+  <ksi-article-preview
+    *ngFor="let article of (articles$ | async)"
+    [article]="article">
+  </ksi-article-preview>
+</div>

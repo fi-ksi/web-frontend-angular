@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { BackendService, KsiTitleService, YearsService } from "../../../services";
 import { Observable } from "rxjs";
 import { Article, User } from "../../../../api";
@@ -15,21 +15,53 @@ export class PageWelcomeComponent implements OnInit {
   articles$: Observable<Article[]>;
   organisators$: Observable<User[]>;
 
-  constructor(private title: KsiTitleService, private years: YearsService, private backend: BackendService) {}
+  aboutInfoSlide = 0;
+  aboutInfoShown = false;
+
+  constructor(
+    private title: KsiTitleService,
+    private years: YearsService,
+    private backend: BackendService,
+    private cd: ChangeDetectorRef,
+  ) {
+  }
 
   ngOnInit(): void {
     this.title.subtitle = null;
     this.articles$ = this.years.selected$.pipe(switchMap((year) => {
       return this.backend.http.articlesGetAll(5, 0, undefined, year?.id || undefined)
-        .pipe(map((response) => response.articles.map((article) => ({
-          ...article,
-          picture: PageWelcomeComponent.parseLegacyAssetsUrl(article.picture),
-          body: PageWelcomeComponent.substrHTML(article.body, 0, 512)
-        }))));
+        .pipe(
+          map((response) => response.articles.map((article) => ({
+            ...article,
+            picture: PageWelcomeComponent.parseLegacyAssetsUrl(article.picture),
+            body: PageWelcomeComponent.substrHTML(article.body, 0, 512)
+          }))),
+          // TODO remove artificial quadruplication
+          map((articles) => [...articles, ...articles, ...articles, ...articles])
+        );
     }));
     this.organisators$ = this.years.selected$.pipe(switchMap((year) => {
       return this.backend.http.usersGetAll('organisators', 'score', year?.id || undefined).pipe(map((response) => response.users));
     }));
+  }
+
+  toggleAboutInfo(slide: number): void {
+    if (this.aboutInfoShown && this.aboutInfoSlide === slide) {
+      this.aboutInfoShown = false;
+    } else {
+      this.aboutInfoShown = true;
+      this.aboutInfoSlide = slide;
+    }
+    this.cd.markForCheck();
+  }
+
+
+  onAboutSlideChange(slide: number): void {
+    if (!this.aboutInfoShown || this.aboutInfoSlide === slide) {
+      return;
+    }
+    this.aboutInfoSlide = slide;
+    this.cd.markForCheck();
   }
 
   /**
@@ -52,5 +84,9 @@ export class PageWelcomeComponent implements OnInit {
    */
   private static parseLegacyAssetsUrl(url: string): string {
     return url.startsWith('img/') ? `assets/${url}` : url;
+  }
+
+  openKScuk(): void {
+    location.href = "https://kscuk.fi.muni.cz/"
   }
 }

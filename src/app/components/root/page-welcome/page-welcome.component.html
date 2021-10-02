@@ -87,5 +87,17 @@
   </div>
   <div class="organisators-container">
     <span class="header">{{'root.welcome.organisators.title' | translate}}</span>
+    <div class="organisators">
+      <a *ngFor="let organisator of (organisators$ | async)"
+        class="frame-organisator"
+         [routerLink]="'/profile/' + organisator.id"
+      >
+        <img [src]="organisator.profile_picture" alt="" class="pic">
+        <span class="name">
+          {{organisator.first_name | uppercase}}
+          {{(organisator.nick_name ? '"' + organisator.nick_name + '"' : '') | uppercase}}
+          {{organisator.last_name | uppercase}}</span>
+      </a>
+    </div>
   </div>
 </div>

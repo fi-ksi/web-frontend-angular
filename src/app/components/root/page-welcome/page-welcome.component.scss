@@ -9,12 +9,14 @@
     flex-wrap: wrap;
     flex-direction: column;
     grid-row-gap: $ksi-margin;
-    background: $ksi-orange-140;
+    background: $ksi-orange-120;
 
     .name {
       display: flex;
       justify-content: center;
       margin-bottom: $ksi-margin;
+      color: $ksi-white;
+      text-shadow: 1px 1px 3px $ksi-blue-120;
 
       > * {
         text-align: center;
@@ -71,6 +73,7 @@
             transition: background-color 0.2s;
             color: $ksi-white;
             width: 100%;
+            font-weight: bolder;
             @include round-corner;
 
             &:hover {
@@ -117,7 +120,8 @@
               box-shadow: 2px 2px $ksi-orange-60;
               background: $ksi-orange-100;
               transition: background-color 0.2s;
-              color: $ksi-white;
+              color: $ksi-blue-40;
+              font-weight: bolder;
               @include round-corner;
               margin-top: $ksi-margin-large;
               min-width: 100%;
@@ -149,7 +153,8 @@
       .header {
         margin: $ksi-margin 0 $ksi-margin-small;
         font-weight: bolder;
-        font-size: 1.25rem;
+        font-size: 1.5rem;
+        color: $ksi-blue-20;
       }
     }
 
@@ -164,6 +169,32 @@
         @include round-corner;
         padding: $ksi-padding-small;
         margin: $ksi-margin-small;
+      }
+    }
+
+    .organisators {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      .frame-organisator {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: $ksi-margin;
+        cursor: pointer;
+
+        .pic {
+          height: 15em;
+          border-radius: 50%;
+        }
+
+        .name {
+          margin-top: $ksi-margin-small;
+          font-weight: bolder;
+          text-align: center;
+          color: $ksi-blue-20;
+        }
       }
     }
   }

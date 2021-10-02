@@ -12,9 +12,9 @@
 
 export interface User { 
     id: number;
-    firstName: string;
-    lastName: string;
-    profilePicture: string;
+    first_name: string;
+    last_name: string;
+    profile_picture: string;
     gender: string;
     email?: string;
     role: string;
@@ -22,7 +22,7 @@ export interface User {
     taskNum: number;
     achievements: Array<number>;
     enabled: boolean;
-    nickName: string;
+    nick_name: string;
     addrCountry?: string;
     schoolName?: string;
     seasons?: Array<number>;

@@ -13,8 +13,8 @@
 export interface RegistrationRequest { 
     email: string;
     nickName?: string;
-    firstName: string;
-    lastName: string;
+    first_name: string;
+    last_name: string;
     gender: string;
     shortInfo: string;
     addrStreet: string;

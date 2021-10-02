@@ -41,7 +41,11 @@ export class PageWelcomeComponent implements OnInit {
         );
     }));
     this.organisators$ = this.years.selected$.pipe(switchMap((year) => {
-      return this.backend.http.usersGetAll('organisators', 'score', year?.id || undefined).pipe(map((response) => response.users));
+      return this.backend.http.usersGetAll('organisators', 'score', year?.id || undefined)
+        .pipe(map((response) => response.users.map((user) => ({
+          ...user,
+          profile_picture: PageWelcomeComponent.getOrgProfilePicture(user)
+        }))));
     }));
   }
 
@@ -84,6 +88,16 @@ export class PageWelcomeComponent implements OnInit {
    */
   private static parseLegacyAssetsUrl(url: string): string {
     return url.startsWith('img/') ? `assets/${url}` : url;
+  }
+
+  private static getOrgProfilePicture(organisator: User): string {
+    if (organisator.profile_picture) {
+      return organisator.profile_picture;
+    }
+    if (organisator.gender === 'male') {
+      return 'assets/img/avatar/org.svg';
+    }
+    return 'assets/img/avatar/org-woman.svg';
   }
 
   openKScuk(): void {

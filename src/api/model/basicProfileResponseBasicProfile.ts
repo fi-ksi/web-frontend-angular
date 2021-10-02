@@ -16,9 +16,9 @@ export interface BasicProfileResponseBasicProfile {
     email: string;
     shortInfo: string;
     profilePicture: number;
-    nickName: string;
-    lastName: string;
-    firstName: string;
+    nick_name: string;
+    last_name: string;
+    first_name: string;
     signedIn: boolean;
     id: number;
 }

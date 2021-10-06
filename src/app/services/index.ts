@@ -3,3 +3,4 @@ export { WindowService } from './shared/window.service';
 export { BackendService } from './shared/backend.service';
 export { YearsService } from './shared/years.service';
 export { KsiTitleService } from './shared/ksi-title.service';
+export { VersionService } from './shared/version.service';

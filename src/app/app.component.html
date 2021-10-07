@@ -3,5 +3,6 @@
   <div class="page">
     <router-outlet></router-outlet>
   </div>
-  <ksi-footer></ksi-footer>
+  <ksi-footer (changelogShow)="changelog.openModal()"></ksi-footer>
 </div>
+<ksi-modal-changelog #changelog></ksi-modal-changelog>

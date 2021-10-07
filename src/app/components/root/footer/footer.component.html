@@ -1,2 +1,2 @@
-<span>{{'root.footer.license' | translate}}</span>
-<span> v {{version.version$ | async}}</span>
+<p>{{'root.footer.license' | translate}}</p>
+<span class="version" (click)="changelogShow.emit()">{{'root.footer.version' | translate}} {{version.version$ | async}}</span>

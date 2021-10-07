@@ -18,6 +18,9 @@ import { ArticlePreviewComponent } from './components/root/article-preview/artic
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CarouselModule } from "ngx-bootstrap/carousel";
 import { CollapseModule } from "ngx-bootstrap/collapse";
+import { ModalChangelogComponent } from './components/root/modal-changelog/modal-changelog.component';
+import { BsModalService } from "ngx-bootstrap/modal";
+import { ReactiveFormsModule } from "@angular/forms";
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http);
@@ -30,7 +33,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     FooterComponent,
     PageWelcomeComponent,
     PageNotFoundComponent,
-    ArticlePreviewComponent
+    ArticlePreviewComponent,
+    ModalChangelogComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +51,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     NgbModule,
     BrowserAnimationsModule,
     CarouselModule,
-    CollapseModule
+    CollapseModule,
+    ReactiveFormsModule
   ],
   exports: [
     TranslateModule
@@ -56,7 +61,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     ThemeService,
     WindowService,
     BackendService,
-    KsiTitleService
+    KsiTitleService,
+    BsModalService
   ],
   bootstrap: [AppComponent]
 })

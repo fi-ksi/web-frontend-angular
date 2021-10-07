@@ -1,5 +1,8 @@
 {
   "root": {
+    "changelog": {
+      "title": "Změny od "
+    },
     "navbar": {
       "logo": "Obrázek tučňáka Karlíka",
       "title": {
@@ -19,7 +22,8 @@
       "message": "Tato stránka nebyla nalezena"
     },
     "footer": {
-      "license": "Nový KSI web!"
+      "license": "Nový KSI web!",
+      "version": "Verze webu"
     },
     "welcome": {
       "about": {

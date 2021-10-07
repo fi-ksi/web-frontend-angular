@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
 import { VersionService } from "../../../services";
 
 @Component({
@@ -8,5 +8,8 @@ import { VersionService } from "../../../services";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FooterComponent {
+  @Output()
+  changelogShow: EventEmitter<void> = new EventEmitter<void>();
+
   constructor(public version: VersionService) {}
 }

@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { VersionService } from "../../../services";
-import { combineLatest, of, Subscription } from "rxjs";
+import { combineLatest, Subscription } from "rxjs";
 import { DateInputFormControl } from "../../../util";
 
 @Component({
@@ -34,6 +34,8 @@ export class ModalChangelogComponent implements OnInit, OnDestroy {
 
   private _subs: Subscription[] = [];
 
+  private static readonly KEY_LAST_SHOWN_COMMIT_TIME = 'changelog/last-commit';
+
   constructor(
     private modalService: BsModalService,
     private version: VersionService,
@@ -47,7 +49,7 @@ export class ModalChangelogComponent implements OnInit, OnDestroy {
         return;
       }
       if (since === null) {
-        since = new Date();
+        since = new Date(0);
       }
 
       const reCommitMessage = /^(feat|fix)(?:\((.*?)\))?:\s+(.*)$/;
@@ -67,7 +69,6 @@ export class ModalChangelogComponent implements OnInit, OnDestroy {
             // filter out too old changes
             const date = new Date(change.commiter.date);
             if (date < since!) {
-              console.log(date, since, date.getDate(), since?.getDate());
               return;
             }
 
@@ -88,12 +89,16 @@ export class ModalChangelogComponent implements OnInit, OnDestroy {
 
       this.changeCategories = Object.keys(this.changes).sort();
       this.cd.markForCheck();
-      if (this.changeCategories) {
+      if (this.changeCategories.length) {
         this.openModal();
       }
     }));
+
     // show last week worth of changes
-    this.controlSince.setOuterValue(new Date(Date.now() - (7 * 24 * 3600 * 1000)));
+    this.controlSince.setOuterValue(new Date(
+      Number(localStorage.getItem(ModalChangelogComponent.KEY_LAST_SHOWN_COMMIT_TIME)) ||
+      Date.now() - (7 * 24 * 3600 * 1000)
+    ));
   }
 
   openModal() {
@@ -102,7 +107,8 @@ export class ModalChangelogComponent implements OnInit, OnDestroy {
     }
     this.visible = true;
     const ref = this.modalRef = this.modalService.show(this.template);
-    this._subs.push((ref.onHide || of()).subscribe(() => {
+    this._subs.push(ref!.onHide!.subscribe(() => {
+      localStorage.setItem(ModalChangelogComponent.KEY_LAST_SHOWN_COMMIT_TIME, `${Date.now()}`);
       this.visible = false;
     }));
   }

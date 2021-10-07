@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Configuration, DefaultService } from '../../../api';
 import { HttpClient } from '@angular/common/http';
+import { environment } from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,6 @@ export class BackendService {
   }
 
   constructor(private httpClient: HttpClient) {
-    this._http = new DefaultService(this.httpClient, 'http://localhost:3030/', new Configuration());
+    this._http = new DefaultService(this.httpClient, environment.backend, new Configuration());
   }
 }

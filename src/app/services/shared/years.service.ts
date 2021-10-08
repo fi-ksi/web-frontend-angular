@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject } from "rxjs";
 import { YearSelect } from "../../models";
-import { Year } from "../../../api";
+import { Article, User, Year } from "../../../api";
 import { map, switchMap, tap } from "rxjs/operators";
 import { BackendService } from "./backend.service";
+import { Utils } from "../../util";
 
 @Injectable({
   providedIn: 'root'
@@ -24,10 +25,13 @@ export class YearsService {
     }
   }
 
-  selected$: Observable<YearSelect | null>;
-  selectedFull$: Observable<Year | null>;
+  readonly selected$: Observable<YearSelect | null>;
+  readonly selectedFull$: Observable<Year | null>;
 
-  all$: Observable<Year[]>;
+  readonly all$: Observable<Year[]>;
+
+  readonly articles$: Observable<Article[]>;
+  readonly organisators$: Observable<User[]>;
 
   private selectedSubject: Subject<YearSelect | null>;
   private _selected: YearSelect | null;
@@ -66,5 +70,26 @@ export class YearsService {
         }
       })
     );
+
+    this.articles$ = this.selected$.pipe(switchMap((year) => {
+      return this.backend.http.articlesGetAll(6, 0, undefined, year?.id || undefined)
+        .pipe(
+          map((response) => response.articles.map((article) => ({
+            ...article,
+            picture: Utils.parseLegacyAssetsUrl(article.picture),
+            body: Utils.substrHTML(article.body, 0, 512)
+          }))),
+          // TODO remove artificial quadruplication
+          map((articles) => [...articles, ...articles, ...articles, ...articles])
+        );
+    }));
+
+    this.organisators$ = this.selected$.pipe(switchMap((year) => {
+      return this.backend.http.usersGetAll('organisators', 'score', year?.id || undefined)
+        .pipe(map((response) => response.users.map((user) => ({
+          ...user,
+          profile_picture: Utils.getOrgProfilePicture(user)
+        }))));
+    }));
   }
 }

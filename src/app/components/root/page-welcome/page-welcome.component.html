@@ -78,7 +78,7 @@
     <span class="header">{{'root.welcome.news.title' | translate}}</span>
     <div class="articles">
       <ksi-article-preview
-        *ngFor="let article of (articles$ | async)"
+        *ngFor="let article of (years.articles$ | async)"
         [article]="article"
         [clickable]="true"
       >
@@ -88,7 +88,7 @@
   <div class="organisators-container">
     <span class="header">{{'root.welcome.organisators.title' | translate}}</span>
     <div class="organisators">
-      <a *ngFor="let organisator of (organisators$ | async)"
+      <a *ngFor="let organisator of (years.organisators$ | async)"
         class="frame-organisator"
          [routerLink]="'/profile/' + organisator.id"
       >

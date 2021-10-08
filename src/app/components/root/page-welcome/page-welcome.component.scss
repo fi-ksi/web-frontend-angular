@@ -162,14 +162,6 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-
-      ksi-article-preview {
-        border: 2px solid $ksi-orange-160;
-        background-color: $ksi-orange-210;
-        @include round-corner;
-        padding: $ksi-padding-small;
-        margin: $ksi-margin-small;
-      }
     }
 
     .organisators {

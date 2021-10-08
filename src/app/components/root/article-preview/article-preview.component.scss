@@ -2,6 +2,15 @@
 @import "src/app/styles/mixins";
 
 :host {
+  $article-height: 7em;
+  $article-preview-lines-count: 2;
+
+  border: 2px solid $ksi-orange-160;
+  background-color: $ksi-orange-210;
+  @include round-corner;
+  padding: $ksi-padding-small;
+  margin: $ksi-margin-small;
+
   &.clickable {
     cursor: pointer;
     transition: filter 0.2s;
@@ -10,9 +19,6 @@
       filter: brightness(1.05);
     }
   }
-
-  $article-height: 7em;
-  $article-preview-lines-count: 2;
 
   display: grid;
   grid-template-areas: "img title"

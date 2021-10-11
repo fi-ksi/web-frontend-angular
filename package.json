@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "start.pubdev": "ng serve --configuration pubdev",
     "start": "ng serve",
     "build": "npm run gen.changelog && ng build",
     "build.pubdev": "npm run gen.changelog && ng build --configuration pubdev",

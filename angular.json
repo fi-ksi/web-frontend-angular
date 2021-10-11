@@ -94,6 +94,9 @@
             },
             "development": {
               "browserTarget": "web-frontend-angular:build:development"
+            },
+            "pubdev": {
+              "browserTarget": "web-frontend-angular:build:pubdev"
             }
           },
           "defaultConfiguration": "development"

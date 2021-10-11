@@ -16,6 +16,7 @@ jobs:
       - run: mkdir src
       - uses: actions/checkout@v2
         with:
+          fetch-depth: 100
           path: 'src'
       - name: sftp copy
         shell: bash

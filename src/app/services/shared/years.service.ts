@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject } from "rxjs";
 import { YearSelect } from "../../models";
 import { Article, User, Year } from "../../../api";
-import { map, switchMap, tap } from "rxjs/operators";
+import { map, shareReplay, switchMap, tap } from "rxjs/operators";
 import { BackendService } from "./backend.service";
 import { Utils } from "../../util";
 
@@ -61,6 +61,7 @@ export class YearsService {
     }));
 
     this.all$ = this.backend.http.yearsGetAll().pipe(
+      shareReplay(1),
       // sort years by index DESC
       map((resp) => resp.years.sort((a, b) => b.id - a.id)),
       tap((years) => {
@@ -72,6 +73,7 @@ export class YearsService {
     );
 
     this.articles$ = this.selected$.pipe(switchMap((year) => {
+      // TODO allow more than 6 articles
       return this.backend.http.articlesGetAll(6, 0, undefined, year?.id || undefined)
         .pipe(
           map((response) => response.articles.map((article) => ({

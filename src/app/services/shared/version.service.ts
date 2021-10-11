@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { take } from "rxjs/operators";
+import { shareReplay } from "rxjs/operators";
 import { Changelog } from "../../models";
 
 @Injectable({
@@ -22,9 +22,9 @@ export class VersionService {
   constructor(private http: HttpClient) {
     this._version$ = this.http
       .get('assets/changelog/version.txt', {responseType: 'text'})
-      .pipe(take(1));
+      .pipe(shareReplay(1),);
     this._changelog$ = this.http
       .get<Changelog>('assets/changelog/changelog.json', {responseType: 'json'})
-      .pipe(take(1));
+      .pipe(shareReplay(1),);
   }
 }

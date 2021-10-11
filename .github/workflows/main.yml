@@ -1,0 +1,36 @@
+name: deploy-pubdev
+on:
+  push:
+    branches:
+      - 'main'
+jobs:
+  deploy-pubdev:
+    runs-on: ubuntu-latest
+    env:
+       SSH_PRIVATE_KEY: ${{ secrets.PUBDEV_SSH_PRIVATE_KEY }}
+       SSH_KNOWN_HOSTS: ${{ secrets.PUBDEV_SSH_KNOWN_HOSTS }}
+       SSH_USER: ${{ secrets.PUBDEV_SSH_USER }}
+       SSH_HOST: ${{ secrets.PUBDEV_SSH_HOST }}
+       SSH_DIR: ${{ secrets.PUBDEV_SSH_DIR }}
+    steps:
+      - run: mkdir src
+      - uses: actions/checkout@v2
+        with:
+          path: 'src'
+      - name: sftp copy
+        shell: bash
+        run: |
+          eval `ssh-agent -s` &&
+          echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - &&
+          mkdir -p ~/.ssh &&
+          chmod 700 ~/.ssh &&
+          echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts &&
+          chmod 600 ~/.ssh/known_hosts &&
+          echo 'bye' | sftp -oBatchMode=no -r "${SSH_USER}"@"${SSH_HOST}":"/${SSH_DIR}" &&
+          echo "Remote host is reachable" &&
+          cd src &&
+          sudo snap install node --classic &&
+          npm install &&
+          npm run build.pubdev &&
+          cd dist/web-frontend-angular &&
+          { echo 'put .'; echo bye; } | sftp -oBatchMode=no -r "${SSH_USER}"@"${SSH_HOST}":"/${SSH_DIR}"

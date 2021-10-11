@@ -1,7 +1,10 @@
 name: deploy-pubdev
-on: [push]
+on:
+  push:
+    branches:
+      - 'main'
 jobs:
-  deploy-sftp:
+  deploy-pubdev:
     runs-on: ubuntu-latest
     env:
        SSH_PRIVATE_KEY: ${{ secrets.PUBDEV_SSH_PRIVATE_KEY }}
@@ -23,6 +26,8 @@ jobs:
           chmod 700 ~/.ssh &&
           echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts &&
           chmod 600 ~/.ssh/known_hosts &&
+          echo 'bye' | sftp -oBatchMode=no -r "${SSH_USER}"@"${SSH_HOST}":"/${SSH_DIR}" &&
+          echo "Remote host is reachable" &&
           cd src &&
           sudo snap install node --classic &&
           npm install &&

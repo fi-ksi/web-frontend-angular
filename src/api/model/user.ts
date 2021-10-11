@@ -19,7 +19,7 @@ export interface User {
     email?: string;
     role: string;
     score: number;
-    taskNum: number;
+    tasks_num: number;
     achievements: Array<number>;
     enabled: boolean;
     nick_name: string;

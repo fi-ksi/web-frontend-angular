@@ -56,5 +56,19 @@
   },
   "about": {
     "title": "O KSI"
+  },
+  "results": {
+    "title": "Výsledky",
+    "category": {
+      "highschoolers": "Středoškoláci",
+      "others": "Ostatní"
+    },
+    "table": {
+      "position": "Pozice",
+      "name": "Jméno",
+      "trophies": "Trofeje",
+      "score": "Skóre",
+      "taskNum": "Vyřešených úloh"
+    }
   }
 }

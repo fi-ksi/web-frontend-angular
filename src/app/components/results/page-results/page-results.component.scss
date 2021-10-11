@@ -1,0 +1,22 @@
+@import "src/app/styles/vars";
+
+:host {
+  $width: 27cm;
+
+  margin: $ksi-margin;
+  display: flex;
+  justify-content: center;
+
+  main {
+    max-width: $width;
+    width: $width;
+
+    h2 {
+      margin: $ksi-margin-large 0;
+    }
+
+    h3 {
+      margin: $ksi-margin-large 0 $ksi-margin;
+    }
+  }
+}

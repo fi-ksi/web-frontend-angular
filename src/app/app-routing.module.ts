@@ -8,6 +8,7 @@ const routes: Routes = [
   { path: '',   redirectTo: '/home', pathMatch: 'full' },
   { path: 'news', loadChildren: () => import('./components/news/news.module').then((m) => m.NewsModule)},
   { path: 'about', loadChildren: () => import('./components/about/about.module').then((m) => m.AboutModule)},
+  { path: 'results', loadChildren: () => import('./components/results/results.module').then((m) => m.ResultsModule)},
   { path: '**', component: PageNotFoundComponent }
 ];
 

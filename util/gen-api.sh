@@ -30,6 +30,7 @@ for f in $(find . -type f -name '*.ts' -print); do
     -e 's/firstName: string;/first_name: string;/' \
     -e 's/lastName: string;/last_name: string;/' \
     -e 's/nickName: string;/nick_name: string;/' \
+    -e 's/tasksNum: number;/tasks_num: number;/' \
     -i "$f"
 done
 

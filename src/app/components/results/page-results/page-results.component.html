@@ -1,0 +1,27 @@
+<main>
+  <h2>{{'results.title' | translate}}</h2>
+
+  <div class="category" *ngFor="let category of categories">
+    <h3>{{category.name | translate}}</h3>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">{{'results.table.position' | translate}}</th>
+        <th scope="col">{{'results.table.name' | translate}}</th>
+        <th scope="col">{{'results.table.trophies' | translate}}</th>
+        <th scope="col">{{'results.table.score' | translate}}</th>
+        <th scope="col">{{'results.table.taskNum' | translate}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of (category.users$ | async)">
+        <td>{{user.position}}</td>
+        <td>{{user.first_name}} {{user.last_name}}</td>
+        <td><!-- TODO --></td>
+        <td>{{user.score}}</td>
+        <td>{{user.tasks_num}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</main>

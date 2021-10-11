@@ -52,6 +52,9 @@ export class ModalChangelogComponent implements OnInit, OnDestroy {
         since = new Date(0);
       }
 
+      // show all changes that happened AFTER the date of 'since'
+      since.setDate(since.getDate() + 1);
+
       const reCommitMessage = /^(feat|fix)(?:\((.*?)\))?:\s+(.*)$/;
 
       this.changes = {};

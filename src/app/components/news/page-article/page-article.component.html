@@ -1,1 +1,10 @@
-<p>page-article works!</p>
+<div class="article" *ngIf="(articleResponse$ | async) as articleResponse">
+  <div class="header">
+    <img [src]="articleResponse.article.picture" alt="">
+    <h2>{{articleResponse.article.title}}</h2>
+  </div>
+  <div class="content">
+    <span class="date">{{articleResponse.article.time_published | date}}</span>
+    <article class="text" [innerHTML]="articleResponse.article.body"></article>
+  </div>
+</div>

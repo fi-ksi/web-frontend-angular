@@ -30,7 +30,6 @@ jobs:
           echo 'bye' | sftp -oBatchMode=no -r "${SSH_USER}"@"${SSH_HOST}":"/${SSH_DIR}" &&
           echo "Remote host is reachable" &&
           cd src &&
-          sudo snap install node --classic &&
           npm install &&
           npm run build.pubdev &&
           cd dist/web-frontend-angular &&

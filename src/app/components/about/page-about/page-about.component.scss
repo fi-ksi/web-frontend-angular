@@ -1,0 +1,31 @@
+@import "src/app/styles/vars";
+@import "src/app/styles/mixins";
+
+:host {
+  display: flex;
+  justify-content: center;
+
+  > article {
+    margin: $ksi-margin;
+    max-width: 24cm;
+  }
+
+  .faq-container {
+    margin: $ksi-margin 0;
+    border: 2px solid $ksi-orange-160;
+    @include round-corner;
+
+    > .question {
+      background-color: $ksi-orange-210;
+      font-weight: bold;
+      border-bottom: 1px solid $ksi-orange-160;
+      padding: $ksi-padding-small;
+      color: $ksi-blue-40;
+    }
+
+    > .answer {
+      padding: $ksi-padding-small;
+      background-color: $ksi-orange-220;
+    }
+  }
+}

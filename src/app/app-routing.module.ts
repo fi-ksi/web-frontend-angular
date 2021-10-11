@@ -7,6 +7,7 @@ const routes: Routes = [
   { path: 'home', component: PageWelcomeComponent },
   { path: '',   redirectTo: '/home', pathMatch: 'full' },
   { path: 'news', loadChildren: () => import('./components/news/news.module').then((m) => m.NewsModule)},
+  { path: 'about', loadChildren: () => import('./components/about/about.module').then((m) => m.AboutModule)},
   { path: '**', component: PageNotFoundComponent }
 ];
 

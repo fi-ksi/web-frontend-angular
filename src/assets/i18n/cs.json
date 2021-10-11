@@ -53,5 +53,8 @@
   },
   "news": {
     "title": "Novinky"
+  },
+  "about": {
+    "title": "O KSI"
   }
 }

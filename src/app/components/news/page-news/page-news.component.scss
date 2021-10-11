@@ -1,0 +1,15 @@
+@import "src/app/styles/vars";
+
+:host {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: $ksi-padding $ksi-padding 0;
+
+  .preview {
+    margin-top: $ksi-margin;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

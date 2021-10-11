@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { YearsService } from "../../../services";
+import { KsiTitleService, YearsService } from "../../../services";
 
 @Component({
   selector: 'ksi-page-news',
@@ -9,9 +9,10 @@ import { YearsService } from "../../../services";
 })
 export class PageNewsComponent implements OnInit {
 
-  constructor(public years: YearsService) { }
+  constructor(public years: YearsService, private title: KsiTitleService) { }
 
   ngOnInit(): void {
+    this.title.subtitle = 'news.title';
   }
 
 }

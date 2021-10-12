@@ -36,9 +36,33 @@ export class PageResultsComponent implements OnInit {
   private static countPositions(users$: Observable<User[]>): Observable<PositionedUser[]> {
     return users$.pipe(
       map((users) => {
+        const scoresCount: {[score: number]: number} = {};
+        const scores: number[] = [];
+        const scorePositions: {[score: number]: {from: number, to: number}} = {};
+
+        users.forEach((u) => {
+          if (!(u.score in scoresCount)) {
+            scores.push(u.score);
+            scoresCount[u.score] = 0;
+          }
+          scoresCount[u.score] = scoresCount[u.score] + 1;
+        });
+
+        let previousEndingPos = 1;
+        for (let score of scores) {
+          scorePositions[score] = {
+            from: previousEndingPos,
+            to: previousEndingPos + scoresCount[score] - 1,
+          };
+          previousEndingPos = scorePositions[score].to + 1;
+        }
+
         return users.map((user) => ({
           ...user,
-          position: 'TBD'
+          position:
+            scorePositions[user.score].from === scorePositions[user.score].to ?
+              `${scorePositions[user.score].from}.`
+              : `${scorePositions[user.score].from}.-${scorePositions[user.score].to}.`,
         }));
       })
     );

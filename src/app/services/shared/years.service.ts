@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject } from "rxjs";
 import { YearSelect } from "../../models";
 import { Article, User, Year } from "../../../api";
-import { map, shareReplay, switchMap, tap } from "rxjs/operators";
+import { map, mergeMap, shareReplay, switchMap, tap } from "rxjs/operators";
 import { BackendService } from "./backend.service";
 import { Utils } from "../../util";
 
@@ -32,6 +32,14 @@ export class YearsService {
 
   readonly articles$: Observable<Article[]>;
   readonly organisators$: Observable<User[]>;
+  /**
+   * Observable of high school users, sorted by score
+   */
+  readonly usersHighSchool$: Observable<User[]>;
+  /**
+   * Observable of non high school users, sorted by score
+   */
+  readonly usersOther$: Observable<User[]>;
 
   private selectedSubject: Subject<YearSelect | null>;
   private _selected: YearSelect | null;
@@ -86,12 +94,27 @@ export class YearsService {
         );
     }));
 
-    this.organisators$ = this.selected$.pipe(switchMap((year) => {
-      return this.backend.http.usersGetAll('organisators', 'score', year?.id || undefined)
-        .pipe(map((response) => response.users.map((user) => ({
-          ...user,
-          profile_picture: Utils.getOrgProfilePicture(user)
-        }))));
-    }));
+    this.organisators$ = this.selected$.pipe(
+      mergeMap((year) =>
+        this.backend.http.usersGetAll('organisators', 'score', year?.id || undefined)
+      ), map((response) => response.users.map((user) => ({
+        ...user,
+        profile_picture: Utils.getOrgProfilePicture(user)
+      })))
+    );
+
+    this.usersHighSchool$ = this.selected$.pipe(
+      mergeMap((year) => {
+        return this.backend.http.usersGetAll('part-hs', 'score', year?.id || undefined);
+      }),
+      map((response) => response.users)
+    );
+
+    this.usersOther$ = this.selected$.pipe(
+      mergeMap((year) => {
+        return this.backend.http.usersGetAll('part-other', 'score', year?.id || undefined);
+      }),
+      map((response) => response.users)
+    );
   }
 }

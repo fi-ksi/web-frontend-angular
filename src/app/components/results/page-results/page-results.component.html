@@ -1,0 +1,29 @@
+<main>
+  <h2>{{'results.title' | translate}}</h2>
+
+  <div class="category" *ngFor="let category of categories">
+    <h3>{{category.name | translate}}</h3>
+    <table class="table table-striped results-table table-responsive-md">
+      <thead>
+      <tr>
+        <th scope="col" class="text-center">{{'results.table.position' | translate}}</th>
+        <th scope="col">{{'results.table.name' | translate}}</th>
+        <th scope="col">{{'results.table.trophies' | translate}}</th>
+        <th scope="col" class="text-center">{{'results.table.score' | translate}}</th>
+        <th scope="col" class="text-center">{{'results.table.taskNum' | translate}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of (category.users$ | async)">
+        <td class="text-center">{{user.position}}</td>
+        <td><a [routerLink]="'profile/' + user.id">{{user.first_name}} {{user.last_name}}</a></td>
+        <td>
+          <ksi-icon-achievement *ngFor="let ach of user.achievements" [achievementId]="ach"></ksi-icon-achievement>
+        </td>
+        <td class="text-center">{{user.score}}</td>
+        <td class="text-center">{{user.tasks_num}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</main>

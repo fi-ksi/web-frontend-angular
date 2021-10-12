@@ -1,0 +1,8 @@
+<ng-container *ngIf="achievement$ | async as achievement">
+  <img
+    [src]="achievement.picture"
+    alt=""
+    [tooltip]="achievement.title"
+    [routerLink]="'/achievements/' + achievementId"
+  >
+</ng-container>

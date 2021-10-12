@@ -8,7 +8,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FooterComponent } from './components/root/footer/footer.component';
-import { BackendService, ThemeService } from './services';
+import { AchievementService, BackendService, ThemeService, VersionService, YearsService } from './services';
 import { WindowService } from './services';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { KsiTitleService } from "./services";
@@ -62,7 +62,10 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     WindowService,
     BackendService,
     KsiTitleService,
-    BsModalService
+    BsModalService,
+    YearsService,
+    VersionService,
+    AchievementService
   ],
   bootstrap: [AppComponent]
 })

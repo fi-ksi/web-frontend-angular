@@ -21,6 +21,7 @@ import { ModalChangelogComponent } from './components/root/modal-changelog/modal
 import { BsModalService } from "ngx-bootstrap/modal";
 import { ReactiveFormsModule } from "@angular/forms";
 import { SharedModule } from "./components/shared/shared.module";
+import { SpinnerComponent } from './components/shared/spinner/spinner.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http);
@@ -33,7 +34,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     FooterComponent,
     PageWelcomeComponent,
     PageNotFoundComponent,
-    ModalChangelogComponent
+    ModalChangelogComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,5 @@
 <h2>{{'news.title' | translate}}</h2>
+<ksi-spinner [source]="years.articles$"></ksi-spinner>
 <div class="preview">
   <ksi-article-preview
     *ngFor="let article of (years.articles$ | async)"

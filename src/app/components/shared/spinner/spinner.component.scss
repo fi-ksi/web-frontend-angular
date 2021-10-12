@@ -1,0 +1,26 @@
+:host {
+  display: block;
+  height: 0;
+
+  img {
+    animation-name: rotate;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    height: 48px;
+    opacity: 1;
+    transition: opacity 2s;
+
+    &.transparent {
+      opacity: 0;
+    }
+  }
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(359deg);
+    }
+  }
+}

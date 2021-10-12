@@ -1,3 +1,4 @@
+<ksi-spinner [source]="articleResponse$"></ksi-spinner>
 <div class="article" *ngIf="(articleResponse$ | async) as articleResponse">
   <div class="header">
     <img [src]="articleResponse.article.picture" alt="">

@@ -76,6 +76,7 @@
 <div class="articles-organisators-container">
   <div class="articles-container">
     <span class="header">{{'root.welcome.news.title' | translate}}</span>
+    <ksi-spinner [source]="years.articles$"></ksi-spinner>
     <div class="articles">
       <ksi-article-preview
         *ngFor="let article of (years.articles$ | async)"
@@ -87,6 +88,7 @@
   </div>
   <div class="organisators-container">
     <span class="header">{{'root.welcome.organisators.title' | translate}}</span>
+    <ksi-spinner [source]="years.organisators$"></ksi-spinner>
     <div class="organisators">
       <a *ngFor="let organisator of (years.organisators$ | async)"
         class="frame-organisator"

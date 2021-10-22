@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { ArticlePreviewComponent } from "./article-preview/article-preview.component";
 import { RouterModule } from "@angular/router";
 import { SpinnerComponent } from "./spinner/spinner.component";
+import { ModalTemplatesComponent } from './modal-templates/modal-templates.component';
 
 
 
 @NgModule({
   declarations: [
     ArticlePreviewComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    ModalTemplatesComponent
   ],
   exports: [
     ArticlePreviewComponent,

@@ -10,6 +10,9 @@
  * Do not edit the class manually.
  */
 
-export interface AuthRequestRefreshToken { 
-    refreshToken: string;
+export interface AuthBody { 
+    grantType: string;
+    username?: string;
+    password?: string;
+    refreshToken?: string;
 }

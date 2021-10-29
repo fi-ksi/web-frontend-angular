@@ -23,7 +23,6 @@ import { AchievementsResponse } from '../model/achievementsResponse';
 import { ArticleCreationRequest } from '../model/articleCreationRequest';
 import { ArticleResponse } from '../model/articleResponse';
 import { ArticlesResponse } from '../model/articlesResponse';
-import { AuthRequest } from '../model/authRequest';
 import { AuthResponse } from '../model/authResponse';
 import { BasicProfileResponse } from '../model/basicProfileResponse';
 import { ChangePasswordRequest } from '../model/changePasswordRequest';
@@ -649,17 +648,36 @@ export class DefaultService {
     /**
      * 
      * 
-     * @param body 
+     * @param grantType 
+     * @param username 
+     * @param password 
+     * @param refreshToken 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public authorize(body: AuthRequest, observe?: 'body', reportProgress?: boolean): Observable<AuthResponse>;
-    public authorize(body: AuthRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AuthResponse>>;
-    public authorize(body: AuthRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AuthResponse>>;
-    public authorize(body: AuthRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    // @ts-ignore
+    public  authorizeForm(grantType: string, username: string = "", password: string = "", refreshToken: string = "", observe?: 'body', reportProgress?: boolean): Observable<AuthResponse>;
+    // @ts-ignore
+    public  authorizeForm(grantType: string, username: string = "", password: string = "", refreshToken: string = "", observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AuthResponse>>;
+    // @ts-ignore
+    public  authorizeForm(grantType: string, username: string = "", password: string = "", refreshToken: string = "", observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AuthResponse>>;
+    // @ts-ignore
+    public  authorizeForm(grantType: string, username: string = "", password: string = "", refreshToken: string = "", observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling authorize.');
+        if (grantType === null || grantType === undefined) {
+            throw new Error('Required parameter grantType was null or undefined when calling authorize.');
+        }
+
+        if (username === null || username === undefined) {
+            throw new Error('Required parameter username was null or undefined when calling authorize.');
+        }
+
+        if (password === null || password === undefined) {
+            throw new Error('Required parameter password was null or undefined when calling authorize.');
+        }
+
+        if (refreshToken === null || refreshToken === undefined) {
+            throw new Error('Required parameter refreshToken was null or undefined when calling authorize.');
         }
 
         let headers = this.defaultHeaders;
@@ -675,16 +693,36 @@ export class DefaultService {
 
         // to determine the Content-Type header
         const consumes: string[] = [
-            'application/json'
+            'multipart/form-data'
         ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
+
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): void; };
+        let useForm = false;
+        let convertFormParamsToString = false;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        }
+
+        if (grantType !== undefined) {
+            formParams = formParams.append('grant_type', <any>grantType) as any || formParams;
+        }
+        if (username !== undefined) {
+            formParams = formParams.append('username', <any>username) as any || formParams;
+        }
+        if (password !== undefined) {
+            formParams = formParams.append('password', <any>password) as any || formParams;
+        }
+        if (refreshToken !== undefined) {
+            formParams = formParams.append('refresh_token', <any>refreshToken) as any || formParams;
         }
 
         return this.httpClient.request<AuthResponse>('post',`${this.basePath}/auth`,
             {
-                body: body,
+                body: convertFormParamsToString ? formParams.toString() : formParams,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

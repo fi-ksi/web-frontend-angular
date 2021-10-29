@@ -1,14 +1,15 @@
 import {
   ComponentFactory,
   ComponentFactoryResolver,
-  ComponentRef,
   Injectable,
-  TemplateRef,
+  TemplateRef, Type,
   ViewContainerRef
 } from '@angular/core';
 import { ModalGenericComponent } from "../../components/root/modal-generic/modal-generic.component";
 import { Observable } from "rxjs";
-import { ModalTemplatesComponent } from "../../components/shared/modal-templates/modal-templates.component";
+import { TranslateService } from "@ngx-translate/core";
+import { ModalComponent, OpenedModal } from "../../models";
+import { ModalLoginComponent } from "../../components/root/modal-login/modal-login.component";
 
 @Injectable({
   providedIn: 'root'
@@ -16,26 +17,15 @@ import { ModalTemplatesComponent } from "../../components/shared/modal-templates
 export class ModalService {
   container: ViewContainerRef;
 
-  private _modalTemplates: ComponentRef<ModalTemplatesComponent>;
-
-  private get modalTemplates(): ComponentRef<ModalTemplatesComponent> {
-    if (!this._modalTemplates) {
-      this._modalTemplates = this.container.createComponent(
-        this.resolver.resolveComponentFactory(ModalTemplatesComponent)
-      );
-    }
-    return this._modalTemplates;
+  constructor(private resolver: ComponentFactoryResolver, private translate: TranslateService) {
   }
 
-  constructor(private resolver: ComponentFactoryResolver) {
-  }
-
-  public showModal(template: TemplateRef<unknown>): Observable<boolean> {
+  public showModalTemplate(template: TemplateRef<unknown>, title: string): Observable<boolean> {
     const factory: ComponentFactory<ModalGenericComponent> =
       this.resolver.resolveComponentFactory(ModalGenericComponent);
     const comp = this.container.createComponent(factory);
     comp.instance.modalTemplate = template;
-    comp.instance.title = 'helloooo';
+    comp.instance.title = this.translate.instant(title);
     comp.instance.cd.detectChanges();
     comp.instance.show();
     const sub = comp.instance.visible$.subscribe((visible) => {
@@ -47,7 +37,17 @@ export class ModalService {
     return comp.instance.visible$;
   }
 
-  public showLoginModal(): Observable<boolean> {
-    return this.showModal(this.modalTemplates.instance.modalLogin);
+  public showModalComponent<T extends ModalComponent>(componentType: Type<T>): OpenedModal<T>{
+    const component = this.container.createComponent(this.resolver.resolveComponentFactory(componentType));
+    const visible$ = this.showModalTemplate(component.instance.templateBody, component.instance.title);
+
+    return {
+      component,
+      visible$
+    }
+  }
+
+  public showLoginModal(): OpenedModal<ModalLoginComponent> {
+    return this.showModalComponent(ModalLoginComponent);
   }
 }

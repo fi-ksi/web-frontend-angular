@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { ArticlePreviewComponent } from "./article-preview/article-preview.component";
 import { RouterModule } from "@angular/router";
 import { SpinnerComponent } from "./spinner/spinner.component";
-import { ModalTemplatesComponent } from './modal-templates/modal-templates.component';
 
 
 
@@ -11,7 +10,6 @@ import { ModalTemplatesComponent } from './modal-templates/modal-templates.compo
   declarations: [
     ArticlePreviewComponent,
     SpinnerComponent,
-    ModalTemplatesComponent
   ],
   exports: [
     ArticlePreviewComponent,

@@ -10,6 +10,9 @@
  * Do not edit the class manually.
  */
 
-export interface AuthRequestRefreshToken { 
-    refreshToken: string;
-}
+export type AuthGrantType = 'password' | 'refresh_token';
+
+export const AuthGrantType = {
+    Password: 'password' as AuthGrantType,
+    RefreshToken: 'refresh_token' as AuthGrantType
+};

@@ -11,13 +11,6 @@
  */
 
 export interface AuthRequestPassword { 
-    grantType: AuthRequestPassword.GrantTypeEnum;
     username: string;
     password: string;
-}
-export namespace AuthRequestPassword {
-    export type GrantTypeEnum = 'password';
-    export const GrantTypeEnum = {
-        Password: 'password' as GrantTypeEnum
-    };
 }

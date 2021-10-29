@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start.pubdev": "ng serve --configuration pubdev",
+    "start.proxy": "ng serve --configuration proxy",
     "start": "ng serve",
     "build": "npm run gen.changelog && ng build",
     "build.pubdev": "npm run gen.changelog && ng build --configuration pubdev",

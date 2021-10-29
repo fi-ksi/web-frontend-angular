@@ -17,6 +17,7 @@ swagger-codegen-cli*
 chrome-profiler-events*.json
 
 # IDEs and editors
+/.run
 /.idea
 .project
 .classpath

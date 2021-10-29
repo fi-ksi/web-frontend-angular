@@ -75,6 +75,20 @@
                 }
               ]
             },
+            "proxy": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.pubdev.ts"
+                }
+              ]
+            },
             "development": {
               "buildOptimizer": false,
               "optimization": false,
@@ -97,6 +111,9 @@
             },
             "pubdev": {
               "browserTarget": "web-frontend-angular:build:pubdev"
+            },
+            "proxy": {
+              "browserTarget": "web-frontend-angular:build:proxy"
             }
           },
           "defaultConfiguration": "development"

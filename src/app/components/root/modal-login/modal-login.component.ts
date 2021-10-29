@@ -1,9 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef } from '@angular/core';
 import { ModalComponent } from "../../../models";
-import { FormControl, Validators } from "@angular/forms";
+import { FormBuilder, Validators } from "@angular/forms";
 import { BackendService } from "../../../services";
 import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { map, tap } from "rxjs/operators";
+import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'ksi-modal-login',
@@ -17,22 +18,48 @@ export class ModalLoginComponent implements OnInit, ModalComponent {
 
   title = 'modal.login.title';
 
-  email = new FormControl('', [Validators.required]);
-  password = new FormControl('', [Validators.required]);
+  form = this.fb.group(({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required]
+  }));
 
   showErr$: Observable<boolean>;
 
-  constructor(private backend: BackendService) { }
+  private modalRef: BsModalRef;
+
+  constructor(private backend: BackendService, private fb: FormBuilder) {
+  }
 
   ngOnInit(): void {
   }
 
+  onModalOpened(modalRef: BsModalRef): void {
+    this.modalRef = modalRef;
+  }
+
+  /**
+   * Tries to login
+   * If succeeds, closes modal
+   * If fails, shows error message
+   *
+   * @return false to override default form post action
+   */
   login(): false {
-    if (!this.email.valid || !this.password.valid) {
+    if (!this.form.valid) {
       return false;
     }
-    this.showErr$ = this.backend.login(this.email.value, this.password.value)
-      .pipe(map((loginOk) => !loginOk));
+    this.form.disable();
+    this.showErr$ = this.backend.login(this.form.controls.email.value, this.form.controls.password.value)
+      .pipe(
+        tap((loginOk) => {
+          if (loginOk) {
+            this.modalRef.hide();
+          } else {
+            this.form.enable();
+          }
+        }),
+        map((loginOk) => !loginOk),
+      );
     return false;
   }
 }

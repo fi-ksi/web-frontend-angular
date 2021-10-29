@@ -11,5 +11,5 @@
  */
 
 export interface AuthRequestRefreshToken { 
-    refreshToken: string;
+    refresh_token: string;
 }

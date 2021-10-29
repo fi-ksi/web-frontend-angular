@@ -2320,7 +2320,7 @@ export class DefaultService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<TaskDetailResponse>('get',`${this.basePath}/task-details/${encodeURIComponent(String(taskDetailsId))}`,
+        return this.httpClient.request<TaskDetailResponse>('get',`${this.basePath}/taskDetails/${encodeURIComponent(String(taskDetailsId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

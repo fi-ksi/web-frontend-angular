@@ -1,15 +1,15 @@
 <ng-template #template>
-  <form (submit)="login()">
+  <form (submit)="login()" [formGroup]="form">
     <input
       type="email"
       class="form-control"
       [placeholder]="'modal.login.email' | translate"
-      [formControl]="email"
+      formControlName="email"
     >
     <input
       type="password"
       class="form-control"
-      [formControl]="password"
+      formControlName="password"
       [placeholder]="'modal.login.password' | translate"
     >
     <div *ngIf="showErr$ | async" class="alert alert-danger" role="alert">

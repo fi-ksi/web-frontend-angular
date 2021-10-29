@@ -8,8 +8,9 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
-import { Subject } from "rxjs";
-import { take } from "rxjs/operators";
+import { BehaviorSubject, Subject } from "rxjs";
+import { shareReplay, take } from "rxjs/operators";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'ksi-modal-generic',
@@ -24,12 +25,12 @@ export class ModalGenericComponent implements OnInit {
   @Input()
   title: string;
 
-  modalRef?: BsModalRef;
+  modalRef?: BsModalRef<unknown>;
 
   private visible = false;
-  private visibleSubject: Subject<boolean> = new Subject<boolean>();
+  private visibleSubject: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
-  readonly visible$ = this.visibleSubject.asObservable();
+  readonly visible$ = this.visibleSubject.asObservable().pipe(shareReplay())
 
   @ViewChild('template', {static: true})
   template: TemplateRef<unknown>;
@@ -46,9 +47,10 @@ export class ModalGenericComponent implements OnInit {
     if (this.visible) {
       return;
     }
+    this.modalRef = this.modalService.show(this.template);
+    environment.logger.debug('setting modal as visible');
     this.visible = true;
     this.visibleSubject.next(true);
-    this.modalRef = this.modalService.show(this.template);
     this.modalRef.onHidden!.pipe(take(1)).subscribe(() => {
       this.visible = false;
       this.visibleSubject.next(false);

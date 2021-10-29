@@ -11,10 +11,10 @@
  */
 
 export interface AuthResponse { 
-    accessToken: string;
-    expiresIn: number;
-    refreshToken: string;
-    tokenType: AuthResponse.TokenTypeEnum;
+    access_token: string;
+    expires_in: number;
+    refresh_token: string;
+    token_type: AuthResponse.TokenTypeEnum;
 }
 export namespace AuthResponse {
     export type TokenTypeEnum = 'Bearer';

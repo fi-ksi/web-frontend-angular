@@ -31,8 +31,13 @@ for f in $(find . -type f -name '*.ts' -print); do
     -e 's/lastName: string;/last_name: string;/' \
     -e 's/nickName: string;/nick_name: string;/' \
     -e 's/tasksNum: number;/tasks_num: number;/' \
+    -e 's|/task-details|/taskDetails|' \
+    -e 's/accessToken: string/access_token: string/' \
+    -e 's/expiresIn: number/expires_in: number/' \
+    -e 's/refreshToken: string/refresh_token: string/' \
+    -e 's/tokenType: /token_type: /' \
     -i "$f"
 done
 
 sed 's/: ModuleWithProviders/: ModuleWithProviders<ApiModule>/' -i 'api.module.ts'
-sed -E 's|(\s+)public authorizeForm\(grantType: string, username: string, password: string, refreshToken: string,|\1// @ts-ignore\n\1public  authorizeForm(grantType: string, username: string = "", password: string = "", refreshToken: string = "",|' -i 'api/default.service.ts'
+sed -E 's|(\s+)public authorizeForm\(grantType: string, username: string, password: string, refresh_token: string,|\1// @ts-ignore\n\1public  authorizeForm(grantType: string, username: string = "", password: string = "", refreshToken: string = "",|' -i 'api/default.service.ts'

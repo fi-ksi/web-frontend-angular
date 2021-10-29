@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { YearsService, WindowService, ModalService } from 'src/app/services';
+import { YearsService, WindowService, ModalService, BackendService } from 'src/app/services';
 import { combineLatest, merge, Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { YearSelect } from "../../../models";
@@ -18,7 +18,12 @@ export class NavbarComponent implements OnInit {
 
   private readonly showFullMenuSubject: Subject<void> = new Subject<void>();
 
-  constructor(private window: WindowService, public years: YearsService, public modal: ModalService) {}
+  constructor(
+    private window: WindowService,
+    public years: YearsService,
+    public modal: ModalService,
+    public backend: BackendService
+  ) {}
 
   ngOnInit(): void {
     this.useLongTitle$ = this.window.windowSize$.pipe(

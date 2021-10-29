@@ -74,10 +74,24 @@ export class BackendService {
   private loadSession(): Observable<boolean> {
     const sessionStr = localStorage.getItem(BackendService.KEY_SESSION_STORAGE);
     if (!sessionStr) {
+      this.loginSubject.next(false);
       return of(false);
     }
-    const session: AuthResponse = JSON.parse(sessionStr);
-    return this.refreshToken(session.refresh_token);
+    const sessionAbsolute: AuthResponse = JSON.parse(sessionStr);
+    const session: AuthResponse = {
+      ...sessionAbsolute,
+      // convert absolutely saved date back to the relative one
+      expires_in: Math.floor((sessionAbsolute.expires_in - Date.now()) / 1000)
+    }
+    if (session.expires_in > 0) {
+      // not for renewal yet
+      this.applySession(session);
+      this.loginSubject.next(true);
+      return of(true);
+    } else {
+      // renew saved sesion
+      return this.refreshToken(session.refresh_token);
+    }
   }
 
   /**
@@ -93,12 +107,24 @@ export class BackendService {
   }
 
   /**
-   * Saves login session and schedules automatic renewal
+   * Saves login session and applies it
    * @param session
    * @private
    */
   private saveSession(session: AuthResponse): void {
-    localStorage.setItem(BackendService.KEY_SESSION_STORAGE, JSON.stringify(session));
+    localStorage.setItem(BackendService.KEY_SESSION_STORAGE, JSON.stringify({
+      ...session,
+      expires_in: Date.now() + (session.expires_in * 1000) // save expiration time as absolute time
+    }));
+    this.applySession(session);
+  }
+
+  /**
+   * Only applies the session without saving it
+   * @param session
+   * @private
+   */
+  private applySession(session: AuthResponse): void {
     this.http.configuration.accessToken = session.access_token;
     if (this.timerRefreshToken !== null) {
       clearTimeout(this.timerRefreshToken);
@@ -107,7 +133,7 @@ export class BackendService {
     // schedule automatic token renewal
     this.timerRefreshToken = setTimeout(
       () => this.refreshToken(session.refresh_token).subscribe(),
-      session.expires_in * 0.9
+      Math.floor(session.expires_in * 1000 * 0.9)
     );
   }
 

@@ -10,15 +10,9 @@
  * Do not edit the class manually.
  */
 
-export interface AuthResponse { 
-    access_token: string;
-    expires_in: number;
-    refresh_token: string;
-    token_type: AuthResponse.TokenTypeEnum;
-}
-export namespace AuthResponse {
-    export type TokenTypeEnum = 'Bearer';
-    export const TokenTypeEnum = {
-        Bearer: 'Bearer' as TokenTypeEnum
-    };
-}
+export type AuthGrantType = 'password' | 'refresh_token';
+
+export const AuthGrantType = {
+    Password: 'password' as AuthGrantType,
+    RefreshToken: 'refresh_token' as AuthGrantType
+};

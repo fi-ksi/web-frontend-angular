@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ThemeService } from './services';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { ThemeService, ModalService } from './services';
 
 @Component({
   selector: 'ksi-root',
@@ -7,10 +7,11 @@ import { ThemeService } from './services';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  constructor(private theme: ThemeService) {
+  constructor(private theme: ThemeService, private modal: ModalService, private container: ViewContainerRef) {
   }
 
   ngOnInit(): void {
     this.theme.setLightTheme();
+    this.modal.container = this.container;
   }
 }

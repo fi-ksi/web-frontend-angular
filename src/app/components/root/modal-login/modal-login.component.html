@@ -1,0 +1,20 @@
+<ng-template #template>
+  <form (submit)="login()" [formGroup]="form">
+    <input
+      type="email"
+      class="form-control"
+      [placeholder]="'modal.login.email' | translate"
+      formControlName="email"
+    >
+    <input
+      type="password"
+      class="form-control"
+      formControlName="password"
+      [placeholder]="'modal.login.password' | translate"
+    >
+    <div *ngIf="showErr$ | async" class="alert alert-danger" role="alert">
+      {{'modal.login.failed' | translate}}
+    </div>
+    <button type="submit" class="btn btn-primary mb-3">{{'modal.login.login' | translate}}</button>
+  </form>
+</ng-template>

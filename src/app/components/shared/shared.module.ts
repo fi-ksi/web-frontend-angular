@@ -9,7 +9,7 @@ import { SpinnerComponent } from "./spinner/spinner.component";
 @NgModule({
   declarations: [
     ArticlePreviewComponent,
-    SpinnerComponent
+    SpinnerComponent,
   ],
   exports: [
     ArticlePreviewComponent,

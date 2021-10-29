@@ -1,0 +1,11 @@
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{title | translate}}</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="close()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ng-container [ngTemplateOutlet]="modalTemplate"></ng-container>
+  </div>
+</ng-template>

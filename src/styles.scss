@@ -1,10 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 @import "src/app/styles/theme";
+@import "src/app/styles/colors";
 @import "assets/font/opensans/opensans";
 
 body {
   font-size: 14px;
   font-family: 'Open Sans', sans-serif;
+}
+
+input.form-control.ng-invalid:not(.ng-pristine) {
+  border: 1px solid $ksi-red-100;
 }
 
 /* Importing Bootstrap SCSS file. */

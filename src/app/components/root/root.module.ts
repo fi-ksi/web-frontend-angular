@@ -12,6 +12,8 @@ import { CollapseModule } from "ngx-bootstrap/collapse";
 import { ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
+import { ModalGenericComponent } from './modal-generic/modal-generic.component';
+import { ModalLoginComponent } from './modal-login/modal-login.component';
 
 
 
@@ -21,7 +23,9 @@ import { NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
     ModalChangelogComponent,
     NavbarComponent,
     PageNotFoundComponent,
-    PageWelcomeComponent
+    PageWelcomeComponent,
+    ModalGenericComponent,
+    ModalLoginComponent
   ],
   exports: [
     FooterComponent,

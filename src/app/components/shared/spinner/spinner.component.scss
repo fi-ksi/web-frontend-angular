@@ -1,8 +1,13 @@
 :host {
-  display: inline-block;
+  display: block;
   height: 0;
-  width: 0;
   overflow: visible;
+
+  div {
+    height: 0;
+    display: flex;
+    justify-content: center;
+  }
 
   img {
     animation-name: rotate;

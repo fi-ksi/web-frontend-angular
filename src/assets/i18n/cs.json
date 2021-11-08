@@ -5,6 +5,8 @@
     },
     "navbar": {
       "logo": "Obrázek tučňáka Karlíka",
+      "login": "Přihlásit se",
+      "logout": "Odhlásit se",
       "title": {
         "long": "Korespondenční seminář z informatiky",
         "short": "KSI"
@@ -69,6 +71,15 @@
       "trophies": "Trofeje",
       "score": "Skóre",
       "taskNum": "Vyřešených úloh"
+    }
+  },
+  "modal": {
+    "login": {
+      "title": "Přihlaš se do KSI",
+      "email": "e-mail",
+      "password": "heslo",
+      "login": "Přihlásit se",
+      "failed": "Přihlášení selhalo - je kombinace jména a hesla správná?"
     }
   }
 }

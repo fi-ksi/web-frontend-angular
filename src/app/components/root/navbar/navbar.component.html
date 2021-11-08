@@ -39,13 +39,13 @@
 
       <ng-container *ngIf="(backend.user$ | async) as user; else notLoggedIn">
         <div ngbDropdown class="login-container">
-        <span id="dropdown-login" class="nav-btn" ngbDropdownToggle>
-          <span class="username">
-            {{ user.first_name }}
-            {{ user.nick_name ? '"' + user.nick_name + '"' : '' }}
-            {{ user.last_name }}
-          </span>
-        </span>
+          <div id="dropdown-login" class="nav-btn" ngbDropdownToggle>
+            <span class="username">
+              {{ user.first_name }}
+              {{ user.nick_name ? '"' + user.nick_name + '"' : '' }}
+              {{ user.last_name }}
+            </span>
+          </div>
           <div ngbDropdownMenu aria-labelledby="dropdown-login">
             <button ngbDropdownItem (click)="backend.logout()">{{'root.navbar.logout' | translate}}</button>
           </div>

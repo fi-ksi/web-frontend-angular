@@ -20,6 +20,14 @@ export class WaveComponent implements OnInit {
   ngOnInit(): void {
     this.tasksOrdered = [...this.wave.tasks];
     this.tasksOrdered.sort((a, b) => {
+      // put all enabled tasks first
+      if (a.state === "locked") {
+        return b.state === "locked" ? 0 : 1;
+      }
+      if (b.state === "locked") {
+        return -1;
+      }
+
       // put all requirements of this task before
       if (Utils.deepContains(a.prerequisities, b.id)) {
         return 1;

@@ -3,6 +3,7 @@
   <accordion-group
     *ngFor="let wave of (nonEmptyWaves$ | async)"
     [heading]="wave.caption"
+    [isOpen]="true"
   >
     <ksi-wave [wave]="wave"></ksi-wave>
   </accordion-group>

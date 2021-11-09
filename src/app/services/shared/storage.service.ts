@@ -33,6 +33,10 @@ export class StorageService {
       scope = [scope];
     }
 
+    if (this.scope) {
+      scope = [this.scope, ...scope];
+    }
+
     const storage = new StorageService();
     storage.scope = scope.join('/');
     return storage;

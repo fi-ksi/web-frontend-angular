@@ -2,7 +2,7 @@
   <a class="list-group-item list-group-item-action list-item-task"
       *ngFor="let task of tasksOrdered"
      [class.disabled]="task.state === 'locked'"
-     [routerLink]="'/task/' + task.id"
+     [routerLink]="'/tasks/' + task.id"
   >
     <img
       [src]="task.icon"

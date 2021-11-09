@@ -81,5 +81,8 @@
       "login": "Přihlásit se",
       "failed": "Přihlášení selhalo - je kombinace jména a hesla správná?"
     }
+  },
+  "tasks": {
+    "deadline": "Datum ukončení"
   }
 }

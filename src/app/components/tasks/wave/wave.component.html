@@ -1,3 +1,22 @@
-<div *ngFor="let task of tasksOrdered">
-  {{task.id}} {{task.title}}: {{task.prerequisities | json}}
+<div class="list-group">
+  <a class="list-group-item list-group-item-action list-item-task"
+      *ngFor="let task of tasksOrdered"
+     [class.disabled]="task.state === 'locked'"
+     [routerLink]="'/task/' + task.id"
+  >
+    <img
+      [src]="task.icon"
+      alt=""
+      class="icon"
+    >
+    <span class="name">
+      {{task.title}}
+    </span>
+    <span class="description">
+      {{task.intro}}
+    </span>
+    <span class="deadline">
+      {{'tasks.deadline' | translate}}: {{task.time_published | date}}
+    </span>
+  </a>
 </div>

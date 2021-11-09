@@ -1,6 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@angular/core';
-import { WaveDetails } from "../../../models";
-import { Task } from "src/api";
+import { TaskWithIcon, WaveDetails } from "../../../models";
 import { Utils } from "../../../util";
 
 @Component({
@@ -14,7 +13,7 @@ export class WaveComponent implements OnInit {
   wave: WaveDetails;
 
   // tasks ordered that all requirements of the tasks are before it
-  tasksOrdered: Task[];
+  tasksOrdered: TaskWithIcon[];
 
   constructor(private cd: ChangeDetectorRef) { }
 

@@ -1,4 +1,5 @@
-import { User } from "../../api";
+import { User, Task } from "../../api";
+import { environment } from "../../environments/environment";
 
 type RecursiveArray<T> = Array<T | RecursiveArray<T>>;
 
@@ -48,5 +49,9 @@ export class Utils {
       }
     }
     return false;
+  }
+
+  public static getTaskIconURL(task: Task): string {
+    return `${environment.backend}/${task.picture_base}/${task.state}${task.picture_suffix}`;
   }
 }

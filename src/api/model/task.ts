@@ -21,8 +21,8 @@ export interface Task {
     time_published: string;
     timeDeadline: string;
     state: Task.StateEnum;
-    pictureBase: string;
-    pictureSuffix: Task.PictureSuffixEnum;
+    picture_base: string;
+    picture_suffix: Task.PictureSuffixEnum;
     wave: number;
     feedbacks: number;
     prerequisities: Array<number> | Array<Array<number>>;

@@ -36,6 +36,8 @@ for f in $(find . -type f -name '*.ts' -print); do
     -e 's/expiresIn: number/expires_in: number/' \
     -e 's/refreshToken: string/refresh_token: string/' \
     -e 's/tokenType: /token_type: /' \
+    -e 's/pictureBase: /picture_base: /' \
+    -e 's/pictureSuffix: /picture_suffix: /' \
     -i "$f"
 done
 

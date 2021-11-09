@@ -10,6 +10,7 @@ import { environment } from "../../../environments/environment";
 import { BehaviorSubject, Observable, of, Subject } from "rxjs";
 import { catchError, map, mapTo, mergeMap, shareReplay, tap } from "rxjs/operators";
 import { Router } from "@angular/router";
+import { StorageService } from "./storage.service";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class BackendService {
 
   private timerRefreshToken: number | null = null;
 
-  private static readonly KEY_SESSION_STORAGE = 'auth_session';
+  private readonly authStorage = this.storageRoot.open('auth');
 
   private readonly loginSubject: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -34,7 +35,7 @@ export class BackendService {
     shareReplay(1)
   );
 
-  constructor(private httpClient: HttpClient, private router: Router) {
+  constructor(private httpClient: HttpClient, private router: Router, private storageRoot: StorageService) {
     this.http = new DefaultService(this.httpClient, environment.backend, new Configuration());
     this.loadSession().subscribe();
   }
@@ -53,7 +54,6 @@ export class BackendService {
    * Logs user ouf and deletes saved session
    */
   public logout(): void {
-    localStorage.removeItem(BackendService.KEY_SESSION_STORAGE);
     this.loginSubject.next(false);
     this.deleteSession();
     this.router.navigate(['/']).then();
@@ -74,12 +74,11 @@ export class BackendService {
    * @private
    */
   private loadSession(): Observable<boolean> {
-    const sessionStr = localStorage.getItem(BackendService.KEY_SESSION_STORAGE);
-    if (!sessionStr) {
+    const sessionAbsolute = this.authStorage.get<AuthResponse>('session');
+    if (!sessionAbsolute) {
       this.loginSubject.next(false);
       return of(false);
     }
-    const sessionAbsolute: AuthResponse = JSON.parse(sessionStr);
     const session: AuthResponse = {
       ...sessionAbsolute,
       // convert absolutely saved date back to the relative one
@@ -104,7 +103,7 @@ export class BackendService {
     if (this.timerRefreshToken !== null) {
       clearTimeout(this.timerRefreshToken);
     }
-    localStorage.removeItem(BackendService.KEY_SESSION_STORAGE);
+    this.authStorage.delete('session');
     this.http.configuration.accessToken = undefined;
   }
 
@@ -114,10 +113,10 @@ export class BackendService {
    * @private
    */
   private saveSession(session: AuthResponse): void {
-    localStorage.setItem(BackendService.KEY_SESSION_STORAGE, JSON.stringify({
+    this.authStorage.set('session',{
       ...session,
       expires_in: Date.now() + (session.expires_in * 1000) // save expiration time as absolute time
-    }));
+    });
     this.applySession(session);
   }
 

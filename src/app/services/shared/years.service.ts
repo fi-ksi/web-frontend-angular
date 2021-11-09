@@ -5,6 +5,7 @@ import { Article, User, Year } from "../../../api";
 import { map, mergeMap, shareReplay, switchMap, tap } from "rxjs/operators";
 import { BackendService } from "./backend.service";
 import { Utils } from "../../util";
+import { StorageService } from "./storage.service";
 
 @Injectable({
   providedIn: 'root'
@@ -19,9 +20,9 @@ export class YearsService {
     this.selectedSubject.next(value);
 
     if (value) {
-      localStorage.setItem(YearsService.STORAGE_SELECTED_KEY, JSON.stringify(value));
+      this.storage.set('selected', value);
     } else {
-      localStorage.removeItem(YearsService.STORAGE_SELECTED_KEY);
+      this.storage.delete('selected');
     }
   }
 
@@ -43,12 +44,11 @@ export class YearsService {
 
   private selectedSubject: Subject<YearSelect | null>;
   private _selected: YearSelect | null;
-  private static readonly STORAGE_SELECTED_KEY = 'years/selected';
+  private readonly storage = this.storageRoot.open('years');
   private fullYearCache: {[id: number]: Year} = {};
 
-  constructor(private backend: BackendService) {
-    const savedYearString = localStorage.getItem(YearsService.STORAGE_SELECTED_KEY);
-    const savedYearValue: YearSelect | null = savedYearString ? JSON.parse(savedYearString) : null;
+  constructor(private backend: BackendService, private storageRoot: StorageService) {
+    const savedYearValue: YearSelect | null = this.storage.get<YearSelect>('selected');
     this.selectedSubject = new BehaviorSubject(savedYearValue);
     this._selected = savedYearValue;
 

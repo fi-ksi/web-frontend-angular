@@ -11,6 +11,7 @@ import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { VersionService } from "../../../services";
 import { combineLatest, Subscription } from "rxjs";
 import { DateInputFormControl } from "../../../util";
+import { StorageService } from "../../../services/shared/storage.service";
 
 @Component({
   selector: 'ksi-modal-changelog',
@@ -34,12 +35,13 @@ export class ModalChangelogComponent implements OnInit, OnDestroy {
 
   private _subs: Subscription[] = [];
 
-  private static readonly KEY_LAST_SHOWN_COMMIT_TIME = 'changelog/last-commit';
+  private readonly storage = this.storageRoot.open('changelog');
 
   constructor(
     private modalService: BsModalService,
     private version: VersionService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private storageRoot: StorageService
   ) {
   }
 
@@ -99,7 +101,7 @@ export class ModalChangelogComponent implements OnInit, OnDestroy {
 
     // show last week worth of changes
     this.controlSince.setOuterValue(new Date(
-      Number(localStorage.getItem(ModalChangelogComponent.KEY_LAST_SHOWN_COMMIT_TIME)) ||
+      this.storage.get<number>('last-commit') ||
       Date.now() - (7 * 24 * 3600 * 1000)
     ));
   }
@@ -111,7 +113,7 @@ export class ModalChangelogComponent implements OnInit, OnDestroy {
     this.visible = true;
     const ref = this.modalRef = this.modalService.show(this.template);
     this._subs.push(ref!.onHide!.subscribe(() => {
-      localStorage.setItem(ModalChangelogComponent.KEY_LAST_SHOWN_COMMIT_TIME, `${Date.now()}`);
+      this.storage.set('last-commit', Date.now());
       this.visible = false;
     }));
   }

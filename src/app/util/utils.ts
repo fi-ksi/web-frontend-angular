@@ -1,5 +1,7 @@
 import { User } from "../../api";
 
+type RecursiveArray<T> = Array<T | RecursiveArray<T>>;
+
 export class Utils {
   /**
    * Creates a substring of a HTML by putting it into a div element and then substringing .innerText
@@ -31,5 +33,20 @@ export class Utils {
       return 'assets/img/avatar/org.svg';
     }
     return 'assets/img/avatar/org-woman.svg';
+  }
+
+  /**
+   * Finds an element inside a multidimensional array
+   * @param array multidimensional array to search into
+   * @param element element to locate
+   * @return true if the element is contained inside the multidimensional array
+   */
+  public static deepContains<T>(array: RecursiveArray<T>, element: T): boolean {
+    for (let x of array) {
+      if ((Array.isArray(x) && Utils.deepContains(x, element)) || (element === x)) {
+        return true;
+      }
+    }
+    return false;
   }
 }

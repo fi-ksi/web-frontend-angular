@@ -1,5 +1,8 @@
-<p>page-tasks works!</p>
-
-<code>
-  {{tasks.waveDetails$ | async | json}}
-</code>
+<accordion [isAnimated]="true">
+  <accordion-group
+    *ngFor="let wave of (tasks.waveDetails$ | async)"
+    [heading]="wave.caption"
+  >
+    <ksi-wave [wave]="wave"></ksi-wave>
+  </accordion-group>
+</accordion>

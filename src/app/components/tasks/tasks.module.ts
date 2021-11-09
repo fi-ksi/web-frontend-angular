@@ -3,15 +3,19 @@ import { CommonModule } from '@angular/common';
 
 import { TasksRoutingModule } from './tasks-routing.module';
 import { PageTasksComponent } from './page-tasks/page-tasks.component';
+import { WaveComponent } from './wave/wave.component';
+import { AccordionModule } from "ngx-bootstrap/accordion";
 
 
 @NgModule({
   declarations: [
-    PageTasksComponent
+    PageTasksComponent,
+    WaveComponent
   ],
-  imports: [
-    CommonModule,
-    TasksRoutingModule
-  ]
+    imports: [
+        CommonModule,
+        TasksRoutingModule,
+        AccordionModule
+    ]
 })
 export class TasksModule { }

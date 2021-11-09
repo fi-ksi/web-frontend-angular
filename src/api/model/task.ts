@@ -25,7 +25,7 @@ export interface Task {
     pictureSuffix: Task.PictureSuffixEnum;
     wave: number;
     feedbacks: number;
-    prerequisites: Array<number> | Array<Array<number>>;
+    prerequisities: Array<number> | Array<Array<number>>;
 }
 export namespace Task {
     export type StateEnum = 'locked' | 'base' | 'correcting' | 'done';

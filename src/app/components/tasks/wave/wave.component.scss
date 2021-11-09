@@ -6,7 +6,8 @@
     grid-template-columns: max-content max-content 1fr;
     grid-template-rows: min-content min-content;
     grid-template-areas:
-      "icon name deadline"
+      "icon name name"
+      "icon deadline deadline "
       "icon description description";
     align-items: end;
     line-height: 1;
@@ -14,6 +15,8 @@
 
     .icon {
       grid-area: icon;
+      align-self: center;
+      max-height: 3em;
     }
 
     .name {
@@ -24,6 +27,7 @@
     .deadline {
       grid-area: deadline;
       font-size: 0.7rem;
+      margin-bottom: $ksi-margin-x-small;
     }
 
     .description {

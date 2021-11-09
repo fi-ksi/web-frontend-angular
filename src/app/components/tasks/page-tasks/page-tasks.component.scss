@@ -1,0 +1,13 @@
+@import "src/app/styles/vars";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .tasks-mobile {
+    margin-top: $ksi-margin;
+    max-width: 24cm;
+    width: 100%;
+  }
+}

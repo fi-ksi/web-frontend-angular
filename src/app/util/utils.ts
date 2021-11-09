@@ -28,7 +28,7 @@ export class Utils {
 
   public static getOrgProfilePicture(organisator: User): string {
     if (organisator.profile_picture) {
-      return organisator.profile_picture;
+      return Utils.fixUrl(`${environment.backend}${organisator.profile_picture}`);
     }
     if (organisator.gender === 'male') {
       return 'assets/img/avatar/org.svg';
@@ -52,6 +52,11 @@ export class Utils {
   }
 
   public static getTaskIconURL(task: Task): string {
-    return `${environment.backend}/${task.picture_base}/${task.state}${task.picture_suffix}`;
+    return Utils.fixUrl(`${environment.backend}${task.picture_base}/${task.state}${task.picture_suffix}`);
+  }
+
+  public static fixUrl(url: string): string {
+    const replace = (x: string): string => x.replace(/([^:])\/\//g, '$1/');
+    return replace(replace(url));
   }
 }

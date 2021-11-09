@@ -1,5 +1,5 @@
 <ksi-spinner [source]="nonEmptyWaves$"></ksi-spinner>
-<accordion [isAnimated]="true">
+<accordion class="tasks-mobile" [isAnimated]="true">
   <accordion-group
     *ngFor="let wave of (nonEmptyWaves$ | async)"
     [heading]="wave.caption"

@@ -8,7 +8,7 @@ import {
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from "../../../environments/environment";
 import { BehaviorSubject, Observable, of, Subject } from "rxjs";
-import { catchError, map, mapTo, mergeMap, tap } from "rxjs/operators";
+import { catchError, map, mapTo, mergeMap, shareReplay, tap } from "rxjs/operators";
 import { Router } from "@angular/router";
 
 @Injectable({
@@ -28,8 +28,10 @@ export class BackendService {
       if (!loginOk) {
         return of(null);
       }
-      return this.http.basicProfileGetSingle().pipe(map((resp) => resp.basicProfile));
-    })
+      return this.http.basicProfileGetSingle().pipe(
+        map((resp) => resp.basicProfile));
+    }),
+    shareReplay(1)
   );
 
   constructor(private httpClient: HttpClient, private router: Router) {

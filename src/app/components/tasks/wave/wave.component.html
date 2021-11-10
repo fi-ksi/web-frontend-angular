@@ -1,22 +1,27 @@
-<div class="list-group">
-  <a class="list-group-item list-group-item-action list-item-task"
-      *ngFor="let task of tasksOrdered"
-     [class.disabled]="task.state === 'locked'"
-     [routerLink]="'/tasks/' + task.id"
-  >
-    <img
-      [src]="task.icon"
-      alt=""
-      class="icon"
+<ng-container *ngIf="viewMode === 'linear'; else graphView">
+  <div class="list-group">
+    <a class="list-group-item list-group-item-action list-item-task"
+       *ngFor="let task of tasksOrdered"
+       [class.disabled]="task.state === 'locked'"
+       [routerLink]="'/tasks/' + task.id"
     >
-    <span class="name">
+      <img
+        [src]="task.icon"
+        alt=""
+        class="icon"
+      >
+      <span class="name">
       {{task.title}}
     </span>
-    <span class="description">
+      <span class="description">
       {{task.intro}}
     </span>
-    <span class="deadline">
+      <span class="deadline">
       {{'tasks.deadline' | translate}}: {{task.time_published | date}}
     </span>
-  </a>
-</div>
+    </a>
+  </div>
+</ng-container>
+<ng-template #graphView>
+
+</ng-template>

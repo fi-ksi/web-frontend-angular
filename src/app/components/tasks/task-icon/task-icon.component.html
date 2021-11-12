@@ -1,3 +1,12 @@
 <a [routerLink]="'./' + task.id">
-  <img [src]="task.icon" alt="{{ 'tasks.graph.task' | translate: {name: task.title} }}">
+  <img
+    [src]="task.icon"
+    [tooltip]="tooltip"
+    container="body"
+    alt="{{ 'tasks.graph.task' | translate: {name: task.title} }}"
+  >
 </a>
+
+<ng-template #tooltip>
+  <span class="name">{{task.title}}</span>
+</ng-template>

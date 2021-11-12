@@ -42,7 +42,7 @@ export class TasksGraphComponent implements OnInit, AfterContentChecked, OnDestr
   private readonly subs: Subscription[] = [];
 
   @ViewChild('arrowCanvas', {static: true})
-  private canvas: ElementRef<HTMLCanvasElement>;
+  private canvas: ElementRef<SVGElement>;
 
   private get elGraph(): HTMLElement {
     return this.el.nativeElement;
@@ -64,16 +64,11 @@ export class TasksGraphComponent implements OnInit, AfterContentChecked, OnDestr
       return;
     }
     const elCanvas = this.canvas.nativeElement;
-    const arrowsColor = window.getComputedStyle(elCanvas).getPropertyValue('--ksi-orange-150');
+    elCanvas.innerHTML = '';
 
     const { height, width, top, left } = this.elGraph.getBoundingClientRect();
-    elCanvas.width = width;
-    elCanvas.height = height;
     elCanvas.style.width = `${width}px`;
     elCanvas.style.height = `${height}px`;
-
-    const ctx = elCanvas.getContext('2d')!;
-    ctx.clearRect(0, 0, width, height);
 
     const taskElements = this.getTaskElements();
     taskElements.forEach((elTask) => {
@@ -85,6 +80,8 @@ export class TasksGraphComponent implements OnInit, AfterContentChecked, OnDestr
       }
 
       const taskPos = elTask.getBoundingClientRect();
+      const lineToX = Math.round(taskPos.left - left + (taskPos.width / 2));
+      const lineToY = Math.round(taskPos.top - top + (taskPos.height / 2));
 
       const elRequirements: HTMLElement[] = Utils.flatArray(task.prerequisities)
         .map((requirementId) => this.getTaskElement(requirementId))
@@ -94,11 +91,10 @@ export class TasksGraphComponent implements OnInit, AfterContentChecked, OnDestr
 
       elRequirements.forEach((elRequirement) => {
         const requirementPos = elRequirement.getBoundingClientRect();
-        ctx.strokeStyle = arrowsColor;
-        ctx.lineWidth = 3;
-        ctx.moveTo(requirementPos.left - left + (requirementPos.width / 2), requirementPos.top - top +  (requirementPos.height / 2));
-        ctx.lineTo(taskPos.left - left + (taskPos.width / 2), taskPos.top - top + (taskPos.height / 2));
-        ctx.stroke();
+        const lineFromX = Math.round(requirementPos.left - left + (requirementPos.width / 2));
+        const lineFromY = Math.round(requirementPos.top - top +  (requirementPos.height / 2));
+
+        elCanvas.innerHTML += `<line x1="${lineFromX}" y1="${lineFromY}" x2="${lineToX}" y2="${lineToY}" />`
       })
     });
   }

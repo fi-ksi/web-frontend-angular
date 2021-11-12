@@ -1,0 +1,11 @@
+<div class="canvas-container">
+  <canvas class="arrow-canvas" #arrowCanvas></canvas>
+</div>
+<div *ngFor="let row of tasksGraphed" class="row">
+  <ksi-task-icon
+    *ngFor="let task of row"
+    class="task"
+    [id]="'ksi-task-' + task.id"
+    [task]="task"
+  ></ksi-task-icon>
+</div>

@@ -84,6 +84,9 @@
   },
   "tasks": {
     "title": "Úlohy",
-    "deadline": "Datum ukončení"
+    "deadline": "Datum ukončení",
+    "graph":  {
+      "task": "Úloha {{ name }}"
+    }
   }
 }

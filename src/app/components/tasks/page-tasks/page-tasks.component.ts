@@ -19,7 +19,7 @@ interface WaveOpened extends WaveDetails {
 export class PageTasksComponent implements OnInit {
   nonEmptyWaves$: Observable<WaveOpened[]>;
 
-  viewMode: WaveView = 'linear'
+  viewMode: WaveView = 'wave-graph'
 
   private readonly storageWaves = this.storageRoot.open(['tasks', 'waves']);
 
@@ -34,7 +34,7 @@ export class PageTasksComponent implements OnInit {
         .filter((wave) => wave.tasks.length > 0)
         .map((wave) => ({
           ...wave,
-          opened: this.wageStorage(wave).get<boolean>('opened', PageTasksComponent.WAVE_OPENED_DEFAULT)!
+          opened: this.waveStorage(wave).get<boolean>('opened', PageTasksComponent.WAVE_OPENED_DEFAULT)!
         }))
       )
     );
@@ -46,13 +46,18 @@ export class PageTasksComponent implements OnInit {
     }
     wave.opened = opened;
     if (opened === PageTasksComponent.WAVE_OPENED_DEFAULT) {
-      this.wageStorage(wave).delete('opened');
+      this.waveStorage(wave).delete('opened');
     } else {
-      this.wageStorage(wave).set<boolean>('opened', opened);
+      this.waveStorage(wave).set<boolean>('opened', opened);
     }
   }
 
-  private wageStorage(wave: Wave): StorageService {
+  /**
+   * Unique storage for given Wave
+   * @param wave
+   * @private
+   */
+  private waveStorage(wave: Wave): StorageService {
     return this.storageWaves.open(`${wave.id}`);
   }
 }

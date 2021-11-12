@@ -7,12 +7,16 @@ import { WaveComponent } from './wave/wave.component';
 import { AccordionModule } from "ngx-bootstrap/accordion";
 import { TranslateModule } from "@ngx-translate/core";
 import { SharedModule } from "../shared/shared.module";
+import { TaskIconComponent } from './task-icon/task-icon.component';
+import { TasksGraphComponent } from './tasks-graph/tasks-graph.component';
 
 
 @NgModule({
   declarations: [
     PageTasksComponent,
-    WaveComponent
+    WaveComponent,
+    TaskIconComponent,
+    TasksGraphComponent
   ],
   imports: [
     CommonModule,

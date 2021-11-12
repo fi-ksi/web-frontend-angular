@@ -1,0 +1,21 @@
+@import "src/app/styles/vars";
+
+:host {
+  display: block;
+
+  .canvas-container {
+    width: 0;
+    height: 0;
+    overflow: visible;
+  }
+
+  .row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: $ksi-margin-large;
+
+    .task:not(:last-child) {
+      margin-right: $ksi-margin-large;
+    }
+  }
+}

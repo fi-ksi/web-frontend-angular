@@ -23,5 +23,5 @@
   </div>
 </ng-container>
 <ng-template #graphView>
-
+  <ksi-tasks-graph *ngIf="tasksOrdered" [tasks]="tasksOrdered"></ksi-tasks-graph>
 </ng-template>

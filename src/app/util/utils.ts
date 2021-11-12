@@ -51,6 +51,24 @@ export class Utils {
     return false;
   }
 
+  public static flatArray<T>(array: RecursiveArray<T>): T[] {
+    if ('flat' in Array.prototype) {
+      // @ts-ignore
+      return array.flat(999) as T[];
+    }
+
+    const r: T[] = [];
+    array.forEach((x) => {
+      if (Array.isArray(x)) {
+        r.push(...Utils.flatArray(x));
+      } else {
+        r.push(x);
+      }
+    });
+
+    return r;
+  }
+
   public static getTaskIconURL(task: Task): string {
     return Utils.fixUrl(`${environment.backend}${task.picture_base}/${task.state}${task.picture_suffix}`);
   }

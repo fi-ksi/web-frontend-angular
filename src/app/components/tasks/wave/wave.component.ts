@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { TaskWithIcon, WaveDetails, WaveView } from "../../../models";
 import { Utils } from "../../../util";
 
@@ -18,7 +18,7 @@ export class WaveComponent implements OnInit {
   // tasks ordered that all requirements of the tasks are before it
   tasksOrdered: TaskWithIcon[];
 
-  constructor(private cd: ChangeDetectorRef) { }
+  constructor() { }
 
   ngOnInit(): void {
     this.tasksOrdered = [...this.wave.tasks];
@@ -42,6 +42,5 @@ export class WaveComponent implements OnInit {
       // otherwise sort by id
       return a.id - b.id;
     });
-    this.cd.markForCheck();
   }
 }

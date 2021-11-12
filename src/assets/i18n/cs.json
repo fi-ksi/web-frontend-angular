@@ -87,6 +87,11 @@
     "deadline": "Datum ukončení",
     "graph":  {
       "task": "Úloha {{ name }}"
+    },
+    "settings": {
+      "open-button": "Otevřít nastavení zobrazení úloh",
+      "title": "Nastavení zobrazení úloh",
+      "split-waves": "Rozdělit graf podle vln"
     }
   }
 }

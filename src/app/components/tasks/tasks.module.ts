@@ -9,6 +9,8 @@ import { TranslateModule } from "@ngx-translate/core";
 import { SharedModule } from "../shared/shared.module";
 import { TaskIconComponent } from './task-icon/task-icon.component';
 import { TasksGraphComponent } from './tasks-graph/tasks-graph.component';
+import { ReactiveFormsModule } from "@angular/forms";
+import { TooltipModule } from "ngx-bootstrap/tooltip";
 
 
 @NgModule({
@@ -23,7 +25,9 @@ import { TasksGraphComponent } from './tasks-graph/tasks-graph.component';
     TasksRoutingModule,
     AccordionModule,
     TranslateModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule,
+    TooltipModule
   ]
 })
 export class TasksModule { }

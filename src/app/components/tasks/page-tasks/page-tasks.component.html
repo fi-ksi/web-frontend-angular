@@ -14,3 +14,22 @@
 <ng-template #graph>
   <ksi-tasks-graph class="graph" *ngIf="tasks.tasks$ | async as tasks" [tasks]="tasks"></ksi-tasks-graph>
 </ng-template>
+
+<div class="settings-container">
+  <button *ngIf="!(window.isMobile$ | async)"
+          (click)="showSettings()"
+          class="btn btn-outline-primary settings"
+          [attr.aria-label]="'tasks.settings.open-button' | translate"
+          [tooltip]="'tasks.settings.open-button' | translate"
+          placement="bottom left"
+  >
+    ?
+  </button>
+</div>
+
+<ng-template #modalSettings>
+  <div class="custom-control custom-switch">
+    <input [formControl]="splitWavesControl" type="checkbox" class="custom-control-input" id="tasks-settings-switch">
+    <label class="custom-control-label" for="tasks-settings-switch">{{'tasks.settings.split-waves' | translate}}</label>
+  </div>
+</ng-template>

@@ -1,10 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { KsiTitleService, TasksService, WindowService } from "../../../services";
+import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef } from '@angular/core';
+import { KsiTitleService, ModalService, TasksService, WindowService } from "../../../services";
 import { WaveDetails, WaveView } from "../../../models";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { combineLatest, concat, Observable, of } from "rxjs";
+import { map, tap } from "rxjs/operators";
 import { StorageService } from "../../../services/shared/storage.service";
 import { Wave } from "../../../../api";
+import { FormControl } from "@angular/forms";
 
 interface WaveOpened extends WaveDetails {
   opened: boolean;
@@ -21,20 +22,48 @@ export class PageTasksComponent implements OnInit {
 
   viewMode$: Observable<WaveView>;
 
+  @ViewChild("modalSettings", {static: true})
+  modalSettings: TemplateRef<unknown>;
+
+  splitWavesControl = new FormControl();
+
   private readonly storageWaves = this.storageRoot.open(['tasks', 'waves']);
 
   private static readonly WAVE_OPENED_DEFAULT = true;
+  private static readonly WAVE_GRAPH_SPLIT_DEFAULT = false;
 
   constructor(
     public tasks: TasksService,
     private storageRoot: StorageService,
     private title: KsiTitleService,
-    private window: WindowService
+    public window: WindowService,
+    private modal: ModalService
   ) { }
 
   ngOnInit(): void {
     this.title.subtitle = 'tasks.title';
-    this.viewMode$ = this.window.isMobile$.pipe(map((isMobile) => isMobile ? "linear" : "graph"));
+    this.viewMode$ = combineLatest([
+      this.window.isMobile$,
+      concat(
+        of(
+          this.storageWaves.get<boolean>('split-waves', PageTasksComponent.WAVE_GRAPH_SPLIT_DEFAULT)
+        ).pipe(tap((splitWaves) => this.splitWavesControl.setValue(splitWaves))),
+        this.splitWavesControl.valueChanges.pipe(tap((splitWaves: boolean) => {
+          if (splitWaves === PageTasksComponent.WAVE_GRAPH_SPLIT_DEFAULT) {
+            this.storageWaves.delete('split-waves');
+          } else {
+            this.storageWaves.set<boolean>('split-waves', splitWaves);
+          }
+        }))
+      )
+    ]).pipe(
+      map(([isMobile, splitWaves]) => {
+        if (isMobile) {
+          return "linear";
+        }
+        return splitWaves ? "wave-graph" : "graph";
+      })
+    );
     this.nonEmptyWaves$ = this.tasks.waveDetails$.pipe(
       map((waves) => waves
         .filter((wave) => wave.tasks.length > 0)
@@ -65,5 +94,9 @@ export class PageTasksComponent implements OnInit {
    */
   private waveStorage(wave: Wave): StorageService {
     return this.storageWaves.open(`${wave.id}`);
+  }
+
+  showSettings(): void {
+    this.modal.showModalTemplate(this.modalSettings, 'tasks.settings.title');
   }
 }

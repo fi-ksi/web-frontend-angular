@@ -4,14 +4,32 @@
 :host {
   display: block;
 
-  .canvas-container {
+  .arrows-container {
     width: 0;
     height: 0;
     overflow: visible;
 
-    .arrow-canvas {
-      stroke: $ksi-orange-150;
-      stroke-width: 4;
+    .arrows {
+      ::ng-deep line {
+        stroke: $ksi-orange-150;
+        stroke-width: 4;
+        opacity: 0;
+
+        &.animated {
+          animation-name: fade-in;
+          animation-fill-mode: forwards;
+          animation-duration: 2s;
+        }
+      }
+
+      @keyframes fade-in {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
     }
   }
 

@@ -25,9 +25,9 @@ export class PageTasksComponent implements OnInit {
   @ViewChild("modalSettings", {static: true})
   modalSettings: TemplateRef<unknown>;
 
-  splitWavesControl = new FormControl();
-
   private readonly storageWaves = this.storageRoot.open(['tasks', 'waves']);
+
+  splitWavesControl = new FormControl();
 
   private static readonly WAVE_OPENED_DEFAULT = true;
   private static readonly WAVE_GRAPH_SPLIT_DEFAULT = false;

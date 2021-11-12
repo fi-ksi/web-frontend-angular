@@ -5,7 +5,7 @@ import {
   Input,
   ViewChild,
   ElementRef,
-  AfterContentChecked, OnDestroy, ChangeDetectorRef
+  OnDestroy, ChangeDetectorRef, AfterViewInit
 } from '@angular/core';
 import { TaskWithIcon } from "../../../models";
 import { Utils } from "../../../util";
@@ -19,7 +19,8 @@ import { debounceTime } from "rxjs/operators";
   styleUrls: ['./tasks-graph.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TasksGraphComponent implements OnInit, AfterContentChecked, OnDestroy {
+export class TasksGraphComponent implements OnInit, AfterViewInit, OnDestroy {
+
   @Input()
   set tasks(value: TaskWithIcon[]) {
     this._tasks = [...value];
@@ -41,8 +42,10 @@ export class TasksGraphComponent implements OnInit, AfterContentChecked, OnDestr
 
   private readonly subs: Subscription[] = [];
 
-  @ViewChild('arrowCanvas', {static: true})
-  private canvas: ElementRef<SVGElement>;
+  private watchDrawActive = false;
+
+  @ViewChild('arrows', {static: true})
+  private arrows: ElementRef<SVGElement>;
 
   private get elGraph(): HTMLElement {
     return this.el.nativeElement;
@@ -52,30 +55,33 @@ export class TasksGraphComponent implements OnInit, AfterContentChecked, OnDestr
 
   ngOnInit(): void {
     // redraw arrows on size change
-    this.subs.push(this.window.windowSize$.pipe(debounceTime(333)).subscribe(() => this.drawArrows()));
+    this.subs.push(this.window.windowSize$.pipe(debounceTime(333)).subscribe(() => {
+      if (!this.watchDrawActive) {
+        this.drawArrows();
+      }
+    }));
   }
 
   /**
    * Draws arrows between tasks
+   * @param drawTimeout how long (in ms) to wait before drawing arrows, null for no animation
    * @private
    */
-  private drawArrows(): void {
+  private drawArrows(drawTimeout: number | null = null): void {
     if (!this.tasks) {
       return;
     }
-    const elCanvas = this.canvas.nativeElement;
-    elCanvas.innerHTML = '';
+    const elArrows = this.arrows.nativeElement;
+    elArrows.innerHTML = '';
 
     const { height, width, top, left } = this.elGraph.getBoundingClientRect();
-    elCanvas.style.width = `${width}px`;
-    elCanvas.style.height = `${height}px`;
+    elArrows.style.width = `${width}px`;
+    elArrows.style.height = `${height}px`;
 
-    const taskElements = this.getTaskElements();
-    taskElements.forEach((elTask) => {
-      const taskId = Number(elTask.id.substr('ksi-task-'.length));
-      const task = this.taskMap[taskId];
+    Utils.flatArray(this.tasksGraphed).forEach((task, index) => {
+      const elTask = this.getTaskElement(task.id);
 
-      if (!task) {
+      if (!elTask) {
         return;
       }
 
@@ -93,8 +99,9 @@ export class TasksGraphComponent implements OnInit, AfterContentChecked, OnDestr
         const requirementPos = elRequirement.getBoundingClientRect();
         const lineFromX = Math.round(requirementPos.left - left + (requirementPos.width / 2));
         const lineFromY = Math.round(requirementPos.top - top +  (requirementPos.height / 2));
+        const animationDelay = drawTimeout !== null ? drawTimeout + (index * 50) : 0;
 
-        elCanvas.innerHTML += `<line x1="${lineFromX}" y1="${lineFromY}" x2="${lineToX}" y2="${lineToY}" />`
+        elArrows.innerHTML += `<line x1="${lineFromX}" y1="${lineFromY}" x2="${lineToX}" y2="${lineToY}" class="${drawTimeout === null ? '' : 'animated'}" style="animation-delay: ${animationDelay}ms; opacity: ${animationDelay > 0 ? 0 : 1}" />`;
       })
     });
   }
@@ -104,7 +111,8 @@ export class TasksGraphComponent implements OnInit, AfterContentChecked, OnDestr
    * If it has, paints them again and continues to watch
    * @private
    */
-  private watchArrowsDraw() {
+  private watchArrowsDraw(drawTimeout: number = 50) {
+    this.watchDrawActive = true;
     /**
      * Gets all sorted tasks and maps the to their positions
      */
@@ -113,7 +121,7 @@ export class TasksGraphComponent implements OnInit, AfterContentChecked, OnDestr
     }
 
     const elPositions = getTasksPositions();
-    this.drawArrows();
+    this.drawArrows(drawTimeout);
 
     /**
      * Tests if any task element has changed its position or was added or removed
@@ -132,11 +140,12 @@ export class TasksGraphComponent implements OnInit, AfterContentChecked, OnDestr
      */
     const checkAndDraw = (timeout: number = 0, maxTimeout = 2000): void => {
       if (timeout > maxTimeout) {
+        this.watchDrawActive = false;
         return;
       }
       setTimeout(() => {
         if(hasPositionChanged()){
-          this.watchArrowsDraw();
+          this.watchArrowsDraw(Math.min(timeout, 50));
         } else {
           checkAndDraw((timeout + 1) * 2);
         }
@@ -161,7 +170,7 @@ export class TasksGraphComponent implements OnInit, AfterContentChecked, OnDestr
     return this.elGraph.querySelector(`:scope > .row > #ksi-task-${taskId}.task`)
   }
 
-  ngAfterContentChecked(): void {
+  ngAfterViewInit(): void {
     this.watchArrowsDraw();
   }
 

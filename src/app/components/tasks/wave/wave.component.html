@@ -1,4 +1,4 @@
-<ng-container *ngIf="viewMode === 'linear'; else graphView">
+<ng-container *ngIf="(viewMode$ | async) === 'linear'; else graphView">
   <div class="list-group">
     <a class="list-group-item list-group-item-action list-item-task"
        *ngFor="let task of tasksOrdered"

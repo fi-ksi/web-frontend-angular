@@ -1,11 +1,16 @@
 <ksi-spinner [source]="nonEmptyWaves$"></ksi-spinner>
-<accordion class="tasks-mobile" [isAnimated]="true">
-  <accordion-group
-    *ngFor="let wave of (nonEmptyWaves$ | async)"
-    [heading]="wave.caption"
-    [isOpen]="wave.opened"
-    (isOpenChange)="waveOpenChanged(wave, $event)"
-  >
-    <ksi-wave [wave]="wave" [viewMode]="viewMode"></ksi-wave>
-  </accordion-group>
-</accordion>
+<ng-container *ngIf="(viewMode$ | async) !== 'graph' ; else graph">
+  <accordion class="waves" [isAnimated]="true">
+    <accordion-group
+      *ngFor="let wave of (nonEmptyWaves$ | async)"
+      [heading]="wave.caption"
+      [isOpen]="wave.opened"
+      (isOpenChange)="waveOpenChanged(wave, $event)"
+    >
+      <ksi-wave [wave]="wave" [viewMode$]="viewMode$"></ksi-wave>
+    </accordion-group>
+  </accordion>
+</ng-container>
+<ng-template #graph>
+  <ksi-tasks-graph class="graph" *ngIf="tasks.tasks$ | async as tasks" [tasks]="tasks"></ksi-tasks-graph>
+</ng-template>

@@ -5,9 +5,13 @@
   flex-direction: column;
   align-items: center;
 
-  .tasks-mobile {
+  .waves {
     margin-top: $ksi-margin;
     max-width: 24cm;
     width: 100%;
+  }
+
+  .graph {
+    margin-top: $ksi-margin-large;
   }
 }

@@ -5,11 +5,11 @@ import {
   Input,
   ViewChild,
   ElementRef,
-  AfterContentChecked, OnDestroy
+  AfterContentChecked, OnDestroy, ChangeDetectorRef
 } from '@angular/core';
 import { TaskWithIcon } from "../../../models";
 import { Utils } from "../../../util";
-import { WindowService } from "../../../services";
+import { TasksService, WindowService } from "../../../services";
 import { Subscription } from "rxjs";
 import { debounceTime } from "rxjs/operators";
 
@@ -21,10 +21,21 @@ import { debounceTime } from "rxjs/operators";
 })
 export class TasksGraphComponent implements OnInit, AfterContentChecked, OnDestroy {
   @Input()
-  tasks: TaskWithIcon[];
+  set tasks(value: TaskWithIcon[]) {
+    this._tasks = [...value];
+    this.taskMap = {};
+    this.tasksGraphed = TasksService.splitToLevels(value, this.taskMap);
+    this.cd.markForCheck();
+  };
+
+  get tasks(): TaskWithIcon[] {
+    return this._tasks;
+  }
+
+  private _tasks: TaskWithIcon[];
 
   // tasks ordered into a 2D graph
-  readonly tasksGraphed: TaskWithIcon[][] = [];
+  tasksGraphed: TaskWithIcon[][] = [];
 
   private taskMap: {[taskId: number]: TaskWithIcon} = {};
 
@@ -37,29 +48,9 @@ export class TasksGraphComponent implements OnInit, AfterContentChecked, OnDestr
     return this.el.nativeElement;
   }
 
-  constructor(private el: ElementRef, private window: WindowService) { }
+  constructor(private el: ElementRef, private window: WindowService, private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.tasks.forEach((task) => this.taskMap[task.id] = task);
-    this.tasksGraphed.length = 0;
-
-    for (let task of this.tasks) {
-      // find a first line where this task has requirements and place it after it
-      let targetLineIndex = this.tasksGraphed.length;
-      for (let i = this.tasksGraphed.length - 1; i >= 0; i--) {
-        const prerequiedTask = this.tasksGraphed[i].find((prevTask) => Utils.deepContains(task.prerequisities, prevTask.id));
-        if (prerequiedTask) {
-          targetLineIndex = i + 1;
-          break;
-        }
-      }
-
-      if (targetLineIndex === this.tasksGraphed.length) {
-        this.tasksGraphed.push([]);
-      }
-      this.tasksGraphed[targetLineIndex].push(task);
-    }
-
     // redraw arrows on size change
     this.subs.push(this.window.windowSize$.pipe(debounceTime(333)).subscribe(() => this.drawArrows()));
   }
@@ -69,9 +60,11 @@ export class TasksGraphComponent implements OnInit, AfterContentChecked, OnDestr
    * @private
    */
   private drawArrows(): void {
+    if (!this.tasks) {
+      return;
+    }
     const elCanvas = this.canvas.nativeElement;
     const arrowsColor = window.getComputedStyle(elCanvas).getPropertyValue('--ksi-orange-150');
-    console.log('arrows');
 
     const { height, width, top, left } = this.elGraph.getBoundingClientRect();
     elCanvas.width = width;
@@ -86,6 +79,11 @@ export class TasksGraphComponent implements OnInit, AfterContentChecked, OnDestr
     taskElements.forEach((elTask) => {
       const taskId = Number(elTask.id.substr('ksi-task-'.length));
       const task = this.taskMap[taskId];
+
+      if (!task) {
+        return;
+      }
+
       const taskPos = elTask.getBoundingClientRect();
 
       const elRequirements: HTMLElement[] = Utils.flatArray(task.prerequisities)

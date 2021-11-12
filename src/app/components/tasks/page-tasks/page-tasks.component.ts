@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef } fr
 import { KsiTitleService, ModalService, TasksService, WindowService } from "../../../services";
 import { WaveDetails, WaveView } from "../../../models";
 import { combineLatest, concat, Observable, of } from "rxjs";
-import { map, tap } from "rxjs/operators";
+import { map, shareReplay, tap } from "rxjs/operators";
 import { StorageService } from "../../../services/shared/storage.service";
 import { Wave } from "../../../../api";
 import { FormControl } from "@angular/forms";
@@ -47,7 +47,7 @@ export class PageTasksComponent implements OnInit {
       concat(
         of(
           this.storageWaves.get<boolean>('split-waves', PageTasksComponent.WAVE_GRAPH_SPLIT_DEFAULT)
-        ).pipe(tap((splitWaves) => this.splitWavesControl.setValue(splitWaves))),
+        ).pipe(tap((splitWaves) => this.splitWavesControl.setValue(splitWaves)), shareReplay(1)),
         this.splitWavesControl.valueChanges.pipe(tap((splitWaves: boolean) => {
           if (splitWaves === PageTasksComponent.WAVE_GRAPH_SPLIT_DEFAULT) {
             this.storageWaves.delete('split-waves');

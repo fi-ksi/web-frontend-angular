@@ -42,7 +42,7 @@ export class TasksGraphComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private readonly subs: Subscription[] = [];
 
-  private watchDrawActive = false;
+  private watchDrawActive = true;
 
   @ViewChild('arrows', {static: true})
   private arrows: ElementRef<SVGElement>;
@@ -116,7 +116,7 @@ export class TasksGraphComponent implements OnInit, AfterViewInit, OnDestroy {
     /**
      * Gets all sorted tasks and maps the to their positions
      */
-    const getTasksPositions = (): Pick<DOMRect, 'left' | 'top'>[] => {
+    const getTasksPositions = (): Pick<DOMRect, 'left'>[] => {
       return this.getTaskElementsSorted().map((el) => el.getBoundingClientRect())
     }
 
@@ -129,7 +129,7 @@ export class TasksGraphComponent implements OnInit, AfterViewInit, OnDestroy {
     const hasPositionChanged = (): boolean => {
       const currPos = getTasksPositions();
       return elPositions.length !== currPos.length || !!currPos.find(
-        (pos, index) => pos.left !== elPositions[index].left || pos.top !== elPositions[index].top
+        (pos, index) => pos.left !== elPositions[index].left
       )
     }
 
@@ -144,10 +144,11 @@ export class TasksGraphComponent implements OnInit, AfterViewInit, OnDestroy {
         return;
       }
       setTimeout(() => {
+        const newTimeout = (timeout + 1) * 2;
         if(hasPositionChanged()){
-          this.watchArrowsDraw(Math.min(timeout, 50));
+          this.watchArrowsDraw(Math.min(100, newTimeout * 1.2));
         } else {
-          checkAndDraw((timeout + 1) * 2);
+          checkAndDraw(newTimeout);
         }
       }, timeout);
     }

@@ -16,7 +16,7 @@ export interface ModuleProgramming {
     name: string;
     description: string;
     autocorrect: boolean;
-    maxScore: number;
+    max_score: string;
     state: ModuleProgramming.StateEnum;
     score: number;
     code: string;

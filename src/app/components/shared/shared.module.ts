@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ArticlePreviewComponent } from "./article-preview/article-preview.component";
 import { RouterModule } from "@angular/router";
 import { SpinnerComponent } from "./spinner/spinner.component";
+import { TranslatePointsPipe } from "../../pipes";
 
 
 
@@ -10,10 +11,12 @@ import { SpinnerComponent } from "./spinner/spinner.component";
   declarations: [
     ArticlePreviewComponent,
     SpinnerComponent,
+    TranslatePointsPipe
   ],
   exports: [
     ArticlePreviewComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    TranslatePointsPipe
   ],
   imports: [
     CommonModule,

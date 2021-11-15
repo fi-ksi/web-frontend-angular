@@ -17,7 +17,7 @@ export interface ModuleQuiz {
     name: string;
     description: string;
     autocorrect: boolean;
-    maxScore: number;
+    max_score: string;
     state: ModuleQuiz.StateEnum;
     score: number;
     question: Array<ModuleQuizQuestion>;

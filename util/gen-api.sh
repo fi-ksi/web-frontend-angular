@@ -26,6 +26,7 @@ for f in $(find . -type f -name '*.ts' -print); do
     -e 's/&gt;/>/' \
     -e 's/: Array<(\w+?)> \| Array<Array>;/: Array<\1> | Array<Array<\1>>;/' \
     -e 's/timePublished: string;/time_published: string;/' \
+    -e 's/timeDeadline: string;/time_deadline: string;/' \
     -e 's/profilePicture: string;/profile_picture: string;/' \
     -e 's/firstName: string;/first_name: string;/' \
     -e 's/lastName: string;/last_name: string;/' \
@@ -38,6 +39,7 @@ for f in $(find . -type f -name '*.ts' -print); do
     -e 's/tokenType: /token_type: /' \
     -e 's/pictureBase: /picture_base: /' \
     -e 's/pictureSuffix: /picture_suffix: /' \
+    -e 's/maxScore: number;/max_score: number;/' \
     -i "$f"
 done
 

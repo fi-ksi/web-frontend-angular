@@ -16,7 +16,7 @@ export interface ModuleText {
     name: string;
     description: string;
     autocorrect: boolean;
-    maxScore: number;
+    max_score: string;
     state: ModuleText.StateEnum;
     score: number;
     fields: Array<string>;

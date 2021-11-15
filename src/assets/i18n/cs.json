@@ -93,5 +93,11 @@
       "title": "Nastavení zobrazení úloh",
       "split-waves": "Rozdělit graf podle vln"
     }
+  },
+  "points": {
+    "single": "bod",
+    "part": "bodu",
+    "a-few": "body",
+    "a-lot": "bodů"
   }
 }

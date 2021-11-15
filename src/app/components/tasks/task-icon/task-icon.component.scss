@@ -1,5 +1,48 @@
+@import "src/app/styles/vars";
+
 :host {
   img {
     height: 5.5em;
+  }
+}
+
+::ng-deep {
+  .tooltip.task-icon {
+    opacity: 1;
+
+    .tooltip-arrow::before {
+      border-top-color: $ksi-orange-130;
+      border-bottom-color: $ksi-orange-130;
+    }
+
+    .tooltip-inner {
+      padding: 0;
+      background-color: $ksi-white;
+      border: 2px solid $ksi-orange-130;
+      color: $ksi-black;
+      text-align: center;
+      font-size: 1rem;
+
+      .name {
+        font-size: 1.2rem;
+        font-weight: bold;
+        border-bottom: 2px solid $ksi-orange-150;
+        line-height: 1;
+        background: $ksi-blue-30;
+        color: $ksi-white;
+        padding: $ksi-padding-small $ksi-padding-small;
+      }
+
+      .stats {
+        font-size: 0.8rem;
+        padding: 0 $ksi-padding-small $ksi-padding-small;
+      }
+
+      .description {
+        text-align: justify-all;
+        margin: $ksi-margin-x-small 0;
+        padding: 0 $ksi-padding-small;
+      }
+    }
   }
 }

@@ -3,10 +3,13 @@
     [src]="task.icon"
     [tooltip]="tooltip"
     container="body"
+    containerClass="task-icon"
     alt="{{ 'tasks.graph.task' | translate: {name: task.title} }}"
   >
 </a>
 
 <ng-template #tooltip>
-  <span class="name">{{task.title}}</span>
+  <div class="name">{{task.title | uppercase}}</div>
+  <p class="description">{{task.intro}}</p>
+  <div class="stats">{{task.time_deadline | date}}, {{task.max_score | translatePoints}}</div>
 </ng-template>

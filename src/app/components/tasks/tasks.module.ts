@@ -20,14 +20,14 @@ import { TooltipModule } from "ngx-bootstrap/tooltip";
     TaskIconComponent,
     TasksGraphComponent
   ],
-  imports: [
-    CommonModule,
-    TasksRoutingModule,
-    AccordionModule,
-    TranslateModule,
-    SharedModule,
-    ReactiveFormsModule,
-    TooltipModule
-  ]
+    imports: [
+        CommonModule,
+        TasksRoutingModule,
+        AccordionModule,
+        TranslateModule,
+        SharedModule,
+        ReactiveFormsModule,
+        TooltipModule
+    ]
 })
 export class TasksModule { }

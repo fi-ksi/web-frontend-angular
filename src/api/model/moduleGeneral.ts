@@ -17,7 +17,7 @@ export interface ModuleGeneral {
     name: string;
     description: string;
     autocorrect: boolean;
-    max_score: string;
+    max_score: number;
     state: ModuleGeneral.StateEnum;
     score: number;
     submittedFiles: Array<ModuleGeneralSubmittedFiles>;

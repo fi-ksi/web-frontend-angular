@@ -1,0 +1,27 @@
+<ksi-spinner [source]="task$"></ksi-spinner>
+<main *ngIf="(task$ | async) as task">
+  <div class="head">
+    <h2>{{task.head.title | uppercase}}</h2>
+    <div *ngIf="(authors$ | async) as authors" class="authors">
+      {{(authors.length > 1 ? 'tasks.author.multiple' : 'tasks.author.single') | translate}}:
+      <span
+        *ngFor="let author of authors; let index = index"
+        class="author"
+      >
+        <a [routerLink]="'/profile/' + author.id">
+          <img class="pic" [src]="author.profile_picture" alt="">
+        <span class="name">
+          {{author.first_name}}
+          {{author.nick_name ? '"' + author.nick_name + '"' : ''}}
+          {{author.last_name}}
+        </span>
+        </a>
+        <span *ngIf="index + 1 < authors.length">
+          {{'tasks.author.and' | translate}}
+        </span>
+      </span>
+    </div>
+    <span class="deadline">{{'tasks.deadline' | translate}}: {{task.head.time_deadline | date}}</span>
+  </div>
+  <article [innerHTML]="task.detail.taskDetails.body"></article>
+</main>

@@ -17,7 +17,7 @@ export interface ModuleSortable {
     name: string;
     description: string;
     autocorrect: boolean;
-    max_score: string;
+    max_score: number;
     state: ModuleSortable.StateEnum;
     score: number;
     sortableList: ModuleSortableSortableList;

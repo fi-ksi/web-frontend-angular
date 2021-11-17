@@ -84,6 +84,11 @@
   },
   "tasks": {
     "title": "Úlohy",
+    "author": {
+      "single": "Autor",
+      "multiple": "Autoři",
+      "and": "a"
+    },
     "deadline": "Datum ukončení",
     "graph":  {
       "task": "Úloha {{ name }}"

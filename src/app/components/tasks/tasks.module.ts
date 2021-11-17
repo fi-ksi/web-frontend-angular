@@ -11,6 +11,7 @@ import { TaskIconComponent } from './task-icon/task-icon.component';
 import { TasksGraphComponent } from './tasks-graph/tasks-graph.component';
 import { ReactiveFormsModule } from "@angular/forms";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
+import { PageTaskComponent } from './page-task/page-task.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { TooltipModule } from "ngx-bootstrap/tooltip";
     PageTasksComponent,
     WaveComponent,
     TaskIconComponent,
-    TasksGraphComponent
+    TasksGraphComponent,
+    PageTaskComponent
   ],
     imports: [
         CommonModule,

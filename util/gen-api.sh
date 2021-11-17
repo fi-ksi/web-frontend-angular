@@ -40,6 +40,7 @@ for f in $(find . -type f -name '*.ts' -print); do
     -e 's/pictureBase: /picture_base: /' \
     -e 's/pictureSuffix: /picture_suffix: /' \
     -e 's/maxScore: number;/max_score: number;/' \
+    -e 's/coAuthor: number;/co_author: number;/' \
     -i "$f"
 done
 

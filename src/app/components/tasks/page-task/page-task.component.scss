@@ -1,0 +1,37 @@
+@import "src/app/styles/vars";
+@import "src/app/styles/mixins";
+
+:host {
+  display: flex;
+  justify-content: center;
+
+  main {
+    margin: $ksi-margin-large 0;
+    max-width: 24cm;
+
+    .head {
+      .deadline {
+        font-size: 0.8rem;
+      }
+
+      .authors {
+        line-height: 1;
+        font-size: 0.9rem;
+        margin-bottom: $ksi-margin-small;
+
+        .author:first-child {
+          margin-left: $ksi-margin-small;
+        }
+
+        .pic {
+          height: 2em;
+          @include round-corner;
+        }
+      }
+    }
+
+    article {
+      margin-top: $ksi-margin;
+    }
+  }
+}

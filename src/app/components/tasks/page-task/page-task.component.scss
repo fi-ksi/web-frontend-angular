@@ -6,8 +6,8 @@
   justify-content: center;
 
   main {
-    margin: $ksi-margin-large 0;
-    max-width: 24cm;
+    margin: $ksi-margin-large $ksi-margin;
+    max-width: min(24cm, calc(100% - (2 * #{$ksi-margin})));
 
     .head {
       .deadline {

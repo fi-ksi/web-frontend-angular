@@ -12,7 +12,7 @@
     "test": "ng test",
     "gen.colors": "./util/gen-scss-colors.sh",
     "gen.api": "./util/gen-api.sh",
-    "gen.changelog":  "./util/gen-changelog.sh"
+    "gen.changelog": "./util/gen-changelog.sh"
   },
   "private": true,
   "dependencies": {
@@ -29,6 +29,7 @@
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "bootstrap": "^4.5.0",
+    "highlight.js": "^11.3.1",
     "ngx-bootstrap": "^7.1.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",

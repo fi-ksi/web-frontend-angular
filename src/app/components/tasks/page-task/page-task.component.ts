@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { BackendService, KsiTitleService } from "../../../services";
 import { ActivatedRoute } from "@angular/router";
 import { map, mergeMap, tap } from "rxjs/operators";
@@ -6,7 +6,6 @@ import { combineLatest, Observable } from "rxjs";
 import { TaskFullInfo } from "../../../models";
 import { User } from "../../../../api";
 import { Utils } from "../../../util";
-import highlight from 'highlight.js';
 
 
 @Component({
@@ -18,28 +17,6 @@ import highlight from 'highlight.js';
 export class PageTaskComponent implements OnInit {
   task$: Observable<TaskFullInfo>;
   authors$: Observable<User[]>;
-
-  @ViewChild('article', { static: false })
-  set article(content: ElementRef<HTMLElement>) {
-    if (this.articleObserver) {
-      this.articleObserver.disconnect();
-      this.articleObserver = null;
-    }
-    if (!content) {
-      return;
-    }
-    const { nativeElement } = content;
-    this.articleObserver = new MutationObserver(() => {
-      this.highlightCode(nativeElement);
-    });
-    this.articleObserver.observe(nativeElement, {
-      childList: true,
-      subtree: true
-    });
-    this.highlightCode(nativeElement);
-  }
-
-  private articleObserver: MutationObserver | null = null;
 
   constructor(private backend: BackendService, private route: ActivatedRoute, private title: KsiTitleService) { }
 
@@ -65,17 +42,5 @@ export class PageTaskComponent implements OnInit {
           )
         })
     )));
-  }
-
-  private highlightCode(rootElement: HTMLElement) {
-    rootElement.querySelectorAll('pre>code:not(.highlighted)').forEach((code) => {
-      code.classList.forEach((cls) => {
-        if (cls !== 'sourceCode') {
-          code.classList.add(`language-${cls}`);
-        }
-      });
-      code.classList.add('highlighted');
-      highlight.highlightElement(code as HTMLElement);
-    });
   }
 }

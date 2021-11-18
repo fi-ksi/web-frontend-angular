@@ -23,7 +23,7 @@
     </div>
     <span class="deadline">{{'tasks.deadline' | translate}}: {{task.head.time_deadline | date}}</span>
   </div>
-  <article [innerHTML]="task.detail.taskDetails.body" #article></article>
+  <ksi-task-body class="body" [task]="task"></ksi-task-body>
   <div class="bottom">
     <a class="discussion" routerLink="./discussion">
       <span class="icon">🗨</span>

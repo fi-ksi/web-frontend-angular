@@ -89,6 +89,7 @@
       "multiple": "Autoři",
       "and": "a"
     },
+    "discussion": "Diskuze",
     "deadline": "Datum ukončení",
     "graph":  {
       "task": "Úloha {{ name }}"
@@ -97,7 +98,8 @@
       "open-button": "Otevřít nastavení zobrazení úloh",
       "title": "Nastavení zobrazení úloh",
       "split-waves": "Rozdělit graf podle vln"
-    }
+    },
+    "solution": "Řešení"
   },
   "points": {
     "single": "bod",

@@ -31,7 +31,21 @@
     }
 
     article {
-      margin-top: $ksi-margin;
+      margin: $ksi-margin 0 $ksi-margin-large;
+    }
+
+    .bottom {
+      line-height: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.1rem;
+
+      .discussion {
+        > * {
+          padding-right: $ksi-padding-x-small;
+        }
+      }
     }
   }
 }

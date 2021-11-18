@@ -24,4 +24,14 @@
     <span class="deadline">{{'tasks.deadline' | translate}}: {{task.head.time_deadline | date}}</span>
   </div>
   <article [innerHTML]="task.detail.taskDetails.body" #article></article>
+  <div class="bottom">
+    <a class="discussion" routerLink="./discussion">
+      <span class="icon">🗨</span>
+      <span>{{'tasks.discussion' | translate}}</span>
+      <span>({{task.detail.posts.length}})</span>
+    </a>
+    <a *ngIf="task.detail.taskDetails.solution" class="solution" routerLink="./solution">
+      {{'tasks.solution' | translate}}
+    </a>
+  </div>
 </main>

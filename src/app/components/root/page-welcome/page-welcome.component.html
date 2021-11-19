@@ -80,6 +80,7 @@
     <div class="articles">
       <ksi-article-preview
         *ngFor="let article of (years.articles$ | async)"
+        class="article"
         [article]="article"
         [clickable]="true"
       >

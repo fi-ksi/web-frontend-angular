@@ -1,31 +1,33 @@
 body {
-  // http://colllor.com/fb9400
+  // http://colllor.com/fbaf40
   // http://colllor.com/233140
+  // http://colllor.com/939597
+  // function color(name) { let text = ''; for (let i = 1; i < 25; i++) { const color = document.getElementById(`${i}`).textContent; text += '-' + '-' + `ksi-${name}-${i * 10}: ${color};\n`; } console.log(text); }; color("orange");
   &.theme-light {
-    --ksi-orange-0: #140C00;
-    --ksi-orange-1: #291800;
-    --ksi-orange-10: #3D2400;
-    --ksi-orange-20: #523000;
-    --ksi-orange-30: #663C00;
-    --ksi-orange-40: #7A4700;
-    --ksi-orange-50: #8F5300;
-    --ksi-orange-60: #A35F00;
-    --ksi-orange-70: #B86B00;
-    --ksi-orange-80: #CC7700;
-    --ksi-orange-90: #E08300;
-    --ksi-orange-100: #FB9400;
-    --ksi-orange-110: #FF9900;
-    --ksi-orange-120: #FFA21F;
-    --ksi-orange-130: #FFAA33;
-    --ksi-orange-140: #FFB347;
-    --ksi-orange-150: #FFBB5C;
-    --ksi-orange-160: #FFC370;
-    --ksi-orange-170: #FFCC85;
-    --ksi-orange-180: #FFD599;
-    --ksi-orange-190: #FFDDAD;
-    --ksi-orange-200: #FFE6C2;
-    --ksi-orange-210: #FFEED6;
-    --ksi-orange-220: #FFF7EB;
+    --ksi-orange-10: #140C00;
+    --ksi-orange-20: #281801;
+    --ksi-orange-30: #3C2401;
+    --ksi-orange-40: #503102;
+    --ksi-orange-50: #643D02;
+    --ksi-orange-60: #784902;
+    --ksi-orange-70: #8C5503;
+    --ksi-orange-80: #A06103;
+    --ksi-orange-90: #B46D04;
+    --ksi-orange-100: #C87A04;
+    --ksi-orange-110: #DC8604;
+    --ksi-orange-120: #F09205;
+    --ksi-orange-130: #FA9C0F;
+    --ksi-orange-140: #FBA423;
+    --ksi-orange-150: #FBAD37;
+    --ksi-orange-160: #FBAF40;  // main
+    --ksi-orange-170: #FCBD5F;
+    --ksi-orange-180: #FCC573;
+    --ksi-orange-190: #FDCE87;
+    --ksi-orange-200: #FDD69B;
+    --ksi-orange-210: #FDDEAF;
+    --ksi-orange-220: #FEE6C3;
+    --ksi-orange-230: #FEEFD7;
+    --ksi-orange-240: #FFF7EB;
 
     --ksi-blue-0: #070A0D;
     --ksi-blue-1: #0E141A;
@@ -51,6 +53,31 @@ body {
     --ksi-blue-200: #D8E0E9;
     --ksi-blue-210: #E5EAF1;
     --ksi-blue-220: #F2F5F8;
+
+    --ksi-gray-10: #0A0A0A;
+    --ksi-gray-20: #141415;
+    --ksi-gray-30: #1E1F1F;
+    --ksi-gray-40: #28292A;
+    --ksi-gray-50: #323334;
+    --ksi-gray-60: #3C3D3E;
+    --ksi-gray-70: #464749;
+    --ksi-gray-80: #505253;
+    --ksi-gray-90: #5A5C5E;
+    --ksi-gray-100: #646668;
+    --ksi-gray-110: #6E7072;
+    --ksi-gray-120: #787A7D;
+    --ksi-gray-130: #828587;
+    --ksi-gray-140: #8D8F91;
+    --ksi-gray-150: #939597;
+    --ksi-gray-160: #A1A3A5;
+    --ksi-gray-170: #ACADAF;
+    --ksi-gray-180: #B6B8B9;
+    --ksi-gray-190: #C1C2C3;
+    --ksi-gray-200: #CBCCCD;
+    --ksi-gray-210: #D5D6D7;
+    --ksi-gray-220: #E0E0E1;
+    --ksi-gray-230: #EAEBEB;
+    --ksi-gray-240: #F5F5F5;
 
     --ksi-white: #fff;
     --ksi-black: #000;

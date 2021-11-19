@@ -9,14 +9,14 @@
     flex-wrap: wrap;
     flex-direction: column;
     grid-row-gap: $ksi-margin;
-    background: $ksi-orange-120;
+    background: $ksi-orange-140;
 
     .name {
       display: flex;
       justify-content: center;
       margin-bottom: $ksi-margin;
       color: $ksi-white;
-      text-shadow: 1px 1px 3px $ksi-blue-120;
+      text-shadow: 1px 1px 3px $ksi-blue-180;
 
       > * {
         text-align: center;
@@ -90,7 +90,7 @@
     padding: $ksi-margin;
     background: $ksi-blue-30;
     color: $ksi-white;
-    border: 2px solid $ksi-orange-100;
+    border: 2px solid $ksi-orange-140;
     border-left: none;
     border-right: none;
 
@@ -118,7 +118,7 @@
 
             .btn-go {
               box-shadow: 2px 2px $ksi-orange-60;
-              background: $ksi-orange-100;
+              background: $ksi-orange-140;
               transition: background-color 0.2s;
               color: $ksi-blue-40;
               font-weight: bolder;
@@ -160,8 +160,14 @@
 
     .articles {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      width: calc(100% - (2 * #{$ksi-padding}));
+      padding: 0 $ksi-padding;
+
+      .article {
+        width: min(100%, 24cm);
+      }
     }
 
     .organisators {

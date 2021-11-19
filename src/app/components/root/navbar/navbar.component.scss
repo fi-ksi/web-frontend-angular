@@ -12,7 +12,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    border-bottom: 4px solid $ksi-orange-100;
+    border-bottom: 4px solid $ksi-orange-140;
 
     @media screen and (max-width: $ksi-max-small-mobile-width) {
       flex-direction: column;
@@ -71,7 +71,7 @@
       transition: background-color 0.1s;
 
       &.active,&:hover,&[aria-expanded=true] {
-        background: $ksi-orange-100 !important;
+        background: $ksi-orange-140 !important;
       }
     }
 
@@ -80,7 +80,7 @@
       display: inline-block;
 
       .nav-btn {
-        background: $ksi-orange-130;
+        background: $ksi-orange-140;
         @media screen and (max-width: $ksi-max-small-mobile-width) {
           background: unset;
         }

@@ -6,5 +6,6 @@ export { KsiTitleService } from './shared/ksi-title.service';
 export { VersionService } from './shared/version.service';
 export { AchievementService } from './shared/achievement.service';
 export { ModalService } from './shared/modal.service';
+export { IconService } from './shared/icon.service';
 
 export * from './tasks';

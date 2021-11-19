@@ -7,9 +7,11 @@
 
   main {
     margin: $ksi-margin-large $ksi-margin;
-    max-width: min(24cm, calc(100% - (2 * #{$ksi-margin})));
+    width: min(24cm, calc(100% - (2 * #{$ksi-margin})));
 
     .head {
+      margin-bottom: $ksi-margin;
+
       .deadline {
         font-size: 0.8rem;
       }
@@ -28,6 +30,10 @@
           @include round-corner;
         }
       }
+    }
+
+    .back {
+      margin: $ksi-margin 0;
     }
 
     .body {

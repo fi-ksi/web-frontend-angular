@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { BackendService, KsiTitleService } from "../../../services";
+import { BackendService, IconService, KsiTitleService } from "../../../services";
 import { ActivatedRoute } from "@angular/router";
 import { map, mergeMap, tap } from "rxjs/operators";
 import { combineLatest, Observable } from "rxjs";
@@ -7,6 +7,9 @@ import { TaskFullInfo } from "../../../models";
 import { User } from "../../../../api";
 import { Utils } from "../../../util";
 
+enum Subpage {
+  assigment=0, solution=1
+}
 
 @Component({
   selector: 'ksi-page-task',
@@ -17,8 +20,14 @@ import { Utils } from "../../../util";
 export class PageTaskComponent implements OnInit {
   task$: Observable<TaskFullInfo>;
   authors$: Observable<User[]>;
+  subpage$: Observable<Subpage>;
 
-  constructor(private backend: BackendService, private route: ActivatedRoute, private title: KsiTitleService) { }
+  constructor(
+    private backend: BackendService,
+    private route: ActivatedRoute,
+    private title: KsiTitleService,
+    public icon: IconService
+  ) { }
 
   ngOnInit(): void {
     this.task$ = this.route.params.pipe(
@@ -31,6 +40,13 @@ export class PageTaskComponent implements OnInit {
       tap((task) => {
         this.title.subtitle = task.head.title;
       })
+    );
+
+    const fragmentMap: {[fragment: string]: Subpage} = {
+      'solution': Subpage.solution
+    };
+    this.subpage$ = this.route.fragment.pipe(
+      map((fragment) => fragmentMap[fragment || ''] || Subpage.assigment)
     );
 
     this.authors$ = this.task$.pipe(mergeMap((task) => combineLatest(

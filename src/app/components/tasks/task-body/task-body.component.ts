@@ -1,5 +1,4 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, ViewChild, ElementRef } from '@angular/core';
-import { TaskFullInfo } from "../../../models";
 import highlight from "highlight.js";
 
 @Component({
@@ -10,7 +9,7 @@ import highlight from "highlight.js";
 })
 export class TaskBodyComponent implements OnInit {
   @Input()
-  task: TaskFullInfo;
+  body: string;
 
   @ViewChild('article', { static: false })
   set article(content: ElementRef<HTMLElement>) {

@@ -23,14 +23,25 @@
     </div>
     <span class="deadline">{{'tasks.deadline' | translate}}: {{task.head.time_deadline | date}}</span>
   </div>
-  <ksi-task-body class="body" [task]="task"></ksi-task-body>
-  <div class="bottom">
+
+  <div *ngIf="(subpage$ | async) !== 0" class="back" >
+  <a routerLink="." [fragment]="undefined">
+    {{icon.BACK}} {{'tasks.back-to-assigment' | translate}}
+  </a>
+  </div>
+
+  <ng-container [ngSwitch]="subpage$ | async">
+    <ksi-task-body *ngSwitchCase="0" class="body" [body]="task.detail.taskDetails.body"></ksi-task-body>
+    <ksi-task-body *ngSwitchCase="1" class="body" [body]="task.detail.taskDetails.solution"></ksi-task-body>
+  </ng-container>
+
+  <div class="bottom" *ngIf="(subpage$ | async) === 0">
     <a class="discussion" routerLink="./discussion">
-      <span class="icon">🗨</span>
+      <span class="icon">{{icon.DISCUSSION}}</span>
       <span>{{'tasks.discussion' | translate}}</span>
       <span>({{task.detail.posts.length}})</span>
     </a>
-    <a *ngIf="task.detail.taskDetails.solution" class="solution" routerLink="./solution">
+    <a *ngIf="task.detail.taskDetails.solution" class="solution" routerLink="." fragment="solution">
       {{'tasks.solution' | translate}}
     </a>
   </div>

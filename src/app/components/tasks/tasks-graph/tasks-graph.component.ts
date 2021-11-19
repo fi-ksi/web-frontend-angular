@@ -5,7 +5,7 @@ import {
   Input,
   ViewChild,
   ElementRef,
-  OnDestroy, ChangeDetectorRef, AfterViewInit
+  OnDestroy, ChangeDetectorRef
 } from '@angular/core';
 import { TaskWithIcon } from "../../../models";
 import { Utils } from "../../../util";
@@ -19,13 +19,14 @@ import { debounceTime } from "rxjs/operators";
   styleUrls: ['./tasks-graph.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TasksGraphComponent implements OnInit, AfterViewInit, OnDestroy {
+export class TasksGraphComponent implements OnInit, OnDestroy {
 
   @Input()
   set tasks(value: TaskWithIcon[]) {
     this._tasks = [...value];
     this.taskMap = {};
     this.tasksGraphed = TasksService.splitToLevels(value, this.taskMap);
+    this.watchArrowsDraw();
     this.cd.markForCheck();
   };
 
@@ -169,10 +170,6 @@ export class TasksGraphComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private getTaskElement(taskId: number): HTMLElement | null {
     return this.elGraph.querySelector(`:scope > .row > #ksi-task-${taskId}.task`)
-  }
-
-  ngAfterViewInit(): void {
-    this.watchArrowsDraw();
   }
 
   ngOnDestroy(): void {

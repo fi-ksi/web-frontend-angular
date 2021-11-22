@@ -21,7 +21,7 @@
         </span>
       </span>
     </div>
-    <span class="deadline">{{'tasks.deadline' | translate}}: {{task.head.time_deadline | date}}</span>
+    <span class="deadline">{{'tasks.deadline' | translate}}: {{task.head.time_deadline | date}}, {{task.head.max_score | translatePoints}}</span>
   </div>
 
   <div *ngIf="(subpage$ | async) !== 0" class="back" >

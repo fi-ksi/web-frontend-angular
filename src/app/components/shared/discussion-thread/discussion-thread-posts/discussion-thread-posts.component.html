@@ -13,7 +13,7 @@
     </div>
     <div class="children">
       <ksi-discussion-thread-posts
-        class="reaction"
+        class="child"
         *ngFor="let child of post.reaction"
         [postId]="child"
         [posts]="posts"
@@ -25,5 +25,8 @@
 </ng-container>
 
 <ng-template #notExpanded>
-  <span class="expand nav-link" (click)="setExpanded(true)">{{'discussion-thread.post.expand' | translate}}</span>
+  <div class="expand" (click)="setExpanded(true)">
+    <span class="icon">{{icon.UNPACK}}</span>
+    <span class="text">{{'discussion-thread.post.expand' | translate}}</span>
+  </div>
 </ng-template>

@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core
 import { PostsMap } from "../../../../models";
 import { Post } from "../../../../../api";
 import { StorageService } from "../../../../services/shared/storage.service";
+import { IconService } from "../../../../services";
 
 @Component({
   selector: 'ksi-discussion-thread-posts',
@@ -27,7 +28,7 @@ export class DiscussionThreadPostsComponent implements OnInit {
 
   private static readonly EXPANDED_DEFAULT = true;
 
-  constructor(private storageRoot: StorageService) { }
+  constructor(private storageRoot: StorageService, public icon: IconService) { }
 
   ngOnInit(): void {
     this.storage = this.storageRoot.open(['discussion', 'post', `${this.postId}`]);

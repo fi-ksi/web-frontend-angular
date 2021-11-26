@@ -1,11 +1,23 @@
 @import "src/app/styles/vars";
+@import "src/app/styles/mixins";
 
 :host {
   display: block;
   margin: $ksi-margin-small 0;
 
   .post {
-    border: 1px solid red;
+    @include round-corner;
+    background: $ksi-orange-230;
+    padding: $ksi-padding-small $ksi-padding-small $ksi-padding-x-small;
+    border: 2px solid $ksi-blue-100;
+
+    .content {
+      padding-left: calc(2em + #{$ksi-margin-x-small});
+    }
+
+    .head {
+      margin-bottom: $ksi-margin-small;
+    }
   }
 
   .children-container {
@@ -13,28 +25,43 @@
 
     .line-container {
       .line {
+        margin-left: $ksi-margin-small;
         cursor: pointer;
-        border: 5px solid red;
-        border-top: none;
-        border-right: none;
-        width: $ksi-margin;
-        height: calc(100% - #{$ksi-margin});
+        border-left: 3px solid $ksi-blue-100;
+        padding: 0 $ksi-padding-small;
+        height: calc(100% + #{$ksi-margin-small});
         transition: border-color 0.1s;
 
         &:hover {
-          border-color: pink;
+          border-color: $ksi-blue-150;
         }
       }
     }
 
     .children {
       flex-grow: 1;
+
+      .child:last-child {
+        margin-bottom: 0;
+      }
     }
 
     .expand {
       color: $ksi-blue-80;
-      font-style: italic;
       cursor: pointer;
+      margin-top: $ksi-margin-small;
+      margin-left: $ksi-margin-large;
+      line-height: 1;
+      transition: color 0.2s;
+
+      &:hover {
+        color: $ksi-blue-100;
+      }
+
+      .text {
+        margin-left: $ksi-margin-x-small;
+        font-style: italic;
+      }
     }
   }
 }

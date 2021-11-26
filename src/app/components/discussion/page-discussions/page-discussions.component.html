@@ -1,0 +1,25 @@
+<main>
+  <h2 class="title">{{'discussion.title' | translate}}</h2>
+
+  <table class="table table-striped table-hover table-responsive-md threads">
+    <thead>
+    <tr>
+      <th scope="col">{{'discussion.name' | translate}}</th>
+      <th scope="col">{{'discussion.posts-count' | translate}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr [routerLink]="'./' + thread.id" class="clickable" *ngFor="let thread of (years.discussionThreads$ | async)">
+      <td><a [routerLink]="'./' + thread.id" [class.has-unread]="thread.unread">{{thread.title}}</a></td>
+      <td>
+        <a [routerLink]="'./' + thread.id">
+          {{thread.posts_count}}
+          <span class="new-posts-count" *ngIf="thread.unread">
+            ({{thread.unread | translateNewItems}})
+          </span>
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</main>

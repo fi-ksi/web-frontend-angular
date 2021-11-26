@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: 'about', loadChildren: () => import('./components/about/about.module').then((m) => m.AboutModule)},
   { path: 'results', loadChildren: () => import('./components/results/results.module').then((m) => m.ResultsModule)},
   { path: 'tasks', loadChildren: () => import('./components/tasks/tasks.module').then((m) => m.TasksModule)},
+  { path: 'discussion', loadChildren: () => import('./components/discussion/discussion.module').then((m) => m.DiscussionModule)},
   { path: '**', component: PageNotFoundComponent }
 ];
 

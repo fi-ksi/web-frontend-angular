@@ -1,0 +1,36 @@
+@import "src/app/styles/vars";
+
+:host {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: $ksi-padding $ksi-padding 0;
+
+  main {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .title {
+    color: $ksi-gray-30;
+    text-align: center;
+    margin-bottom: $ksi-margin-large;
+  }
+
+  .threads {
+    width: min(100%, 24cm);
+    text-align: center;
+
+    .has-unread {
+      font-weight: bold;
+    }
+
+    .new-posts-count {
+      font-weight: bold;
+      font-style: italic;
+      margin-left: $ksi-margin-small;
+    }
+  }
+}

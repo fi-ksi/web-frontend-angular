@@ -107,5 +107,14 @@
     "part": "bodu",
     "a-few": "body",
     "a-lot": "bodů"
+  },
+  "discussion": {
+    "title": "Celoročníková diskuzní vlákna",
+    "name": "Název",
+    "posts-count": "Počet příspěvků"
+  },
+  "new": {
+    "single": "nový",
+    "multiple": "nových"
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject } from "rxjs";
 import { YearSelect } from "../../models";
-import { Article, User, Year } from "../../../api";
+import { Article, Thread, User, Year } from "../../../api";
 import { map, mergeMap, shareReplay, switchMap, tap } from "rxjs/operators";
 import { BackendService } from "./backend.service";
 import { Utils } from "../../util";
@@ -41,6 +41,8 @@ export class YearsService {
    * Observable of non high school users, sorted by score
    */
   readonly usersOther$: Observable<User[]>;
+
+  readonly discussionThreads$: Observable<Thread[]>;
 
   private selectedSubject: Subject<YearSelect | null>;
   private _selected: YearSelect | null;
@@ -115,6 +117,13 @@ export class YearsService {
         return this.backend.http.usersGetAll('part-other', 'score', year?.id || undefined);
       }),
       map((response) => response.users)
+    );
+
+    this.discussionThreads$ = this.selected$.pipe(
+      mergeMap(
+        (year) => this.backend.http.threadsGetAll(undefined, year?.id)
+      ),
+      map((response) => response.threads)
     );
   }
 }

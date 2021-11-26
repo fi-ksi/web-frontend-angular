@@ -36,3 +36,7 @@ input.form-control.ng-invalid:not(.ng-pristine) {
     background: $ksi-orange-140 !important;
   }
 }
+
+.clickable {
+  cursor: pointer;
+}

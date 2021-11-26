@@ -16,6 +16,6 @@ export interface Thread {
     year: number;
     id: number;
     unread: number;
-    postsCount: number;
+    posts_count: number;
     details: number;
 }

@@ -11,6 +11,7 @@ import { ModalComponent, OpenedModal, OpenedTemplate } from "../../models";
 import { ModalLoginComponent } from "../../components/root/modal-login/modal-login.component";
 import { filter, take } from "rxjs/operators";
 import { environment } from "../../../environments/environment";
+import { ModalOptions } from "ngx-bootstrap/modal";
 
 @Injectable({
   providedIn: 'root'
@@ -21,12 +22,13 @@ export class ModalService {
   constructor(private resolver: ComponentFactoryResolver, private translate: TranslateService) {
   }
 
-  public showModalTemplate(template: TemplateRef<unknown>, title: string): OpenedTemplate {
+  public showModalTemplate(template: TemplateRef<unknown>, title: string, options?: ModalOptions): OpenedTemplate {
     const factory: ComponentFactory<ModalGenericComponent> =
       this.resolver.resolveComponentFactory(ModalGenericComponent);
     const comp = this.container.createComponent(factory);
     comp.instance.modalTemplate = template;
     comp.instance.title = this.translate.instant(title);
+    comp.instance.options = options;
     comp.instance.cd.detectChanges();
     comp.instance.show();
 

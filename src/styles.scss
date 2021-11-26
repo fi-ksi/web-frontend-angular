@@ -40,3 +40,10 @@ input.form-control.ng-invalid:not(.ng-pristine) {
 .clickable {
   cursor: pointer;
 }
+
+
+.modal-dialog {
+  &.modal-full-page {
+    max-width: min(95vw, 26cm);
+  }
+}

@@ -9,26 +9,41 @@
     <span class="deadline">{{'tasks.deadline' | translate}}: {{task.head.time_deadline | date}}, {{task.head.max_score | translatePoints}}</span>
   </div>
 
-  <div *ngIf="(subpage$ | async) !== 0" class="back" >
-  <a routerLink="." [fragment]="undefined">
-    {{icon.BACK}} {{'tasks.back-to-assigment' | translate}}
-  </a>
+  <div *ngIf="(subpage$ | async) !== templateBodyAssigment" class="back" >
+    <a routerLink="." [fragment]="undefined">
+      {{icon.BACK}} {{'tasks.back-to-assigment' | translate}}
+    </a>
   </div>
 
-  <ng-container [ngSwitch]="subpage$ | async">
-    <ksi-task-body *ngSwitchCase="0" class="body" [body]="task.detail.taskDetails.body"></ksi-task-body>
-    <ksi-task-body *ngSwitchCase="1" class="body" [body]="task.detail.taskDetails.solution"></ksi-task-body>
-    <ksi-discussion-thread *ngSwitchCase="2" [threadId]="task.detail.taskDetails.thread"></ksi-discussion-thread>
-  </ng-container>
+  <ng-container [ngTemplateOutlet]="subpage$ | async"></ng-container>
 
-  <div class="bottom" *ngIf="(subpage$ | async) === 0">
+  <div class="bottom" *ngIf="(subpage$ | async) === templateBodyAssigment">
     <a class="discussion" routerLink="." fragment="discussion">
       <span class="icon">{{icon.DISCUSSION}}</span>
       <span>{{'tasks.discussion' | translate}}</span>
       <span>({{task.detail.posts.length}})</span>
     </a>
+
     <a *ngIf="task.detail.taskDetails.solution" class="solution" routerLink="." fragment="solution">
       {{'tasks.solution' | translate}}
     </a>
   </div>
 </main>
+
+<ng-template #bodyDiscussion>
+  <ng-container *ngIf="(task$ | async) as task">
+    <ksi-discussion-thread [threadId]="task.detail.taskDetails.thread"></ksi-discussion-thread>
+  </ng-container>
+</ng-template>
+
+<ng-template #bodyAssigment>
+  <ng-container *ngIf="(task$ | async) as task">
+    <ksi-task-body class="body" [body]="task.detail.taskDetails.body"></ksi-task-body>
+  </ng-container>
+</ng-template>
+
+<ng-template #bodySolution>
+  <ng-container *ngIf="(task$ | async) as task">
+    <ksi-task-body class="body" [body]="task.detail.taskDetails.solution"></ksi-task-body>
+  </ng-container>
+</ng-template>

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { WindowSize } from '../../models';
 import { PageScroll } from "../../models/window.service";
-import { map } from "rxjs/operators";
+import { distinctUntilChanged, map } from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -46,8 +46,12 @@ export class WindowService {
 
   constructor() {
     this._windowSize$ = this._sizeChangeSubject.asObservable();
-    this._isMobile$ = this.windowSize$.pipe(map((size) => size.width <= WindowService.SIZE_MOBILE));
-    this._isSmallMobile$ = this.windowSize$.pipe(map((size) => size.width <= WindowService.SIZE_MOBILE_SMALL));
+    this._isMobile$ = this.windowSize$.pipe(
+      map((size) => size.width <= WindowService.SIZE_MOBILE), distinctUntilChanged()
+    );
+    this._isSmallMobile$ = this.windowSize$.pipe(
+      map((size) => size.width <= WindowService.SIZE_MOBILE_SMALL), distinctUntilChanged()
+    );
     this._pageScroll$ = this._pageScrollSubject.asObservable();
 
     // hook window change events

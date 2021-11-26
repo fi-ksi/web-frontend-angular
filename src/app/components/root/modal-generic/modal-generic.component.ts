@@ -7,7 +7,7 @@ import {
   ViewChild,
   ChangeDetectorRef
 } from '@angular/core';
-import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
+import { BsModalRef, BsModalService, ModalOptions } from "ngx-bootstrap/modal";
 import { BehaviorSubject, Subject } from "rxjs";
 import { shareReplay, take } from "rxjs/operators";
 import { environment } from "../../../../environments/environment";
@@ -24,6 +24,9 @@ export class ModalGenericComponent implements OnInit {
 
   @Input()
   title: string;
+
+  @Input()
+  options?: ModalOptions;
 
   modalRef?: BsModalRef<unknown>;
 
@@ -47,7 +50,7 @@ export class ModalGenericComponent implements OnInit {
     if (this.visible) {
       return;
     }
-    this.modalRef = this.modalService.show(this.template);
+    this.modalRef = this.modalService.show(this.template, this.options);
     environment.logger.debug('setting modal as visible');
     this.visible = true;
     this.visibleSubject.next(true);

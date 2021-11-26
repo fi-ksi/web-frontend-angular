@@ -97,9 +97,12 @@ export class PageTaskComponent implements OnInit {
     }
     if (body) {
       const title = body == this.templateBodyDiscussion ? 'tasks.discussion' : 'tasks.solution';
-      this.openedModal = this.modal.showModalTemplate(body, title, {class: 'modal-full-page'});
+      const modal = this.openedModal = this.modal.showModalTemplate(body, title, {class: 'modal-full-page'});
       const sub = this.openedModal.visible$.pipe(filter((visible) => !visible)).subscribe(() => {
-        this.router.navigate([], {fragment: undefined}).then(() => sub.unsubscribe());
+        if (this.openedModal === modal) {
+          this.router.navigate([], {fragment: undefined}).then();
+        }
+        sub.unsubscribe();
       });
     }
   }

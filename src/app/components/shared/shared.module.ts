@@ -4,6 +4,8 @@ import { ArticlePreviewComponent } from "./article-preview/article-preview.compo
 import { RouterModule } from "@angular/router";
 import { SpinnerComponent } from "./spinner/spinner.component";
 import { TranslateNewItemsPipe, TranslatePointsPipe } from "../../pipes";
+import { DiscussionThreadComponent } from './discussion-thread/discussion-thread.component';
+import { DiscussionThreadPostsComponent } from './discussion-thread/discussion-thread-posts/discussion-thread-posts.component';
 
 
 
@@ -12,14 +14,17 @@ import { TranslateNewItemsPipe, TranslatePointsPipe } from "../../pipes";
     ArticlePreviewComponent,
     SpinnerComponent,
     TranslatePointsPipe,
-    TranslateNewItemsPipe
+    TranslateNewItemsPipe,
+    DiscussionThreadComponent,
+    DiscussionThreadPostsComponent
   ],
-  exports: [
-    ArticlePreviewComponent,
-    SpinnerComponent,
-    TranslatePointsPipe,
-    TranslateNewItemsPipe
-  ],
+    exports: [
+        ArticlePreviewComponent,
+        SpinnerComponent,
+        TranslatePointsPipe,
+        TranslateNewItemsPipe,
+        DiscussionThreadComponent
+    ],
   imports: [
     CommonModule,
     RouterModule

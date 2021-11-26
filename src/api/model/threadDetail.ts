@@ -12,5 +12,5 @@
 
 export interface ThreadDetail { 
     id: number;
-    rootPosts: Array<number>;
+    root_posts: Array<number>;
 }

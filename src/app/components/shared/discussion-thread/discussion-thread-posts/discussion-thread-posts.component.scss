@@ -1,0 +1,13 @@
+@import "src/app/styles/vars";
+
+:host {
+  display: block;
+
+  .post {
+    border: 1px solid red;
+  }
+
+  .reaction {
+    margin-left: $ksi-margin-large;
+  }
+}

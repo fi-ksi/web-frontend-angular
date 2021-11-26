@@ -1,0 +1,14 @@
+<div class="post" [routerLink]="'#' + post.id">
+  <div class="head">
+  </div>
+  <div class="content" [innerHTML]="post.body"></div>
+</div>
+
+<ksi-discussion-thread-posts
+  class="reaction"
+  *ngFor="let child of post.reaction"
+  [postId]="child"
+  [posts]="posts"
+  [parent]="post"
+>
+</ksi-discussion-thread-posts>

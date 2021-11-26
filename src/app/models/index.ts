@@ -4,3 +4,4 @@ export * from './changelog.service';
 export * from './modal.service';
 export * from './tasks.service';
 export * from './wave';
+export * from './discussion';

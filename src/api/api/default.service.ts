@@ -2467,7 +2467,7 @@ export class DefaultService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<ThreadDetailResponse>('get',`${this.basePath}/thread-details/${encodeURIComponent(String(threadDetailsId))}`,
+        return this.httpClient.request<ThreadDetailResponse>('get',`${this.basePath}/threadDetails/${encodeURIComponent(String(threadDetailsId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

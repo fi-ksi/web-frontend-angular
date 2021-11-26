@@ -12,5 +12,5 @@
 import { Thread } from './thread';
 
 export interface ThreadResponse { 
-    threads: Thread;
+    thread: Thread;
 }

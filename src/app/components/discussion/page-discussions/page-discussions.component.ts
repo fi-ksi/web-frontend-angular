@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { YearsService } from "../../../services";
+import { KsiTitleService, YearsService } from "../../../services";
 @Component({
   selector: 'ksi-page-discussions',
   templateUrl: './page-discussions.component.html',
@@ -7,9 +7,10 @@ import { YearsService } from "../../../services";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PageDiscussionsComponent implements OnInit {
-  constructor(public years: YearsService) { }
+  constructor(public years: YearsService, private title: KsiTitleService) { }
 
   ngOnInit(): void {
+    this.title.subtitle = 'discussion.title';
   }
 
 }

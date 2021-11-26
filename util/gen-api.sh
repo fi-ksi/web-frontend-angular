@@ -42,6 +42,7 @@ for f in $(find . -type f -name '*.ts' -print); do
     -e 's/maxScore: number;/max_score: number;/' \
     -e 's/coAuthor: number;/co_author: number;/' \
     -e 's/postsCount: number;/posts_count: number;/' \
+    -e 's/rootPosts:/root_posts:/' \
     -i "$f"
 done
 

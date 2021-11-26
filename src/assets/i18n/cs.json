@@ -116,5 +116,30 @@
   "new": {
     "single": "nový",
     "multiple": "nových"
+  },
+  "discussion-thread": {
+    "post": {
+      "expand": "Rozbalit toto vlákno"
+    }
+  },
+  "user": {
+    "role": {
+      "admin": {
+        "male": "organizátor",
+        "female": "organizátorka"
+      },
+      "organisator": {
+        "male": "organizátor",
+        "female": "organizátorka"
+      },
+      "tester": {
+        "male": "organizátor",
+        "female": "organizátorka"
+      },
+      "participant": {
+        "male": "řešitel",
+        "female": "řešitelka"
+      }
+    }
   }
 }

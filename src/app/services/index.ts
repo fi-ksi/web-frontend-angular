@@ -7,5 +7,5 @@ export { VersionService } from './shared/version.service';
 export { AchievementService } from './shared/achievement.service';
 export { ModalService } from './shared/modal.service';
 export { IconService } from './shared/icon.service';
-
+export { UsersCacheService } from './shared/users-cache.service';
 export * from './tasks';

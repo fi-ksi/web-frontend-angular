@@ -15,7 +15,7 @@ export interface Post {
     body: string;
     id: number;
     thread: number;
-    publishedAt: string;
+    published_at: string;
     reaction: Array<number>;
     isNew: boolean;
 }

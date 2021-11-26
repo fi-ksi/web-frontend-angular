@@ -1,0 +1,19 @@
+<span
+  *ngFor="let user of (users$ | async) as users; let index = index"
+  class="user"
+>
+  <a [routerLink]="'/profile/' + user.id">
+  <img class="pic" [src]="user.profile_picture" alt="">
+  <span class="name">
+    {{user.first_name}}
+    {{user.nick_name ? '"' + user.nick_name + '"' : ''}}
+    {{user.last_name}}
+  </span>
+  </a>
+  <span class="role" *ngIf="showRoles">
+    - {{user | translateRole}}
+  </span>
+  <span *ngIf="index + 1 < users.length">
+    {{'tasks.author.and' | translate}}
+  </span>
+</span>

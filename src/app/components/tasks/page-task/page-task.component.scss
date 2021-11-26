@@ -16,18 +16,13 @@
         font-size: 0.8rem;
       }
 
-      .authors {
+      .authors-container {
         line-height: 1;
         font-size: 0.9rem;
         margin-bottom: $ksi-margin-small;
 
-        .author:first-child {
+        .authors {
           margin-left: $ksi-margin-small;
-        }
-
-        .pic {
-          height: 2em;
-          @include round-corner;
         }
       }
     }

@@ -2,12 +2,39 @@
 
 :host {
   display: block;
+  margin: $ksi-margin-small 0;
 
   .post {
     border: 1px solid red;
   }
 
-  .reaction {
-    margin-left: $ksi-margin-large;
+  .children-container {
+    display: flex;
+
+    .line-container {
+      .line {
+        cursor: pointer;
+        border: 5px solid red;
+        border-top: none;
+        border-right: none;
+        width: $ksi-margin;
+        height: calc(100% - #{$ksi-margin});
+        transition: border-color 0.1s;
+
+        &:hover {
+          border-color: pink;
+        }
+      }
+    }
+
+    .children {
+      flex-grow: 1;
+    }
+
+    .expand {
+      color: $ksi-blue-80;
+      font-style: italic;
+      cursor: pointer;
+    }
   }
 }

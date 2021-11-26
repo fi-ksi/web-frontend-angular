@@ -1,0 +1,18 @@
+@import "src/app/styles/vars";
+
+:host {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: $ksi-padding $ksi-padding 0;
+
+  .title {
+    color: $ksi-gray-30;
+    text-align: center;
+    margin-bottom: $ksi-margin-large;
+  }
+
+  .thread {
+    width: min(100%, 24cm);
+  }
+}

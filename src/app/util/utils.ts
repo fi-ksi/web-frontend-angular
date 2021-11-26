@@ -1,4 +1,4 @@
-import { User, Task } from "../../api";
+import { Task } from "../../api";
 import { environment } from "../../environments/environment";
 
 type RecursiveArray<T> = Array<T | RecursiveArray<T>>;
@@ -24,16 +24,6 @@ export class Utils {
    */
   public static parseLegacyAssetsUrl(url: string): string {
     return url.startsWith('img/') ? `assets/${url}` : url;
-  }
-
-  public static getOrgProfilePicture(organisator: User): string {
-    if (organisator.profile_picture) {
-      return Utils.fixUrl(`${environment.backend}${organisator.profile_picture}`);
-    }
-    if (organisator.gender === 'male') {
-      return 'assets/img/avatar/org.svg';
-    }
-    return 'assets/img/avatar/org-woman.svg';
   }
 
   /**

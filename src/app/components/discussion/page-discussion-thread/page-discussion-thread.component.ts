@@ -14,6 +14,8 @@ import { ThreadDetailResponse } from "../../../../api";
 export class PageDiscussionThreadComponent implements OnInit {
   detail$: Observable<ThreadDetailResponse>;
 
+  threadTitle: string;
+
   constructor(private backend: BackendService, private route: ActivatedRoute, private title: KsiTitleService) { }
 
   ngOnInit(): void {
@@ -26,7 +28,7 @@ export class PageDiscussionThreadComponent implements OnInit {
         ])
       ),
       tap(([head, _]) => {
-        this.title.subtitle = head.title;
+        this.title.subtitle = this.threadTitle = head.title;
       }),
       map(([_, detail]) => detail)
     )

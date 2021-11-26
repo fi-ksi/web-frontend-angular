@@ -1,14 +1,29 @@
-<div class="post" [routerLink]="'#' + post.id">
+<div class="post">
   <div class="head">
+    <ksi-users-inline [users]="[post.author]" [showRoles]="true"></ksi-users-inline>,
+    {{post.published_at | date:'short'}}
   </div>
   <div class="content" [innerHTML]="post.body"></div>
 </div>
 
-<ksi-discussion-thread-posts
-  class="reaction"
-  *ngFor="let child of post.reaction"
-  [postId]="child"
-  [posts]="posts"
-  [parent]="post"
->
-</ksi-discussion-thread-posts>
+<ng-container *ngIf="post.reaction.length">
+  <div class="children-container" *ngIf="expanded; else notExpanded">
+    <div class="line-container">
+      <div class="line" (click)="setExpanded(false)"></div>
+    </div>
+    <div class="children">
+      <ksi-discussion-thread-posts
+        class="reaction"
+        *ngFor="let child of post.reaction"
+        [postId]="child"
+        [posts]="posts"
+        [parent]="post"
+      >
+      </ksi-discussion-thread-posts>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #notExpanded>
+  <span class="expand nav-link" (click)="setExpanded(true)">{{'discussion-thread.post.expand' | translate}}</span>
+</ng-template>

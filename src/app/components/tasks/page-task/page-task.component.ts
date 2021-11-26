@@ -4,8 +4,6 @@ import { ActivatedRoute } from "@angular/router";
 import { map, mergeMap, tap } from "rxjs/operators";
 import { combineLatest, Observable } from "rxjs";
 import { TaskFullInfo } from "../../../models";
-import { User } from "../../../../api";
-import { Utils } from "../../../util";
 
 enum Subpage {
   assigment=0, solution=1
@@ -19,7 +17,7 @@ enum Subpage {
 })
 export class PageTaskComponent implements OnInit {
   task$: Observable<TaskFullInfo>;
-  authors$: Observable<User[]>;
+  authors$: Observable<number[]>;
   subpage$: Observable<Subpage>;
 
   constructor(
@@ -49,14 +47,10 @@ export class PageTaskComponent implements OnInit {
       map((fragment) => fragmentMap[fragment || ''] || Subpage.assigment)
     );
 
-    this.authors$ = this.task$.pipe(mergeMap((task) => combineLatest(
-      [task.head.author, task.head.co_author]
-        .filter((orgId) => orgId !== null)
-        .map((orgId) => {
-          return this.backend.http.usersGetSingle(orgId).pipe(
-            map((resp) => ({...resp.user, profile_picture: Utils.getOrgProfilePicture(resp.user)}))
-          )
-        })
-    )));
+    this.authors$ = this.task$.pipe(
+      map(
+        (task) => [task.head.author, task.head.co_author].filter((orgId) => orgId !== null)
+      )
+    );
   }
 }

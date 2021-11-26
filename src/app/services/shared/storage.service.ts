@@ -57,11 +57,16 @@ export class StorageService {
 
   /**
    * Save value to a key
-   * @param key
-   * @param value
+   * @param key key to set
+   * @param value new value to set
+   * @param defaultValue if set, then if this value matches set value, the value is deleted instead
    */
-  public set<T>(key: string, value: T): void {
-    localStorage.setItem(this.keyPath(key), JSON.stringify(value));
+  public set<T>(key: string, value: T, defaultValue?: T): void {
+    if (typeof defaultValue !== "undefined" && value === defaultValue) {
+      this.delete(key);
+    } else {
+      localStorage.setItem(this.keyPath(key), JSON.stringify(value));
+    }
   }
 
   /**

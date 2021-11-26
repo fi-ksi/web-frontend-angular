@@ -6,6 +6,7 @@ import { map, mergeMap, shareReplay, switchMap, tap } from "rxjs/operators";
 import { BackendService } from "./backend.service";
 import { Utils } from "../../util";
 import { StorageService } from "./storage.service";
+import { UsersCacheService } from "./users-cache.service";
 
 @Injectable({
   providedIn: 'root'
@@ -101,7 +102,7 @@ export class YearsService {
         this.backend.http.usersGetAll('organisators', 'score', year?.id || undefined)
       ), map((response) => response.users.map((user) => ({
         ...user,
-        profile_picture: Utils.getOrgProfilePicture(user)
+        profile_picture: UsersCacheService.getOrgProfilePicture(user)
       })))
     );
 

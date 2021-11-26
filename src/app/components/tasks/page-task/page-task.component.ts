@@ -6,7 +6,7 @@ import { combineLatest, Observable } from "rxjs";
 import { TaskFullInfo } from "../../../models";
 
 enum Subpage {
-  assigment=0, solution=1
+  assigment=0, solution=1, discussion=2
 }
 
 @Component({
@@ -41,7 +41,8 @@ export class PageTaskComponent implements OnInit {
     );
 
     const fragmentMap: {[fragment: string]: Subpage} = {
-      'solution': Subpage.solution
+      'solution': Subpage.solution,
+      'discussion': Subpage.discussion
     };
     this.subpage$ = this.route.fragment.pipe(
       map((fragment) => fragmentMap[fragment || ''] || Subpage.assigment)

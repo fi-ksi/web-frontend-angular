@@ -1,6 +1,14 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { ThreadDetailResponse } from "../../../../api";
 import { PostsMap } from "../../../models";
+import { Observable } from "rxjs";
+import { BackendService } from "../../../services";
+import { map } from "rxjs/operators";
+
+interface ThreadDetailsWithPostsMap {
+  thread: ThreadDetailResponse,
+  posts: PostsMap,
+}
 
 @Component({
   selector: 'ksi-discussion-thread',
@@ -10,19 +18,22 @@ import { PostsMap } from "../../../models";
 })
 export class DiscussionThreadComponent implements OnInit {
   @Input()
-  thread: ThreadDetailResponse;
+  threadId: number;
 
-  postsMap: PostsMap;
+  thread$: Observable<ThreadDetailsWithPostsMap>;
 
-  constructor() { }
+  constructor(private backend: BackendService) { }
 
   ngOnInit(): void {
-    this.generatePostsMap();
+    this.thread$ = this.backend.http.threadDetailsGetSingle(this.threadId).pipe(
+      map((thread) => {
+        const posts: PostsMap = {};
+        thread.posts.forEach((post) => posts[post.id] = post);
+        return {
+          thread,
+          posts
+        }
+      })
+    );
   }
-
-  private generatePostsMap(): void {
-    this.postsMap = {};
-    this.thread.posts.forEach((post) => this.postsMap[post.id] = post);
-  }
-
 }

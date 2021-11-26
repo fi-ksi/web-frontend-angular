@@ -18,10 +18,11 @@
   <ng-container [ngSwitch]="subpage$ | async">
     <ksi-task-body *ngSwitchCase="0" class="body" [body]="task.detail.taskDetails.body"></ksi-task-body>
     <ksi-task-body *ngSwitchCase="1" class="body" [body]="task.detail.taskDetails.solution"></ksi-task-body>
+    <ksi-discussion-thread *ngSwitchCase="2" [threadId]="task.detail.taskDetails.thread"></ksi-discussion-thread>
   </ng-container>
 
   <div class="bottom" *ngIf="(subpage$ | async) === 0">
-    <a class="discussion" routerLink="./discussion">
+    <a class="discussion" routerLink="." fragment="discussion">
       <span class="icon">{{icon.DISCUSSION}}</span>
       <span>{{'tasks.discussion' | translate}}</span>
       <span>({{task.detail.posts.length}})</span>

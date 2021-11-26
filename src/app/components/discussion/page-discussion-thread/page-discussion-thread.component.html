@@ -1,2 +1,2 @@
-<h2>{{threadTitle}}</h2>
-<ksi-discussion-thread class="thread" *ngIf="detail$ | async as thread" [thread]="thread"></ksi-discussion-thread>
+<h2>{{(thread$ | async)?.title}}</h2>
+<ksi-discussion-thread class="thread" *ngIf="thread$ | async as thread" [threadId]="thread.id"></ksi-discussion-thread>

@@ -2,8 +2,8 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { BackendService, KsiTitleService } from "../../../services";
 import { ActivatedRoute } from "@angular/router";
 import { map, mergeMap, tap } from "rxjs/operators";
-import { combineLatest, Observable } from "rxjs";
-import { ThreadDetailResponse } from "../../../../api";
+import { Observable } from "rxjs";
+import { Thread } from "../../../../api";
 
 @Component({
   selector: 'ksi-page-discussion-thread',
@@ -12,25 +12,27 @@ import { ThreadDetailResponse } from "../../../../api";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PageDiscussionThreadComponent implements OnInit {
-  detail$: Observable<ThreadDetailResponse>;
+  thread$: Observable<Thread>;
+
+  threadId: number;
 
   threadTitle: string;
 
   constructor(private backend: BackendService, private route: ActivatedRoute, private title: KsiTitleService) { }
 
   ngOnInit(): void {
-    this.detail$ = this.route.params.pipe(
+    this.thread$ = this.route.params.pipe(
       map((params) => Number(params.id)),
+      tap((threadId) => {
+        this.threadId = threadId;
+      }),
       mergeMap(
-        (threadId) => combineLatest([
-          this.backend.http.threadsGetSingle(threadId).pipe(map((response) => response.thread)),
-          this.backend.http.threadDetailsGetSingle(threadId)
-        ])
+        (threadId) => this.backend.http.threadsGetSingle(threadId)
       ),
-      tap(([head, _]) => {
+      map((response) => response.thread),
+      tap((head) => {
         this.title.subtitle = this.threadTitle = head.title;
       }),
-      map(([_, detail]) => detail)
     )
   }
 }

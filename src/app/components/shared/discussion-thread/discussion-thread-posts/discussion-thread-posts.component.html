@@ -4,7 +4,7 @@
     {{post.published_at | date:'short'}}
   </div>
   <div class="content" [innerHTML]="post.body"></div>
-  <div class="footer">
+  <div class="footer" *ngIf="allowActions">
     <a
       *ngIf="threadId !== null"
       class="link"
@@ -14,6 +14,13 @@
     >
       {{icon.LINK}}
     </a>
+    <span
+      class="reply clickable"
+      tooltip="{{'discussion.post.reply' | translate}}"
+      (click)="openReplyModal()"
+    >
+      {{icon.REPLY}}
+    </span>
   </div>
 </div>
 
@@ -48,4 +55,14 @@
     <span class="icon">{{icon.UNPACK}}</span>
     <span class="text">{{'discussion-thread.post.expand' | translate}}</span>
   </a>
+</ng-template>
+
+
+<ng-template #modalReply>
+  <ksi-discussion-thread-posts
+    [postId]="postId"
+    [maxLevel]="0"
+    [posts]="posts"
+    [allowActions]="false"
+  ></ksi-discussion-thread-posts>
 </ng-template>

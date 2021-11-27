@@ -114,7 +114,8 @@
     "posts-count": "Počet příspěvků",
     "show-full": "Zobrazit celou diskuzi",
     "post": {
-      "link": "Odkaz na tento příspěvek"
+      "link": "Odkaz na tento příspěvek",
+      "reply": "Odpovědět na tento příspěvek"
     }
   },
   "new": {

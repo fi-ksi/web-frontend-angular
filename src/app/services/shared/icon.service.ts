@@ -9,6 +9,7 @@ export class IconService {
   public readonly BACK = '❮';
   public readonly UNPACK = 'ᐁ';
   public readonly LINK = '🔗';
+  public readonly REPLY = '⮲';
 
   constructor() { }
 }

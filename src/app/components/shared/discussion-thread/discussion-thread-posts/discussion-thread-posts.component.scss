@@ -22,6 +22,11 @@
     .footer {
       padding-left: calc(2em + #{$ksi-margin-small});
       font-size: 0.8rem;
+
+      > * {
+        margin-right: $ksi-margin-small;
+        display: inline-block;
+      }
     }
   }
 

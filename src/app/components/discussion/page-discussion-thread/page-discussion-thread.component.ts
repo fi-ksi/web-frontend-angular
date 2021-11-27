@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { BackendService, KsiTitleService } from "../../../services";
+import { BackendService, IconService, KsiTitleService } from "../../../services";
 import { ActivatedRoute } from "@angular/router";
-import { map, mergeMap, tap } from "rxjs/operators";
+import { distinctUntilChanged, filter, map, mergeMap, shareReplay, tap } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { Thread } from "../../../../api";
 
@@ -18,7 +18,12 @@ export class PageDiscussionThreadComponent implements OnInit {
 
   threadTitle: string;
 
-  constructor(private backend: BackendService, private route: ActivatedRoute, private title: KsiTitleService) { }
+  rootPost$: Observable<number | null>;
+
+  constructor(
+    private backend: BackendService, private route: ActivatedRoute, private title: KsiTitleService,
+    public icon: IconService
+  ) { }
 
   ngOnInit(): void {
     this.thread$ = this.route.params.pipe(
@@ -33,6 +38,13 @@ export class PageDiscussionThreadComponent implements OnInit {
       tap((head) => {
         this.title.subtitle = this.threadTitle = head.title;
       }),
-    )
+    );
+
+    this.rootPost$ = this.route.fragment.pipe(
+      map((fragment) => fragment !== null ? Number(fragment) : fragment),
+      filter((fragment) => fragment === null || !isNaN(fragment)),
+      distinctUntilChanged(),
+      shareReplay(1)
+    );
   }
 }

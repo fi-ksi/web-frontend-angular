@@ -8,6 +8,7 @@ import { DiscussionThreadComponent } from './discussion-thread/discussion-thread
 import { DiscussionThreadPostsComponent } from './discussion-thread/discussion-thread-posts/discussion-thread-posts.component';
 import { TranslateModule } from "@ngx-translate/core";
 import { UsersInlineComponent } from './users-inline/users-inline.component';
+import { TooltipModule } from "ngx-bootstrap/tooltip";
 
 
 
@@ -31,10 +32,11 @@ import { UsersInlineComponent } from './users-inline/users-inline.component';
     UsersInlineComponent,
     TranslateRolePipe
   ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    TranslateModule
-  ]
+    imports: [
+        CommonModule,
+        RouterModule,
+        TranslateModule,
+        TooltipModule
+    ]
 })
 export class SharedModule { }

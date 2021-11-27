@@ -1,8 +1,10 @@
 <ksi-spinner [source]="thread$"></ksi-spinner>
 <ng-container *ngIf="(thread$ | async) as thread">
   <ksi-discussion-thread-posts
-    *ngFor="let post of thread.thread.threadDetails.root_posts"
+    *ngFor="let post of (rootPost === null ? thread.thread.threadDetails.root_posts : [rootPost])"
     [postId]="post"
     [posts]="thread.posts"
+    [threadId]="threadId"
+    [maxLevel]="maxPostsDepth$ | async"
   ></ksi-discussion-thread-posts>
 </ng-container>

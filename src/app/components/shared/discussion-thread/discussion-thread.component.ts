@@ -1,8 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { ThreadDetailResponse } from "../../../../api";
 import { PostsMap } from "../../../models";
-import { Observable } from "rxjs";
-import { BackendService } from "../../../services";
+import { combineLatest, Observable } from "rxjs";
+import { BackendService, WindowService } from "../../../services";
 import { map } from "rxjs/operators";
 
 interface ThreadDetailsWithPostsMap {
@@ -20,9 +20,14 @@ export class DiscussionThreadComponent implements OnInit {
   @Input()
   threadId: number;
 
+  @Input()
+  rootPost: number | null = null;
+
   thread$: Observable<ThreadDetailsWithPostsMap>;
 
-  constructor(private backend: BackendService) { }
+  maxPostsDepth$: Observable<number>;
+
+  constructor(private backend: BackendService, private window: WindowService) { }
 
   ngOnInit(): void {
     this.thread$ = this.backend.http.threadDetailsGetSingle(this.threadId).pipe(
@@ -33,6 +38,18 @@ export class DiscussionThreadComponent implements OnInit {
           thread,
           posts
         }
+      })
+    );
+
+    this.maxPostsDepth$ = combineLatest([this.window.isMobileSmall$, this.window.isMobile$]).pipe(
+      map(([isMobileSmall, isMobile]) => {
+        if (isMobileSmall) {
+          return 1;
+        }
+        if (isMobile) {
+          return 2;
+        }
+        return 4;
       })
     );
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef, OnDestroy } from '@angular/core';
 import { BackendService, IconService, KsiTitleService, ModalService, WindowService } from "../../../services";
 import { ActivatedRoute, Router } from "@angular/router";
 import { distinctUntilChanged, filter, map, mergeMap, shareReplay, tap } from "rxjs/operators";
@@ -11,7 +11,7 @@ import { OpenedTemplate, TaskFullInfo } from "../../../models";
   styleUrls: ['./page-task.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PageTaskComponent implements OnInit {
+export class PageTaskComponent implements OnInit, OnDestroy {
   task$: Observable<TaskFullInfo>;
   authors$: Observable<number[]>;
   subpage$: Observable<TemplateRef<unknown>>;
@@ -90,6 +90,15 @@ export class PageTaskComponent implements OnInit {
     );
   }
 
+  ngOnDestroy(): void {
+    this.openModal(null);
+  }
+
+  /**
+   * Opens a new modal and closes the previous one
+   * @param body template to render, if null then modal is only closed
+   * @private
+   */
   private openModal(body: TemplateRef<unknown> | null): void {
     if (this.openedModal) {
       this.openedModal.template.instance.close();

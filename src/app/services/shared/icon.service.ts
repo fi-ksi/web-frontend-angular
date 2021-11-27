@@ -8,6 +8,7 @@ export class IconService {
   public readonly DISCUSSION = '🗨';
   public readonly BACK = '❮';
   public readonly UNPACK = 'ᐁ';
+  public readonly LINK = '🔗';
 
   constructor() { }
 }

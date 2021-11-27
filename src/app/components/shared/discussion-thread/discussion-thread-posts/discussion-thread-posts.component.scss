@@ -18,6 +18,11 @@
     .head {
       margin-bottom: $ksi-margin-small;
     }
+
+    .footer {
+      padding-left: calc(2em + #{$ksi-margin-small});
+      font-size: 0.8rem;
+    }
   }
 
   .children-container {

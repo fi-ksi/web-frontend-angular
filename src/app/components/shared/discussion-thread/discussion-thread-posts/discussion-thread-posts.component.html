@@ -4,10 +4,21 @@
     {{post.published_at | date:'short'}}
   </div>
   <div class="content" [innerHTML]="post.body"></div>
+  <div class="footer">
+    <a
+      *ngIf="threadId !== null"
+      class="link"
+      [routerLink]="'/discussion/' + threadId"
+      [fragment]="'' + post.id"
+      tooltip="{{'discussion.post.link' | translate}}"
+    >
+      {{icon.LINK}}
+    </a>
+  </div>
 </div>
 
 <ng-container *ngIf="post.reaction.length">
-  <div class="children-container" *ngIf="expanded; else notExpanded">
+  <div class="children-container" *ngIf="expanded && (maxLevel === null || level < maxLevel); else notExpanded">
     <div class="line-container">
       <div class="line" (click)="setExpanded(false)"></div>
     </div>
@@ -18,6 +29,9 @@
         [postId]="child"
         [posts]="posts"
         [parent]="post"
+        [threadId]="threadId"
+        [level]="level + 1"
+        [maxLevel]="maxLevel"
       >
       </ksi-discussion-thread-posts>
     </div>
@@ -25,8 +39,13 @@
 </ng-container>
 
 <ng-template #notExpanded>
-  <div class="expand" (click)="setExpanded(true)">
+  <a
+    class="expand"
+    (click)="setExpanded(true)"
+    routerLink="."
+    [fragment]="maxLevelReached ? '' + post.id : undefined"
+  >
     <span class="icon">{{icon.UNPACK}}</span>
     <span class="text">{{'discussion-thread.post.expand' | translate}}</span>
-  </div>
+  </a>
 </ng-template>

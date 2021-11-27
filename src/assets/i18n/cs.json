@@ -111,7 +111,11 @@
   "discussion": {
     "title": "Celoročníková diskuzní vlákna",
     "name": "Název",
-    "posts-count": "Počet příspěvků"
+    "posts-count": "Počet příspěvků",
+    "show-full": "Zobrazit celou diskuzi",
+    "post": {
+      "link": "Odkaz na tento příspěvek"
+    }
   },
   "new": {
     "single": "nový",

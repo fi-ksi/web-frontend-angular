@@ -1,9 +1,21 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, ViewChild, TemplateRef } from '@angular/core';
-import { PostsMap } from "../../../../models";
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  Input,
+  ViewChild,
+  TemplateRef,
+  Output,
+  EventEmitter,
+  ChangeDetectorRef
+} from '@angular/core';
+import { OpenedTemplate, PostsMap } from "../../../../models";
 import { Post } from "../../../../../api";
 import { StorageService } from "../../../../services/shared/storage.service";
 import { BackendService, IconService, ModalService } from "../../../../services";
 import { filter, tap } from "rxjs/operators";
+import { FormControl, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'ksi-discussion-thread-posts',
@@ -12,6 +24,19 @@ import { filter, tap } from "rxjs/operators";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DiscussionThreadPostsComponent implements OnInit {
+  get posts(): PostsMap {
+    return this._posts;
+  }
+
+  @Input()
+  set posts(value: PostsMap) {
+    this._posts = value;
+    if (typeof this.postId !== "undefined") {
+      this.post = this._posts[this.postId];
+    }
+    this.cd.markForCheck();
+  }
+
   @Input()
   postId: number;
 
@@ -24,14 +49,19 @@ export class DiscussionThreadPostsComponent implements OnInit {
   @Input()
   maxLevel: number | null = null;
 
-  @Input()
-  posts: PostsMap;
+  private _posts: PostsMap;
 
   @Input()
   parent: Post | null = null;
 
   @Input()
   allowActions = true;
+
+  @Input()
+  allowExpansion = true;
+
+  @Output()
+  postsModified = new EventEmitter<void>();
 
   post: Post;
 
@@ -40,7 +70,11 @@ export class DiscussionThreadPostsComponent implements OnInit {
   maxLevelReached: boolean;
 
   @ViewChild('modalReply', {static: true})
-  modalReply: TemplateRef<unknown>;
+  templateModalReply: TemplateRef<unknown>;
+
+  modalReply: OpenedTemplate | null = null;
+
+  reply = new FormControl(null, [Validators.required]);
 
   private storage: StorageService;
 
@@ -50,13 +84,15 @@ export class DiscussionThreadPostsComponent implements OnInit {
     private storageRoot: StorageService,
     public icon: IconService,
     private backend: BackendService,
-    private modal: ModalService
+    private modal: ModalService,
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
     this.storage = this.storageRoot.open(['discussion', 'post', `${this.postId}`]);
     this.expanded = this.storage.get<boolean>('expanded', DiscussionThreadPostsComponent.EXPANDED_DEFAULT)!;
-    this.post = this.posts[this.postId];
+    this.post = this._posts[this.postId];
     this.maxLevelReached = this.maxLevel !== null && this.level >= this.maxLevel;
   }
 
@@ -74,8 +110,32 @@ export class DiscussionThreadPostsComponent implements OnInit {
       }),
       filter((user) => !!user)
     ).subscribe(() => {
-      this.modal.showModalTemplate(this.modalReply, 'discussion.post.reply', {class: 'modal-full-page'});
+      this.reply.setValue(null);
+      this.modalReply = this.modal.showModalTemplate(this.templateModalReply, 'discussion-thread.post.reply',
+        {class: 'modal-full-page modal-post-reply'});
     });
   }
-}
 
+  saveReply(): void {
+    if (!this.reply.valid) {
+      return;
+    }
+    this.reply.disable();
+
+    this.backend.http.postsCreateNew({
+      post: {
+        thread: this.threadId!,
+        parent: this.post.id,
+        body: this.reply.value
+      }
+    }).subscribe(() => {
+      this.postsModified.next();
+      this.router.navigate([], {fragment: `${this.post.id}`}).then();
+      this.modalReply?.template.instance.close();
+    });
+  }
+
+  propagateModified(): void {
+    this.postsModified.next();
+  }
+}

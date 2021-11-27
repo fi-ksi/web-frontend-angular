@@ -6,5 +6,6 @@
     [posts]="thread.posts"
     [threadId]="threadId"
     [maxLevel]="maxPostsDepth$ | async"
+    (postsModified)="onPostsModified()"
   ></ksi-discussion-thread-posts>
 </ng-container>

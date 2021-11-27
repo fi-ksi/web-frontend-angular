@@ -112,11 +112,7 @@
     "title": "Celoročníková diskuzní vlákna",
     "name": "Název",
     "posts-count": "Počet příspěvků",
-    "show-full": "Zobrazit celou diskuzi",
-    "post": {
-      "link": "Odkaz na tento příspěvek",
-      "reply": "Odpovědět na tento příspěvek"
-    }
+    "show-full": "Zobrazit celou diskuzi"
   },
   "new": {
     "single": "nový",
@@ -124,7 +120,10 @@
   },
   "discussion-thread": {
     "post": {
-      "expand": "Rozbalit toto vlákno"
+      "expand": "Rozbalit toto vlákno",
+      "link": "Odkaz na tento příspěvek",
+      "reply": "Odpovědět na tento příspěvek",
+      "save-reply": "Uložit příspěvek"
     }
   },
   "user": {

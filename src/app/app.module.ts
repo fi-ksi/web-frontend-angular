@@ -21,6 +21,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsModalService } from "ngx-bootstrap/modal";
 import { RootModule } from "./components/root/root.module";
 import { StorageService } from "./services/shared/storage.service";
+import { QuillModule } from "ngx-quill";
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http);
@@ -44,6 +45,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     }),
     NgbModule,
     BrowserAnimationsModule,
+    QuillModule.forRoot(),
     RootModule
   ],
   exports: [

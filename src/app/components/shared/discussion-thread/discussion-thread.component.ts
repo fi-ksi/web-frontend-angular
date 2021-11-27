@@ -1,9 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { ThreadDetailResponse } from "../../../../api";
 import { PostsMap } from "../../../models";
-import { combineLatest, Observable } from "rxjs";
+import { BehaviorSubject, combineLatest, Observable } from "rxjs";
 import { BackendService, WindowService } from "../../../services";
-import { map } from "rxjs/operators";
+import { map, mergeMap, shareReplay } from "rxjs/operators";
+import { environment } from "../../../../environments/environment";
 
 interface ThreadDetailsWithPostsMap {
   thread: ThreadDetailResponse,
@@ -27,10 +28,14 @@ export class DiscussionThreadComponent implements OnInit {
 
   maxPostsDepth$: Observable<number>;
 
+  private readonly refreshSubject = new BehaviorSubject<unknown>(null);
+  private readonly refresh$ = this.refreshSubject.asObservable();
+
   constructor(private backend: BackendService, private window: WindowService) { }
 
   ngOnInit(): void {
-    this.thread$ = this.backend.http.threadDetailsGetSingle(this.threadId).pipe(
+    this.thread$ = this.refresh$.pipe(
+      mergeMap(() => this.backend.http.threadDetailsGetSingle(this.threadId)),
       map((thread) => {
         const posts: PostsMap = {};
         thread.posts.forEach((post) => posts[post.id] = post);
@@ -38,7 +43,8 @@ export class DiscussionThreadComponent implements OnInit {
           thread,
           posts
         }
-      })
+      }),
+      shareReplay(1)
     );
 
     this.maxPostsDepth$ = combineLatest([this.window.isMobileSmall$, this.window.isMobile$]).pipe(
@@ -52,5 +58,10 @@ export class DiscussionThreadComponent implements OnInit {
         return 4;
       })
     );
+  }
+
+  onPostsModified(): void {
+    environment.logger.debug('posts modified');
+    this.refreshSubject.next(null);
   }
 }

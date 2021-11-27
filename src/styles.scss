@@ -23,6 +23,13 @@ input.form-control.ng-invalid:not(.ng-pristine) {
 /* Importing Datepicker SCSS file. */
 @import "~ngx-bootstrap/datepicker/bs-datepicker";
 
+/**
+Quill.js core style
+ */
+@import '~quill/dist/quill.core.css';
+@import '~quill/dist/quill.bubble.css';
+@import '~quill/dist/quill.snow.css';
+
 
 .btn-ksi {
   color: $ksi-white;

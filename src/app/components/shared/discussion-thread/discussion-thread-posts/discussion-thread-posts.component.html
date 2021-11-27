@@ -10,13 +10,13 @@
       class="link"
       [routerLink]="'/discussion/' + threadId"
       [fragment]="'' + post.id"
-      tooltip="{{'discussion.post.link' | translate}}"
+      tooltip="{{'discussion-thread.post.link' | translate}}"
     >
       {{icon.LINK}}
     </a>
     <span
       class="reply clickable"
-      tooltip="{{'discussion.post.reply' | translate}}"
+      tooltip="{{'discussion-thread.post.reply' | translate}}"
       (click)="openReplyModal()"
     >
       {{icon.REPLY}}
@@ -39,6 +39,9 @@
         [threadId]="threadId"
         [level]="level + 1"
         [maxLevel]="maxLevel"
+        [allowExpansion]="allowExpansion"
+        [allowActions]="allowActions"
+        (postsModified)="propagateModified()"
       >
       </ksi-discussion-thread-posts>
     </div>
@@ -46,7 +49,7 @@
 </ng-container>
 
 <ng-template #notExpanded>
-  <a
+  <a *ngIf="allowExpansion"
     class="expand"
     (click)="setExpanded(true)"
     routerLink="."
@@ -64,5 +67,14 @@
     [maxLevel]="0"
     [posts]="posts"
     [allowActions]="false"
+    [allowExpansion]="false"
   ></ksi-discussion-thread-posts>
+  <quill-editor class="reply-editor" [formControl]="reply"></quill-editor>
+  <button
+    class="btn-ksi btn save-reply"
+    [disabled]="!reply.valid || reply.disabled"
+    (click)="saveReply()"
+  >
+    {{'discussion-thread.post.save-reply' | translate}}
+  </button>
 </ng-template>

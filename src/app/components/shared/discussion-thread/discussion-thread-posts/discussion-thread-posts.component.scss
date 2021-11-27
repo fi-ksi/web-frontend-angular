@@ -75,3 +75,19 @@
     }
   }
 }
+
+
+::ng-deep.modal-post-reply{
+  .reply-editor {
+    margin: $ksi-margin 0;
+    display: block;
+
+    .ql-editor {
+      min-height: 10em;
+    }
+  }
+
+  .save-reply {
+    width: 100%;
+  }
+}

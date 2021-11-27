@@ -9,6 +9,8 @@ import { DiscussionThreadPostsComponent } from './discussion-thread/discussion-t
 import { TranslateModule } from "@ngx-translate/core";
 import { UsersInlineComponent } from './users-inline/users-inline.component';
 import { TooltipModule } from "ngx-bootstrap/tooltip";
+import { QuillModule } from "ngx-quill";
+import { ReactiveFormsModule } from "@angular/forms";
 
 
 
@@ -32,11 +34,13 @@ import { TooltipModule } from "ngx-bootstrap/tooltip";
     UsersInlineComponent,
     TranslateRolePipe
   ],
-    imports: [
-        CommonModule,
-        RouterModule,
-        TranslateModule,
-        TooltipModule
-    ]
+  imports: [
+    CommonModule,
+    RouterModule,
+    TranslateModule,
+    TooltipModule,
+    QuillModule,
+    ReactiveFormsModule
+  ]
 })
 export class SharedModule { }

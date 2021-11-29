@@ -14,6 +14,7 @@ import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { PageTaskComponent } from './page-task/page-task.component';
 import { TaskBodyComponent } from './task-body/task-body.component';
 import { TaskModuleComponent } from './task-module/task-module.component';
+import { TaskModuleTextComponent } from './task-module/task-module-text/task-module-text.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { TaskModuleComponent } from './task-module/task-module.component';
     TasksGraphComponent,
     PageTaskComponent,
     TaskBodyComponent,
-    TaskModuleComponent
+    TaskModuleComponent,
+    TaskModuleTextComponent
   ],
     imports: [
         CommonModule,

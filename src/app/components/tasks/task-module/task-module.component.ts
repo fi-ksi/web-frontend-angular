@@ -1,6 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
-import { KSIModule } from "../../../../api";
+import { KSIModule, ModuleSubmitResponse } from "../../../../api";
 import { UserService } from "../../../services/shared/user.service";
+import { Observable } from "rxjs";
+import { ModuleService } from "../../../services";
 
 @Component({
   selector: 'ksi-task-module',
@@ -14,10 +16,12 @@ export class TaskModuleComponent implements OnInit {
 
   moduleAny: any;
 
-  constructor(public user: UserService) { }
+  statusChanges$: Observable<ModuleSubmitResponse>;
+
+  constructor(public user: UserService, private moduleService: ModuleService) { }
 
   ngOnInit(): void {
+    this.statusChanges$ = this.moduleService.statusChanges(this.module);
     this.moduleAny = this.module;
   }
-
 }

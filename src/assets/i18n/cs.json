@@ -91,7 +91,8 @@
       "and": "a"
     },
     "module": {
-      "of": "z"
+      "of": "z",
+      "submit": "Odevzdat"
     },
     "discussion": "Diskuze",
     "deadline": "Datum ukončení",

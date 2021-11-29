@@ -37,7 +37,8 @@ import { ForgottenPasswordRequest } from '../model/forgottenPasswordRequest';
 import { ForgottenPasswordResult } from '../model/forgottenPasswordResult';
 import { InlineResponse200 } from '../model/inlineResponse200';
 import { ModuleResponse } from '../model/moduleResponse';
-import { ModulesIdSubmitBody } from '../model/modulesIdSubmitBody';
+import { ModuleSubmissionRequest } from '../model/moduleSubmissionRequest';
+import { ModuleSubmitResponse } from '../model/moduleSubmitResponse';
 import { PostResponse } from '../model/postResponse';
 import { PostsCreationRequest } from '../model/postsCreationRequest';
 import { PostsEditRequest } from '../model/postsEditRequest';
@@ -1399,10 +1400,10 @@ export class DefaultService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public modulesSubmitSingle(modulesId: number, body?: ModulesIdSubmitBody, observe?: 'body', reportProgress?: boolean): Observable<ModuleResponse>;
-    public modulesSubmitSingle(modulesId: number, body?: ModulesIdSubmitBody, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ModuleResponse>>;
-    public modulesSubmitSingle(modulesId: number, body?: ModulesIdSubmitBody, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ModuleResponse>>;
-    public modulesSubmitSingle(modulesId: number, body?: ModulesIdSubmitBody, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public modulesSubmitSingle(modulesId: number, body?: ModuleSubmissionRequest, observe?: 'body', reportProgress?: boolean): Observable<ModuleSubmitResponse>;
+    public modulesSubmitSingle(modulesId: number, body?: ModuleSubmissionRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ModuleSubmitResponse>>;
+    public modulesSubmitSingle(modulesId: number, body?: ModuleSubmissionRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ModuleSubmitResponse>>;
+    public modulesSubmitSingle(modulesId: number, body?: ModuleSubmissionRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (modulesId === null || modulesId === undefined) {
             throw new Error('Required parameter modulesId was null or undefined when calling modulesSubmitSingle.');
@@ -1437,7 +1438,7 @@ export class DefaultService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<ModuleResponse>('post',`${this.basePath}/modules/${encodeURIComponent(String(modulesId))}/submit`,
+        return this.httpClient.request<ModuleSubmitResponse>('post',`${this.basePath}/modules/${encodeURIComponent(String(modulesId))}/submit`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,

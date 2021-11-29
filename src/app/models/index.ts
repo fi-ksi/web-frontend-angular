@@ -5,3 +5,4 @@ export * from './modal.service';
 export * from './tasks.service';
 export * from './wave';
 export * from './discussion';
+export * from './module.service';

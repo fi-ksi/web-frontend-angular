@@ -1,0 +1,8 @@
+<div *ngFor="let question of module.fields; let index = index" class="question">
+  <label class="label">
+    <ksi-task-body [body]="question"></ksi-task-body>
+  </label>
+  <input class="answer form-control" [formControl]="inputs[index]" type="text">
+</div>
+
+<button class="btn btn-ksi submit" (click)="submit()">{{'tasks.module.submit'|translate}}</button>

@@ -6,10 +6,19 @@
   </span>
   </span>
   <span class="points">
-    {{ module.score || 0 }} {{ 'tasks.module.of' | translate }} {{ module.max_score | translatePoints }}
+    {{ module.max_score | translatePoints }}
   </span>
 </div>
+
 <ksi-task-body class="description" [body]="module.description"></ksi-task-body>
+
 <div [ngSwitch]="module.type" class="content">
-  <div class="alert alert-danger">ERR: Unknown module type: {{module.type}}</div>
+  <ksi-task-module-text *ngSwitchCase="'text'" [module]="moduleAny"></ksi-task-module-text>
+  <div class="alert alert-danger" *ngSwitchDefault>ERR: Unknown module type: {{module.type}}</div>
+</div>
+
+<div *ngIf="statusChanges$ | async as status"
+     [class]="' result ' + status.result"
+>
+  {{ status.error || status.message || status.report }}
 </div>

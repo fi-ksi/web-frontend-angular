@@ -9,7 +9,8 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { ModuleSubmissionData } from './moduleSubmissionData';
 
-export interface ModulesIdSubmitBody { 
-    content: string | Array<string>;
+export interface ModuleSubmissionRequest { 
+    content: ModuleSubmissionData;
 }

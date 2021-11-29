@@ -10,6 +10,4 @@
  * Do not edit the class manually.
  */
 
-export interface ModulesIdSubmitBody { 
-    content: string | Array<string>;
-}
+export type ModuleSubmissionData = string | Array<string>;

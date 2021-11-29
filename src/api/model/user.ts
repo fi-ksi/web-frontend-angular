@@ -9,6 +9,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { UserRole } from './userRole';
 
 export interface User { 
     id: number;
@@ -17,7 +18,7 @@ export interface User {
     profile_picture: string;
     gender: string;
     email?: string;
-    role: string;
+    role: UserRole;
     score: number;
     tasks_num: number;
     achievements: Array<number>;

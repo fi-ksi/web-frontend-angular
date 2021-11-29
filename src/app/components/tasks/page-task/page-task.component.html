@@ -16,18 +16,6 @@
   </div>
 
   <ng-container [ngTemplateOutlet]="subpage$ | async"></ng-container>
-
-  <div class="bottom" *ngIf="(subpage$ | async) === templateBodyAssigment">
-    <a class="discussion" routerLink="." fragment="discussion">
-      <span class="icon">{{icon.DISCUSSION}}</span>
-      <span>{{'tasks.discussion' | translate}}</span>
-      <span>({{task.detail.posts.length}})</span>
-    </a>
-
-    <a *ngIf="task.detail.taskDetails.solution" class="solution" routerLink="." fragment="solution">
-      {{'tasks.solution' | translate}}
-    </a>
-  </div>
 </main>
 
 <ng-template #bodyDiscussion>
@@ -39,6 +27,23 @@
 <ng-template #bodyAssigment>
   <ng-container *ngIf="(task$ | async) as task">
     <ksi-task-body class="body" [body]="task.detail.taskDetails.body"></ksi-task-body>
+
+    <div class="bottom">
+      <a class="discussion" routerLink="." fragment="discussion">
+        <span class="icon">{{icon.DISCUSSION}}</span>
+        <span>{{'tasks.discussion' | translate}}</span>
+        <span>({{task.detail.posts.length}})</span>
+      </a>
+
+      <a *ngIf="task.detail.taskDetails.solution" class="solution" routerLink="." fragment="solution">
+        {{'tasks.solution' | translate}}
+      </a>
+    </div>
+
+    <div class="modules">
+      <ksi-task-module class="module" *ngFor="let module of task.detail.modules" [module]="module">
+      </ksi-task-module>
+    </div>
   </ng-container>
 </ng-template>
 

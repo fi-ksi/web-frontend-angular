@@ -1,0 +1,15 @@
+<div class="header">
+  <span class="name">
+    {{ module.name }}
+    <span *ngIf="user.isTester$ | async">
+     ({{module.id}})
+  </span>
+  </span>
+  <span class="points">
+    {{ module.score || 0 }} {{ 'tasks.module.of' | translate }} {{ module.max_score | translatePoints }}
+  </span>
+</div>
+<ksi-task-body class="description" [body]="module.description"></ksi-task-body>
+<div [ngSwitch]="module.type" class="content">
+  <div class="alert alert-danger">ERR: Unknown module type: {{module.type}}</div>
+</div>

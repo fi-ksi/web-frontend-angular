@@ -90,6 +90,9 @@
       "multiple": "Autoři",
       "and": "a"
     },
+    "module": {
+      "of": "z"
+    },
     "discussion": "Diskuze",
     "deadline": "Datum ukončení",
     "graph":  {

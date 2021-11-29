@@ -9,9 +9,10 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { UserRole } from './userRole';
 
 export interface BasicProfileResponseBasicProfile { 
-    role: string;
+    role: UserRole;
     gender: string;
     email: string;
     shortInfo: string;

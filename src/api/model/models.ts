@@ -74,6 +74,7 @@ export * from './threadsResponse';
 export * from './uint8Array';
 export * from './user';
 export * from './userResponse';
+export * from './userRole';
 export * from './userScore';
 export * from './usersResponse';
 export * from './wave';

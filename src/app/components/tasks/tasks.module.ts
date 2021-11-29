@@ -13,6 +13,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { PageTaskComponent } from './page-task/page-task.component';
 import { TaskBodyComponent } from './task-body/task-body.component';
+import { TaskModuleComponent } from './task-module/task-module.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { TaskBodyComponent } from './task-body/task-body.component';
     TaskIconComponent,
     TasksGraphComponent,
     PageTaskComponent,
-    TaskBodyComponent
+    TaskBodyComponent,
+    TaskModuleComponent
   ],
     imports: [
         CommonModule,

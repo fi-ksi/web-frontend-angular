@@ -10,8 +10,12 @@
  * Do not edit the class manually.
  */
 
-export interface PostsCreation { 
-    body: string;
-    thread: number;
-    parent?: number;
-}
+export type UserRole = 'admin' | 'org' | 'tester' | 'participant' | 'participant_hidden';
+
+export const UserRole = {
+    Admin: 'admin' as UserRole,
+    Org: 'org' as UserRole,
+    Tester: 'tester' as UserRole,
+    Participant: 'participant' as UserRole,
+    ParticipantHidden: 'participant_hidden' as UserRole
+};

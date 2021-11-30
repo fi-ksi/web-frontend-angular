@@ -3,7 +3,7 @@ import { ModalComponent } from "../../../models";
 import { FormBuilder, Validators } from "@angular/forms";
 import { BackendService } from "../../../services";
 import { Observable } from "rxjs";
-import { map, tap } from "rxjs/operators";
+import { map, shareReplay, tap } from "rxjs/operators";
 import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -24,6 +24,8 @@ export class ModalLoginComponent implements OnInit, ModalComponent {
   }));
 
   showErr$: Observable<boolean>;
+
+  loginOk = false;
 
   private modalRef: BsModalRef;
 
@@ -52,6 +54,7 @@ export class ModalLoginComponent implements OnInit, ModalComponent {
     this.showErr$ = this.backend.login(this.form.controls.email.value, this.form.controls.password.value)
       .pipe(
         tap((loginOk) => {
+          this.loginOk = loginOk;
           if (loginOk) {
             this.modalRef.hide();
           } else {
@@ -59,6 +62,7 @@ export class ModalLoginComponent implements OnInit, ModalComponent {
           }
         }),
         map((loginOk) => !loginOk),
+        shareReplay(1)
       );
     return false;
   }

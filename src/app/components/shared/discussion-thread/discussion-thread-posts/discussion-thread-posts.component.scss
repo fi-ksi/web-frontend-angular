@@ -13,6 +13,7 @@
 
     .content {
       padding-left: calc(2em + #{$ksi-margin-x-small});
+      word-break: break-word;
     }
 
     .head {

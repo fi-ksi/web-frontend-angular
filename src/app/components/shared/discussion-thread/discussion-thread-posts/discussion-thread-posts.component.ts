@@ -13,9 +13,9 @@ import { OpenedTemplate, PostsMap } from "../../../../models";
 import { Post } from "../../../../../api";
 import { StorageService } from "../../../../services/shared/storage.service";
 import { BackendService, IconService, ModalService } from "../../../../services";
-import { filter, tap } from "rxjs/operators";
 import { FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { UserService } from "../../../../services/shared/user.service";
 
 @Component({
   selector: 'ksi-discussion-thread-posts',
@@ -86,7 +86,8 @@ export class DiscussionThreadPostsComponent implements OnInit {
     private backend: BackendService,
     private modal: ModalService,
     private router: Router,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private user: UserService
   ) { }
 
   ngOnInit(): void {
@@ -102,14 +103,7 @@ export class DiscussionThreadPostsComponent implements OnInit {
   }
 
   openReplyModal(): void {
-    this.backend.user$.pipe(
-      tap((user) => {
-        if (!user) {
-          this.modal.showLoginModal();
-        }
-      }),
-      filter((user) => !!user)
-    ).subscribe(() => {
+    this.user.afterLogin$.subscribe(() => {
       this.reply.setValue(null);
       this.modalReply = this.modal.showModalTemplate(this.templateModalReply, 'discussion-thread.post.reply',
         {class: 'modal-full-page modal-post-reply'});

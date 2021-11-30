@@ -92,7 +92,8 @@
     },
     "module": {
       "of": "z",
-      "submit": "Odevzdat"
+      "submit": "Odevzdat",
+      "server-error": "Server vrátil neplatnou odpověď, nejspíše se něco pokazilo"
     },
     "discussion": "Diskuze",
     "deadline": "Datum ukončení",

@@ -44,6 +44,7 @@ for f in $(find . -type f -name '*.ts' -print); do
     -e 's/postsCount: number;/posts_count: number;/' \
     -e 's/rootPosts:/root_posts:/' \
     -e 's/publishedAt:/published_at:/' \
+    -e 's\Array<string> | Array&lt;Array&gt;\Array<string> | Array<Array<string>>; //\' \
     -i "$f"
 done
 

@@ -1,0 +1,21 @@
+@import "src/app/styles/vars";
+
+:host {
+  .answers {
+    margin-top: $ksi-margin-small;
+
+    .answer {
+      * {
+        cursor: pointer;
+      }
+
+      input {
+        margin-right: $ksi-margin-x-small;
+      }
+    }
+  }
+
+  .submit {
+    width: 100%;
+  }
+}

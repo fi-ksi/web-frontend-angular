@@ -36,7 +36,7 @@ export * from './moduleGeneral';
 export * from './moduleGeneralSubmittedFiles';
 export * from './moduleProgramming';
 export * from './moduleQuiz';
-export * from './moduleQuizQuestion';
+export * from './moduleQuizQuestions';
 export * from './moduleResponse';
 export * from './moduleScore';
 export * from './moduleSortable';

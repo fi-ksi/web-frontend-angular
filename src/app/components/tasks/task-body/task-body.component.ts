@@ -11,7 +11,7 @@ export class TaskBodyComponent implements OnInit {
   @Input()
   body: string;
 
-  @ViewChild('article', { static: false })
+  @ViewChild('content', { static: false })
   set article(content: ElementRef<HTMLElement>) {
     if (this.articleObserver) {
       this.articleObserver.disconnect();

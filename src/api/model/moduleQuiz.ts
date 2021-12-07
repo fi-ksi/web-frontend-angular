@@ -9,7 +9,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { ModuleQuizQuestion } from './moduleQuizQuestion';
+import { ModuleQuizQuestions } from './moduleQuizQuestions';
 
 export interface ModuleQuiz { 
     id: number;
@@ -20,7 +20,7 @@ export interface ModuleQuiz {
     max_score: number;
     state: ModuleQuiz.StateEnum;
     score: number;
-    question: Array<ModuleQuizQuestion>;
+    questions: Array<ModuleQuizQuestions>;
 }
 export namespace ModuleQuiz {
     export type TypeEnum = 'general' | 'programming' | 'quiz' | 'sortable' | 'text';

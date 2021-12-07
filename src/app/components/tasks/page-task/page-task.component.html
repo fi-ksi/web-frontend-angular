@@ -26,7 +26,9 @@
 
 <ng-template #bodyAssigment>
   <ng-container *ngIf="(task$ | async) as task">
-    <ksi-task-body class="body" [body]="task.detail.taskDetails.body"></ksi-task-body>
+    <article class="body">
+      <ksi-task-body [body]="task.detail.taskDetails.body"></ksi-task-body>
+    </article>
 
     <div class="bottom">
       <a class="discussion" routerLink="." fragment="discussion">
@@ -49,6 +51,8 @@
 
 <ng-template #bodySolution>
   <ng-container *ngIf="(task$ | async) as task">
-    <ksi-task-body class="body" [body]="task.detail.taskDetails.solution"></ksi-task-body>
+    <article class="body">
+      <ksi-task-body [body]="task.detail.taskDetails.solution"></ksi-task-body>
+    </article>
   </ng-container>
 </ng-template>

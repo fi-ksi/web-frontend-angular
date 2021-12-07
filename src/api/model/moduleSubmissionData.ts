@@ -10,4 +10,4 @@
  * Do not edit the class manually.
  */
 
-export type ModuleSubmissionData = string | Array<string>;
+export type ModuleSubmissionData = string | Array<string> | Array<Array<string>>; //| Array&lt;Array&gt;;

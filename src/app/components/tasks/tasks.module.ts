@@ -15,6 +15,7 @@ import { PageTaskComponent } from './page-task/page-task.component';
 import { TaskBodyComponent } from './task-body/task-body.component';
 import { TaskModuleComponent } from './task-module/task-module.component';
 import { TaskModuleTextComponent } from './task-module/task-module-text/task-module-text.component';
+import { TaskModuleQuizComponent } from './task-module/task-module-quiz/task-module-quiz.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { TaskModuleTextComponent } from './task-module/task-module-text/task-mod
     PageTaskComponent,
     TaskBodyComponent,
     TaskModuleComponent,
-    TaskModuleTextComponent
+    TaskModuleTextComponent,
+    TaskModuleQuizComponent
   ],
     imports: [
         CommonModule,

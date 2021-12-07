@@ -26,4 +26,14 @@
   .description {
     padding-top: $ksi-padding;
   }
+
+  .result {
+    text-align: center;
+    padding: 0;
+    margin: $ksi-margin $ksi-margin-small $ksi-margin-small;
+
+    &.error, &.nok {
+      background: $ksi-red-100;
+    }
+  }
 }

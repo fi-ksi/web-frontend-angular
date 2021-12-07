@@ -36,11 +36,11 @@ Quill.js core style
   padding: $ksi-padding-small;
   text-decoration: none;
   transition: background-color 0.1s;
-  background-color: $ksi-orange-80;
+  background-color: $ksi-orange-140;
   border-radius: 0;
 
   &.active,&:hover:not([disabled]),&[aria-expanded=true] {
-    background: $ksi-orange-140 !important;
+    background: $ksi-orange-160 !important;
   }
 }
 

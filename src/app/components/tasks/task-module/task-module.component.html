@@ -10,15 +10,18 @@
   </span>
 </div>
 
-<ksi-task-body class="description" [body]="module.description"></ksi-task-body>
+<article class="description">
+  <ksi-task-body [body]="module.description"></ksi-task-body>
+</article>
 
 <div [ngSwitch]="module.type" class="content">
   <ksi-task-module-text *ngSwitchCase="'text'" [module]="moduleAny"></ksi-task-module-text>
+  <ksi-task-module-quiz *ngSwitchCase="'quiz'" [module]="moduleAny"></ksi-task-module-quiz>
   <div class="alert alert-danger" *ngSwitchDefault>ERR: Unknown module type: {{module.type}}</div>
 </div>
 
 <div *ngIf="statusChanges$ | async as status"
-     [class]="' result ' + status.result"
+     [class]="' result alert alert-' + (status.result === 'ok' ? 'success' : 'danger')"
 >
   {{ status.error || status.message || status.report }}
 </div>

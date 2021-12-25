@@ -16,6 +16,7 @@ import { TaskBodyComponent } from './task-body/task-body.component';
 import { TaskModuleComponent } from './task-module/task-module.component';
 import { TaskModuleTextComponent } from './task-module/task-module-text/task-module-text.component';
 import { TaskModuleQuizComponent } from './task-module/task-module-quiz/task-module-quiz.component';
+import { TaskModuleProgrammingComponent } from './task-module/task-module-programming/task-module-programming.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { TaskModuleQuizComponent } from './task-module/task-module-quiz/task-mod
     TaskBodyComponent,
     TaskModuleComponent,
     TaskModuleTextComponent,
-    TaskModuleQuizComponent
+    TaskModuleQuizComponent,
+    TaskModuleProgrammingComponent
   ],
     imports: [
         CommonModule,
@@ -37,7 +39,8 @@ import { TaskModuleQuizComponent } from './task-module/task-module-quiz/task-mod
         TranslateModule,
         SharedModule,
         ReactiveFormsModule,
-        TooltipModule
+        TooltipModule,
+        CodemirrorModule
     ]
 })
 export class TasksModule { }

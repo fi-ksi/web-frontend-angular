@@ -17,6 +17,7 @@
 <div [ngSwitch]="module.type" class="content">
   <ksi-task-module-text *ngSwitchCase="'text'" [module]="moduleAny"></ksi-task-module-text>
   <ksi-task-module-quiz *ngSwitchCase="'quiz'" [module]="moduleAny"></ksi-task-module-quiz>
+  <ksi-task-module-programming *ngSwitchCase="'programming'" [module]="moduleAny"></ksi-task-module-programming>
   <div class="alert alert-danger" *ngSwitchDefault>ERR: Unknown module type: {{module.type}}</div>
 </div>
 

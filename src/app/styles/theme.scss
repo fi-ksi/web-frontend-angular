@@ -82,7 +82,8 @@ body {
     --ksi-white: #fff;
     --ksi-black: #000;
 
-    --ksi-red-100: #dc3545;
+    --ksi-red-100: var(--danger);
+    --ksi-green-100: var(--success);
   }
 
   &.theme-dark {

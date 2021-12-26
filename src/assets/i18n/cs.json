@@ -101,6 +101,11 @@
         "download": "Stáhnout kód",
         "upload": "Nahrát z disku",
         "reset": "Obnovit výchozí kód"
+      },
+      "result": {
+        "ok": "Tvé řešení je správné!",
+        "nok": "Tvé řešení není správné",
+        "error": "Při vyhodnocování tvého řešení nastala chyba, kontaktuj organizátora"
       }
     },
     "discussion": "Diskuze",

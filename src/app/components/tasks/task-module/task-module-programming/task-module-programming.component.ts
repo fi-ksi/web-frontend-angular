@@ -55,6 +55,7 @@ export class TaskModuleProgrammingComponent implements OnInit, OnDestroy {
   }
 
   runCode(): void {
+    this.moduleService.hideSubmit(this.module);
     this.codeRunResult$ = this.moduleService.runCode(this.module, this.code.value).pipe(
       tap(() => {
         // Scroll stdout into view after run completed

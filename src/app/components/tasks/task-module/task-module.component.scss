@@ -5,7 +5,19 @@
   display: block;
   padding: $ksi-padding 0;
 
-  border: 2px solid $ksi-orange-140;
+  --border-color: #{$ksi-orange-140};
+  $border-color: var(--border-color);
+
+  &.result-ok {
+    --border-color: var(--success);
+  }
+
+  &.result-bad {
+    --border-color: var(--danger);
+  }
+
+  border: 2px solid $border-color;
+  transition: border-color 0.5s;
   @include round-corner;
 
   > * {
@@ -14,7 +26,8 @@
 
   .header {
     padding-bottom: $ksi-padding;
-    border-bottom: 2px solid $ksi-orange-140;
+    border-bottom: 2px solid $border-color;
+    transition: border-color 0.5s;
     display: flex;
     justify-content: space-between;
 

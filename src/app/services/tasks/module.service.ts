@@ -23,7 +23,11 @@ export class ModuleService {
   constructor(private backend: BackendService, private translate: TranslateService, private user: UserService) {
   }
 
-  public statusChanges(module: KSIModule): Observable<ModuleSubmitResponse> {
+  /**
+   * Gets an observable that fires whenever there is a new submit status for given module
+   * @param module
+   */
+  public statusChanges(module: KSIModule): Observable<ModuleSubmitResponse | null> {
     return this.moduleResult$.pipe(
       filter((data) => data.module.id === module.id),
       map((data) => data.result),
@@ -31,10 +35,29 @@ export class ModuleService {
     );
   }
 
+  /**
+   * Executes code for programming module
+   * @param module
+   * @param code
+   */
   public runCode(module: ModuleProgramming, code: string): Observable<RunCodeResponse> {
     return this.backend.http.runCode({content: code}, module.id);
   }
 
+  /**
+   * Hides last submit result
+   * @param module
+   */
+  public hideSubmit(module: KSIModule): void {
+    this.moduleResultSubject.next({module, result: null});
+  }
+
+  /**
+   * Submits module data and subscribes for result.
+   * Result can be obtained by listening to this.statusChanges(module)
+   * @param module
+   * @param body
+   */
   public submit(module: KSIModule, body: ModuleSubmissionData): void {
     this.user.afterLogin$.pipe(
       mergeMap(
@@ -50,6 +73,10 @@ export class ModuleService {
             })
           ))
     ).subscribe((result) => {
+      if (!result.message) {
+        result.message = this.translate.instant(`tasks.module.result.${result.result}`)
+      }
+
       this.moduleResultSubject.next({module, result});
     });
   }

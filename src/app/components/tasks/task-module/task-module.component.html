@@ -21,8 +21,15 @@
   <div class="alert alert-danger" *ngSwitchDefault>ERR: Unknown module type: {{module.type}}</div>
 </div>
 
-<div *ngIf="statusChanges$ | async as status"
-     [class]="' result alert alert-' + (status.result === 'ok' ? 'success' : 'danger')"
->
-  {{ status.error || status.message || status.report }}
-</div>
+<ng-container *ngIf="statusChanges$ | async as status">
+  <div
+    [class]="' result alert alert-' + (status.result === 'ok' ? 'success' : 'danger')"
+  >
+    {{ status.error || status.message }}
+  </div>
+
+  <ng-container *ngIf="user.isOrg$ | async">
+    <h6 class="report-heading">{{'tasks.module.report'|translate}}</h6>
+    <textarea class="area-code-output" [value]="status.report || ''" [readOnly]="true"></textarea>
+  </ng-container>
+</ng-container>

@@ -44,9 +44,11 @@ for f in $(find . -type f -name '*.ts' -print); do
     -e 's/postsCount: number;/posts_count: number;/' \
     -e 's/rootPosts:/root_posts:/' \
     -e 's/publishedAt:/published_at:/' \
+    -e 's/submittedFiles:/submitted_files:/' \
     -e 's\Array<string> | Array&lt;Array&gt;\Array<string> | Array<Array<string>>; //\' \
     -i "$f"
 done
 
 sed 's/: ModuleWithProviders/: ModuleWithProviders<ApiModule>/' -i 'api.module.ts'
 sed -E 's|(\s+)public authorizeForm\(grantType: string, username: string, password: string, refresh_token: string,|\1// @ts-ignore\n\1public  authorizeForm(grantType: string, username: string = "", password: string = "", refreshToken: string = "",|' -i 'api/default.service.ts'
+# sed 's/let useForm = false;/let useForm = true;/' -i 'api/default.service.ts'

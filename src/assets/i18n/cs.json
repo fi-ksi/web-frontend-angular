@@ -103,6 +103,14 @@
         "upload": "Nahrát z disku",
         "reset": "Obnovit výchozí kód"
       },
+      "general": {
+        "submitted-files": "Nahrané soubory",
+        "to-upload": "K nahrání",
+        "uploading": "Nahrávané",
+        "upload": "Nahrát",
+        "delete": "odstranit",
+        "download": "stáhnout"
+      },
       "result": {
         "ok": "Tvé řešení je správné!",
         "nok": "Tvé řešení není správné",

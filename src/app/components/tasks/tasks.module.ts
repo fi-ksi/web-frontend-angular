@@ -17,6 +17,8 @@ import { TaskModuleComponent } from './task-module/task-module.component';
 import { TaskModuleTextComponent } from './task-module/task-module-text/task-module-text.component';
 import { TaskModuleQuizComponent } from './task-module/task-module-quiz/task-module-quiz.component';
 import { TaskModuleProgrammingComponent } from './task-module/task-module-programming/task-module-programming.component';
+import { TaskModuleGeneralComponent } from './task-module/task-module-general/task-module-general.component';
+import { ProgressbarModule } from "ngx-bootstrap/progressbar";
 
 
 @NgModule({
@@ -30,7 +32,8 @@ import { TaskModuleProgrammingComponent } from './task-module/task-module-progra
     TaskModuleComponent,
     TaskModuleTextComponent,
     TaskModuleQuizComponent,
-    TaskModuleProgrammingComponent
+    TaskModuleProgrammingComponent,
+    TaskModuleGeneralComponent
   ],
     imports: [
         CommonModule,
@@ -39,7 +42,8 @@ import { TaskModuleProgrammingComponent } from './task-module/task-module-progra
         TranslateModule,
         SharedModule,
         ReactiveFormsModule,
-        TooltipModule
+        TooltipModule,
+        ProgressbarModule
     ]
 })
 export class TasksModule { }

@@ -1,0 +1,36 @@
+<h6 *ngIf="submittedFiles.length">{{'tasks.module.general.submitted-files'|translate}}</h6>
+<ul>
+  <li *ngFor="let file of submittedFiles">
+    <code>{{file.filename}}</code>
+    -
+    <a class="clickable" (click)="downloadFile(file)">{{'tasks.module.general.download'|translate}}</a>,
+    <a class="clickable" (click)="deleteFile(file)">{{'tasks.module.general.delete'|translate}}</a>
+  </li>
+</ul>
+
+<h6 *ngIf="filesToUpload.length">{{'tasks.module.general.to-upload'|translate}}</h6>
+<ul>
+  <li *ngFor="let file of filesToUpload">
+    <code>{{file.name}}</code> - <a class="clickable" (click)="cancelUpload(file)">{{'tasks.module.general.delete'|translate}}</a>
+  </li>
+</ul>
+
+<ng-container *ngIf="uploadedFile">
+  <h6>{{'tasks.module.general.uploading'|translate}}</h6>
+  <ul>
+    <li>
+      <code>{{uploadedFile.name}}</code> - <progressbar *ngIf="uploadedProgress$ | async as progress" [value]="progress"></progressbar>
+    </li>
+  </ul>
+</ng-container>
+
+<input type="file" [multiple]="true" (change)="filesSelected($event)">
+<div class="buttons">
+  <button
+    class="btn btn-ksi w-100"
+    [disabled]="this.uploadedFile || submittedFiles.length + filesToUpload.length >= 20"
+    (click)="upload()"
+  >
+    {{'tasks.module.general.upload'|translate}}
+  </button>
+</div>

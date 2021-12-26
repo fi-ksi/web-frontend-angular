@@ -2,16 +2,19 @@ import { Injectable } from '@angular/core';
 import { BackendService } from "../shared/backend.service";
 import {
   KSIModule,
+  ModuleGeneral, ModuleGeneralSubmittedFiles,
   ModuleProgramming,
   ModuleSubmissionData,
-  ModuleSubmitResponse, RunCodeResponse,
+  ModuleSubmitResponse,
+  RunCodeResponse,
 } from "../../../api";
-import { Observable, of, Subject } from 'rxjs';
-import { catchError, filter, map, mergeMap, shareReplay } from "rxjs/operators";
-import { ModuleSubmitChange } from "../../models";
+import { concat, Observable, of, Subject } from 'rxjs';
+import { catchError, filter, map, mergeMap, shareReplay, take } from "rxjs/operators";
+import { FileUpload, ModuleSubmitChange } from "../../models";
 import { TranslateService } from "@ngx-translate/core";
 import { environment } from "../../../environments/environment";
 import { UserService } from "../shared/user.service";
+import { HttpEventType, HttpResponse } from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -36,12 +39,62 @@ export class ModuleService {
   }
 
   /**
+   * Uploads single file to the server.
+   * Streams progress and also result.
+   * @param module
+   * @param file
+   */
+  public uploadFile(module: ModuleGeneral, file: File): FileUpload {
+    const upload$ = this.user.afterLogin$.pipe(
+      mergeMap(() => this.backend.http.modulesSubmitFilesForm(file, module.id, "events", true)),
+      shareReplay(1)
+    );
+    const progress$: Observable<number> = concat(of(0), upload$.pipe(
+      filter((event) => event.type === HttpEventType.UploadProgress || event.type === HttpEventType.Sent),
+      map((event) => {
+        switch (event.type) {
+          case HttpEventType.UploadProgress:
+            return 100 * event.loaded / event.total!;
+          case HttpEventType.Sent:
+            return 100;
+        }
+        return -1;
+      })));
+    const response$: Observable<ModuleSubmitResponse> = upload$.pipe(
+      filter((event) => event.type === HttpEventType.Response),
+      take(1),
+      map((event) => (event as HttpResponse<ModuleSubmitResponse>).body!)
+    );
+
+    return {progress$, response$};
+  }
+
+  public deleteFile(file: ModuleGeneralSubmittedFiles): Observable<void> {
+    return this.backend.http.subFilesDeleteSingle(file.id).pipe(map(() => {}));
+  }
+
+  public downloadFile(file: ModuleGeneralSubmittedFiles): Observable<void> {
+    return this.backend.http.submFilesGetSingle(file.id).pipe(map((bytes) => {
+      const blob = new Blob([bytes as Uint8Array]);
+      const url =  window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = file.filename;
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      console.log(url);
+    }));
+  }
+
+  /**
    * Executes code for programming module
    * @param module
    * @param code
    */
   public runCode(module: ModuleProgramming, code: string): Observable<RunCodeResponse> {
-    return this.backend.http.runCode({content: code}, module.id);
+    return this.user.afterLogin$.pipe(mergeMap(() => this.backend.http.runCode({content: code}, module.id)));
   }
 
   /**

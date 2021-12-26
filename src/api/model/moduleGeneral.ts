@@ -20,7 +20,7 @@ export interface ModuleGeneral {
     max_score: number;
     state: ModuleGeneral.StateEnum;
     score: number;
-    submittedFiles: Array<ModuleGeneralSubmittedFiles>;
+    submitted_files: Array<ModuleGeneralSubmittedFiles>;
 }
 export namespace ModuleGeneral {
     export type TypeEnum = 'general' | 'programming' | 'quiz' | 'sortable' | 'text';

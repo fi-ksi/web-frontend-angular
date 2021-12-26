@@ -60,8 +60,10 @@ export class TaskModuleComponent implements OnInit {
     this.moduleAny = this.module;
     switch (this.module.state) {
       case "correct":
-        this.packedSubject.next(true);
-        this.resultOk = true;
+        if (this.module.autocorrect) {
+          this.packedSubject.next(true);
+          this.resultOk = true;
+        }
         break;
       case "incorrect":
         this.resultBad = true;

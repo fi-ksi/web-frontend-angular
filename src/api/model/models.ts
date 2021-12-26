@@ -45,6 +45,7 @@ export * from './moduleSubmissionData';
 export * from './moduleSubmissionRequest';
 export * from './moduleSubmitResponse';
 export * from './moduleText';
+export * from './modulesIdSubmitFilesBody';
 export * from './post';
 export * from './postEdit';
 export * from './postResponse';

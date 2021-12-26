@@ -1395,6 +1395,80 @@ export class DefaultService {
     /**
      * 
      * 
+     * @param files 
+     * @param modulesId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public modulesSubmitFilesForm(files: Blob, modulesId: number, observe?: 'body', reportProgress?: boolean): Observable<ModuleSubmitResponse>;
+    public modulesSubmitFilesForm(files: Blob, modulesId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ModuleSubmitResponse>>;
+    public modulesSubmitFilesForm(files: Blob, modulesId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ModuleSubmitResponse>>;
+    public modulesSubmitFilesForm(files: Blob, modulesId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (files === null || files === undefined) {
+            throw new Error('Required parameter files was null or undefined when calling modulesSubmitFiles.');
+        }
+
+        if (modulesId === null || modulesId === undefined) {
+            throw new Error('Required parameter modulesId was null or undefined when calling modulesSubmitFiles.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'multipart/form-data'
+        ];
+
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): void; };
+        let useForm = false;
+        let convertFormParamsToString = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        }
+
+        if (files !== undefined) {
+            formParams = formParams.append('files', <any>files) as any || formParams;
+        }
+
+        return this.httpClient.request<ModuleSubmitResponse>('post',`${this.basePath}/modules/${encodeURIComponent(String(modulesId))}/submitFiles`,
+            {
+                body: convertFormParamsToString ? formParams.toString() : formParams,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
      * @param modulesId 
      * @param body 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.

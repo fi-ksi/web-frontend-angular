@@ -39,8 +39,7 @@ import { TaskModuleProgrammingComponent } from './task-module/task-module-progra
         TranslateModule,
         SharedModule,
         ReactiveFormsModule,
-        TooltipModule,
-        CodemirrorModule
+        TooltipModule
     ]
 })
 export class TasksModule { }

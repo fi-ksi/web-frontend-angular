@@ -1,7 +1,8 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { ModuleService } from "../../../../services";
 import { ModuleGeneral, ModuleGeneralSubmittedFiles } from "../../../../../api";
-import { Observable } from "rxjs";
+import { Observable, Subject, Subscription } from "rxjs";
+import { debounceTime, map, mergeMap } from "rxjs/operators";
 
 @Component({
   selector: 'ksi-task-module-general',
@@ -9,21 +10,40 @@ import { Observable } from "rxjs";
   styleUrls: ['./task-module-general.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TaskModuleGeneralComponent implements OnInit {
+export class TaskModuleGeneralComponent implements OnInit, OnDestroy {
   @Input()
   module: ModuleGeneral;
 
   submittedFiles: ModuleGeneralSubmittedFiles[] = [];
+
+  private refreshSubmittedFiles: Subject<void> = new Subject<void>();
 
   filesToUpload: File[] = [];
 
   uploadedFile?: File;
   uploadedProgress$: Observable<number>;
 
+  private subs: Subscription[] = [];
+
   constructor(private moduleService: ModuleService, private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.submittedFiles = [...this.module.submitted_files];
+    this.subs.push(
+      this.refreshSubmittedFiles.asObservable()
+        .pipe(
+          debounceTime(500),
+          mergeMap(() => this.moduleService.refreshModule(this.module)),
+          map((module) => module.submitted_files)
+        ).subscribe((submittedFiles) => {
+          this.submittedFiles = submittedFiles;
+          this.cd.markForCheck();
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subs.forEach((sub) => sub.unsubscribe());
   }
 
   upload(): void {
@@ -37,6 +57,7 @@ export class TaskModuleGeneralComponent implements OnInit {
     this.cd.markForCheck();
     response$.subscribe((response) => {
       if (response.result === 'ok') {
+        this.refreshSubmittedFiles.next();
         this.uploadedFile = undefined;
         this.upload();
         this.cd.markForCheck();
@@ -70,7 +91,7 @@ export class TaskModuleGeneralComponent implements OnInit {
 
   deleteFile(file: ModuleGeneralSubmittedFiles) {
     // TODO yes/no question
-    this.moduleService.deleteFile(file).subscribe();
+    this.moduleService.deleteFile(file).subscribe(() => this.refreshSubmittedFiles.next());
   }
 
   downloadFile(file: ModuleGeneralSubmittedFiles) {

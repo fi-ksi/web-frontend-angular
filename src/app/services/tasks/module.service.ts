@@ -27,6 +27,14 @@ export class ModuleService {
   }
 
   /**
+   * Requests fresh module data from the server for given module
+   * @param module
+   */
+  public refreshModule<T extends KSIModule>(module: T): Observable<T> {
+    return this.backend.http.modulesGetSingle(module.id).pipe(map((response) => response.module as T));
+  }
+
+  /**
    * Gets an observable that fires whenever there is a new submit status for given module
    * @param module
    */
@@ -69,10 +77,18 @@ export class ModuleService {
     return {progress$, response$};
   }
 
+  /**
+   * Deletes remote file
+   * @param file
+   */
   public deleteFile(file: ModuleGeneralSubmittedFiles): Observable<void> {
     return this.backend.http.subFilesDeleteSingle(file.id).pipe(map(() => {}));
   }
 
+  /**
+   * Downloads file and saves it onto clients disc
+   * @param file
+   */
   public downloadFile(file: ModuleGeneralSubmittedFiles): Observable<void> {
     return this.backend.http.submFilesGetSingle(file.id, ).pipe(map((response) => {
       const url =  URL.createObjectURL(response);

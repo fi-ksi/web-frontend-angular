@@ -1,16 +1,16 @@
-<form *ngFor="let question of module.questions; let y = index">
+<form *ngFor="let question of module.questions; let questionGroup = index">
   <ksi-task-body [body]="question.text"></ksi-task-body>
   <ksi-task-body [body]="question.question"></ksi-task-body>
   <ul class="answers">
-    <li *ngFor="let option of question.options; let x = index" class="answer">
+    <li *ngFor="let option of question.options; let optionIndex = index" class="answer">
       <div [class]="'custom-control custom-' + question.type">
-        <input [id]="'quiz-module-question-' + module.id + '-' + y + '-' + x"
+        <input [id]="'quiz-module-question-' + module.id + '-' + questionGroup + '-' + optionIndex"
                class="custom-control-input"
                name="answer"
                [type]="question.type"
-               (change)="setChecked($event, y, x)"
+               (change)="setChecked($event, question.type, questionGroup, optionIndex)"
         >
-        <label class="custom-control-label" [for]="'quiz-module-question-' + module.id + '-' + y + '-' + x">
+        <label class="custom-control-label" [for]="'quiz-module-question-' + module.id + '-' + questionGroup + '-' + optionIndex">
           <ksi-task-body [body]="option"></ksi-task-body>
         </label>
       </div>

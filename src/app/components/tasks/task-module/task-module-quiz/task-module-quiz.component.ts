@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
-import { ModuleQuiz } from "../../../../../api";
+import { ModuleQuiz, ModuleQuizQuestions } from "../../../../../api";
 import { ModuleService } from "../../../../services";
 
 @Component({
@@ -28,13 +28,16 @@ export class TaskModuleQuizComponent implements OnInit {
   submit(): void {
     this.moduleService.submit(this.module, this.inputs
       .map((row) => row
-        .map((checked, index) => {console.log(checked, index); return checked;})
         .map((checked, index) => checked ? `${index}` : '')
         .filter((x) => !!x))
     );
   }
 
-  setChecked(event: Event, y: number, x: number) {
-    this.inputs[y][x] = (event.target as HTMLInputElement).checked;
+  setChecked(event: Event, type: ModuleQuizQuestions.TypeEnum, questionGroup: number, optionIndex: number) {
+    if (type === "radio") {
+      // if the question is radio button, uncheck everything within given group
+      this.inputs[questionGroup] = this.inputs[questionGroup].map(() => false);
+    }
+    this.inputs[questionGroup][optionIndex] = (event.target as HTMLInputElement).checked;
   }
 }

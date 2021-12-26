@@ -10,6 +10,7 @@ export class IconService {
   public readonly UNPACK = 'ᐁ';
   public readonly LINK = '🔗';
   public readonly REPLY = '⮲';
+  public readonly CHECKMARK = '✓';
 
   constructor() { }
 }

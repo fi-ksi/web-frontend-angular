@@ -95,6 +95,7 @@
       "submit": "Odevzdat",
       "server-error": "Server vrátil neplatnou odpověď, nejspíše se něco pokazilo",
       "report": "Orgovské hlášení",
+      "unpack": "Rozbalit úlohu",
       "programming": {
         "run": "Spustit kód",
         "run-result": "Výstup kódu",

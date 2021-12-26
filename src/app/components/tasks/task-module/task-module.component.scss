@@ -9,11 +9,11 @@
   $border-color: var(--border-color);
 
   &.result-ok {
-    --border-color: var(--success);
+    --border-color: #{$ksi-green-100};
   }
 
   &.result-bad {
-    --border-color: var(--danger);
+    --border-color: #{$ksi-red-100};
   }
 
   border: 2px solid $border-color;
@@ -25,14 +25,27 @@
   }
 
   .header {
-    padding-bottom: $ksi-padding;
-    border-bottom: 2px solid $border-color;
     transition: border-color 0.5s;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    line-height: 1;
 
     .name {
       font-weight: bold;
+    }
+
+    &:not(.packed) {
+      padding-bottom: $ksi-padding;
+      border-bottom: 2px solid $border-color;
+    }
+
+    .points {
+      transition: font-weight 0.5s;
+
+      .unpack {
+        margin-left: $ksi-margin-small;
+      }
     }
   }
 

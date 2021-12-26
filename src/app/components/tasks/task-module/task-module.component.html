@@ -1,35 +1,40 @@
-<div class="header">
+<div class="header" [class.packed]="packed$ | async">
   <span class="name">
     {{ module.name }}
     <span *ngIf="user.isTester$ | async">
      ({{module.id}})
+    <span *ngIf="resultOk">{{this.icon.CHECKMARK}}</span>
   </span>
   </span>
-  <span class="points">
+  <span class="points" [class.font-weight-bold]="resultOk">
     {{ module.max_score | translatePoints }}
+    <button *ngIf="packed$ | async" class="btn btn-ksi unpack" (click)="unpack()">{{'tasks.module.unpack' | translate}}</button>
   </span>
 </div>
 
-<article class="description">
-  <ksi-task-body [body]="module.description"></ksi-task-body>
-</article>
+<ng-container *ngIf="!(packed$ | async)">
+  <article class="description">
+    <ksi-task-body [body]="module.description"></ksi-task-body>
+  </article>
 
-<div [ngSwitch]="module.type" class="content">
-  <ksi-task-module-text *ngSwitchCase="'text'" [module]="moduleAny"></ksi-task-module-text>
-  <ksi-task-module-quiz *ngSwitchCase="'quiz'" [module]="moduleAny"></ksi-task-module-quiz>
-  <ksi-task-module-programming *ngSwitchCase="'programming'" [module]="moduleAny"></ksi-task-module-programming>
-  <div class="alert alert-danger" *ngSwitchDefault>ERR: Unknown module type: {{module.type}}</div>
-</div>
-
-<ng-container *ngIf="statusChanges$ | async as status">
-  <div
-    [class]="' result alert alert-' + (status.result === 'ok' ? 'success' : 'danger')"
-  >
-    {{ status.error || status.message }}
+  <div [ngSwitch]="module.type" class="content">
+    <ksi-task-module-text *ngSwitchCase="'text'" [module]="moduleAny"></ksi-task-module-text>
+    <ksi-task-module-quiz *ngSwitchCase="'quiz'" [module]="moduleAny"></ksi-task-module-quiz>
+    <ksi-task-module-programming *ngSwitchCase="'programming'" [module]="moduleAny"></ksi-task-module-programming>
+    <div class="alert alert-danger" *ngSwitchDefault>ERR: Unknown module type: {{module.type}}</div>
   </div>
 
-  <ng-container *ngIf="user.isOrg$ | async">
-    <h6 class="report-heading">{{'tasks.module.report'|translate}}</h6>
-    <textarea class="area-code-output" [value]="status.report || ''" [readOnly]="true"></textarea>
+  <ng-container *ngIf="statusChanges$ | async as status">
+    <div
+      [class]="' result alert alert-' + (status.result === 'ok' ? 'success' : 'danger')"
+    >
+      {{ status.error || status.message }}
+    </div>
+
+    <ng-container *ngIf="user.isOrg$ | async">
+      <h6 class="report-heading">{{'tasks.module.report'|translate}}</h6>
+      <textarea class="area-code-output" [value]="status.report || ''" [readOnly]="true"></textarea>
+    </ng-container>
   </ng-container>
+
 </ng-container>

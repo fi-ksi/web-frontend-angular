@@ -51,4 +51,7 @@ done
 
 sed 's/: ModuleWithProviders/: ModuleWithProviders<ApiModule>/' -i 'api.module.ts'
 sed -E 's|(\s+)public authorizeForm\(grantType: string, username: string, password: string, refresh_token: string,|\1// @ts-ignore\n\1public  authorizeForm(grantType: string, username: string = "", password: string = "", refreshToken: string = "",|' -i 'api/default.service.ts'
-# sed 's/let useForm = false;/let useForm = true;/' -i 'api/default.service.ts'
+
+# next two lines are setting correct Blob response type for requests with Blob return type
+sed -E 's|(.*this.httpClient.request<Blob>.*)|\1//@ts-ignore|' -i 'api/default.service.ts'
+sed -E '/.*this.httpClient.request<Blob>.*/{n;s/.*/\{responseType: "blob",/}' -i 'api/default.service.ts'

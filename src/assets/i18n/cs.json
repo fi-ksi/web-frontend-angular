@@ -109,7 +109,8 @@
         "uploading": "Nahrávané",
         "upload": "Nahrát",
         "delete": "odstranit",
-        "download": "stáhnout"
+        "download": "stáhnout",
+        "select-file": "Vybrat soubory"
       },
       "result": {
         "ok": "Tvé řešení je správné!",

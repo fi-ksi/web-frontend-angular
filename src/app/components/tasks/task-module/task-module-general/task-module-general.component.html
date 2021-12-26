@@ -19,16 +19,25 @@
   <h6>{{'tasks.module.general.uploading'|translate}}</h6>
   <ul>
     <li>
-      <code>{{uploadedFile.name}}</code> - <progressbar *ngIf="uploadedProgress$ | async as progress" [value]="progress"></progressbar>
+      <code>{{uploadedFile.name}}</code>
+      <progressbar class="d-inline-block" *ngIf="uploadedProgress$ | async as progress" [value]="progress"></progressbar>
     </li>
   </ul>
 </ng-container>
 
-<input type="file" [multiple]="true" (change)="filesSelected($event)">
+<input #fileSelector style="display: none" type="file" [multiple]="true" (change)="filesSelected($event)">
+
 <div class="buttons">
   <button
-    class="btn btn-ksi w-100"
-    [disabled]="this.uploadedFile || submittedFiles.length + filesToUpload.length >= 20"
+    class="btn btn-ksi"
+    [disabled]="submittedFiles.length + filesToUpload.length >= 20"
+    (click)="fileSelector.click()"
+  >
+    {{'tasks.module.general.select-file'|translate}}
+  </button>
+  <button
+    class="btn btn-ksi"
+    [disabled]="this.uploadedFile || submittedFiles.length + filesToUpload.length >= 20 || !this.filesToUpload?.length"
     (click)="upload()"
   >
     {{'tasks.module.general.upload'|translate}}

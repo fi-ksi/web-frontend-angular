@@ -2206,9 +2206,9 @@ export class DefaultService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public submFilesGetSingle(submFileId: number, observe?: 'body', reportProgress?: boolean): Observable<Uint8Array>;
-    public submFilesGetSingle(submFileId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Uint8Array>>;
-    public submFilesGetSingle(submFileId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Uint8Array>>;
+    public submFilesGetSingle(submFileId: number, observe?: 'body', reportProgress?: boolean): Observable<Blob>;
+    public submFilesGetSingle(submFileId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Blob>>;
+    public submFilesGetSingle(submFileId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Blob>>;
     public submFilesGetSingle(submFileId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (submFileId === null || submFileId === undefined) {
@@ -2238,8 +2238,8 @@ export class DefaultService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<Uint8Array>('get',`${this.basePath}/submFiles/${encodeURIComponent(String(submFileId))}`,
-            {
+        return this.httpClient.request<Blob>('get',`${this.basePath}/submFiles/${encodeURIComponent(String(submFileId))}`,//@ts-ignore
+{responseType: "blob",
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

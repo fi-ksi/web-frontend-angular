@@ -74,9 +74,8 @@ export class ModuleService {
   }
 
   public downloadFile(file: ModuleGeneralSubmittedFiles): Observable<void> {
-    return this.backend.http.submFilesGetSingle(file.id).pipe(map((bytes) => {
-      const blob = new Blob([bytes as Uint8Array]);
-      const url =  window.URL.createObjectURL(blob);
+    return this.backend.http.submFilesGetSingle(file.id, ).pipe(map((response) => {
+      const url =  URL.createObjectURL(response);
       const a = document.createElement('a');
       a.href = url;
       a.download = file.filename;
@@ -84,7 +83,7 @@ export class ModuleService {
       document.body.appendChild(a);
       a.click();
       a.remove();
-      console.log(url);
+      setTimeout(() => URL.revokeObjectURL(url), 60000);
     }));
   }
 

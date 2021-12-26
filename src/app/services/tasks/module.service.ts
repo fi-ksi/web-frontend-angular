@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BackendService } from "../shared/backend.service";
-import { KSIModule, ModuleSubmissionData, ModuleSubmitResponse } from "../../../api";
+import {
+  KSIModule,
+  ModuleProgramming,
+  ModuleSubmissionData,
+  ModuleSubmitResponse, RunCodeResponse,
+} from "../../../api";
 import { Observable, of, Subject } from 'rxjs';
 import { catchError, filter, map, mergeMap, shareReplay } from "rxjs/operators";
 import { ModuleSubmitChange } from "../../models";
@@ -24,6 +29,10 @@ export class ModuleService {
       map((data) => data.result),
       shareReplay(1)
     );
+  }
+
+  public runCode(module: ModuleProgramming, code: string): Observable<RunCodeResponse> {
+    return this.backend.http.runCode({content: code}, module.id);
   }
 
   public submit(module: KSIModule, body: ModuleSubmissionData): void {

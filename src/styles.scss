@@ -50,6 +50,11 @@ Quill.js core style
   cursor: pointer;
 }
 
+.area-code-output {
+  width: 100%;
+  min-height: 15em;
+  font-family: monospace;
+}
 
 .modal-dialog {
   &.modal-full-page {

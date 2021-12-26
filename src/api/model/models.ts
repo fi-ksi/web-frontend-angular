@@ -58,7 +58,6 @@ export * from './profileResponse';
 export * from './registrationRequest';
 export * from './runCodeRequest';
 export * from './runCodeResponse';
-export * from './runCodeResponseResult';
 export * from './sortableItem';
 export * from './task';
 export * from './taskDetailResponse';

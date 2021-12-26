@@ -1,0 +1,24 @@
+@import "src/app/styles/vars";
+
+:host {
+  .buttons {
+    margin-top: $ksi-margin-small;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    & > * {
+      flex-grow: 1;
+      margin-top: $ksi-margin-small;
+
+      &:not(:last-child) {
+        margin-right: $ksi-margin;
+      }
+    }
+
+  }
+
+  .report-heading {
+    margin-top: $ksi-margin;
+  }
+}

@@ -93,7 +93,15 @@
     "module": {
       "of": "z",
       "submit": "Odevzdat",
-      "server-error": "Server vrátil neplatnou odpověď, nejspíše se něco pokazilo"
+      "server-error": "Server vrátil neplatnou odpověď, nejspíše se něco pokazilo",
+      "report": "Orgovské hlášení",
+      "programming": {
+        "run": "Spustit kód",
+        "run-result": "Výstup kódu",
+        "download": "Stáhnout kód",
+        "upload": "Nahrát z disku",
+        "reset": "Obnovit výchozí kód"
+      }
     },
     "discussion": "Diskuze",
     "deadline": "Datum ukončení",

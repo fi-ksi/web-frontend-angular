@@ -9,8 +9,17 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { RunCodeResponseResult } from './runCodeResponseResult';
 
 export interface RunCodeResponse { 
-    result: RunCodeResponseResult;
+    report?: string;
+    message?: string;
+    stdout: string;
+    result: RunCodeResponse.ResultEnum;
+}
+export namespace RunCodeResponse {
+    export type ResultEnum = 'ok' | 'error';
+    export const ResultEnum = {
+        Ok: 'ok' as ResultEnum,
+        Error: 'error' as ResultEnum
+    };
 }

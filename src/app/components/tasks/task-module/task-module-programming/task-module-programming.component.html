@@ -1,2 +1,24 @@
-program!
 <div #codeEditor class="code-editor"></div>
+<div class="buttons">
+  <button class="btn btn-ksi run" (click)="runCode()">{{'tasks.module.programming.run'|translate}}</button>
+  <button class="btn btn-ksi submit" (click)="submit()">{{'tasks.module.submit'|translate}}</button>
+  <button class="btn btn-ksi download" (click)="download()">{{'tasks.module.programming.download'|translate}}</button>
+  <button class="btn btn-ksi upload" (click)="upload()">{{'tasks.module.programming.upload'|translate}}</button>
+  <button class="btn btn-ksi reset" (click)="reset()">{{'tasks.module.programming.reset'|translate}}</button>
+</div>
+
+<input #uploadFile type="file" style="display: none" (change)="replaceCode($event)">
+
+<ng-container *ngIf="codeRunResult$ | async as result">
+  <div *ngIf="result.result === 'error'" class="alert alert-danger report-heading">
+    {{result.message}}
+  </div>
+
+  <h6 class="report-heading">{{'tasks.module.programming.run-result'|translate}}</h6>
+  <textarea #runOutput class="area-code-output" [value]="result.stdout || ''" [readOnly]="true"></textarea>
+
+  <ng-container *ngIf="user.isOrg$ | async">
+    <h6 class="report-heading">{{'tasks.module.report'|translate}}</h6>
+    <textarea class="area-code-output" [value]="result.report || ''" [readOnly]="true"></textarea>
+  </ng-container>
+</ng-container>

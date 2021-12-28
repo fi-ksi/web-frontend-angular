@@ -107,7 +107,7 @@ export class DiscussionThreadPostsComponent implements OnInit {
       )
       .subscribe(() => {
         this.postsModified.next();
-        this.router.navigate([], {fragment: `${this.post.id}`}).then();
+        this.router.navigate(['/discussion', `${this.threadId}`], {fragment: `${this.post.id}`}).then();
     });
   }
 

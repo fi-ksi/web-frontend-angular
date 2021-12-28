@@ -14,6 +14,8 @@ import { RouterModule } from "@angular/router";
 import { NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
 import { ModalGenericComponent } from './modal-generic/modal-generic.component';
 import { ModalLoginComponent } from './modal-login/modal-login.component';
+import { ModalPostReplyComponent } from './modal-post-reply/modal-post-reply.component';
+import { QuillModule } from "ngx-quill";
 
 
 
@@ -25,7 +27,8 @@ import { ModalLoginComponent } from './modal-login/modal-login.component';
     PageNotFoundComponent,
     PageWelcomeComponent,
     ModalGenericComponent,
-    ModalLoginComponent
+    ModalLoginComponent,
+    ModalPostReplyComponent
   ],
   exports: [
     FooterComponent,
@@ -34,15 +37,16 @@ import { ModalLoginComponent } from './modal-login/modal-login.component';
     PageNotFoundComponent,
     PageWelcomeComponent
   ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    TranslateModule,
-    CarouselModule,
-    CollapseModule,
-    ReactiveFormsModule,
-    RouterModule,
-    NgbDropdownModule,
-  ]
+    imports: [
+        CommonModule,
+        SharedModule,
+        TranslateModule,
+        CarouselModule,
+        CollapseModule,
+        ReactiveFormsModule,
+        RouterModule,
+        NgbDropdownModule,
+        QuillModule,
+    ]
 })
 export class RootModule { }

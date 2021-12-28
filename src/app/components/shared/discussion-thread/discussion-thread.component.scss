@@ -1,0 +1,7 @@
+@import "src/app/styles/vars";
+
+:host {
+  .new-post {
+    margin-bottom: $ksi-margin;
+  }
+}

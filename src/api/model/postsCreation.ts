@@ -13,5 +13,5 @@
 export interface PostsCreation { 
     body: string;
     thread: number;
-    parent?: number;
+    parent: number | null;
 }

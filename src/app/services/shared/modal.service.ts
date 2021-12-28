@@ -7,11 +7,13 @@ import {
 } from '@angular/core';
 import { ModalGenericComponent } from "../../components/root/modal-generic/modal-generic.component";
 import { TranslateService } from "@ngx-translate/core";
-import { ModalComponent, OpenedModal, OpenedTemplate } from "../../models";
+import { ModalComponent, OpenedModal, OpenedTemplate, PostsMap } from "../../models";
 import { ModalLoginComponent } from "../../components/root/modal-login/modal-login.component";
 import { filter, take } from "rxjs/operators";
 import { environment } from "../../../environments/environment";
 import { ModalOptions } from "ngx-bootstrap/modal";
+import { ModalPostReplyComponent } from "../../components/root/modal-post-reply/modal-post-reply.component";
+import { Post } from "../../../api";
 
 @Injectable({
   providedIn: 'root'
@@ -47,9 +49,9 @@ export class ModalService {
     };
   }
 
-  public showModalComponent<T extends ModalComponent>(componentType: Type<T>): OpenedModal<T> {
+  public showModalComponent<T extends ModalComponent>(componentType: Type<T>, options?: ModalOptions): OpenedModal<T> {
     const component = this.container.createComponent(this.resolver.resolveComponentFactory(componentType));
-    const {template, visible$} = this.showModalTemplate(component.instance.templateBody, component.instance.title);
+    const {template, visible$} = this.showModalTemplate(component.instance.templateBody, component.instance.title, options);
 
     visible$
       .pipe(
@@ -68,5 +70,15 @@ export class ModalService {
 
   public showLoginModal(): OpenedModal<ModalLoginComponent> {
     return this.showModalComponent(ModalLoginComponent);
+  }
+
+  public showPostReplyModal(threadId: number, post: Post | null = null, posts: PostsMap | null = null): OpenedModal<ModalPostReplyComponent> {
+    const ref = this.showModalComponent(ModalPostReplyComponent, {class: 'modal-full-page modal-post-reply'});
+    const { instance } = ref.component;
+    instance.threadId = threadId;
+    instance.post = post;
+    instance.posts = posts;
+    ref.component.changeDetectorRef.markForCheck();
+    return ref;
   }
 }

@@ -49,6 +49,7 @@ for f in $(find . -type f -name '*.ts' -print); do
     -i "$f"
 done
 
+sed -e 's/parent: number;/parent: number | null;/' -i 'model/postsCreation.ts'
 sed 's/: ModuleWithProviders/: ModuleWithProviders<ApiModule>/' -i 'api.module.ts'
 sed -E 's|(\s+)public authorizeForm\(grantType: string, username: string, password: string, refresh_token: string,|\1// @ts-ignore\n\1public  authorizeForm(grantType: string, username: string = "", password: string = "", refreshToken: string = "",|' -i 'api/default.service.ts'
 

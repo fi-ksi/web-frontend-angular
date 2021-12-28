@@ -59,22 +59,3 @@
     <span class="text">{{'discussion-thread.post.expand' | translate}}</span>
   </a>
 </ng-template>
-
-
-<ng-template #modalReply>
-  <ksi-discussion-thread-posts
-    [postId]="postId"
-    [maxLevel]="0"
-    [posts]="posts"
-    [allowActions]="false"
-    [allowExpansion]="false"
-  ></ksi-discussion-thread-posts>
-  <quill-editor class="reply-editor" [formControl]="reply"></quill-editor>
-  <button
-    class="btn-ksi btn save-reply"
-    [disabled]="!reply.valid || reply.disabled"
-    (click)="saveReply()"
-  >
-    {{'discussion-thread.post.save-reply' | translate}}
-  </button>
-</ng-template>

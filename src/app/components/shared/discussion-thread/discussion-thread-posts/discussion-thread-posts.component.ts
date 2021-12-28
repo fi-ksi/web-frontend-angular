@@ -9,13 +9,13 @@ import {
   EventEmitter,
   ChangeDetectorRef
 } from '@angular/core';
-import { OpenedTemplate, PostsMap } from "../../../../models";
+import { PostsMap } from "../../../../models";
 import { Post } from "../../../../../api";
 import { StorageService } from "../../../../services/shared/storage.service";
 import { BackendService, IconService, ModalService } from "../../../../services";
-import { FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { UserService } from "../../../../services/shared/user.service";
+import { filter, mergeMap, take } from "rxjs/operators";
 
 @Component({
   selector: 'ksi-discussion-thread-posts',
@@ -72,10 +72,6 @@ export class DiscussionThreadPostsComponent implements OnInit {
   @ViewChild('modalReply', {static: true})
   templateModalReply: TemplateRef<unknown>;
 
-  modalReply: OpenedTemplate | null = null;
-
-  reply = new FormControl(null, [Validators.required]);
-
   private storage: StorageService;
 
   private static readonly EXPANDED_DEFAULT = true;
@@ -103,29 +99,15 @@ export class DiscussionThreadPostsComponent implements OnInit {
   }
 
   openReplyModal(): void {
-    this.user.afterLogin$.subscribe(() => {
-      this.reply.setValue(null);
-      this.modalReply = this.modal.showModalTemplate(this.templateModalReply, 'discussion-thread.post.reply',
-        {class: 'modal-full-page modal-post-reply'});
-    });
-  }
-
-  saveReply(): void {
-    if (!this.reply.valid) {
-      return;
-    }
-    this.reply.disable();
-
-    this.backend.http.postsCreateNew({
-      post: {
-        thread: this.threadId!,
-        parent: this.post.id,
-        body: this.reply.value
-      }
-    }).subscribe(() => {
-      this.postsModified.next();
-      this.router.navigate([], {fragment: `${this.post.id}`}).then();
-      this.modalReply?.template.instance.close();
+    this.user.afterLogin$
+      .pipe(
+        mergeMap(() => this.modal.showPostReplyModal(this.threadId!, this.post, this.posts).visible$),
+        filter((visible) => !visible),
+        take(1)
+      )
+      .subscribe(() => {
+        this.postsModified.next();
+        this.router.navigate([], {fragment: `${this.post.id}`}).then();
     });
   }
 

@@ -9,7 +9,6 @@ import { DiscussionThreadPostsComponent } from './discussion-thread/discussion-t
 import { TranslateModule } from "@ngx-translate/core";
 import { UsersInlineComponent } from './users-inline/users-inline.component';
 import { TooltipModule } from "ngx-bootstrap/tooltip";
-import { QuillModule } from "ngx-quill";
 import { ReactiveFormsModule } from "@angular/forms";
 
 
@@ -25,21 +24,21 @@ import { ReactiveFormsModule } from "@angular/forms";
     DiscussionThreadPostsComponent,
     UsersInlineComponent
   ],
-  exports: [
-    ArticlePreviewComponent,
-    SpinnerComponent,
-    TranslatePointsPipe,
-    TranslateNewItemsPipe,
-    DiscussionThreadComponent,
-    UsersInlineComponent,
-    TranslateRolePipe
-  ],
+    exports: [
+        ArticlePreviewComponent,
+        SpinnerComponent,
+        TranslatePointsPipe,
+        TranslateNewItemsPipe,
+        DiscussionThreadComponent,
+        UsersInlineComponent,
+        TranslateRolePipe,
+        DiscussionThreadPostsComponent
+    ],
   imports: [
     CommonModule,
     RouterModule,
     TranslateModule,
     TooltipModule,
-    QuillModule,
     ReactiveFormsModule
   ]
 })

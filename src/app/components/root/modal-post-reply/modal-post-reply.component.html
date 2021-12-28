@@ -1,0 +1,18 @@
+<ng-template #template>
+  <ksi-discussion-thread-posts
+    *ngIf="post"
+    [postId]="post.id"
+    [maxLevel]="0"
+    [posts]="posts!"
+    [allowActions]="false"
+    [allowExpansion]="false"
+  ></ksi-discussion-thread-posts>
+  <quill-editor class="reply-editor" [formControl]="reply"></quill-editor>
+  <button
+    class="btn-ksi btn save-reply"
+    [disabled]="!reply.valid || reply.disabled"
+    (click)="saveReply()"
+  >
+    {{'modal.post-reply.save-reply' | translate}}
+  </button>
+</ng-template>

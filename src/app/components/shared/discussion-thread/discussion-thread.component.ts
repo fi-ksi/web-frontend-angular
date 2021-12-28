@@ -2,8 +2,8 @@ import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core
 import { ThreadDetailResponse } from "../../../../api";
 import { PostsMap } from "../../../models";
 import { BehaviorSubject, combineLatest, Observable } from "rxjs";
-import { BackendService, WindowService } from "../../../services";
-import { map, mergeMap, shareReplay } from "rxjs/operators";
+import { BackendService, ModalService, WindowService } from "../../../services";
+import { filter, map, mergeMap, shareReplay, take } from "rxjs/operators";
 import { environment } from "../../../../environments/environment";
 
 interface ThreadDetailsWithPostsMap {
@@ -31,7 +31,7 @@ export class DiscussionThreadComponent implements OnInit {
   private readonly refreshSubject = new BehaviorSubject<unknown>(null);
   private readonly refresh$ = this.refreshSubject.asObservable();
 
-  constructor(private backend: BackendService, private window: WindowService) { }
+  constructor(private backend: BackendService, private window: WindowService, private modal: ModalService) { }
 
   ngOnInit(): void {
     this.thread$ = this.refresh$.pipe(
@@ -63,5 +63,15 @@ export class DiscussionThreadComponent implements OnInit {
   onPostsModified(): void {
     environment.logger.debug('posts modified');
     this.refreshSubject.next(null);
+  }
+
+  openNewPostModal(threadId: number): void {
+    this.modal.showPostReplyModal(threadId).visible$.pipe(
+      filter((visible) => !visible),
+      take(1)
+    ).subscribe(() => {
+      environment.logger.debug('new post created');
+      this.refreshSubject.next(null);
+    })
   }
 }

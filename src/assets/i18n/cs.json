@@ -80,6 +80,10 @@
       "password": "heslo",
       "login": "Přihlásit se",
       "failed": "Přihlášení selhalo - je kombinace jména a hesla správná?"
+    },
+    "post-reply": {
+      "save-reply": "Uložit příspěvek",
+      "title": "Vytvořit nový příspěvek"
     }
   },
   "tasks": {
@@ -151,7 +155,7 @@
       "expand": "Rozbalit toto vlákno",
       "link": "Odkaz na tento příspěvek",
       "reply": "Odpovědět na tento příspěvek",
-      "save-reply": "Uložit příspěvek"
+      "new": "Přidat příspěvek"
     }
   },
   "user": {

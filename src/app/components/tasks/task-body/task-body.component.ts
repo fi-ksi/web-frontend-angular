@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, ViewChild, ElementRef } from '@angular/core';
 import highlight from "highlight.js";
+import 'mathjax/es5/tex-svg'; // allows us to call window.MathJax.tex2svg
 
 @Component({
   selector: 'ksi-task-body',
@@ -22,13 +23,13 @@ export class TaskBodyComponent implements OnInit {
     }
     const { nativeElement } = content;
     this.articleObserver = new MutationObserver(() => {
-      this.highlightCode(nativeElement);
+      this.highlightCodeAndMath(nativeElement);
     });
     this.articleObserver.observe(nativeElement, {
       childList: true,
       subtree: true
     });
-    this.highlightCode(nativeElement);
+    this.highlightCodeAndMath(nativeElement);
   }
 
   private articleObserver: MutationObserver | null = null;
@@ -38,8 +39,7 @@ export class TaskBodyComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
-  private highlightCode(rootElement: HTMLElement) {
+  private highlightCodeAndMath(rootElement: HTMLElement) {
     rootElement.querySelectorAll('pre>code:not(.highlighted)').forEach((code) => {
       code.classList.forEach((cls) => {
         if (cls !== 'sourceCode') {
@@ -48,6 +48,17 @@ export class TaskBodyComponent implements OnInit {
       });
       code.classList.add('highlighted');
       highlight.highlightElement(code as HTMLElement);
+    });
+    rootElement.querySelectorAll('.math:not(.highlighted)').forEach((math) => {
+      math.classList.add('highlighted');
+      let tex = math.textContent || '';
+      math.innerHTML = '';
+
+      tex = tex.replace(/^\\\((.*)\\\)$/, "$1");
+
+      // @ts-ignore
+      const node = window.MathJax.tex2svg(tex, {display: false});
+      math.appendChild(node);
     });
   }
 }

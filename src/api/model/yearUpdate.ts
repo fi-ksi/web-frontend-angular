@@ -14,6 +14,6 @@ export interface YearUpdate {
     id: number;
     year: string;
     sealed: boolean;
-    pointPad: number;
-    activeOrgs: Array<number>;
+    point_pad: number;
+    active_orgs: Array<number>;
 }

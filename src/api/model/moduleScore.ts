@@ -12,7 +12,7 @@
 
 export interface ModuleScore { 
     id: number;
-    isCorrected: boolean;
+    is_corrected: boolean;
     score: number;
-    reviewedBy: number;
+    reviewed_by: number;
 }

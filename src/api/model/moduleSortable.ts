@@ -20,7 +20,7 @@ export interface ModuleSortable {
     max_score: number;
     state: ModuleSortable.StateEnum;
     score: number;
-    sortableList: ModuleSortableSortableList;
+    sortable_list: ModuleSortableSortableList;
 }
 export namespace ModuleSortable {
     export type TypeEnum = 'general' | 'programming' | 'quiz' | 'sortable' | 'text';

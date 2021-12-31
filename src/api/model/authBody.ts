@@ -11,8 +11,8 @@
  */
 
 export interface AuthBody { 
-    grantType: string;
+    grant_type: string;
     username?: string;
     password?: string;
-    refreshToken?: string;
+    refresh_token?: string;
 }

@@ -14,6 +14,6 @@ export interface WaveCreate {
     index: number;
     caption: string;
     garant: number;
-    timePublished?: string;
+    time_published?: string;
     year: number;
 }

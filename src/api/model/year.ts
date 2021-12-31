@@ -14,8 +14,8 @@ export interface Year {
     id: number;
     year: string;
     sealed: boolean;
-    pointPad: number;
-    activeOrgs?: Array<number>;
-    sumPoints: number;
-    tasksCnt: number;
+    point_pad: number;
+    active_orgs?: Array<number>;
+    sum_points: number;
+    tasks_cnt: number;
 }

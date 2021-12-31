@@ -11,7 +11,7 @@
  */
 
 export interface ChangePasswordRequest { 
-    oldPassword: string;
-    newPassword: string;
-    newPassword2: string;
+    old_password: string;
+    new_password: string;
+    new_password2: string;
 }

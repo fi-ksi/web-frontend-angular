@@ -46,7 +46,7 @@ export class TaskModuleProgrammingComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initCodeEditor();
-    this.code.setValue(this.module.code || this.module.defaultCode);
+    this.code.setValue(this.module.code || this.module.default_code);
   }
 
   submit(): void {
@@ -115,7 +115,7 @@ export class TaskModuleProgrammingComponent implements OnInit, OnDestroy {
 
   reset(): void {
     // TODO yes/no confirmation
-    this.code.setValue(this.module.defaultCode);
+    this.code.setValue(this.module.default_code);
   }
 
   /**

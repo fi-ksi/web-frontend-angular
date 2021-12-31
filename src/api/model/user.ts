@@ -24,12 +24,12 @@ export interface User {
     achievements: Array<number>;
     enabled: boolean;
     nick_name: string;
-    addrCountry?: string;
-    schoolName?: string;
+    addr_country?: string;
+    school_name?: string;
     seasons?: Array<number>;
     successful?: boolean;
     cheat?: boolean;
     tasks?: Array<number>;
-    coTasks?: Array<number>;
-    shortInfo?: string;
+    co_tasks?: Array<number>;
+    short_info?: string;
 }

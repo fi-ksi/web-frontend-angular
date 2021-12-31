@@ -14,5 +14,5 @@ export interface WaveBase {
     index: number;
     caption: string;
     garant: number;
-    timePublished?: string;
+    time_published?: string;
 }

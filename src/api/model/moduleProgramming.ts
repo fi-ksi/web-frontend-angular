@@ -20,9 +20,9 @@ export interface ModuleProgramming {
     state: ModuleProgramming.StateEnum;
     score: number;
     code: string;
-    defaultCode: string;
-    lastTime?: string;
-    lastOrigin?: string;
+    default_code: string;
+    last_time?: string;
+    last_origin?: string;
 }
 export namespace ModuleProgramming {
     export type TypeEnum = 'general' | 'programming' | 'quiz' | 'sortable' | 'text';

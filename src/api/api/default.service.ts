@@ -269,28 +269,28 @@ export class DefaultService {
     /**
      * 
      * 
-     * @param limit 
-     * @param start 
+     * @param _limit 
+     * @param _start 
      * @param achievement 
      * @param year 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public achievementsGetAll(limit?: number, start?: number, achievement?: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<AchievementsResponse>;
-    public achievementsGetAll(limit?: number, start?: number, achievement?: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AchievementsResponse>>;
-    public achievementsGetAll(limit?: number, start?: number, achievement?: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AchievementsResponse>>;
-    public achievementsGetAll(limit?: number, start?: number, achievement?: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public achievementsGetAll(_limit?: number, _start?: number, achievement?: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<AchievementsResponse>;
+    public achievementsGetAll(_limit?: number, _start?: number, achievement?: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AchievementsResponse>>;
+    public achievementsGetAll(_limit?: number, _start?: number, achievement?: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AchievementsResponse>>;
+    public achievementsGetAll(_limit?: number, _start?: number, achievement?: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
 
 
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (limit !== undefined && limit !== null) {
-            queryParameters = queryParameters.set('_limit', <any>limit);
+        if (_limit !== undefined && _limit !== null) {
+            queryParameters = queryParameters.set('_limit', <any>_limit);
         }
-        if (start !== undefined && start !== null) {
-            queryParameters = queryParameters.set('_start', <any>start);
+        if (_start !== undefined && _start !== null) {
+            queryParameters = queryParameters.set('_start', <any>_start);
         }
 
         let headers = this.defaultHeaders;
@@ -533,28 +533,28 @@ export class DefaultService {
     /**
      * 
      * 
-     * @param limit 
-     * @param start 
+     * @param _limit 
+     * @param _start 
      * @param article 
      * @param year 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public articlesGetAll(limit?: number, start?: number, article?: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<ArticlesResponse>;
-    public articlesGetAll(limit?: number, start?: number, article?: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ArticlesResponse>>;
-    public articlesGetAll(limit?: number, start?: number, article?: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ArticlesResponse>>;
-    public articlesGetAll(limit?: number, start?: number, article?: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public articlesGetAll(_limit?: number, _start?: number, article?: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<ArticlesResponse>;
+    public articlesGetAll(_limit?: number, _start?: number, article?: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ArticlesResponse>>;
+    public articlesGetAll(_limit?: number, _start?: number, article?: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ArticlesResponse>>;
+    public articlesGetAll(_limit?: number, _start?: number, article?: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
 
 
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (limit !== undefined && limit !== null) {
-            queryParameters = queryParameters.set('_limit', <any>limit);
+        if (_limit !== undefined && _limit !== null) {
+            queryParameters = queryParameters.set('_limit', <any>_limit);
         }
-        if (start !== undefined && start !== null) {
-            queryParameters = queryParameters.set('_start', <any>start);
+        if (_start !== undefined && _start !== null) {
+            queryParameters = queryParameters.set('_start', <any>_start);
         }
 
         let headers = this.defaultHeaders;
@@ -649,24 +649,24 @@ export class DefaultService {
     /**
      * 
      * 
-     * @param grantType 
+     * @param grant_type 
      * @param username 
      * @param password 
-     * @param refreshToken 
+     * @param refresh_token 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
     // @ts-ignore
-    public  authorizeForm(grantType: string, username: string = "", password: string = "", refreshToken: string = "", observe?: 'body', reportProgress?: boolean): Observable<AuthResponse>;
+    public  authorizeForm(grant_type: string, username: string = "", password: string = "", refresh_token: string = "", observe?: 'body', reportProgress?: boolean): Observable<AuthResponse>;
     // @ts-ignore
-    public  authorizeForm(grantType: string, username: string = "", password: string = "", refreshToken: string = "", observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AuthResponse>>;
+    public  authorizeForm(grant_type: string, username: string = "", password: string = "", refresh_token: string = "", observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AuthResponse>>;
     // @ts-ignore
-    public  authorizeForm(grantType: string, username: string = "", password: string = "", refreshToken: string = "", observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AuthResponse>>;
+    public  authorizeForm(grant_type: string, username: string = "", password: string = "", refresh_token: string = "", observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AuthResponse>>;
     // @ts-ignore
-    public  authorizeForm(grantType: string, username: string = "", password: string = "", refreshToken: string = "", observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public  authorizeForm(grant_type: string, username: string = "", password: string = "", refresh_token: string = "", observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
-        if (grantType === null || grantType === undefined) {
-            throw new Error('Required parameter grantType was null or undefined when calling authorize.');
+        if (grant_type === null || grant_type === undefined) {
+            throw new Error('Required parameter grant_type was null or undefined when calling authorize.');
         }
 
         if (username === null || username === undefined) {
@@ -677,8 +677,8 @@ export class DefaultService {
             throw new Error('Required parameter password was null or undefined when calling authorize.');
         }
 
-        if (refreshToken === null || refreshToken === undefined) {
-            throw new Error('Required parameter refreshToken was null or undefined when calling authorize.');
+        if (refresh_token === null || refresh_token === undefined) {
+            throw new Error('Required parameter refresh_token was null or undefined when calling authorize.');
         }
 
         let headers = this.defaultHeaders;
@@ -708,8 +708,8 @@ export class DefaultService {
             formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
         }
 
-        if (grantType !== undefined) {
-            formParams = formParams.append('grant_type', <any>grantType) as any || formParams;
+        if (grant_type !== undefined) {
+            formParams = formParams.append('grant_type', <any>grant_type) as any || formParams;
         }
         if (username !== undefined) {
             formParams = formParams.append('username', <any>username) as any || formParams;
@@ -717,8 +717,8 @@ export class DefaultService {
         if (password !== undefined) {
             formParams = formParams.append('password', <any>password) as any || formParams;
         }
-        if (refreshToken !== undefined) {
-            formParams = formParams.append('refresh_token', <any>refreshToken) as any || formParams;
+        if (refresh_token !== undefined) {
+            formParams = formParams.append('refresh_token', <any>refresh_token) as any || formParams;
         }
 
         return this.httpClient.request<AuthResponse>('post',`${this.basePath}/auth`,
@@ -2610,21 +2610,21 @@ export class DefaultService {
     /**
      * 
      * 
-     * @param wave 
+     * @param _wave 
      * @param year 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public threadsGetAll(wave?: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<ThreadsResponse>;
-    public threadsGetAll(wave?: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ThreadsResponse>>;
-    public threadsGetAll(wave?: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ThreadsResponse>>;
-    public threadsGetAll(wave?: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public threadsGetAll(_wave?: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<ThreadsResponse>;
+    public threadsGetAll(_wave?: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ThreadsResponse>>;
+    public threadsGetAll(_wave?: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ThreadsResponse>>;
+    public threadsGetAll(_wave?: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (wave !== undefined && wave !== null) {
-            queryParameters = queryParameters.set('_wave', <any>wave);
+        if (_wave !== undefined && _wave !== null) {
+            queryParameters = queryParameters.set('_wave', <any>_wave);
         }
 
         let headers = this.defaultHeaders;

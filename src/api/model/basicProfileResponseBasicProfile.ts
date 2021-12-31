@@ -15,11 +15,11 @@ export interface BasicProfileResponseBasicProfile {
     role: UserRole;
     gender: string;
     email: string;
-    shortInfo: string;
-    profilePicture: number;
+    short_info: string;
+    profile_picture: number;
     nick_name: string;
     last_name: string;
     first_name: string;
-    signedIn: boolean;
+    signed_in: boolean;
     id: number;
 }

@@ -14,10 +14,10 @@ export interface Wave {
     index: number;
     caption: string;
     garant: number;
-    timePublished?: string;
+    time_published?: string;
     year: number;
     id: number;
     _public: boolean;
-    sumPoints: number;
-    taskCnt: number;
+    sum_points: number;
+    task_cnt: number;
 }

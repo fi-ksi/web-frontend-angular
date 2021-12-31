@@ -15,7 +15,7 @@ export interface TaskDetails {
     body: string;
     thread: number;
     modules: Array<number>;
-    bestScores: Array<number>;
+    best_scores: Array<number>;
     comment: number;
     solution: string;
     achievements: Array<number>;

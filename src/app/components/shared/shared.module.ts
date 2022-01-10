@@ -5,13 +5,15 @@ import { RouterModule } from "@angular/router";
 import { SpinnerComponent } from "./spinner/spinner.component";
 import { TranslateGenderPipe, TranslateNewItemsPipe, TranslatePointsPipe, TranslateRolePipe } from "../../pipes";
 import { DiscussionThreadComponent } from './discussion-thread/discussion-thread.component';
-import { DiscussionThreadPostsComponent } from './discussion-thread/discussion-thread-posts/discussion-thread-posts.component';
+import {
+  DiscussionThreadPostsComponent
+} from './discussion-thread/discussion-thread-posts/discussion-thread-posts.component';
 import { TranslateModule } from "@ngx-translate/core";
 import { UsersInlineComponent } from './users-inline/users-inline.component';
 import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { ReactiveFormsModule } from "@angular/forms";
 import { TranslateSkillLevelPipe } from "../../pipes";
-
+import { IconAchievementComponent } from "./icon-achivement/icon-achievement.component";
 
 
 @NgModule({
@@ -25,20 +27,22 @@ import { TranslateSkillLevelPipe } from "../../pipes";
     TranslateGenderPipe,
     DiscussionThreadComponent,
     DiscussionThreadPostsComponent,
-    UsersInlineComponent
+    UsersInlineComponent,
+    IconAchievementComponent
   ],
-    exports: [
-        ArticlePreviewComponent,
-        SpinnerComponent,
-        TranslatePointsPipe,
-        TranslateNewItemsPipe,
-        DiscussionThreadComponent,
-        UsersInlineComponent,
-        TranslateRolePipe,
-        TranslateSkillLevelPipe,
-        TranslateGenderPipe,
-        DiscussionThreadPostsComponent
-    ],
+  exports: [
+    ArticlePreviewComponent,
+    SpinnerComponent,
+    TranslatePointsPipe,
+    TranslateNewItemsPipe,
+    DiscussionThreadComponent,
+    UsersInlineComponent,
+    TranslateRolePipe,
+    TranslateSkillLevelPipe,
+    TranslateGenderPipe,
+    DiscussionThreadPostsComponent,
+    IconAchievementComponent
+  ],
   imports: [
     CommonModule,
     RouterModule,
@@ -47,4 +51,5 @@ import { TranslateSkillLevelPipe } from "../../pipes";
     ReactiveFormsModule
   ]
 })
-export class SharedModule { }
+export class SharedModule {
+}

@@ -1,0 +1,9 @@
+<a *ngIf="achievement$ | async as achievement"
+   [routerLink]="'/achievements/' + achievementId"
+   [tooltip]="achievement.title"
+>
+  <img
+    [src]="achievement.picture"
+    [alt]="achievement.title"
+  >
+</a>

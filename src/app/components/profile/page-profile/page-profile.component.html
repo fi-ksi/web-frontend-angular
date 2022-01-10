@@ -11,20 +11,48 @@
               [tooltip]="('profile.seasons' | translateGender: user) + ': ' + (userSeasonsString$ | async)"
               tooltipPlacement="bottom"
         >
-          <span class="text-capitalize d-inline-block">
+          <span class="text-capitalize">
+            {{ user | translateSkillLevel }}
+          </span>
+          <span>
             {{ user | translateRole }}
           </span>
           <ng-container *ngIf="userService.isOrg$ | async">
             ({{user.role}})
-          </ng-container>,
-          <span>
-          {{ user | translateSkillLevel }}
-          </span>
+          </ng-container>
         </span>
       </span>
     </div>
 
     <div class="right-panel">
+      <ng-container *ngIf="user.achievements.length">
+        <h3>{{'profile.trophies' | translate}}</h3>
+        <div class="trophies">
+          <ksi-icon-achievement *ngFor="let ach of user.achievements" [achievementId]="ach"></ksi-icon-achievement>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="!user.$isOrg">
+        <h3>{{'profile.stats.title' | translate}}</h3>
+        <div class="stats">
+          <div>
+            <span class="name">{{'profile.stats.score' | translate}}:</span>
+            {{user.score}}
+          </div>
+          <div>
+            <span class="name">{{'profile.stats.solved-count' | translate}}:</span>
+            {{user.tasks_num}}
+          </div>
+        </div>
+        <progressbar
+          *ngIf="userProgress$ | async as progress"
+          class="progress"
+          [striped]="true"
+          [value]="progress"
+        >
+        </progressbar>
+      </ng-container>
+
       <div *ngIf="user.$isOrg">
         <h3>{{'profile.tasks' | translateGender: user}}</h3>
         <div class="tasks" *ngIf="user.tasks?.length; else tasksNone">

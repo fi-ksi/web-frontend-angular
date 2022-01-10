@@ -7,6 +7,7 @@ import { SharedModule } from "../shared/shared.module";
 import { TranslateModule } from "@ngx-translate/core";
 import { ProfileOrgTaskThumbnailComponent } from './page-profile/profile-org-task-thumbnail/profile-org-task-thumbnail.component';
 import { TooltipModule } from "ngx-bootstrap/tooltip";
+import { ProgressbarModule } from "ngx-bootstrap/progressbar";
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { TooltipModule } from "ngx-bootstrap/tooltip";
     ProfileRoutingModule,
     SharedModule,
     TranslateModule,
-    TooltipModule
+    TooltipModule,
+    ProgressbarModule
   ]
 })
 export class ProfileModule { }

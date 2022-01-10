@@ -1,0 +1,13 @@
+:host {
+  > a {
+    $size: var(--achievement-icon-size, 2em);
+
+    display: inline-block;
+    height: $size;
+
+    img {
+      height: $size;
+      cursor: pointer;
+    }
+  }
+}

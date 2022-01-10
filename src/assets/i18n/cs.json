@@ -183,8 +183,8 @@
         "female": "nezkušená"
       },
       "novice": {
-        "male": "nováček",
-        "female": "nováček"
+        "male": "nový",
+        "female": "nová"
       },
       "skilled": {
         "male": "zkušený",
@@ -192,7 +192,7 @@
       },
       "master": {
         "male": "mistr",
-        "female": "mistrině"
+        "female": "velmi zkužená"
       },
       "veteran": {
         "male": "veterán",
@@ -202,13 +202,19 @@
   },
   "profile": {
     "tasks": {
-      "male": "Organizátorovy úlohy",
-      "female": "Organizátorčiny úlohy"
+      "male": "Autor úloh",
+      "female": "Autorka úloh"
     },
     "seasons": {
       "male": "Účastnil se ročníků",
       "female": "Účastnila se ročníků"
     },
-    "tasks-none": "V tomto ročníku zatím nemá žádné úlohy"
+    "tasks-none": "V tomto ročníku zatím nemá žádné úlohy",
+    "trophies": "Získané trofeje",
+    "stats": {
+      "title": "Statistiky",
+      "score": "Skóre",
+      "solved-count": "Vyřešených úloh"
+    }
   }
 }

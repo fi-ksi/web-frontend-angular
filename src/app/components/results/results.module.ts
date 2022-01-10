@@ -4,20 +4,20 @@ import { CommonModule } from '@angular/common';
 import { ResultsRoutingModule } from './results-routing.module';
 import { PageResultsComponent } from './page-results/page-results.component';
 import { TranslateModule } from "@ngx-translate/core";
-import { IconAchievementComponent } from './icon-achivement/icon-achievement.component';
 import { TooltipModule } from "ngx-bootstrap/tooltip";
+import { SharedModule } from "../shared/shared.module";
 
 
 @NgModule({
   declarations: [
     PageResultsComponent,
-    IconAchievementComponent
   ],
   imports: [
     CommonModule,
     ResultsRoutingModule,
     TranslateModule,
-    TooltipModule
+    TooltipModule,
+    SharedModule
   ]
 })
 export class ResultsModule { }

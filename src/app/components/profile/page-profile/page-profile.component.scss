@@ -58,6 +58,32 @@
         flex-wrap: wrap;
         justify-content: center;
       }
+
+      .trophies {
+        --achievement-icon-size: 4em;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: $ksi-margin;
+
+        ksi-icon-achievement {
+          margin-right: $ksi-margin-small;
+        }
+      }
+
+      .stats {
+        display: flex;
+        justify-content: space-between;
+
+        .name {
+          font-weight: $ksi-semibold;
+        }
+      }
+
+      .progress {
+        margin: $ksi-margin-small 0;
+        height: 2em;
+      }
     }
   }
 }

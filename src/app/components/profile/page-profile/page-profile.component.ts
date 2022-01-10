@@ -31,7 +31,7 @@ export class PageProfileComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.user$ = combineLatest([this.route.params, this.years.selected$]).pipe(
+    this.user$ = combineLatest([this.route.params, this.years.selected$, this.userService.isLoggedIn$]).pipe(
       map(([params, year]) => ({userId: Number(params.id), year})),
       mergeMap(({userId, year}) => this.users.getUser(userId, year)),
       tap((user) => this.title.subtitle = user.first_name),

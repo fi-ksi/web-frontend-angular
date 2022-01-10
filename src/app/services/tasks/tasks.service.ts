@@ -6,6 +6,7 @@ import { map, mergeMap, shareReplay, tap } from "rxjs/operators";
 import { TaskWithIcon, WaveDetails } from "../../models";
 import { Task, Wave } from "src/api";
 import { Utils } from "../../util";
+import { UserService } from "../shared/user.service";
 
 type TasksLevelMap = {[taskId: number]: number};
 type TasksMap = {[taskId: number]: TaskWithIcon};
@@ -19,10 +20,10 @@ export class TasksService {
   readonly waves$: Observable<Wave[]>;
   readonly tasks$: Observable<TaskWithIcon[]>;
 
-  private static readonly TASK_CACHE_MAX_SIZE = 100;
-  private readonly tasksCache: {[taskId: number]: TaskWithIcon} = {};
+  private static readonly CACHE_MAX_SIZE = 100;
+  private readonly cache: {[taskId: number]: TaskWithIcon} = {};
 
-  constructor(private backend: BackendService, private year: YearsService) {
+  constructor(private backend: BackendService, private year: YearsService, private userService: UserService) {
     this.tasks$ = merge(
       backend.user$.pipe(map(() => this.year.selected)),
       year.selected$
@@ -33,17 +34,17 @@ export class TasksService {
         /*
          * Empty enough space in cache for new tasks
          */
-        const cachedKeys = Object.keys(this.tasksCache);
+        const cachedKeys = Object.keys(this.cache);
         let firstKey;
-        while (cachedKeys.length + tasks.length > TasksService.TASK_CACHE_MAX_SIZE && (firstKey = cachedKeys.shift())) {
-          delete this.tasksCache[Number(firstKey)];
+        while (cachedKeys.length + tasks.length > TasksService.CACHE_MAX_SIZE && (firstKey = cachedKeys.shift())) {
+          delete this.cache[Number(firstKey)];
         }
 
         /*
         Save new tasks into cache
          */
-        for (let i = 0; i < tasks.length && i < TasksService.TASK_CACHE_MAX_SIZE; i++) {
-          this.tasksCache[tasks[i].id] = tasks[i];
+        for (let i = 0; i < tasks.length && i < TasksService.CACHE_MAX_SIZE; i++) {
+          this.cache[tasks[i].id] = tasks[i];
         }
       })
     );
@@ -64,11 +65,15 @@ export class TasksService {
         }));
     }), shareReplay(1)
     );
+
+    // flush cache on login change
+    this.userService.isLoggedIn$
+      .subscribe(() => Object.keys(this.cache).forEach((key) => delete this.cache[Number(key)]));
   }
 
   public getTask(taskId: number): Observable<TaskWithIcon> {
-    if (taskId in this.tasksCache) {
-      return of(this.tasksCache[taskId]);
+    if (taskId in this.cache) {
+      return of(this.cache[taskId]);
     }
 
     return this.backend.http.tasksGetSingle(taskId).pipe(
@@ -77,16 +82,16 @@ export class TasksService {
         /*
         Empty space in the cache
          */
-        const cachedKeys = Object.keys(this.tasksCache);
+        const cachedKeys = Object.keys(this.cache);
         let firstKey;
-        while (cachedKeys.length >= TasksService.TASK_CACHE_MAX_SIZE && (firstKey = cachedKeys.shift())) {
-          delete this.tasksCache[Number(firstKey)];
+        while (cachedKeys.length >= TasksService.CACHE_MAX_SIZE && (firstKey = cachedKeys.shift())) {
+          delete this.cache[Number(firstKey)];
         }
 
         /*
         Save the task into cache
          */
-        this.tasksCache[task.id] = task;
+        this.cache[task.id] = task;
       })
     );
   }

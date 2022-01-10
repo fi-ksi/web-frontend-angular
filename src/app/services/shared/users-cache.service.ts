@@ -7,6 +7,7 @@ import { Utils } from "../../util";
 import { environment } from "../../../environments/environment";
 import { IUser, YearSelect } from "../../models";
 import { YearsService } from "./years.service";
+import { UserService } from "./user.service";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,11 @@ export class UsersCacheService {
 
   private static readonly CACHE_SIZE = 100;
 
-  constructor(private backend: BackendService, private year: YearsService) { }
+  constructor(private backend: BackendService, private year: YearsService, private userService: UserService) {
+    // flush cache on login change
+    this.userService.isLoggedIn$
+      .subscribe(() => Object.keys(this.cache).forEach((key) => delete this.cache[Number(key)]));
+  }
 
   getUser(userId: number, year?: YearSelect | null): Observable<IUser> {
     if (typeof year === "undefined") {

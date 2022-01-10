@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { KsiTitleService, UsersCacheService, WindowService, YearsService } from "../../../services";
+import { IconService, KsiTitleService, UsersCacheService, WindowService, YearsService } from "../../../services";
 import { ActivatedRoute } from "@angular/router";
 import { combineLatest, Observable } from "rxjs";
 import { map, mergeMap, shareReplay, tap } from "rxjs/operators";
@@ -26,7 +26,8 @@ export class PageProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private title: KsiTitleService,
     public years: YearsService,
-    public window: WindowService
+    public window: WindowService,
+    public icon: IconService
   ) { }
 
   ngOnInit(): void {

@@ -34,6 +34,7 @@
         text-align: center;
         display: flex;
         flex-direction: column;
+        margin-bottom: $ksi-margin-large;
 
         > * {
           margin-top: $ksi-margin-x-small;
@@ -43,6 +44,12 @@
           font-weight: bold;
           line-height: 1;
         }
+      }
+
+      .contact {
+        @include round-corner;
+        background-color: $ksi-orange-230;
+        margin: $ksi-margin-small $ksi-margin-x-small $ksi-margin-x-small;
       }
     }
 

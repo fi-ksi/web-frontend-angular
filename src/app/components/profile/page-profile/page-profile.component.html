@@ -22,6 +22,25 @@
           </ng-container>
         </span>
       </span>
+
+      <div class="contact" *ngIf="!user.$isOrg">
+        <table class="contact table table-borderless">
+          <tbody>
+          <tr *ngIf="user.email">
+            <th scope="col">{{icon.EMAIL}}</th>
+            <td><a [href]="'mailto:' + user.email">{{user.email}}</a></td>
+          </tr>
+          <tr>
+            <th scope="col">{{icon.SCHOOL}}</th>
+            <td>{{user.school_name}}</td>
+          </tr>
+          <tr>
+            <th scope="col">{{icon.LOCATION}}</th>
+            <td>{{user.addr_country}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <div class="right-panel">

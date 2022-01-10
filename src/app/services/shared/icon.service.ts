@@ -11,6 +11,9 @@ export class IconService {
   public readonly LINK = '🔗';
   public readonly REPLY = '⮲';
   public readonly CHECKMARK = '✓';
+  public readonly EMAIL = '🖃';
+  public readonly SCHOOL = '🎓';
+  public readonly LOCATION = '🖈';
 
   constructor() { }
 }

@@ -71,8 +71,8 @@ export class TasksService {
       .subscribe(() => Object.keys(this.cache).forEach((key) => delete this.cache[Number(key)]));
   }
 
-  public getTask(taskId: number): Observable<TaskWithIcon> {
-    if (taskId in this.cache) {
+  public getTask(taskId: number, refreshCache = false): Observable<TaskWithIcon> {
+    if (!refreshCache && taskId in this.cache) {
       return of(this.cache[taskId]);
     }
 

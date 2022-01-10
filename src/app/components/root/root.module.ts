@@ -16,6 +16,7 @@ import { ModalGenericComponent } from './modal-generic/modal-generic.component';
 import { ModalLoginComponent } from './modal-login/modal-login.component';
 import { ModalPostReplyComponent } from './modal-post-reply/modal-post-reply.component';
 import { QuillModule } from "ngx-quill";
+import { PageForbiddenComponent } from './page-forbidden/page-forbidden.component';
 
 
 
@@ -28,7 +29,8 @@ import { QuillModule } from "ngx-quill";
     PageWelcomeComponent,
     ModalGenericComponent,
     ModalLoginComponent,
-    ModalPostReplyComponent
+    ModalPostReplyComponent,
+    PageForbiddenComponent
   ],
   exports: [
     FooterComponent,

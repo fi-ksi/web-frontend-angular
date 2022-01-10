@@ -29,6 +29,16 @@ export class UserService {
    * If the login modal is canceled, then this is newer fired
    */
   get afterLogin$(): Observable<void> {
+    return this.requestLogin$.pipe(
+      filter((loginOk) => loginOk),
+      map(() => {})
+    );
+  }
+
+  /**
+   * Requests a single login attempt if not logged in yet
+   */
+  get requestLogin$(): Observable<boolean> {
     return this.isLoggedIn$.pipe(
       mergeMap((isLoggedIn) => {
         if (isLoggedIn) {
@@ -43,9 +53,7 @@ export class UserService {
           );
         }
       }),
-      take(1),
-      filter((loginOk) => loginOk),
-      map(() => {})
+      take(1)
     );
   }
 

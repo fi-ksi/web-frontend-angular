@@ -1,9 +1,17 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef, OnDestroy } from '@angular/core';
-import { BackendService, IconService, KsiTitleService, ModalService, WindowService } from "../../../services";
+import {
+  BackendService,
+  IconService,
+  KsiTitleService,
+  ModalService,
+  TasksService,
+  WindowService
+} from "../../../services";
 import { ActivatedRoute, Router } from "@angular/router";
-import { distinctUntilChanged, filter, map, mergeMap, shareReplay, tap } from "rxjs/operators";
-import { combineLatest, Observable } from "rxjs";
+import { catchError, distinctUntilChanged, filter, map, mergeMap, shareReplay, tap } from "rxjs/operators";
+import { combineLatest, Observable, of, throwError } from "rxjs";
 import { OpenedTemplate, TaskFullInfo } from "../../../models";
+import { UserService } from "../../../services/shared/user.service";
 
 @Component({
   selector: 'ksi-page-task',
@@ -12,7 +20,7 @@ import { OpenedTemplate, TaskFullInfo } from "../../../models";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PageTaskComponent implements OnInit, OnDestroy {
-  task$: Observable<TaskFullInfo>;
+  task$: Observable<TaskFullInfo | null>;
   authors$: Observable<number[]>;
   subpage$: Observable<TemplateRef<unknown>>;
 
@@ -27,6 +35,8 @@ export class PageTaskComponent implements OnInit, OnDestroy {
 
   private openedModal: OpenedTemplate | null = null;
 
+  private static readonly ERR_LOGIN_DENIED = 'login-required-but-denied';
+
   constructor(
     private backend: BackendService,
     private route: ActivatedRoute,
@@ -34,20 +44,42 @@ export class PageTaskComponent implements OnInit, OnDestroy {
     public icon: IconService,
     private window: WindowService,
     private modal: ModalService,
-    private router: Router
+    private router: Router,
+    private tasks: TasksService,
+    private user: UserService,
   ) {
   }
 
   ngOnInit(): void {
     this.task$ = this.route.params.pipe(
       map((params) => Number(params.id)),
-      mergeMap((taskId: number) => combineLatest([
-        this.backend.http.tasksGetSingle(taskId).pipe(map((resp) => resp.task)),
-        this.backend.http.taskDetailsGetSingle(taskId)
+      mergeMap((taskId: number) => this.tasks.getTask(taskId)),
+      mergeMap((task) => {
+        if (task.state !== "locked") {
+          return of(task);
+        }
+        // Force login if the task is locked
+        return this.user.requestLogin$.pipe(mergeMap((loginOk) => {
+          if (!loginOk) {
+            return throwError(PageTaskComponent.ERR_LOGIN_DENIED);
+          }
+          return this.tasks.getTask(task.id, true);
+        }))
+      }),
+      mergeMap((task) => combineLatest([
+        of(task),
+        this.backend.http.taskDetailsGetSingle(task.id)
       ])),
       map(([head, detail]) => ({head, detail})),
       tap((task) => {
         this.title.subtitle = task.head.title;
+      }),
+      catchError((err) => {
+        if (err === PageTaskComponent.ERR_LOGIN_DENIED) {
+          this.router.navigate(['/', 'tasks']).then();
+          return of(null);
+        }
+        throw err;
       }),
       shareReplay(1)
     );
@@ -85,7 +117,7 @@ export class PageTaskComponent implements OnInit, OnDestroy {
 
     this.authors$ = this.task$.pipe(
       map(
-        (task) => [task.head.author, task.head.co_author].filter((orgId) => orgId !== null)
+        (task) => task !== null ? [task.head.author, task.head.co_author].filter((orgId) => orgId !== null) : []
       )
     );
   }

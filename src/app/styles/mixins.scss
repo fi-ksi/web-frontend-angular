@@ -1,3 +1,48 @@
+@import "src/app/styles/vars";
+
 @mixin round-corner {
   border-radius: 4px;
+}
+
+@mixin ksi-card($width: 15ex, $nameHeight: 3em, $descriptionHeight: 5em) {
+  @include round-corner;
+  cursor: pointer;
+  display: block;
+  border: 1px solid $ksi-orange-180;
+  margin: $ksi-margin;
+  background: $ksi-orange-230;
+  box-sizing: content-box;
+  width: $width;
+  padding: $ksi-padding-small;
+  transition: all 0.3s;
+
+  &:hover {
+    background-color: $ksi-orange-240;
+    border-color: $ksi-orange-200;
+  }
+
+  .icon {
+    width: $width;
+  }
+
+  .name {
+    margin-top: $ksi-margin-small;
+    box-sizing: content-box;
+    height: $nameHeight;
+    line-height: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-weight: $ksi-semibold;
+  }
+
+  .description {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: $descriptionHeight;
+    line-height: 1;
+    text-align: center;
+  }
 }

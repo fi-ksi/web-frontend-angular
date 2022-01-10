@@ -14,5 +14,6 @@ export interface Achievement {
     title: string;
     picture: string;
     description: string;
+    id: number;
     year: number;
 }

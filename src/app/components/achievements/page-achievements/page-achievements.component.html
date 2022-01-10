@@ -1,0 +1,14 @@
+<ksi-spinner [source]="achievements$"></ksi-spinner>
+<div class="content">
+  <h1>{{'achievements.title' | translate}}</h1>
+  <div class="achievements">
+    <a *ngFor="let achievement of achievements$ | async"
+       class="achievement"
+       [routerLink]="'/achievements/' + achievement.id"
+    >
+      <img [src]="achievement.picture" class="icon" alt="">
+      <span class="name">{{achievement.title}}</span>
+      <p class="description" [innerHTML]="achievement.description"></p>
+    </a>
+  </div>
+</div>

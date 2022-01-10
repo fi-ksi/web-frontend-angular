@@ -216,5 +216,8 @@
       "score": "Skóre",
       "solved-count": "Vyřešených úloh"
     }
+  },
+  "achievements": {
+    "title": "Trofeje"
   }
 }

@@ -1,0 +1,29 @@
+@import "src/app/styles/vars";
+@import "src/app/styles/mixins";
+
+:host {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 27cm;
+    margin: $ksi-margin;
+
+    .achievements {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      .achievement {
+        @include ksi-card(25ex);
+        text-decoration: none;
+        color: $ksi-black;
+      }
+    }
+  }
+}

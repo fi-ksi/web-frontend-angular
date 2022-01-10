@@ -12,6 +12,7 @@ const routes: Routes = [
   { path: 'tasks', loadChildren: () => import('./components/tasks/tasks.module').then((m) => m.TasksModule)},
   { path: 'discussion', loadChildren: () => import('./components/discussion/discussion.module').then((m) => m.DiscussionModule)},
   { path: 'profile', loadChildren: () => import('./components/profile/profile.module').then((m) => m.ProfileModule)},
+  { path: 'achievements', loadChildren: () => import('./components/achievements/achievements.module').then((m) => m.AchievementsModule)},
   { path: '**', component: PageNotFoundComponent }
 ];
 

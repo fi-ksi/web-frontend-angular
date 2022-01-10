@@ -6,3 +6,4 @@ export * from './tasks.service';
 export * from './wave';
 export * from './discussion';
 export * from './module.service';
+export * from './users-cache.service';

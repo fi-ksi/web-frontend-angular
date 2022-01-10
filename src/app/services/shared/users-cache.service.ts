@@ -5,24 +5,26 @@ import { User } from "../../../api";
 import { map, shareReplay } from "rxjs/operators";
 import { Utils } from "../../util";
 import { environment } from "../../../environments/environment";
+import { IUser } from "../../models";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersCacheService {
-  private readonly cache: {[userId: number]: Observable<User>} = {};
+  private readonly cache: {[userId: number]: Observable<IUser>} = {};
   private readonly cacheIds: number[] = [];
 
   private static readonly CACHE_SIZE = 100;
 
   constructor(private backend: BackendService) { }
 
-  getUser(userId: number): Observable<User> {
+  getUser(userId: number): Observable<IUser> {
     if (!(userId in this.cache)) {
       const r = this.cache[userId] = this.backend.http.usersGetSingle(userId).pipe(
         map((response) =>
           ({...response.user, profile_picture: UsersCacheService.getOrgProfilePicture(response.user)})
         ),
+        map((user) => UsersCacheService.getIUser(user)),
         shareReplay(1)
       );
       this.cacheIds.push(userId);
@@ -34,6 +36,13 @@ export class UsersCacheService {
     } else {
       return this.cache[userId];
     }
+  }
+
+  private static getIUser(user: User): IUser {
+    const isAdmin = user.role === "admin";
+    const isOrg = isAdmin || user.role === "org";
+
+    return {...user, isAdmin, isOrg};
   }
 
   public static getOrgProfilePicture(organisator: User): string {

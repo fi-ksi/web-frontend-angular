@@ -1,0 +1,23 @@
+<ksi-spinner [source]="user$"></ksi-spinner>
+<ng-container *ngIf="user$ | async as user">
+  <div class="left-panel">
+    <img class="picture" [src]="user.profile_picture" alt="">
+    <span class="info text-uppercase">
+      <span class="name">
+    {{ user.first_name }}
+        {{ user.nick_name ? '"' + user.nick_name + '"' : '' }}
+        {{ user.last_name }}
+    </span>
+      <span class="role text-capitalize">
+    {{ user | translateRole }}
+        <ng-container *ngIf="userService.isOrg$ | async">
+      ({{user.role}})
+    </ng-container>
+    </span>
+    </span>
+  </div>
+
+  <div *ngIf="user.isOrg" class="tasks">
+    tasks
+  </div>
+</ng-container>

@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'results', loadChildren: () => import('./components/results/results.module').then((m) => m.ResultsModule)},
   { path: 'tasks', loadChildren: () => import('./components/tasks/tasks.module').then((m) => m.TasksModule)},
   { path: 'discussion', loadChildren: () => import('./components/discussion/discussion.module').then((m) => m.DiscussionModule)},
+  { path: 'profile', loadChildren: () => import('./components/profile/profile.module').then((m) => m.ProfileModule)},
   { path: '**', component: PageNotFoundComponent }
 ];
 

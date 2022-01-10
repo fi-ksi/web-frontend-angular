@@ -1,0 +1,28 @@
+@import "src/app/styles/mixins";
+@import "src/app/styles/vars";
+
+:host {
+  display: flex;
+  justify-content: center;
+  max-width: 27cm;
+  margin: $ksi-margin;
+
+  .left-panel {
+    display: flex;
+    flex-direction: column;
+
+    .picture {
+      @include round-corner;
+      width: 25ex;
+    }
+
+    .info {
+      display: flex;
+      flex-direction: column;
+
+      .name {
+        font-weight: bold;
+      }
+    }
+  }
+}

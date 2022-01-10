@@ -1,6 +1,6 @@
 import { ComponentRef, TemplateRef } from "@angular/core";
 import { Observable } from "rxjs";
-import { ModalGenericComponent } from "../components/root/modal-generic/modal-generic.component";
+import { ModalGenericComponent } from "../components/shared/modal-generic/modal-generic.component";
 import { BsModalRef } from "ngx-bootstrap/modal";
 
 export interface ModalComponent {

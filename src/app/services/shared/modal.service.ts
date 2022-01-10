@@ -5,14 +5,14 @@ import {
   TemplateRef, Type,
   ViewContainerRef
 } from '@angular/core';
-import { ModalGenericComponent } from "../../components/root/modal-generic/modal-generic.component";
+import { ModalGenericComponent } from "../../components/shared/modal-generic/modal-generic.component";
 import { TranslateService } from "@ngx-translate/core";
 import { ModalComponent, OpenedModal, OpenedTemplate, PostsMap } from "../../models";
-import { ModalLoginComponent } from "../../components/root/modal-login/modal-login.component";
+import { ModalLoginComponent } from "../../components/shared/modal-login/modal-login.component";
 import { filter, take } from "rxjs/operators";
 import { environment } from "../../../environments/environment";
 import { ModalOptions } from "ngx-bootstrap/modal";
-import { ModalPostReplyComponent } from "../../components/root/modal-post-reply/modal-post-reply.component";
+import { ModalPostReplyComponent } from "../../components/shared/modal-post-reply/modal-post-reply.component";
 import { Post } from "../../../api";
 
 @Injectable({

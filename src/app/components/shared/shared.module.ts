@@ -14,6 +14,10 @@ import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { ReactiveFormsModule } from "@angular/forms";
 import { TranslateSkillLevelPipe } from "../../pipes";
 import { IconAchievementComponent } from "./icon-achivement/icon-achievement.component";
+import { ModalGenericComponent } from "./modal-generic/modal-generic.component";
+import { ModalLoginComponent } from "./modal-login/modal-login.component";
+import { ModalPostReplyComponent } from "./modal-post-reply/modal-post-reply.component";
+import { QuillModule } from "ngx-quill";
 
 
 @NgModule({
@@ -28,7 +32,10 @@ import { IconAchievementComponent } from "./icon-achivement/icon-achievement.com
     DiscussionThreadComponent,
     DiscussionThreadPostsComponent,
     UsersInlineComponent,
-    IconAchievementComponent
+    IconAchievementComponent,
+    ModalGenericComponent,
+    ModalLoginComponent,
+    ModalPostReplyComponent,
   ],
   exports: [
     ArticlePreviewComponent,
@@ -48,7 +55,8 @@ import { IconAchievementComponent } from "./icon-achivement/icon-achievement.com
     RouterModule,
     TranslateModule,
     TooltipModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    QuillModule
   ]
 })
 export class SharedModule {

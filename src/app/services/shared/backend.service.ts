@@ -54,9 +54,8 @@ export class BackendService {
    * Logs user ouf and deletes saved session
    */
   public logout(): void {
-    this.loginSubject.next(false);
     this.deleteSession();
-    this.router.navigate(['/']).then();
+    this.loginSubject.next(false);
   }
 
   /**
@@ -103,8 +102,8 @@ export class BackendService {
     if (this.timerRefreshToken !== null) {
       clearTimeout(this.timerRefreshToken);
     }
-    this.authStorage.delete('session');
     this.http.configuration.accessToken = undefined;
+    this.authStorage.delete('session');
   }
 
   /**

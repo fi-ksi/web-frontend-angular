@@ -177,5 +177,12 @@
         "female": "řešitelka"
       }
     }
+  },
+  "profile": {
+    "tasks": {
+      "male": "Organizátorovy úlohy",
+      "female": "Organizátorčiny úlohy"
+    },
+    "tasks-none": "V tomto ročníku zatím nemá žádné úlohy"
   }
 }

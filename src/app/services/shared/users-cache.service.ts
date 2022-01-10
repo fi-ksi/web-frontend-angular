@@ -23,7 +23,7 @@ export class UsersCacheService {
       year = this.year.selected;
     }
 
-    if (userId in this.cache && this.cache[userId].year === year) {
+    if (userId in this.cache && this.cache[userId].$year === year) {
       return of(this.cache[userId]);
     }
 
@@ -48,8 +48,15 @@ export class UsersCacheService {
   private getIUser(user: User, year?: YearSelect | null): IUser {
     const isAdmin = user.role === "admin";
     const isOrg = isAdmin || user.role === "org";
+    const fullName = `${user.first_name}${user.nick_name ? ' "' + user.nick_name + '"' : ''} ${user.last_name}`;
 
-    return {...user, isAdmin, isOrg, year: typeof year !== "undefined" ? year : this.year.selected};
+    return {
+      ...user,
+      $isAdmin: isAdmin,
+      $isOrg: isOrg,
+      $year: typeof year !== "undefined" ? year : this.year.selected,
+      $fullName: fullName
+    };
   }
 
   public static getOrgProfilePicture(organisator: User): string {

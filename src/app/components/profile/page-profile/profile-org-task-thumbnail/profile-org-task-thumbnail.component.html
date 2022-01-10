@@ -1,3 +1,11 @@
-<ng-container *ngIf="(task$ | async) as task">
-  {{task.title}}
-</ng-container>
+<a class="content"
+   *ngIf="(task$ | async) as task"
+   [routerLink]="['/', 'tasks', taskId]"
+>
+  <div class="icon-container">
+    <img class="icon" [src]="task.icon" alt="">
+  </div>
+  <div class="name">
+    <span>{{task.title}}</span>
+  </div>
+</a>

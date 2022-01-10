@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ArticlePreviewComponent } from "./article-preview/article-preview.component";
 import { RouterModule } from "@angular/router";
 import { SpinnerComponent } from "./spinner/spinner.component";
-import { TranslateNewItemsPipe, TranslatePointsPipe, TranslateRolePipe } from "../../pipes";
+import { TranslateGenderPipe, TranslateNewItemsPipe, TranslatePointsPipe, TranslateRolePipe } from "../../pipes";
 import { DiscussionThreadComponent } from './discussion-thread/discussion-thread.component';
 import { DiscussionThreadPostsComponent } from './discussion-thread/discussion-thread-posts/discussion-thread-posts.component';
 import { TranslateModule } from "@ngx-translate/core";
@@ -20,6 +20,7 @@ import { ReactiveFormsModule } from "@angular/forms";
     TranslatePointsPipe,
     TranslateNewItemsPipe,
     TranslateRolePipe,
+    TranslateGenderPipe,
     DiscussionThreadComponent,
     DiscussionThreadPostsComponent,
     UsersInlineComponent
@@ -32,6 +33,7 @@ import { ReactiveFormsModule } from "@angular/forms";
         DiscussionThreadComponent,
         UsersInlineComponent,
         TranslateRolePipe,
+        TranslateGenderPipe,
         DiscussionThreadPostsComponent
     ],
   imports: [

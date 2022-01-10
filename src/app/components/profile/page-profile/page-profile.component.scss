@@ -2,26 +2,57 @@
 @import "src/app/styles/vars";
 
 :host {
+  width: 100%;
   display: flex;
   justify-content: center;
-  max-width: 27cm;
-  margin: $ksi-margin;
 
-  .left-panel {
+  .content {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    max-width: 27cm;
+    margin: $ksi-margin;
 
-    .picture {
-      @include round-corner;
-      width: 25ex;
+    &.mobile {
+      flex-direction: column;
     }
 
-    .info {
+    .left-panel {
+      margin-top: $ksi-margin;
       display: flex;
       flex-direction: column;
+      flex-grow: 1;
+      align-items: center;
 
-      .name {
-        font-weight: bold;
+      .picture {
+        @include round-corner;
+        width: 25ex;
+      }
+
+      .info {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+
+        .name {
+          font-weight: bold;
+          line-height: 1;
+          margin: $ksi-margin-small;
+        }
+      }
+    }
+
+    .right-panel {
+      flex-grow: 2;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin-top: $ksi-margin;
+
+      .tasks {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
       }
     }
   }

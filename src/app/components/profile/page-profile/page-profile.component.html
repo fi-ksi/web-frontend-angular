@@ -1,26 +1,34 @@
-<ksi-spinner [source]="user$"></ksi-spinner>
-<ng-container *ngIf="user$ | async as user">
-  <div class="left-panel">
-    <img class="picture" [src]="user.profile_picture" alt="">
-    <span class="info text-uppercase">
-      <span class="name">
-    {{ user.first_name }}
-        {{ user.nick_name ? '"' + user.nick_name + '"' : '' }}
-        {{ user.last_name }}
-    </span>
-      <span class="role text-capitalize">
-    {{ user | translateRole }}
-        <ng-container *ngIf="userService.isOrg$ | async">
-      ({{user.role}})
-    </ng-container>
-    </span>
-    </span>
-  </div>
+<div class="content" [class.mobile]="window.isMobileSmall$ | async">
+  <ksi-spinner [source]="user$"></ksi-spinner>
+  <ng-container *ngIf="user$ | async as user">
+    <div class="left-panel">
+      <img class="picture" [src]="user.profile_picture" alt="">
+      <span class="info text-uppercase">
+        <span class="name">
+          {{user.$fullName}}
+        </span>
+        <span class="role text-capitalize">
+          {{ user | translateRole }}
+          <ng-container *ngIf="userService.isOrg$ | async">
+            ({{user.role}})
+          </ng-container>
+        </span>
+      </span>
+    </div>
 
-  <div *ngIf="user.isOrg" class="tasks">
-    <ksi-profile-org-task-thumbnail
-      *ngFor="let taskId of user.tasks"
-      [taskId]="taskId"
-    ></ksi-profile-org-task-thumbnail>
-  </div>
-</ng-container>
+    <div class="right-panel">
+      <div *ngIf="user.$isOrg">
+        <h3>{{'profile.tasks' | translateGender: user}}</h3>
+        <div class="tasks" *ngIf="user.tasks?.length; else tasksNone">
+          <ksi-profile-org-task-thumbnail
+            *ngFor="let taskId of user.tasks"
+            [taskId]="taskId"
+          ></ksi-profile-org-task-thumbnail>
+        </div>
+        <ng-template #tasksNone>
+          <p>{{'profile.tasks-none' | translate}}</p>
+        </ng-template>
+      </div>
+    </div>
+  </ng-container>
+</div>

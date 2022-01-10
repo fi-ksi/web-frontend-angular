@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { KsiTitleService, UsersCacheService } from "../../../services";
+import { KsiTitleService, UsersCacheService, YearsService } from "../../../services";
 import { ActivatedRoute } from "@angular/router";
-import { Observable } from "rxjs";
+import { combineLatest, Observable } from "rxjs";
 import { map, mergeMap, shareReplay, tap } from "rxjs/operators";
 import { UserService } from "../../../services/shared/user.service";
 import { IUser } from "../../../models";
@@ -19,13 +19,14 @@ export class PageProfileComponent implements OnInit {
     public userService: UserService,
     private users: UsersCacheService,
     private route: ActivatedRoute,
-    private title: KsiTitleService
+    private title: KsiTitleService,
+    private years: YearsService,
   ) { }
 
   ngOnInit(): void {
-    this.user$ = this.route.params.pipe(
-      map((params) => Number(params.id)),
-      mergeMap((userId) => this.users.getUser(userId)),
+    this.user$ = combineLatest([this.route.params, this.years.selected$]).pipe(
+      map(([params, year]) => ({userId: Number(params.id), year})),
+      mergeMap(({userId, year}) => this.users.getUser(userId, year)),
       tap((user) => this.title.subtitle = user.first_name),
       shareReplay(1)
     );

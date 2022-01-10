@@ -2877,19 +2877,24 @@ export class DefaultService {
      * 
      * 
      * @param usersId 
+     * @param year 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public usersGetSingle(usersId: number, observe?: 'body', reportProgress?: boolean): Observable<UserResponse>;
-    public usersGetSingle(usersId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UserResponse>>;
-    public usersGetSingle(usersId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UserResponse>>;
-    public usersGetSingle(usersId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public usersGetSingle(usersId: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<UserResponse>;
+    public usersGetSingle(usersId: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UserResponse>>;
+    public usersGetSingle(usersId: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UserResponse>>;
+    public usersGetSingle(usersId: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (usersId === null || usersId === undefined) {
             throw new Error('Required parameter usersId was null or undefined when calling usersGetSingle.');
         }
 
+
         let headers = this.defaultHeaders;
+        if (year !== undefined && year !== null) {
+            headers = headers.set('year', String(year));
+        }
 
         // authentication (ksi) required
         if (this.configuration.accessToken) {

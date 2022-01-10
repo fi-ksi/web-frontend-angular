@@ -1,48 +1,55 @@
 import { Injectable } from '@angular/core';
 import { BackendService } from "./backend.service";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { User } from "../../../api";
-import { map, shareReplay } from "rxjs/operators";
+import { map, shareReplay, tap } from "rxjs/operators";
 import { Utils } from "../../util";
 import { environment } from "../../../environments/environment";
-import { IUser } from "../../models";
+import { IUser, YearSelect } from "../../models";
+import { YearsService } from "./years.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersCacheService {
-  private readonly cache: {[userId: number]: Observable<IUser>} = {};
-  private readonly cacheIds: number[] = [];
+  private readonly cache: {[userId: number]: IUser} = {};
 
   private static readonly CACHE_SIZE = 100;
 
-  constructor(private backend: BackendService) { }
+  constructor(private backend: BackendService, private year: YearsService) { }
 
-  getUser(userId: number): Observable<IUser> {
-    if (!(userId in this.cache)) {
-      const r = this.cache[userId] = this.backend.http.usersGetSingle(userId).pipe(
-        map((response) =>
-          ({...response.user, profile_picture: UsersCacheService.getOrgProfilePicture(response.user)})
-        ),
-        map((user) => UsersCacheService.getIUser(user)),
-        shareReplay(1)
-      );
-      this.cacheIds.push(userId);
-      if (this.cacheIds && this.cacheIds.length > UsersCacheService.CACHE_SIZE) {
-        delete this.cache[this.cacheIds.shift()!];
-      }
-      return r;
-
-    } else {
-      return this.cache[userId];
+  getUser(userId: number, year?: YearSelect | null): Observable<IUser> {
+    if (typeof year === "undefined") {
+      year = this.year.selected;
     }
+
+    if (userId in this.cache && this.cache[userId].year === year) {
+      return of(this.cache[userId]);
+    }
+
+    return this.backend.http.usersGetSingle(userId, year?.id).pipe(
+      map((response) =>
+        ({...response.user, profile_picture: UsersCacheService.getOrgProfilePicture(response.user)})
+      ),
+      map((user) => this.getIUser(user)),
+      tap((user) => {
+        const cachedKeys = Object.keys(this.cache);
+        let firstKey;
+        while (cachedKeys.length >= UsersCacheService.CACHE_SIZE && (firstKey = cachedKeys.shift())) {
+          delete this.cache[Number(firstKey)];
+        }
+
+        this.cache[userId] = user;
+      }),
+      shareReplay(1)
+    );
   }
 
-  private static getIUser(user: User): IUser {
+  private getIUser(user: User, year?: YearSelect | null): IUser {
     const isAdmin = user.role === "admin";
     const isOrg = isAdmin || user.role === "org";
 
-    return {...user, isAdmin, isOrg};
+    return {...user, isAdmin, isOrg, year: typeof year !== "undefined" ? year : this.year.selected};
   }
 
   public static getOrgProfilePicture(organisator: User): string {

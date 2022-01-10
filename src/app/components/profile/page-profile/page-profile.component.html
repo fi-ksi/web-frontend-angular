@@ -18,6 +18,9 @@
   </div>
 
   <div *ngIf="user.isOrg" class="tasks">
-    tasks
+    <ksi-profile-org-task-thumbnail
+      *ngFor="let taskId of user.tasks"
+      [taskId]="taskId"
+    ></ksi-profile-org-task-thumbnail>
   </div>
 </ng-container>

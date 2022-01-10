@@ -18,6 +18,7 @@ import { ModalGenericComponent } from "./modal-generic/modal-generic.component";
 import { ModalLoginComponent } from "./modal-login/modal-login.component";
 import { ModalPostReplyComponent } from "./modal-post-reply/modal-post-reply.component";
 import { QuillModule } from "ngx-quill";
+import { ModalServerErrorComponent } from './modal-server-error/modal-server-error.component';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { QuillModule } from "ngx-quill";
     ModalGenericComponent,
     ModalLoginComponent,
     ModalPostReplyComponent,
+    ModalServerErrorComponent,
   ],
   exports: [
     ArticlePreviewComponent,

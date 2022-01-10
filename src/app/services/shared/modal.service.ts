@@ -14,6 +14,7 @@ import { environment } from "../../../environments/environment";
 import { ModalOptions } from "ngx-bootstrap/modal";
 import { ModalPostReplyComponent } from "../../components/shared/modal-post-reply/modal-post-reply.component";
 import { Post } from "../../../api";
+import { ModalServerErrorComponent } from "../../components/shared/modal-server-error/modal-server-error.component";
 
 @Injectable({
   providedIn: 'root'
@@ -80,5 +81,9 @@ export class ModalService {
     instance.posts = posts;
     ref.component.changeDetectorRef.markForCheck();
     return ref;
+  }
+
+  public showServerErrorModal(): OpenedModal<ModalServerErrorComponent> {
+    return this.showModalComponent(ModalServerErrorComponent);
   }
 }

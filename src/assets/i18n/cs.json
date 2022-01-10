@@ -84,6 +84,10 @@
     "post-reply": {
       "save-reply": "Uložit příspěvek",
       "title": "Vytvořit nový příspěvek"
+    },
+    "server-error": {
+      "title": "Stala se chyba...",
+      "text": "Nastala chyba serveru. S trochou štěstí už pracujeme na opravě. Pokud chyba přetrvává déle, než je zdravé, nebo se vyskytuje až příliš často, kontaktuj prosím organizátory."
     }
   },
   "tasks": {

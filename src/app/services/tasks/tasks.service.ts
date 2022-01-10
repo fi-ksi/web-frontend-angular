@@ -46,7 +46,8 @@ export class TasksService {
         for (let i = 0; i < tasks.length && i < TasksService.CACHE_MAX_SIZE; i++) {
           this.cache[tasks[i].id] = tasks[i];
         }
-      })
+      }),
+      shareReplay(1)
     );
 
     this.waves$ =  year.selected$.pipe(

@@ -9,3 +9,4 @@ export { ModalService } from './shared/modal.service';
 export { IconService } from './shared/icon.service';
 export { UsersCacheService } from './shared/users-cache.service';
 export * from './tasks';
+export * from './root';

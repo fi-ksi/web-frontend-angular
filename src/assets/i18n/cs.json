@@ -219,5 +219,10 @@
   },
   "achievements": {
     "title": "Trofeje"
+  },
+  "forbidden": {
+    "title": "Přístup zakázán",
+    "text": "Vypadá to, že jsi přistoupil na stránku, na kterou nemáš oprávnění. Pokud si myslíš, že to byl omyl, můžeš to zkusit znovu nebo kontaktuj organizátory semináře.",
+    "easteregg": "Vypadá to, že tě baví tato stránka, když jsi sem přišel jenom tak."
   }
 }

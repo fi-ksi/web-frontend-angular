@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import {
   AchievementService,
   BackendService,
@@ -22,6 +22,7 @@ import { BsModalService } from "ngx-bootstrap/modal";
 import { RootModule } from "./components/root/root.module";
 import { StorageService } from "./services/shared/storage.service";
 import { QuillModule } from "ngx-quill";
+import { HTTPErrorHandlerService } from "./services";
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http);
@@ -61,7 +62,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     VersionService,
     AchievementService,
     StorageService,
-    UsersCacheService
+    UsersCacheService,
+    { provide: HTTP_INTERCEPTORS, useClass: HTTPErrorHandlerService, multi: true }
   ],
   bootstrap: [AppComponent]
 })

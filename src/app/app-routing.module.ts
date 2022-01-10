@@ -2,10 +2,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageWelcomeComponent } from "./components/root/page-welcome/page-welcome.component";
 import { PageNotFoundComponent } from "./components/root/page-not-found/page-not-found.component";
+import { PageForbiddenComponent } from "./components/root/page-forbidden/page-forbidden.component";
 
 const routes: Routes = [
   { path: 'home', component: PageWelcomeComponent },
   { path: '',   redirectTo: '/home', pathMatch: 'full' },
+  { path: '403', component: PageForbiddenComponent },
   { path: 'news', loadChildren: () => import('./components/news/news.module').then((m) => m.NewsModule)},
   { path: 'about', loadChildren: () => import('./components/about/about.module').then((m) => m.AboutModule)},
   { path: 'results', loadChildren: () => import('./components/results/results.module').then((m) => m.ResultsModule)},

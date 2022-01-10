@@ -3,15 +3,23 @@
   <ng-container *ngIf="user$ | async as user">
     <div class="left-panel">
       <img class="picture" [src]="user.profile_picture" alt="">
-      <span class="info text-uppercase">
-        <span class="name">
+      <span class="info">
+        <span class="name text-uppercase">
           {{user.$fullName}}
         </span>
-        <span class="role text-capitalize">
-          {{ user | translateRole }}
+        <span class="role"
+              [tooltip]="('profile.seasons' | translateGender: user) + ': ' + (userSeasonsString$ | async)"
+              tooltipPlacement="bottom"
+        >
+          <span class="text-capitalize d-inline-block">
+            {{ user | translateRole }}
+          </span>
           <ng-container *ngIf="userService.isOrg$ | async">
             ({{user.role}})
-          </ng-container>
+          </ng-container>,
+          <span>
+          {{ user | translateSkillLevel }}
+          </span>
         </span>
       </span>
     </div>

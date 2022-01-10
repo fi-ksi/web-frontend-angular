@@ -176,12 +176,38 @@
         "male": "řešitel",
         "female": "řešitelka"
       }
+    },
+    "skill": {
+      "none": {
+        "male": "nezkušený",
+        "female": "nezkušená"
+      },
+      "novice": {
+        "male": "nováček",
+        "female": "nováček"
+      },
+      "skilled": {
+        "male": "zkušený",
+        "female": "zkušená"
+      },
+      "master": {
+        "male": "mistr",
+        "female": "mistrině"
+      },
+      "veteran": {
+        "male": "veterán",
+        "female": "veteránka"
+      }
     }
   },
   "profile": {
     "tasks": {
       "male": "Organizátorovy úlohy",
       "female": "Organizátorčiny úlohy"
+    },
+    "seasons": {
+      "male": "Účastnil se ročníků",
+      "female": "Účastnila se ročníků"
     },
     "tasks-none": "V tomto ročníku zatím nemá žádné úlohy"
   }

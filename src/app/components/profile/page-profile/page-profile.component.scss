@@ -27,6 +27,7 @@
       .picture {
         @include round-corner;
         width: 25ex;
+        margin-bottom: $ksi-margin-small;
       }
 
       .info {
@@ -34,10 +35,13 @@
         display: flex;
         flex-direction: column;
 
+        > * {
+          margin-top: $ksi-margin-x-small;
+        }
+
         .name {
           font-weight: bold;
           line-height: 1;
-          margin: $ksi-margin-small;
         }
       }
     }

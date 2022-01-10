@@ -10,6 +10,7 @@ import { TranslateModule } from "@ngx-translate/core";
 import { UsersInlineComponent } from './users-inline/users-inline.component';
 import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { ReactiveFormsModule } from "@angular/forms";
+import { TranslateSkillLevelPipe } from "../../pipes";
 
 
 
@@ -20,6 +21,7 @@ import { ReactiveFormsModule } from "@angular/forms";
     TranslatePointsPipe,
     TranslateNewItemsPipe,
     TranslateRolePipe,
+    TranslateSkillLevelPipe,
     TranslateGenderPipe,
     DiscussionThreadComponent,
     DiscussionThreadPostsComponent,
@@ -33,6 +35,7 @@ import { ReactiveFormsModule } from "@angular/forms";
         DiscussionThreadComponent,
         UsersInlineComponent,
         TranslateRolePipe,
+        TranslateSkillLevelPipe,
         TranslateGenderPipe,
         DiscussionThreadPostsComponent
     ],

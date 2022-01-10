@@ -15,6 +15,8 @@ import { IUser } from "../../../models";
 export class PageProfileComponent implements OnInit {
   user$: Observable<IUser>;
 
+  userSeasonsString$: Observable<string>;
+
   constructor(
     public userService: UserService,
     private users: UsersCacheService,
@@ -30,6 +32,10 @@ export class PageProfileComponent implements OnInit {
       mergeMap(({userId, year}) => this.users.getUser(userId, year)),
       tap((user) => this.title.subtitle = user.first_name),
       shareReplay(1)
+    );
+
+    this.userSeasonsString$ = this.user$.pipe(
+      map((user) => user.seasons ? user.seasons.map((x) => `${x}.`).join(', ') : '')
     );
   }
 }

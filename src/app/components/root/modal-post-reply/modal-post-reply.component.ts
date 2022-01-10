@@ -25,6 +25,8 @@ export class ModalPostReplyComponent implements OnInit, ModalComponent {
 
   private modal: BsModalRef<unknown>;
 
+  replied = false;
+
   constructor(private cd: ChangeDetectorRef, private backend: BackendService) { }
 
   ngOnInit(): void {
@@ -47,6 +49,7 @@ export class ModalPostReplyComponent implements OnInit, ModalComponent {
         body: this.reply.value
       }
     }).subscribe(() => {
+      this.replied = true;
       this.modal.hide();
     });
   }

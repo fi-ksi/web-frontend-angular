@@ -15,7 +15,7 @@ import { StorageService } from "../../../../services/shared/storage.service";
 import { BackendService, IconService, ModalService } from "../../../../services";
 import { Router } from "@angular/router";
 import { UserService } from "../../../../services/shared/user.service";
-import { filter, mergeMap, take } from "rxjs/operators";
+import { filter, take } from "rxjs/operators";
 
 @Component({
   selector: 'ksi-discussion-thread-posts',
@@ -99,15 +99,17 @@ export class DiscussionThreadPostsComponent implements OnInit {
   }
 
   openReplyModal(): void {
-    this.user.afterLogin$
-      .pipe(
-        mergeMap(() => this.modal.showPostReplyModal(this.threadId!, this.post, this.posts).visible$),
+    this.user.afterLogin$.subscribe(() => {
+      const modal = this.modal.showPostReplyModal(this.threadId!, this.post, this.posts);
+      modal.visible$.pipe(
         filter((visible) => !visible),
         take(1)
-      )
-      .subscribe(() => {
-        this.postsModified.next();
-        this.router.navigate(['/discussion', `${this.threadId}`], {fragment: `${this.post.id}`}).then();
+      ).subscribe(() => {
+          if (modal.component.instance.replied) {
+            this.postsModified.next();
+            this.router.navigate(['/discussion', `${this.threadId}`], {fragment: `${this.post.id}`}).then();
+          }
+        });
     });
   }
 

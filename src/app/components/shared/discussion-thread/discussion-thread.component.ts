@@ -5,6 +5,7 @@ import { BehaviorSubject, combineLatest, Observable } from "rxjs";
 import { BackendService, ModalService, WindowService } from "../../../services";
 import { filter, map, mergeMap, shareReplay, take } from "rxjs/operators";
 import { environment } from "../../../../environments/environment";
+import { UserService } from "../../../services/shared/user.service";
 
 interface ThreadDetailsWithPostsMap {
   thread: ThreadDetailResponse,
@@ -31,7 +32,12 @@ export class DiscussionThreadComponent implements OnInit {
   private readonly refreshSubject = new BehaviorSubject<unknown>(null);
   private readonly refresh$ = this.refreshSubject.asObservable();
 
-  constructor(private backend: BackendService, private window: WindowService, private modal: ModalService) { }
+  constructor(
+    private backend: BackendService,
+    private window: WindowService,
+    private modal: ModalService,
+    private user: UserService
+  ) { }
 
   ngOnInit(): void {
     this.thread$ = this.refresh$.pipe(
@@ -66,12 +72,17 @@ export class DiscussionThreadComponent implements OnInit {
   }
 
   openNewPostModal(threadId: number): void {
-    this.modal.showPostReplyModal(threadId).visible$.pipe(
-      filter((visible) => !visible),
-      take(1)
-    ).subscribe(() => {
-      environment.logger.debug('new post created');
-      this.refreshSubject.next(null);
-    })
+    this.user.afterLogin$.subscribe(() => {
+      const modal = this.modal.showPostReplyModal(threadId);
+      modal.visible$.pipe(
+        filter((visible) => !visible),
+        take(1)
+      ).subscribe(() => {
+        if (modal.component.instance.replied) {
+          environment.logger.debug('new post created');
+          this.refreshSubject.next(null);
+        }
+      })
+    });
   }
 }

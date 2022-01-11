@@ -8,6 +8,7 @@
     "start": "ng serve",
     "build": "npm run gen.changelog && ng build",
     "build.pubdev": "npm run gen.changelog && ng build --configuration pubdev",
+    "build.kyzikos": "npm run gen.changelog && ng build --configuration kyzikos",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "gen.colors": "./util/gen-scss-colors.sh",

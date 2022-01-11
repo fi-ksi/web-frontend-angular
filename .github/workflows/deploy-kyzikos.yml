@@ -1,0 +1,50 @@
+name: deploy-kyzikos
+on:
+  push:
+    branches:
+      - 'kyzikos'
+jobs:
+  deploy-kyzikos:
+    runs-on: ubuntu-latest
+    steps:
+      - run: mkdir src
+        name: prepare env
+      - uses: actions/checkout@v2
+        name: checkout src
+        with:
+          fetch-depth: 100
+          path: 'src'
+      - name: prepare dist tar
+        shell: bash
+        run: |
+          cd src &&
+          npm install &&
+          npm run build.kyzikos &&
+          cd dist/* &&
+          tar -cvf ../dist.tar *
+      - name: create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: temp-${{ github.sha }}
+          release_name: temp-${{ github.sha }}
+          body: "Automatic temporary release from the CI/CD"
+          draft: false
+          prerelease: true
+      - name: upload tar to the release
+        id: upload_tar
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: src/dist/dist.tar
+          asset_name: build.tar
+          asset_content_type: application/x-tar
+      - name: notify backend server
+        shell: bash
+        run: |
+          echo "Asset URL: ${{ steps.upload_tar.outputs.browser_download_url }}"
+

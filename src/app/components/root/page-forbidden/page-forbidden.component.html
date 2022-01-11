@@ -1,9 +1,9 @@
-<h1>{{'forbidden.title' | translate}}</h1>
+<h1>{{'root.forbidden.title' | translate}}</h1>
 <img src="assets/img/forbidden.svg" alt="">
 <ng-container *ngIf="path$ | async as url; else easteregg">
   <a [routerLink]="url">{{host$ | async}}{{url}}</a>
-  <p>{{'forbidden.text' | translate}}</p>
+  <p>{{'root.forbidden.text' | translate}}</p>
 </ng-container>
 <ng-template #easteregg>
-  <p>{{'forbidden.easteregg' | translate}}</p>
+  <p>{{'root.forbidden.easteregg' | translate}}</p>
 </ng-template>

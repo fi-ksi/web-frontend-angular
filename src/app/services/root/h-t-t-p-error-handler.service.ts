@@ -19,13 +19,12 @@ export class HTTPErrorHandlerService implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((error) => {
         if (error instanceof HttpErrorResponse) {
-          if (error.status === 403) {
-            const position = {
-              path: location.pathname,
-            }
-
+          const position = {
+            path: location.pathname,
+          }
+          if (error.status === 403 || error.status === 404) {
             setTimeout(() => {
-              this.router.navigate(['/', '403'], {
+              this.router.navigate(['/', `${error.status}`], {
                 fragment: position.path
               }).then();
             })

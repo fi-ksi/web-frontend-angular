@@ -3,6 +3,11 @@
     "changelog": {
       "title": "Změny od "
     },
+    "forbidden": {
+      "title": "Přístup zakázán",
+      "text": "Vypadá to, že jsi přistoupil na stránku, na kterou nemáš oprávnění. Pokud si myslíš, že to byl omyl, můžeš to zkusit znovu nebo kontaktuj organizátory semináře.",
+      "easteregg": "Vypadá to, že tě baví tato stránka, když jsi sem přišel jenom tak."
+    },
     "navbar": {
       "logo": "Obrázek tučňáka Karlíka",
       "login": "Přihlásit se",
@@ -21,7 +26,11 @@
     },
     "not-found": {
       "title": "Nenalezeno",
-      "message": "Tato stránka nebyla nalezena"
+      "header": "Nenašli jsme to",
+      "text": {
+        "logged-in": "Hledali jsme všude, ale tuto stránku se nám nepodařilo najít. Pokud si myslíš, že se jedná o omyl a tato stránka by zde měla být, kontaktuj prosím organizátory.",
+        "not-logged-in": "Zkus se přihlásit - je možné, že tato stránka není dostupná pro veřejnost."
+      }
     },
     "footer": {
       "license": "Nový KSI web!",
@@ -223,10 +232,5 @@
   },
   "achievements": {
     "title": "Trofeje"
-  },
-  "forbidden": {
-    "title": "Přístup zakázán",
-    "text": "Vypadá to, že jsi přistoupil na stránku, na kterou nemáš oprávnění. Pokud si myslíš, že to byl omyl, můžeš to zkusit znovu nebo kontaktuj organizátory semináře.",
-    "easteregg": "Vypadá to, že tě baví tato stránka, když jsi sem přišel jenom tak."
   }
 }

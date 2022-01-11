@@ -1,2 +1,4 @@
-<h1>404: {{'root.not-found.message' | translate}}</h1>
-<img src="../../../../assets/img/karlik_color.png" alt="{{'root.navbar.logo' | translate}}">
+<h1>{{'root.not-found.header' | translate}}</h1>
+<img src="assets/img/karlik-404.svg" alt="">
+<a *ngIf="path$ | async as url" [routerLink]="url">{{host$ | async}}{{url}}</a>
+<p>{{('root.not-found.text.' + ((loggedIn$ | async) ? 'logged-in' : 'not-logged-in') ) | translate}}</p>

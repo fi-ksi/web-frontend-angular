@@ -1,4 +1,5 @@
-<a [routerLink]="'./' + task.id">
+<a [class.disabled]="(user.isLoggedIn$ | async) && task.state === 'locked'"
+   [routerLink]="(user.isLoggedIn$ | async) && task.state === 'locked' ? undefined : './' + task.id">
   <img
     [src]="task.icon"
     [tooltip]="tooltip"

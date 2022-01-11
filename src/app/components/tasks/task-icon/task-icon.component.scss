@@ -1,6 +1,10 @@
 @import "src/app/styles/vars";
 
 :host {
+  .disabled {
+    cursor: default;
+  }
+
   img {
     height: 5.5em;
   }

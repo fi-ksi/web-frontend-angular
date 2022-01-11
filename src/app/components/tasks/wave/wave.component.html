@@ -2,8 +2,8 @@
   <div class="list-group">
     <a class="list-group-item list-group-item-action list-item-task"
        *ngFor="let task of tasksOrdered"
-       [class.disabled]="task.state === 'locked'"
-       [routerLink]="'/tasks/' + task.id"
+       [class.disabled]="(user.isLoggedIn$ | async) && task.state === 'locked'"
+       [routerLink]="(user.isLoggedIn$ | async) && task.state === 'locked' ? undefined : '/tasks/' + task.id"
     >
       <img
         [src]="task.icon"

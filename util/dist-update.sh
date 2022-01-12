@@ -6,9 +6,10 @@ GITHUB_REPOSITORY="web-frontend-angular"
 PATCH_FILE_NAME="build.tar"
 
 TARGET_DIR="$(pwd)"
+INPUT="$(cat)"
 
 function main() {
-  downloadUrl="$(cat)"
+  downloadUrl="$INPUT"
   if [ -z "$downloadUrl" ]; then
     echo "ERR: NO INPUT"
     return 0
@@ -47,4 +48,27 @@ function __run_main() {
   fi
 }
 
+function __run_main_sandboxed() {
+    if ps -p 1 | tail -n 1 | grep --quiet -Fv 'firejail'; then # firejail is not active right now
+      firejail --help &>/dev/null &&  # firejail is available
+      echo "Initializing sandboxed process" >&2
+      echo "$INPUT" | firejail --noprofile \
+               --private-tmp \
+               --private="$TARGET_DIR" \
+               --protocol=inet,inet6 \
+               --noautopulse \
+               --novideo \
+               --nosound \
+               --nodvd \
+               --private-cwd="$TARGET_DIR" \
+               -- \
+               "./$(basename "$0")"
+      true
+    else
+      echo "Running sandboxed" >&2
+      false
+    fi
+}
+
+__run_main_sandboxed ||
 __run_main

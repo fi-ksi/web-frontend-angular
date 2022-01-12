@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   backend: 'https://ksi.ahlava.cz/api',
+  urlPrefix: '',
   logger: {
     log: console.log,
     error: console.error,

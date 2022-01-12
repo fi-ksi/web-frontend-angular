@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   backend: 'http://localhost:3030/',
+  urlPrefix: '',
   logger: {
     log: console.log,
     error: console.error,

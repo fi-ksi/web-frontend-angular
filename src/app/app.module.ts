@@ -23,9 +23,10 @@ import { RootModule } from "./components/root/root.module";
 import { StorageService } from "./services/shared/storage.service";
 import { QuillModule } from "ngx-quill";
 import { HTTPErrorHandlerService } from "./services";
+import { environment } from "../environments/environment";
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
-  return new TranslateHttpLoader(http);
+  return new TranslateHttpLoader(http, `${environment.urlPrefix}assets/i18n/`);
 }
 
 @NgModule({

@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   backend: 'https://kyzikos.fi.muni.cz:3000/',
+  urlPrefix: '/new/',
   logger: {
     log: console.log,
     error: console.error,

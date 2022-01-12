@@ -8,7 +8,7 @@
     "start": "ng serve",
     "build": "npm run gen.changelog && ng build",
     "build.pubdev": "npm run gen.changelog && ng build --configuration pubdev",
-    "build.kyzikos": "npm run gen.changelog && ng build --configuration kyzikos && cp -r src/cgi-bin/ dist/web-frontend-angular/ && sed -i 's|<base href=\\\\\\\"/\\\\\\\">|<base href=\\\\\\\"/new/\\\\\\\">|' dist/web-frontend-angular/index.html",
+    "build.kyzikos": "npm run gen.changelog && ng build --configuration kyzikos && cp -r src/cgi-bin/ dist/web-frontend-angular/ && sed -i 's|<base href=\"/\">|<base href=\"/new/\">|' dist/web-frontend-angular/index.html",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "gen.colors": "./util/gen-scss-colors.sh",

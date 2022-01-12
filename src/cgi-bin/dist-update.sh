@@ -27,7 +27,7 @@ function main() {
     wget --progress=bar:force:noscroll --output-document "$downloadPath" "$downloadUrl" > /dev/null &&
     tar -xf "$downloadPath" -C "$extractDir" > /dev/null &&
     rm "$downloadPath" > /dev/null &&
-    rsync -r --delete-after "$extractDir/" "$TARGET_DIR" > /dev/null &&
+    rsync -rE --delete-after "$extractDir/" "$TARGET_DIR" > /dev/null &&
     rm -rf "$extractDir" > /dev/null &&
     echo "OK"
   else

@@ -46,8 +46,15 @@ jobs:
       - name: notify backend server
         shell: bash
         run: |
-          echo "Asset URL: ${{ steps.upload_tar.outputs.browser_download_url }}" &&
-          curl -X POST -d '${{ steps.upload_tar.outputs.browser_download_url }}' '${{ secrets.KYZIKOS_DEPLOY_URL }}'
+          echo "Asset URL: ${{ steps.upload_tar.outputs.browser_download_url }}"
+          status="$(curl -X POST -d '${{ steps.upload_tar.outputs.browser_download_url }}' '${{ secrets.KYZIKOS_DEPLOY_URL }}')"
+          if [ "$status" = "OK" ]; then
+            echo "Notified OK!"
+          else
+            echo "Notification error"
+            echo "$status"
+            false
+          fi
       - name: delete temporary release
         uses: esoadamo/delete-release-action@v1.0.24
         env:

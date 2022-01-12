@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
+  production: true,
   backend: 'https://kyzikos.fi.muni.cz:3000/',
   urlPrefix: '/new/',
   logger: {

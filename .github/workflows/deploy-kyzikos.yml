@@ -47,4 +47,10 @@ jobs:
         shell: bash
         run: |
           echo "Asset URL: ${{ steps.upload_tar.outputs.browser_download_url }}"
-
+      - name: delete temporary release
+        uses: esoadamo/delete-release-action@v1.0.24
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          release-name: temp-${{ github.sha }}

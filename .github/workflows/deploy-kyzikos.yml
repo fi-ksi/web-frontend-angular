@@ -46,7 +46,8 @@ jobs:
       - name: notify backend server
         shell: bash
         run: |
-          echo "Asset URL: ${{ steps.upload_tar.outputs.browser_download_url }}"
+          echo "Asset URL: ${{ steps.upload_tar.outputs.browser_download_url }}" &&
+          curl -X POST -d '${{ steps.upload_tar.outputs.browser_download_url }}' '${{ secrets.KYZIKOS_DEPLOY_URL }}'
       - name: delete temporary release
         uses: esoadamo/delete-release-action@v1.0.24
         env:

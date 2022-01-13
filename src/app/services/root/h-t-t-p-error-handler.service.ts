@@ -28,10 +28,12 @@ export class HTTPErrorHandlerService implements HttpInterceptor {
                 fragment: position.path
               }).then();
             })
-          } else if (Math.floor(error.status / 100) === 5) {
+          } else if (error.status === 0 || Math.floor(error.status / 100) === 5) {
             this.modal.showServerErrorModal();
           }
         }
+
+        console.log('my errror', error);
 
         return throwError(error);
       })

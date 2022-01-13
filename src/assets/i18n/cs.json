@@ -96,7 +96,7 @@
     },
     "server-error": {
       "title": "Stala se chyba...",
-      "text": "Nastala chyba serveru. S trochou štěstí už pracujeme na opravě. Pokud chyba přetrvává déle, než je zdravé, nebo se vyskytuje až příliš často, kontaktuj prosím organizátory."
+      "text": "Nastala chyba serveru - buď spadl nebo neodpověděl vůbec. S trochou štěstí už pracujeme na opravě. Pokud chyba přetrvává déle, než je zdravé, nebo se vyskytuje až příliš často, prosím zkontroluj svoje připojení k internetu a případně kontaktuj organizátory."
     }
   },
   "tasks": {

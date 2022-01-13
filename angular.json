@@ -89,6 +89,20 @@
                 }
               ]
             },
+            "kleobis": {
+              "buildOptimizer": true,
+              "optimization": true,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": false,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.kleobis.ts"
+                }
+              ]
+            },
             "proxy": {
               "buildOptimizer": false,
               "optimization": false,

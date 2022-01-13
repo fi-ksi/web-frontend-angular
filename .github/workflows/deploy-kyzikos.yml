@@ -47,7 +47,7 @@ jobs:
         shell: bash
         run: |
           echo "Asset URL: ${{ steps.upload_tar.outputs.browser_download_url }}"
-          status="$(curl -X POST -d '${{ steps.upload_tar.outputs.browser_download_url }}' '${{ secrets.KYZIKOS_DEPLOY_URL }}')"
+          status="$(curl -X POST -u '${{ secrets.KYZIKOS_DEPLOY_USER }}:${{ secrets.KYZIKOS_DEPLOY_PASSWORD }}' -d '${{ steps.upload_tar.outputs.browser_download_url }}' '${{ secrets.KYZIKOS_DEPLOY_URL }}')"
           if [ "$status" = "OK" ]; then
             echo "Notified OK!"
           else

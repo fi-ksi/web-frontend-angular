@@ -1,7 +1,7 @@
 #!/bin/bash
 # A cgi hook that takes URL with new FE build on stdin
 
-GITHUB_OWNER="esoadamo"
+GITHUB_OWNER="fi-ksi"
 GITHUB_REPOSITORY="web-frontend-angular"
 PATCH_FILE_NAME="build.tar"
 

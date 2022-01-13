@@ -1,7 +1,7 @@
 <nav [class.clickable]="!(showFullMenu$ | async)" (click)="showFullMenu()">
   <ng-container *ngIf="(showFullMenu$ | async); else menuOpener">
     <a class="logo" routerLink="/home" routerLinkActive="active">
-      <img src="../../../../assets/img/karlik_color.png" alt="{{'root.navbar.logo' | translate}}">
+      <img src="assets/img/karlik_color.png" alt="{{'root.navbar.logo' | translate}}">
       <span>{{ ((useLongTitle$ | async) ? 'root.navbar.title.long' : 'root.navbar.title.short') | translate}}</span>
     </a>
 

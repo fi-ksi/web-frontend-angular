@@ -67,7 +67,7 @@ function __run_main_sandboxed() {
                --nodvd \
                --shell=/bin/bash \
                -- \
-               bash -c "cd \"$HOME\"; bash \"$(basename "$(dirname "$(realpath "$0")")")/$(basename "$0")\""
+               bash -c "cd \"$HOME\" && echo && echo -n '--OUT' && echo 'PUT--' && bash \"$(basename "$(dirname "$(realpath "$0")")")/$(basename "$0")\"" | grep -m 1 -A 1000 -F -- '--OUTPUT--' | tail -n +2
       true
     else
       echo "Running sandboxed" >&2

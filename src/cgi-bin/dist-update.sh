@@ -67,7 +67,7 @@ function __run_main_sandboxed() {
                --nodvd \
                --shell=/bin/bash \
                -- \
-               bash "$(basename "$(dirname "$(realpath "$0")")")/$(basename "$0")"
+               bash -c "cd \"$HOME\"; bash \"$(basename "$(dirname "$(realpath "$0")")")/$(basename "$0")\""
       true
     else
       echo "Running sandboxed" >&2

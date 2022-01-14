@@ -57,7 +57,6 @@ export class UsersCacheService {
 
     return {
       ...user,
-      achievements: [...user.achievements, ...user.achievements, ...user.achievements], // TODO remove achievements duplications
       $isAdmin: isAdmin,
       $isOrg: isOrg,
       $year: typeof year !== "undefined" ? year : this.year.selected,

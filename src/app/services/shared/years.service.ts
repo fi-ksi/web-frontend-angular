@@ -84,16 +84,13 @@ export class YearsService {
     );
 
     this.articles$ = this.selected$.pipe(switchMap((year) => {
-      // TODO allow more than 6 articles
-      return this.backend.http.articlesGetAll(6, 0, undefined, year?.id || undefined)
+      return this.backend.http.articlesGetAll(30, 0, undefined, year?.id || undefined)
         .pipe(
           map((response) => response.articles.map((article) => ({
             ...article,
             picture: Utils.parseLegacyAssetsUrl(article.picture),
             body: Utils.substrHTML(article.body, 0, 512)
           }))),
-          // TODO remove artificial quadruplication
-          map((articles) => [...articles, ...articles, ...articles, ...articles])
         );
     }));
 

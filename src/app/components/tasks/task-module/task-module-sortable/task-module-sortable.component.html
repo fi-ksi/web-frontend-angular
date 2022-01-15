@@ -1,0 +1,32 @@
+<div class="lists" [class.mobile]="window.isMobileSmall$ | async">
+  <div class="sortable-list">
+    <h4>{{'tasks.module.sortable.result' | translate}}</h4>
+    <ksi-task-module-sortable-place
+      *ngIf="selectedItem && selectedItem !== listLeft[0]"
+      (click)="placeItemLeftAfterIndex(-1)"
+    ></ksi-task-module-sortable-place>
+
+    <ng-container *ngFor="let item of listLeft; let index = index">
+      <ksi-task-module-sortable-item [class.selected]="selectedItem === item"
+                                     [item]="item"
+                                     (click)="pickItem(item)"
+      ></ksi-task-module-sortable-item>
+      <ksi-task-module-sortable-place
+        *ngIf="selectedItem && item !== selectedItem && item.$itemAfter !== selectedItem"
+        (click)="placeItemLeftAfterIndex(index)"
+      ></ksi-task-module-sortable-place>
+    </ng-container>
+  </div>
+  <div class="sortable-list">
+    <h4>{{'tasks.module.sortable.items' | translate}}</h4>
+    <ksi-task-module-sortable-place *ngIf="selectedItem && selectedItem.$placement !== 'right'"
+                                    (click)="placeItemRight()"
+    ></ksi-task-module-sortable-place>
+    <ksi-task-module-sortable-item *ngFor="let item of listRight; let index = index"
+                                   [class.selected]="selectedItem === item"
+                                   [item]="item"
+                                   (click)="pickItem(item)"
+    ></ksi-task-module-sortable-item>
+  </div>
+</div>
+<button class="btn btn-ksi submit" [disabled]="submission$" (click)="submit()">{{'tasks.module.submit'|translate}}</button>

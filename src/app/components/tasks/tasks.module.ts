@@ -19,22 +19,30 @@ import { TaskModuleQuizComponent } from './task-module/task-module-quiz/task-mod
 import { TaskModuleProgrammingComponent } from './task-module/task-module-programming/task-module-programming.component';
 import { TaskModuleGeneralComponent } from './task-module/task-module-general/task-module-general.component';
 import { ProgressbarModule } from "ngx-bootstrap/progressbar";
+import { TaskModuleSortableComponent } from './task-module/task-module-sortable/task-module-sortable.component';
+import { TaskModuleSortableItemComponent } from './task-module/task-module-sortable/task-module-sortable-item/task-module-sortable-item.component';
+import {
+    TaskModuleSortablePlaceComponent
+} from "./task-module/task-module-sortable/task-module-sortable-place/task-module-sortable-place.component";
 
 
 @NgModule({
-  declarations: [
-    PageTasksComponent,
-    WaveComponent,
-    TaskIconComponent,
-    TasksGraphComponent,
-    PageTaskComponent,
-    TaskBodyComponent,
-    TaskModuleComponent,
-    TaskModuleTextComponent,
-    TaskModuleQuizComponent,
-    TaskModuleProgrammingComponent,
-    TaskModuleGeneralComponent
-  ],
+    declarations: [
+        PageTasksComponent,
+        WaveComponent,
+        TaskIconComponent,
+        TasksGraphComponent,
+        PageTaskComponent,
+        TaskBodyComponent,
+        TaskModuleComponent,
+        TaskModuleTextComponent,
+        TaskModuleQuizComponent,
+        TaskModuleProgrammingComponent,
+        TaskModuleGeneralComponent,
+        TaskModuleSortableComponent,
+        TaskModuleSortableItemComponent,
+        TaskModuleSortablePlaceComponent
+    ],
     imports: [
         CommonModule,
         TasksRoutingModule,

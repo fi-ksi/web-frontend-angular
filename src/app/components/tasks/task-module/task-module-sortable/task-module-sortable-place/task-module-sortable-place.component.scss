@@ -1,0 +1,18 @@
+@import "src/app/styles/vars";
+@import "src/app/styles/mixins";
+
+:host {
+  display: block;
+  padding: $ksi-margin-x-small;
+  text-align: center;
+  cursor: pointer;
+  font-size: 0.75em;
+
+  border: 1px dashed $ksi-gray-100;
+  color: $ksi-gray-100;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: $ksi-gray-230;
+  }
+}

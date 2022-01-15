@@ -22,6 +22,7 @@
     <ksi-task-module-quiz *ngSwitchCase="'quiz'" [module]="moduleAny"></ksi-task-module-quiz>
     <ksi-task-module-programming *ngSwitchCase="'programming'" [module]="moduleAny"></ksi-task-module-programming>
     <ksi-task-module-general *ngSwitchCase="'general'" [module]="moduleAny"></ksi-task-module-general>
+    <ksi-task-module-sortable *ngSwitchCase="'sortable'" [module]="moduleAny"></ksi-task-module-sortable>
     <div class="alert alert-danger" *ngSwitchDefault>ERR: Unknown module type: {{module.type}}</div>
   </div>
 

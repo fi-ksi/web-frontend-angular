@@ -1,0 +1,30 @@
+@import "src/app/styles/vars";
+@import "src/app/styles/mixins";
+
+:host {
+  display: block;
+  padding: $ksi-margin-small;
+
+  border: 1px solid $ksi-blue-200;
+  background-color: $ksi-blue-220;
+
+  &:not(.fixed):not(.selected) {
+    border: 1px solid $ksi-orange-200;
+    background-color: $ksi-orange-230;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $ksi-orange-240;
+      border-color: $ksi-orange-220;
+    }
+  }
+
+  &.selected {
+    background-color: $ksi-orange-180;
+    border-color: $ksi-orange-140;
+  }
+
+  .offset {
+    display: inline-block;
+  }
+}

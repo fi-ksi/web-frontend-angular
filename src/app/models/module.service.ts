@@ -1,4 +1,4 @@
-import { KSIModule, ModuleSubmitResponse } from "../../api";
+import { KSIModule, ModuleSubmitResponse, SortableItem } from "../../api";
 import { Observable } from "rxjs";
 
 export interface ModuleSubmitChange {
@@ -9,4 +9,12 @@ export interface ModuleSubmitChange {
 export interface FileUpload {
   progress$: Observable<number>;
   response$: Observable<ModuleSubmitResponse>;
+}
+
+export interface ISortableItem extends SortableItem {
+  $fixed: boolean;
+  $absOffset?: number;
+  $itemAfter?: ISortableItem;
+  $placement?: 'left' | 'right';
+  $id: string;
 }

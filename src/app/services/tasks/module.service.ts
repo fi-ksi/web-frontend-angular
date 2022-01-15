@@ -9,7 +9,7 @@ import {
   RunCodeResponse,
 } from "../../../api";
 import { concat, Observable, of, Subject } from 'rxjs';
-import { catchError, filter, map, mergeMap, shareReplay, take } from "rxjs/operators";
+import { catchError, filter, map, mapTo, mergeMap, shareReplay, take } from "rxjs/operators";
 import { FileUpload, ModuleSubmitChange } from "../../models";
 import { TranslateService } from "@ngx-translate/core";
 import { environment } from "../../../environments/environment";
@@ -126,8 +126,8 @@ export class ModuleService {
    * @param module
    * @param body
    */
-  public submit(module: KSIModule, body: ModuleSubmissionData): void {
-    this.user.afterLogin$.pipe(
+  public submit(module: KSIModule, body: ModuleSubmissionData): Observable<void> {
+    const submission = this.user.afterLogin$.pipe(
       mergeMap(
         () => this.backend.http.modulesSubmitSingle(module.id, {content: body})
           .pipe(
@@ -140,12 +140,16 @@ export class ModuleService {
               return of(data);
             })
           ))
-    ).subscribe((result) => {
+    );
+
+    submission.subscribe((result) => {
       if (!result.message) {
         result.message = this.translate.instant(`tasks.module.result.${result.result}`)
       }
 
       this.moduleResultSubject.next({module, result});
     });
+
+    return submission.pipe(mapTo(undefined));
   }
 }

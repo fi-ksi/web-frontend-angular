@@ -133,6 +133,10 @@
         "ok": "Tvé řešení je správné!",
         "nok": "Tvé řešení není správné",
         "error": "Při vyhodnocování tvého řešení nastala chyba, kontaktuj organizátora"
+      },
+      "sortable": {
+        "result": "Výsledek",
+        "items": "Použij tyto řádky"
       }
     },
     "discussion": "Diskuze",

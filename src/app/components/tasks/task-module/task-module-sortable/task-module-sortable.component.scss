@@ -1,0 +1,24 @@
+@import "src/app/styles/vars";
+
+:host {
+  .lists {
+    display: flex;
+
+    .sortable-list {
+      flex-grow: 1;
+      margin: $ksi-margin-small;
+
+      > *:not(:last-child) {
+        margin-bottom: $ksi-margin-small;
+      }
+    }
+
+    &.mobile {
+      display: block;
+    }
+  }
+
+  .submit {
+    width: 100%;
+  }
+}

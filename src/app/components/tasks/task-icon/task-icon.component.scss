@@ -1,12 +1,39 @@
+@use "sass:math";
 @import "src/app/styles/vars";
 
 :host {
+  $size: 5.5em;
+
   .disabled {
     cursor: default;
   }
 
+  .container {
+    display: block;
+    height: $size;
+    width: $size;
+    box-sizing: content-box;
+
+    &:link, &:visited, &:hover, &:active {
+      text-decoration: none !important;
+    }
+  }
+
   img {
-    height: 5.5em;
+    height: $size;
+  }
+
+  .invisible-title {
+    color: transparent;
+    display: block;
+    height: $size;
+    width: $size;
+    overflow: visible;
+    position: relative;
+    top: -1 * (math.div($size, 2) + 1);
+    line-height: 1;
+    text-align: center;
+    text-decoration: none;
   }
 }
 

@@ -1,12 +1,15 @@
 <a [class.disabled]="(user.isLoggedIn$ | async) && task.state === 'locked'"
-   [routerLink]="(user.isLoggedIn$ | async) && task.state === 'locked' ? undefined : './' + task.id">
+   [routerLink]="(user.isLoggedIn$ | async) && task.state === 'locked' ? undefined : './' + task.id"
+   [tooltip]="tooltip"
+   class="container"
+   container="body"
+   containerClass="task-icon"
+>
   <img
     [src]="task.icon"
-    [tooltip]="tooltip"
-    container="body"
-    containerClass="task-icon"
     alt="{{ 'tasks.graph.task' | translate: {name: task.title} }}"
   >
+  <span class="invisible-title">{{task.title}}</span>
 </a>
 
 <ng-template #tooltip>

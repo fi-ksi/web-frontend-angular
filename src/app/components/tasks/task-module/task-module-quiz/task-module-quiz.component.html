@@ -18,4 +18,4 @@
   </ul>
 </form>
 
-<button class="btn btn-ksi submit" (click)="submit()">{{'tasks.module.submit'|translate}}</button>
+<button [disabled]="submission$" class="btn btn-ksi submit" (click)="submit()">{{'tasks.module.submit'|translate}}</button>

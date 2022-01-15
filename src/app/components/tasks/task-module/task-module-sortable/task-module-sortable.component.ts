@@ -90,11 +90,15 @@ export class TaskModuleSortableComponent implements OnInit {
   }
 
   submit(): void {
-    this.submission$ = this.moduleService.submit(this.module, this.listLeft.map((item) => item.$id));
+    if (this.submission$) {
+      return;
+    }
+
+    (this.submission$ = this.moduleService.submit(this.module, this.listLeft.map((item) => item.$id)))
+      .subscribe(() => {
+        this.submission$ = null;
+        this.cd.markForCheck();
+      });
     this.cd.markForCheck();
-    this.submission$.subscribe(() => {
-      this.submission$ = null;
-      this.cd.markForCheck();
-    });
   }
 }

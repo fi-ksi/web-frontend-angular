@@ -1,4 +1,13 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  Input,
+  ViewChild,
+  ElementRef,
+  OnDestroy,
+  ChangeDetectorRef
+} from '@angular/core';
 import { ModuleProgramming, RunCodeResponse } from "../../../../../api";
 import { FormControl } from "@angular/forms";
 
@@ -11,7 +20,7 @@ import '../../../../../../node_modules/codemirror/mode/python/python';
 import { Observable, Subscription } from "rxjs";
 import { ModuleService } from "../../../../services";
 import { UserService } from "../../../../services/shared/user.service";
-import { tap } from "rxjs/operators";
+import { mapTo, tap } from "rxjs/operators";
 
 @Component({
   selector: 'ksi-task-module-programming',
@@ -36,9 +45,12 @@ export class TaskModuleProgrammingComponent implements OnInit, OnDestroy {
 
   codeRunResult$: Observable<RunCodeResponse> | null;
 
+  submission$: Observable<void> | null = null;
+  codeRun$: Observable<void> | null = null;
+
   private subs: Subscription[] = [];
 
-  constructor(private moduleService: ModuleService, public user: UserService) { }
+  constructor(private moduleService: ModuleService, public user: UserService, private cd: ChangeDetectorRef) { }
 
   ngOnDestroy(): void {
     this.subs.forEach((sub) => sub.unsubscribe());
@@ -50,11 +62,23 @@ export class TaskModuleProgrammingComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
+    if (this.submission$) {
+      return;
+    }
+
     this.codeRunResult$ = null;
-    this.moduleService.submit(this.module, this.code.value);
+    (this.submission$ = this.moduleService.submit(this.module, this.code.value)).subscribe(() => {
+      this.submission$ = null;
+      this.cd.markForCheck();
+    });
+    this.cd.markForCheck();
   }
 
   runCode(): void {
+    if (this.codeRun$) {
+      return;
+    }
+
     this.moduleService.hideSubmit(this.module);
     this.codeRunResult$ = this.moduleService.runCode(this.module, this.code.value).pipe(
       tap(() => {
@@ -66,6 +90,11 @@ export class TaskModuleProgrammingComponent implements OnInit, OnDestroy {
         });
       })
     );
+    (this.codeRun$ = this.codeRunResult$.pipe(mapTo(undefined))).subscribe(() => {
+      this.codeRun$ = null;
+      this.cd.markForCheck();
+    });
+    this.cd.markForCheck();
   }
 
   /**

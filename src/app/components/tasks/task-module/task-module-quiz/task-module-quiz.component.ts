@@ -1,6 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@angular/core';
 import { ModuleQuiz, ModuleQuizQuestions } from "../../../../../api";
 import { ModuleService } from "../../../../services";
+import { Observable } from "rxjs";
 
 @Component({
   selector: 'ksi-task-module-quiz',
@@ -14,7 +15,9 @@ export class TaskModuleQuizComponent implements OnInit {
 
   inputs: boolean[][];
 
-  constructor(private moduleService: ModuleService) { }
+  submission$: Observable<void> | null = null;
+
+  constructor(private moduleService: ModuleService, private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.inputs = this.module.questions
@@ -26,11 +29,19 @@ export class TaskModuleQuizComponent implements OnInit {
   }
 
   submit(): void {
-    this.moduleService.submit(this.module, this.inputs
+    if (this.submission$) {
+      return;
+    }
+
+    (this.submission$ = this.moduleService.submit(this.module, this.inputs
       .map((row) => row
         .map((checked, index) => checked ? `${index}` : '')
         .filter((x) => !!x))
-    );
+    )).subscribe(() => {
+      this.submission$ = null;
+      this.cd.markForCheck();
+    });
+    this.cd.markForCheck();
   }
 
   setChecked(event: Event, type: ModuleQuizQuestions.TypeEnum, questionGroup: number, optionIndex: number) {

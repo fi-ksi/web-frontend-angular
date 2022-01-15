@@ -125,7 +125,7 @@ export class TasksService {
 
     tasks.forEach((t) => TasksService.getTaskLevel(saveTaskMap!, t, levelsCache, taskLevels));
     const maxLevel = Math.max(...Object.keys(taskLevels).map((x) => Number(x)));
-    for (let level = 0; level < maxLevel; level++) {
+    for (let level = 0; level <= maxLevel; level++) {
       levels.push(taskLevels[level]);
     }
 

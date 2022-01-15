@@ -23,9 +23,6 @@ export class TaskModuleSortableItemComponent implements OnInit {
 
   ngOnInit(): void {
     this.isFixed = this.item.$fixed;
-    this.content = this.item.content
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>');
   }
 
 }

@@ -1,6 +1,22 @@
 @import "src/app/styles/vars";
 
 :host {
+  position: relative;
+
+  .selected-container {
+    display: flex;
+    justify-content: center;
+    position: sticky;
+    top: $ksi-margin-small;
+    left: 0;
+
+    & > * {
+      flex-grow: 1;
+      margin: $ksi-margin;
+      text-align: center;
+    }
+  }
+
   .lists {
     display: flex;
 

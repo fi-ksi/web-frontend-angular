@@ -1,1 +1,13 @@
-+
+<ng-container *ngIf="selected$ | async as selected">
+  <ng-container *ngIf="!(hover$ | async); else preview">
+    <div class="container">
+      +
+    </div>
+  </ng-container>
+  <ng-template #preview>
+    <ksi-task-module-sortable-item
+      class="selected"
+      [item]="selected"
+    ></ksi-task-module-sortable-item>
+  </ng-template>
+</ng-container>

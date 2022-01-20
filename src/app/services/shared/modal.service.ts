@@ -15,6 +15,8 @@ import { ModalOptions } from "ngx-bootstrap/modal";
 import { ModalPostReplyComponent } from "../../components/shared/modal-post-reply/modal-post-reply.component";
 import { Post } from "../../../api";
 import { ModalServerErrorComponent } from "../../components/shared/modal-server-error/modal-server-error.component";
+import { ModalRegisterComponent } from "../../components/shared/modal-register/modal-register.component";
+import { ModalTermsOfUseComponent } from "../../components/shared/modal-terms-of-use/modal-terms-of-use.component";
 
 @Injectable({
   providedIn: 'root'
@@ -71,6 +73,22 @@ export class ModalService {
 
   public showLoginModal(): OpenedModal<ModalLoginComponent> {
     return this.showModalComponent(ModalLoginComponent);
+  }
+
+  public showRegisterModal(email = '', password = ''): OpenedModal<ModalRegisterComponent> {
+    const ref = this.showModalComponent(ModalRegisterComponent, {
+      class: 'modal-full-page',
+      ignoreBackdropClick: true,
+      backdrop: "static"
+    });
+
+    ref.component.instance.form.patchValue({email, password});
+
+    return ref;
+  }
+
+  public showTOSModal(): OpenedModal<ModalTermsOfUseComponent> {
+    return this.showModalComponent(ModalTermsOfUseComponent, { class: 'modal-full-page' });
   }
 
   public showPostReplyModal(threadId: number, post: Post | null = null, posts: PostsMap | null = null): OpenedModal<ModalPostReplyComponent> {

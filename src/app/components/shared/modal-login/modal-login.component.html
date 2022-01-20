@@ -16,8 +16,11 @@
     <div *ngIf="showErr$ | async" class="alert alert-danger" role="alert">
       {{'modal.login.failed' | translate}}
     </div>
+
     <button [disabled]="!form.valid" type="submit" class="btn btn-ksi w-100 btn-login">
       {{'modal.login.login' | translate}}
     </button>
+
+    <a class="register clickable" (click)="openRegisterModal()">{{'modal.login.register' | translate}}</a>
   </form>
 </ng-template>

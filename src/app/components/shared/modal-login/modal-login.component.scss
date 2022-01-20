@@ -1,5 +1,10 @@
 @import "../../../styles/vars";
 
-.btn-login {
-  margin-top: $ksi-margin-small;
+form > *:not(:last-child) {
+  margin-bottom: $ksi-margin;
+}
+
+.register {
+  display: block;
+  text-align: center;
 }

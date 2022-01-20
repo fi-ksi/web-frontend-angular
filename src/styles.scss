@@ -10,7 +10,7 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
-input.form-control.ng-invalid:not(.ng-pristine) {
+.form-control.ng-invalid:not(.ng-pristine) {
   border: 1px solid $ksi-red-100;
 }
 

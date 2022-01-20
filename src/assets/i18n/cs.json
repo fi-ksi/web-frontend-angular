@@ -88,7 +88,48 @@
       "email": "e-mail",
       "password": "heslo",
       "login": "Přihlásit se",
-      "failed": "Přihlášení selhalo - je kombinace jména a hesla správná?"
+      "failed": "Přihlášení selhalo - je kombinace jména a hesla správná?",
+      "register": "Ještě nemám účet, ale chci se zaregistrovat!"
+    },
+    "register": {
+      "title": "Registruj se do KSI",
+      "register": "Zaregistrovat se!",
+      "optional": "Nepovinné - ",
+      "about-me": {
+        "title": "O mě",
+        "first-name": "Křestní jméno",
+        "nickname": "Přezdívka",
+        "last-name": "Příjmení",
+        "sex": {
+          "title": "Pohlaví",
+          "male": "Muž",
+          "female": "Žena"
+        },
+        "shirt-size": "Velikost trička"
+      },
+      "account": {
+        "title": "Můj účet",
+        "email": "Email",
+        "password": "Heslo (alespoň 6 znaků)",
+        "password-repeat": "Heslo znovu"
+      },
+      "address": {
+        "title": "Kde bydlím",
+        "street": "Ulice a ČP",
+        "city": "Město",
+        "postal-code": "PSČ",
+        "country": "Země"
+      },
+      "school": {
+        "title": "Moje škola",
+        "name": "Jméno mé školy",
+        "end": "Rok maturity (předpokládaný)"
+      },
+      "tos": {
+        "title": "Souhlasy",
+        "agreed": "Souhlasím s pravidly KSI a ",
+        "text": "zpracováním svých osobních údajů"
+      }
     },
     "post-reply": {
       "save-reply": "Uložit příspěvek",
@@ -97,6 +138,10 @@
     "server-error": {
       "title": "Stala se chyba...",
       "text": "Nastala chyba serveru - buď spadl nebo neodpověděl vůbec. S trochou štěstí už pracujeme na opravě. Pokud chyba přetrvává déle, než je zdravé, nebo se vyskytuje až příliš často, prosím zkontroluj svoje připojení k internetu a případně kontaktuj organizátory."
+    },
+    "tos": {
+      "title": "Souhlas se zpracováním osobních údajů",
+      "ok": "Dobře"
     }
   },
   "tasks": {

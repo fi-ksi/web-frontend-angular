@@ -1,0 +1,199 @@
+<ng-template #template>
+  <form [formGroup]="form">
+    <div class="container">
+      <!-- About me -->
+      <div class="row">
+        <h2>{{'modal.register.about-me.title'|translate}}</h2>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 col-md-4">
+          <input type="text"
+                 class="form-control"
+                 formControlName="firstName"
+                 [placeholder]="'modal.register.about-me.first-name'|translate"
+          >
+        </div>
+        <div class="col-sm-6 col-md-4">
+          <input type="text"
+                 class="form-control"
+                 formControlName="lastName"
+                 [placeholder]="'modal.register.about-me.last-name'|translate"
+          >
+        </div>
+        <div class="col-sm-12 col-md-4">
+          <select class="form-control" formControlName="sex">
+            <option>{{'modal.register.about-me.sex.title'|translate}}</option>
+            <option value="M">{{'modal.register.about-me.sex.male'|translate}}</option>
+            <option value="F">{{'modal.register.about-me.sex.female'|translate}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-6">
+          <input type="text"
+                 class="form-control"
+                 formControlName="nick"
+                 [placeholder]="(optional$|async) + ('modal.register.about-me.nickname'|translate)"
+          >
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <select class="form-control" formControlName="shirtSize">
+            <option value="NA">{{(optional$|async) + ('modal.register.about-me.shirt-size'|translate)}}</option>
+            <option value="XS">XS</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Account -->
+      <div class="row">
+        <h2>{{'modal.register.account.title'|translate}}</h2>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-lg-4">
+          <input type="email"
+                 class="form-control"
+                 formControlName="email"
+                 [placeholder]="'modal.register.account.email'|translate"
+          >
+        </div>
+        <div class="col-sm-6 col-lg-4">
+          <input type="password"
+                 class="form-control"
+                 formControlName="password"
+                 [placeholder]="'modal.register.account.password'|translate"
+          >
+        </div>
+        <div class="col-sm-6 col-lg-4">
+          <input type="password"
+                 class="form-control"
+                 formControlName="passwordRepeat"
+                 [placeholder]="'modal.register.account.password-repeat'|translate"
+          >
+        </div>
+      </div>
+
+      <!-- Address -->
+      <div class="row">
+        <h2>{{'modal.register.address.title'|translate}}</h2>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-3">
+          <input type="text"
+                 class="form-control"
+                 formControlName="address"
+                 [placeholder]="'modal.register.address.street'|translate"
+          >
+      </div>
+        <div class="col-sm-12 col-md-6 col-lg-3">
+          <input type="text"
+                 class="form-control"
+                 formControlName="city"
+                 [placeholder]="'modal.register.address.city'|translate"
+          >
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-3">
+          <input type="text"
+                 class="form-control"
+                 formControlName="postalCode"
+                 [placeholder]="'modal.register.address.postal-code'|translate"
+          >
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-3">
+          <select class="form-control" formControlName="country">
+            <option>{{'modal.register.address.country'|translate}}</option>
+            <option
+              *ngFor="let country of (countries | keyvalue)"
+              [value]="country.key"
+            >{{country.value}}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- School -->
+      <div class="row">
+        <h2>{{'modal.register.school.title'|translate}}</h2>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-6">
+          <input type="text"
+                 class="form-control"
+                 formControlName="schoolName"
+                 [placeholder]="'modal.register.school.name'|translate"
+          >
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <input type="number"
+                 class="form-control"
+                 formControlName="schoolEnd"
+                 [placeholder]="'modal.register.school.end'|translate"
+          >
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-3">
+          <input type="text"
+                 class="form-control"
+                 formControlName="schoolAddress"
+                 [placeholder]="'modal.register.address.street'|translate"
+          >
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-3">
+          <input type="text"
+                 class="form-control"
+                 formControlName="schoolCity"
+                 [placeholder]="'modal.register.address.city'|translate"
+          >
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-3">
+          <input type="text"
+                 class="form-control"
+                 formControlName="schoolPostalCode"
+                 [placeholder]="'modal.register.address.postal-code'|translate"
+          >
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-3">
+          <select class="form-control" formControlName="schoolCountry">
+            <option>{{'modal.register.address.country'|translate}}</option>
+            <option
+              *ngFor="let country of (countries | keyvalue)"
+              [value]="country.key"
+            >{{country.value}}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- School -->
+      <div class="row">
+        <h2>{{'modal.register.tos.title'|translate}}</h2>
+      </div>
+      <div class="row">
+        <div class="col-12 tos-checkbox-container">
+          <div class="form-check">
+            <input class="form-check-input"
+                   type="checkbox"
+                   formControlName="tos"
+                   id="checkbox-tos"
+            >
+            <label class="form-check-label" for="checkbox-tos">
+              {{'modal.register.tos.agreed'|translate}}
+              <a class="clickable" (click)="openTOS($event)">{{'modal.register.tos.text'|translate}}</a>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <button
+        class="btn btn-ksi btn-register w-100"
+        [disabled]="!form.valid"
+        (click)="register()"
+      >
+        {{'modal.register.register'|translate}}
+      </button>
+    </div>
+  </form>
+</ng-template>

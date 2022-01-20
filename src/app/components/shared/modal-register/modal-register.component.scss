@@ -1,0 +1,25 @@
+@import "src/app/styles/vars";
+
+h2 {
+  text-align: center;
+  width: 100%;
+  margin: $ksi-margin-small $ksi-margin $ksi-margin;
+}
+
+input, select {
+  margin-bottom: $ksi-margin-small;
+
+  &.ng-invalid.ng-pristine {
+    border-width: 2px;
+    border-color: $ksi-blue-100;
+  }
+}
+
+.tos-checkbox-container {
+  display: flex;
+  justify-content: center;
+}
+
+.btn-register {
+  margin: $ksi-margin $ksi-margin 0;
+}

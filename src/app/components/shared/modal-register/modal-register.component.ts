@@ -30,13 +30,13 @@ export class ModalRegisterComponent implements OnInit, OnDestroy, ModalComponent
     address: ['', Validators.required],
     city: ['', Validators.required],
     postalCode: ['', Validators.required],
-    country: ['', Validators.required],
+    country: [null, Validators.required],
 
     schoolName: ['', Validators.required],
     schoolAddress: ['', Validators.required],
     schoolCity: ['', Validators.required],
     schoolPostalCode: ['', Validators.required],
-    schoolCountry: ['', Validators.required],
+    schoolCountry: [null, Validators.required],
     schoolEnd: [null, Validators.required],
 
     aboutMe: [''],  // not asked to be filled in

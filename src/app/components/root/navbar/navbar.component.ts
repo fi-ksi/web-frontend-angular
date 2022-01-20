@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { YearsService, WindowService, ModalService, BackendService } from 'src/app/services';
-import { combineLatest, merge, Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
+import { map, mapTo } from 'rxjs/operators';
 import { YearSelect } from "../../../models";
 
 @Component({
@@ -13,10 +13,11 @@ import { YearSelect } from "../../../models";
 export class NavbarComponent implements OnInit {
   useLongTitle$: Observable<boolean>;
   showFullMenu$: Observable<boolean>;
+  showMenuOpener$: Observable<boolean> = this.window.isMobileSmall$;
 
   selectableYears$: Observable<YearSelect[]>;
 
-  private readonly showFullMenuSubject: Subject<void> = new Subject<void>();
+  private readonly showFullMenuSubject: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(
     private window: WindowService,
@@ -33,8 +34,8 @@ export class NavbarComponent implements OnInit {
     this.showFullMenu$ = combineLatest([
       this.window.isMobileSmall$,
       merge(
-        this.window.pageScroll$.pipe(map(() => false)),
-        this.showFullMenuSubject.asObservable().pipe(map(() => true))
+        this.window.pageScroll$.pipe(mapTo(false)),
+        this.showFullMenuSubject.asObservable()
       )
     ]).pipe(map(([isMobileSmall, showOverride]) => !isMobileSmall || showOverride));
 
@@ -45,6 +46,12 @@ export class NavbarComponent implements OnInit {
   }
 
   showFullMenu(): void {
-    this.showFullMenuSubject.next();
+    this.showFullMenuSubject.next(true);
+  }
+
+  hideFullMenu(e: MouseEvent): false {
+    e.stopPropagation();
+    this.showFullMenuSubject.next(false);
+    return false;
   }
 }

@@ -16,6 +16,20 @@
 
     @media screen and (max-width: $ksi-max-small-mobile-width) {
       flex-direction: column;
+      text-align: center;
+
+      .navigation, .categories {
+        flex-direction: column;
+        margin: 0 $ksi-margin;
+      }
+
+      .nav-btn {
+        margin: $ksi-margin-x-small;
+      }
+
+      .dropdown {
+        margin: $ksi-margin-small;
+      }
     }
 
     .logo {

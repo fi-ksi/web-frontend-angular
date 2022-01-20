@@ -55,6 +55,7 @@
         <a class="nav-btn" (click)="modal.showLoginModal()">{{'root.navbar.login' | translate}}</a>
       </ng-template>
     </div>
+    <div *ngIf="showMenuOpener$ | async" class="menu-opener clickable" (click)="hideFullMenu($event)">&#9776;</div>
   </ng-container>
   <ng-template #menuOpener>
     <div class="menu-opener">&#9776;</div>

@@ -47,7 +47,7 @@ export class ModalLoginComponent implements OnInit, ModalComponent {
    * @return false to override default form post action
    */
   login(): false {
-    if (!this.form.valid) {
+    if (!this.form.valid || this.form.disabled) {
       return false;
     }
     this.form.disable();
@@ -68,6 +68,19 @@ export class ModalLoginComponent implements OnInit, ModalComponent {
   }
 
   openRegisterModal(): void {
-    this.modal.showRegisterModal(this.form.controls.email.value, this.form.controls.password.value);
+    const modal = this.modal.showRegisterModal(this.form.controls.email.value, this.form.controls.password.value);
+    modal.afterClose$.subscribe(
+      () => {
+        const {form, registrationSuccessful} = modal.component.instance;
+
+        if (!registrationSuccessful) {
+          return;
+        }
+
+        this.form.controls.email.setValue(form.controls.email.value);
+        this.form.controls.password.setValue(form.controls.password.value);
+        this.login();
+      }
+    );
   }
 }

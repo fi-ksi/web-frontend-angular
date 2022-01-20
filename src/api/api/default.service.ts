@@ -39,6 +39,7 @@ import { InlineResponse200 } from '../model/inlineResponse200';
 import { ModuleResponse } from '../model/moduleResponse';
 import { ModuleSubmissionRequest } from '../model/moduleSubmissionRequest';
 import { ModuleSubmitResponse } from '../model/moduleSubmitResponse';
+import { PossibleErrorDict } from '../model/possibleErrorDict';
 import { PostResponse } from '../model/postResponse';
 import { PostsCreationRequest } from '../model/postsCreationRequest';
 import { PostsEditRequest } from '../model/postsEditRequest';
@@ -1960,9 +1961,9 @@ export class DefaultService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public registerNewUser(body: RegistrationRequest, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
-    public registerNewUser(body: RegistrationRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
-    public registerNewUser(body: RegistrationRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
+    public registerNewUser(body: RegistrationRequest, observe?: 'body', reportProgress?: boolean): Observable<PossibleErrorDict>;
+    public registerNewUser(body: RegistrationRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PossibleErrorDict>>;
+    public registerNewUser(body: RegistrationRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PossibleErrorDict>>;
     public registerNewUser(body: RegistrationRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
@@ -1989,7 +1990,7 @@ export class DefaultService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<EmptyDict>('post',`${this.basePath}/registration`,
+        return this.httpClient.request<PossibleErrorDict>('post',`${this.basePath}/registration`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,

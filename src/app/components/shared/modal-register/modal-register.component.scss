@@ -21,5 +21,12 @@ input, select {
 }
 
 .btn-register {
-  margin: $ksi-margin $ksi-margin 0;
+  margin: $ksi-margin-small $ksi-margin 0;
+}
+
+.registration-error {
+  margin: $ksi-margin $ksi-margin-small 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

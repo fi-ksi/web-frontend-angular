@@ -4,8 +4,10 @@ import { BsModalRef } from "ngx-bootstrap/modal";
 import { AbstractControl, FormBuilder, Validators } from "@angular/forms";
 import { TranslateService } from "@ngx-translate/core";
 import { Observable, Subscription } from "rxjs";
-import { map } from "rxjs/operators";
-import { AddressService, ModalService } from "../../../services";
+import { map, shareReplay } from "rxjs/operators";
+import { AddressService, BackendService, ModalService } from "../../../services";
+import { RegistrationRequest } from "../../../../api";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'ksi-modal-register',
@@ -20,11 +22,11 @@ export class ModalRegisterComponent implements OnInit, OnDestroy, ModalComponent
   form = this.fb.group(({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
-    passwordRepeat: [''],
+    passwordRepeat: ['', Validators.required],
 
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
-    nick: [''],
+    nick: [undefined],
     sex: ['', Validators.required],
 
     address: ['', Validators.required],
@@ -49,14 +51,30 @@ export class ModalRegisterComponent implements OnInit, OnDestroy, ModalComponent
 
   optional$: Observable<string>;
 
+  errorMsg$: Observable<string>;
+
   countries = AddressService.COUNTRIES;
+
+  registrationSuccessful = false;
 
   private _subs: Subscription[] = [];
 
-  constructor(private fb: FormBuilder, private translate: TranslateService, private modal: ModalService) { }
+  private modalRef: BsModalRef<unknown>;
+
+  constructor(
+    private fb: FormBuilder,
+    private translate: TranslateService,
+    private modal: ModalService,
+    private backend: BackendService
+  ) { }
 
   ngOnInit(): void {
     this.optional$ = this.translate.stream('modal.register.optional').pipe(map(() => this.translate.instant('modal.register.optional')));
+
+    if (environment.production) {
+      this.errorMsg$ = this.translate.stream('modal.register.disabled').pipe(map(() => this.translate.instant('modal.register.disabled')));
+      this.form.disable();
+    }
 
     // add passwords same validator
     this.form.controls.passwordRepeat.addValidators((control) => {
@@ -85,7 +103,8 @@ export class ModalRegisterComponent implements OnInit, OnDestroy, ModalComponent
       });
   }
 
-  onModalOpened(_: BsModalRef<unknown>): void {
+  onModalOpened(ref: BsModalRef<unknown>): void {
+    this.modalRef = ref;
   }
 
   ngOnDestroy(): void {
@@ -99,8 +118,44 @@ export class ModalRegisterComponent implements OnInit, OnDestroy, ModalComponent
   }
 
   register() {
-    if (!this.form.valid) {
+    if (!this.form.valid || this.form.disabled) {
       return;
     }
+    this.form.disable();
+
+    const req: RegistrationRequest = {
+      email: this.form.controls.email.value,
+      nick_name: this.form.controls.nick.value,
+      first_name: this.form.controls.firstName.value,
+      last_name: this.form.controls.lastName.value,
+      gender: this.form.controls.sex.value,
+      short_info: this.form.controls.aboutMe.value,
+      addr_street: this.form.controls.address.value,
+      addr_city: this.form.controls.city.value,
+      addr_zip: this.form.controls.postalCode.value,
+      addr_country: this.form.controls.country.value,
+      school_name: this.form.controls.schoolName.value,
+      school_street: this.form.controls.schoolAddress.value,
+      school_city: this.form.controls.schoolCity.value,
+      school_zip: this.form.controls.schoolPostalCode.value,
+      school_country: this.form.controls.schoolCountry.value,
+      school_finish: this.form.controls.schoolEnd.value,
+      tshirt_size: this.form.controls.shirtSize.value,
+      password: this.form.controls.password.value,
+      referral: ''
+    };
+
+    const registration$ = this.backend.http.registerNewUser(req).pipe(shareReplay(1));
+
+    this.errorMsg$ = registration$.pipe(map((response) => response?.error || ''));
+
+    registration$.subscribe((response) => {
+      if (response.error === undefined) {
+        this.registrationSuccessful = true;
+        this.modalRef.hide();
+      } else {
+        this.form.enable();
+      }
+    });
   }
 }

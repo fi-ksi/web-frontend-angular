@@ -9,12 +9,15 @@ export interface ModalComponent {
   onModalOpened: (modalRef: BsModalRef<unknown>) => void;
 }
 
-export interface OpenedModal<T extends ModalComponent> {
-  component: ComponentRef<T>;
+interface OpenedModalBase {
   visible$: Observable<boolean>;
+  afterClose$: Observable<void>;
 }
 
-export interface OpenedTemplate {
+export interface OpenedModal<T extends ModalComponent> extends OpenedModalBase {
+  component: ComponentRef<T>;
+}
+
+export interface OpenedTemplate extends OpenedModalBase {
   template: ComponentRef<ModalGenericComponent>;
-  visible$: Observable<boolean>;
 }

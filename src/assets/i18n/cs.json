@@ -95,17 +95,18 @@
       "title": "Registruj se do KSI",
       "register": "Zaregistrovat se!",
       "optional": "Nepovinné - ",
+      "disabled": "Registrování bylo na této verzi webu dočasně vyřazeno",
       "about-me": {
         "title": "O mě",
         "first-name": "Křestní jméno",
-        "nickname": "Přezdívka",
+        "nickname": "přezdívka",
         "last-name": "Příjmení",
         "sex": {
           "title": "Pohlaví",
           "male": "Muž",
           "female": "Žena"
         },
-        "shirt-size": "Velikost trička"
+        "shirt-size": "velikost trička"
       },
       "account": {
         "title": "Můj účet",

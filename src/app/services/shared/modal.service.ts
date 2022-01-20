@@ -9,7 +9,7 @@ import { ModalGenericComponent } from "../../components/shared/modal-generic/mod
 import { TranslateService } from "@ngx-translate/core";
 import { ModalComponent, OpenedModal, OpenedTemplate, PostsMap } from "../../models";
 import { ModalLoginComponent } from "../../components/shared/modal-login/modal-login.component";
-import { filter, take } from "rxjs/operators";
+import { filter, mapTo, take } from "rxjs/operators";
 import { environment } from "../../../environments/environment";
 import { ModalOptions } from "ngx-bootstrap/modal";
 import { ModalPostReplyComponent } from "../../components/shared/modal-post-reply/modal-post-reply.component";
@@ -39,22 +39,23 @@ export class ModalService {
 
     const {visible$} = comp.instance;
 
-    visible$
-      .pipe(filter((visible) => !visible), take(1))
-      .subscribe(() => {
-        environment.logger.debug('destroying modal component on hide');
-        comp.destroy()
-      });
+    const afterClose$ = visible$.pipe(filter((visible) => !visible), take(1), mapTo(undefined));
+
+    afterClose$.subscribe(() => {
+      environment.logger.debug('destroying modal component on hide');
+      comp.destroy()
+    });
 
     return {
       template: comp,
-      visible$
+      visible$,
+      afterClose$
     };
   }
 
   public showModalComponent<T extends ModalComponent>(componentType: Type<T>, options?: ModalOptions): OpenedModal<T> {
     const component = this.container.createComponent(this.resolver.resolveComponentFactory(componentType));
-    const {template, visible$} = this.showModalTemplate(component.instance.templateBody, component.instance.title, options);
+    const {template, visible$, afterClose$} = this.showModalTemplate(component.instance.templateBody, component.instance.title, options);
 
     visible$
       .pipe(
@@ -67,7 +68,8 @@ export class ModalService {
 
     return {
       component,
-      visible$
+      visible$,
+      afterClose$,
     }
   }
 

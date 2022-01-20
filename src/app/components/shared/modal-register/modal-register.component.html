@@ -23,8 +23,8 @@
         <div class="col-sm-12 col-md-4">
           <select class="form-control" formControlName="sex">
             <option>{{'modal.register.about-me.sex.title'|translate}}</option>
-            <option value="M">{{'modal.register.about-me.sex.male'|translate}}</option>
-            <option value="F">{{'modal.register.about-me.sex.female'|translate}}</option>
+            <option value="male">{{'modal.register.about-me.sex.male'|translate}}</option>
+            <option value="female">{{'modal.register.about-me.sex.female'|translate}}</option>
           </select>
         </div>
       </div>
@@ -186,10 +186,18 @@
         </div>
       </div>
     </div>
+
+    <div class="row registration-error">
+      <ksi-spinner *ngIf="errorMsg$" [source]="errorMsg$"></ksi-spinner>
+      <div *ngIf="errorMsg$ | async as message" class="alert alert-danger" role="alert">
+        {{message}}
+      </div>
+    </div>
+
     <div class="row">
       <button
         class="btn btn-ksi btn-register w-100"
-        [disabled]="!form.valid"
+        [disabled]="!form.valid || form.disabled"
         (click)="register()"
       >
         {{'modal.register.register'|translate}}

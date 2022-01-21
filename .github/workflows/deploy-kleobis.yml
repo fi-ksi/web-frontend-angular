@@ -20,8 +20,8 @@ jobs:
           cd src &&
           npm install &&
           npm run build.kleobis &&
-          cd dist/* &&
-          tar -cvf ../dist.tar *
+          cd dist/web-frontend-angular/cs/ &&
+          tar -cvf ../../dist.tar *
       - name: create release
         id: create_release
         uses: actions/create-release@v1

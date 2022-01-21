@@ -18,7 +18,10 @@
       "sourceRoot": "src",
       "prefix": "ksi",
       "i18n": {
-        "sourceLocale": "cs"
+        "sourceLocale": {
+          "code": "cs",
+          "baseHref": ""
+        }
       },
       "architect": {
         "build": {
@@ -27,6 +30,7 @@
             "outputPath": "dist/web-frontend-angular",
             "index": "src/index.html",
             "main": "src/main.ts",
+            "localize": true,
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
@@ -98,7 +102,7 @@
               "extractLicenses": false,
               "sourceMap": false,
               "namedChunks": true,
-              "baseHref": "novy-web",
+              "baseHref": "/novy-web/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",

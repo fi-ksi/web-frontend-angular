@@ -17,6 +17,11 @@
     }
   }
 
+  .dragged {
+    transition: visibility 0.1s;
+    opacity: 0.5;
+  }
+
   .lists {
     display: flex;
 

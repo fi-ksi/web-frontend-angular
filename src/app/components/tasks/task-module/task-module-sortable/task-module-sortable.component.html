@@ -1,7 +1,7 @@
 <div class="selected-container" *ngIf="selectedItem">
   <ksi-task-module-sortable-item
-                                 [item]="selectedItem"
-                                 class="selected"
+    [item]="selectedItem"
+    class="selected"
   ></ksi-task-module-sortable-item>
 </div>
 
@@ -28,7 +28,7 @@
   </div>
   <div class="sortable-list">
     <h4>{{'tasks.module.sortable.items' | translate}}</h4>
-    <ksi-task-module-sortable-place *ngIf="selectedItem && selectedItem.$placement !== 'right'"
+    <ksi-task-module-sortable-place *ngIf="selectedItem"
                                     [selected]="selectedItem"
                                     (click)="placeItemRight()"
     ></ksi-task-module-sortable-place>
@@ -40,3 +40,10 @@
   </div>
 </div>
 <button class="btn btn-ksi submit" [disabled]="submission$" (click)="submit()">{{'tasks.module.submit'|translate}}</button>
+
+<div *ngIf="selectedItem" #draggedItem style="visibility: hidden">
+  <ksi-task-module-sortable-item
+    [item]="selectedItem"
+    class="selected dragged"
+  ></ksi-task-module-sortable-item>
+</div>

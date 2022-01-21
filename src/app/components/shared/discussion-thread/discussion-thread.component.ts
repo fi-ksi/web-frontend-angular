@@ -1,11 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { ThreadDetailResponse } from "../../../../api";
 import { PostsMap } from "../../../models";
-import { BehaviorSubject, combineLatest, Observable } from "rxjs";
-import { BackendService, ModalService, WindowService } from "../../../services";
+import { BehaviorSubject, combineLatest, Observable, Subscription } from "rxjs";
+import { BackendService, ModalService, WindowService, UserService } from "../../../services";
 import { filter, map, mergeMap, shareReplay, take } from "rxjs/operators";
 import { environment } from "../../../../environments/environment";
-import { UserService } from "../../../services/shared/user.service";
 
 interface ThreadDetailsWithPostsMap {
   thread: ThreadDetailResponse,
@@ -18,7 +17,7 @@ interface ThreadDetailsWithPostsMap {
   styleUrls: ['./discussion-thread.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DiscussionThreadComponent implements OnInit {
+export class DiscussionThreadComponent implements OnInit, OnDestroy {
   @Input()
   threadId: number;
 
@@ -32,6 +31,8 @@ export class DiscussionThreadComponent implements OnInit {
   private readonly refreshSubject = new BehaviorSubject<unknown>(null);
   private readonly refresh$ = this.refreshSubject.asObservable();
 
+  private subs: Subscription[] = [];
+
   constructor(
     private backend: BackendService,
     private window: WindowService,
@@ -40,7 +41,8 @@ export class DiscussionThreadComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.thread$ = this.refresh$.pipe(
+    this.thread$ = this.user.isLoggedIn$.pipe(
+      mergeMap(() => this.refresh$),
       mergeMap(() => this.backend.http.threadDetailsGetSingle(this.threadId)),
       map((thread) => {
         const posts: PostsMap = {};
@@ -51,6 +53,16 @@ export class DiscussionThreadComponent implements OnInit {
         }
       }),
       shareReplay(1)
+    );
+
+    // mark thread as visited when user is logged in
+    this.subs.push(
+      this.refresh$.pipe(
+        mergeMap(() => this.user.isLoggedIn$),
+        filter((loggedIn) => loggedIn)
+      ).subscribe(() => {
+        this.backend.http.threadsMarkVisited(this.threadId).subscribe();
+      })
     );
 
     this.maxPostsDepth$ = combineLatest([this.window.isMobileSmall$, this.window.isMobile$]).pipe(
@@ -64,6 +76,10 @@ export class DiscussionThreadComponent implements OnInit {
         return 4;
       })
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subs.forEach((s) => s.unsubscribe());
   }
 
   onPostsModified(): void {

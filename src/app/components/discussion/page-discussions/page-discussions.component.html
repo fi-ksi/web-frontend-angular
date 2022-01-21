@@ -10,11 +10,11 @@
     </thead>
     <tbody>
     <tr [routerLink]="'./' + thread.id" class="clickable" *ngFor="let thread of (years.discussionThreads$ | async)">
-      <td><a [routerLink]="'./' + thread.id" [class.has-unread]="thread.unread">{{thread.title}}</a></td>
+      <td><a [routerLink]="'./' + thread.id" [class.has-unread]="(user.isLoggedIn$ | async) && thread.unread">{{thread.title}}</a></td>
       <td>
         <a [routerLink]="'./' + thread.id">
           {{thread.posts_count}}
-          <span class="new-posts-count" *ngIf="thread.unread">
+          <span class="new-posts-count" *ngIf="(user.isLoggedIn$ | async) && thread.unread">
             ({{thread.unread | translateNewItems}})
           </span>
         </a>

@@ -21,6 +21,7 @@ jobs:
           npm install &&
           npm run build.kyzikos &&
           cd dist/web-frontend-angular/cs/ &&
+          cp -r ../cgi-bin cgi-bin &&
           tar -cvf ../../dist.tar *
       - name: create release
         id: create_release

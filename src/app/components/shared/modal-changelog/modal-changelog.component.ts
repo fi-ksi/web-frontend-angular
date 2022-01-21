@@ -8,10 +8,10 @@ import {
   OnDestroy
 } from '@angular/core';
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
-import { VersionService } from "../../../services";
-import { combineLatest, Subscription } from "rxjs";
+import { VersionService, StorageService } from "../../../services";
+import { combineLatest, concat, of, Subscription } from "rxjs";
 import { DateInputFormControl } from "../../../util";
-import { StorageService } from "../../../services/shared/storage.service";
+import { skip } from "rxjs/operators";
 
 @Component({
   selector: 'ksi-modal-changelog',
@@ -46,16 +46,24 @@ export class ModalChangelogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this._subs.push(combineLatest([this.version.changelog$, this.controlSince.valueOuterChanges]).subscribe(([changelog, since]) => {
+    const dateInitialSince = new Date(
+      this.storage.get<number>('last-commit') ||
+      Date.now() - (7 * 24 * 3600 * 1000)
+    );
+
+    this._subs.push(combineLatest([
+      this.version.changelog$,
+      concat(
+        of(dateInitialSince),
+        this.controlSince.valueOuterChanges.pipe(skip(1))
+      )
+    ]).subscribe(([changelog, since]) => {
       if (!changelog) {
         return;
       }
       if (since === null) {
-        since = new Date(0);
+        return;
       }
-
-      // show all changes that happened AFTER the date of 'since'
-      since.setDate(since.getDate() + 1);
 
       const reCommitMessage = /^(feat|fix)(?:\((.*?)\))?:\s+(.*)$/;
 
@@ -100,10 +108,7 @@ export class ModalChangelogComponent implements OnInit, OnDestroy {
     }));
 
     // show last week worth of changes
-    this.controlSince.setOuterValue(new Date(
-      this.storage.get<number>('last-commit') ||
-      Date.now() - (7 * 24 * 3600 * 1000)
-    ));
+    this.controlSince.setOuterValue(dateInitialSince);
   }
 
   openModal() {

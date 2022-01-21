@@ -1,5 +1,15 @@
+@import "src/app/styles/vars";
+@import "src/app/styles/mixins";
+
 :host {
   .content {
     display: inline;
+
+    ::ng-deep {
+      ksi-task-collapsible {
+        display: block;
+        margin: $ksi-margin 0;
+      }
+    }
   }
 }

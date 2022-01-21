@@ -1,6 +1,17 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  Input,
+  ViewChild,
+  ElementRef,
+  ComponentFactoryResolver,
+  ComponentFactory,
+  ViewContainerRef
+} from '@angular/core';
 import highlight from "highlight.js";
 import 'mathjax/es5/tex-svg'; // allows us to call window.MathJax.tex2svg
+import { TaskCollapsibleComponent } from "./task-collapsible/task-collapsible.component";
 
 @Component({
   selector: 'ksi-task-body',
@@ -23,23 +34,25 @@ export class TaskBodyComponent implements OnInit {
     }
     const { nativeElement } = content;
     this.articleObserver = new MutationObserver(() => {
-      this.highlightCodeAndMath(nativeElement);
+      this.applyTaskContentStyle(nativeElement);
     });
     this.articleObserver.observe(nativeElement, {
       childList: true,
       subtree: true
     });
-    this.highlightCodeAndMath(nativeElement);
+    this.applyTaskContentStyle(nativeElement);
   }
 
   private articleObserver: MutationObserver | null = null;
 
-  constructor() { }
+  private panelFactory?: ComponentFactory<TaskCollapsibleComponent>;
+
+  constructor(private resolver: ComponentFactoryResolver, private container: ViewContainerRef) { }
 
   ngOnInit(): void {
   }
 
-  private highlightCodeAndMath(rootElement: HTMLElement) {
+  private applyTaskContentStyle(rootElement: HTMLElement): void {
     rootElement.querySelectorAll('pre>code:not(.highlighted)').forEach((code) => {
       code.classList.forEach((cls) => {
         if (cls !== 'sourceCode') {
@@ -60,5 +73,24 @@ export class TaskBodyComponent implements OnInit {
       const node = window.MathJax.tex2svg(tex, {display: false});
       math.appendChild(node);
     });
+    rootElement.querySelectorAll('.panel.panel-ksi').forEach((el) => {
+      const title = el.querySelector('.panel-title')!.textContent!;
+      const body = el.querySelector('.panel-body')!.innerHTML!;
+      el.replaceWith(this.createKSIPanel(title, body));
+    });
+  }
+
+  private createKSIPanel(title: string, body: string): HTMLElement {
+    if (this.panelFactory === undefined) {
+      this.panelFactory = this.resolver.resolveComponentFactory(TaskCollapsibleComponent);
+    }
+    const comp = this.container.createComponent(this.panelFactory);
+
+    comp.instance.title = title;
+    comp.instance.content = body;
+
+    setTimeout(() => comp.instance.cd.markForCheck());
+
+    return comp.instance.el.nativeElement;
   }
 }

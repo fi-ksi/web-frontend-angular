@@ -24,6 +24,7 @@ import { TaskModuleSortableItemComponent } from './task-module/task-module-sorta
 import {
     TaskModuleSortablePlaceComponent
 } from "./task-module/task-module-sortable/task-module-sortable-place/task-module-sortable-place.component";
+import { TaskCollapsibleComponent } from './task-body/task-collapsible/task-collapsible.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import {
         TaskModuleGeneralComponent,
         TaskModuleSortableComponent,
         TaskModuleSortableItemComponent,
-        TaskModuleSortablePlaceComponent
+        TaskModuleSortablePlaceComponent,
+        TaskCollapsibleComponent
     ],
     imports: [
         CommonModule,

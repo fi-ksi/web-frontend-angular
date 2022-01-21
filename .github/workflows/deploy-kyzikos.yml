@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - 'kyzikos'
+      - 'main'
 jobs:
   deploy-kyzikos:
     runs-on: ubuntu-latest

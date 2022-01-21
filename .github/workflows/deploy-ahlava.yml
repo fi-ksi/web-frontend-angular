@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - 'ahlava'
+      - 'main'
 jobs:
   deploy-pubdev:
     runs-on: ubuntu-latest

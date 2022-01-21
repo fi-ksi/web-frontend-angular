@@ -32,5 +32,5 @@ jobs:
           cd src &&
           npm install &&
           npm run build.pubdev &&
-          cd dist/web-frontend-angular &&
+          cd dist/web-frontend-angular/cs &&
           { echo 'put .'; echo bye; } | sftp -oBatchMode=no -r "${SSH_USER}"@"${SSH_HOST}":"/${SSH_DIR}"

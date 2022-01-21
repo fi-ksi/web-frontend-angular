@@ -30,6 +30,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "deleteOutputPath": true,
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -82,6 +83,7 @@
               "extractLicenses": false,
               "sourceMap": false,
               "namedChunks": true,
+              "baseHref": "/new/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -96,6 +98,7 @@
               "extractLicenses": false,
               "sourceMap": false,
               "namedChunks": true,
+              "baseHref": "novy-web",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",

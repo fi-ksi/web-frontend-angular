@@ -1,27 +1,59 @@
-# WebFrontendAngular
+# KSI Web frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.6.
+This project was build upon the [Angular](https://angular.io/guide/) framework as an frontend for the [backend server](https://github.com/fi-ksi/web-backend). 
 
-## Development server
+## Clone
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+```bash
+git clone https://github.com/fi-ksi/web-frontend-angular.git &&
+cd web-frontend-angular &&
+npm install
+```
 
-## Code scaffolding
+## Running
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+To start the development server, use `npm run start`.
 
-## Build
+## Building
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+To build for:
 
-## Running unit tests
+- testing server: `npm run build.kyzikos`
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- production server: `npm run build.kleobis`
 
-## Running end-to-end tests
+## Utilities
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Utilities are located inside the `util/` directory, containing following files:
 
-## Further help
+### gen-api.sh
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- executed by `npm run gen.api`
+
+`gen-api.sh` takes `swagger.json` produced by [backend swagger project](https://github.com/fi-ksi/web-backend-swagger). Both projects need to be cloned to the same directory.
+
+Based on the swagger definition, it generates API service and models inside the `src/api/` folder. 
+
+A few automatics fixes to the generated code are then made by this util.
+
+### gen-changelog.sh
+
+- executed by `npm run gen.changelog`
+
+`gen-changelog.sh` takes git's log and saves this information into `src/assets/changelog/` directory. This is then used by the changelog modal inside the application.
+
+### gen-scss-colors.sh
+
+executed by `npm run gen.colors`
+
+`gen-scss-colors.sh` generates scss variables based on `src/app/styles/theme.scss` and saves them into `src/app/styles/colors.scss` for usage inside the application. SCSS variables are safer than regular css variables because the compiler throws error if used variable is undefined.
+
+## Deployment
+
+Automatic deploy is executed based on which branch is pushed into. To see which branch deploys where, take a look inside the `.github/workflows` directory.
+
+## Localization
+
+The source code is written in English, but the web itself is in Czech. This is possible by using `ngx-translate` package. All texts (except a few exceptions) are saved inside `src/assets/cs.json`.
+
+The routes are also translated by using `fileReplacements` inside `angular.json` file. Raw values can be found inside `src/routes/`.

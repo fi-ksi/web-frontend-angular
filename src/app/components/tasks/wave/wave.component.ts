@@ -1,8 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { TaskWithIcon, WaveDetails, WaveView } from "../../../models";
-import { TasksService } from "../../../services";
+import { RoutesService, TasksService } from "../../../services";
 import { Observable } from "rxjs";
-import { UserService } from "../../../services/shared/user.service";
+import { UserService } from "../../../services";
 
 @Component({
   selector: 'ksi-wave',
@@ -20,7 +20,7 @@ export class WaveComponent implements OnInit {
   // tasks ordered that all requirements of the tasks are before it
   tasksOrdered: TaskWithIcon[];
 
-  constructor(public user: UserService) { }
+  constructor(public user: UserService, public routes: RoutesService) { }
 
   ngOnInit(): void {
     this.tasksOrdered = TasksService.sortTasks(this.wave.tasks, true);

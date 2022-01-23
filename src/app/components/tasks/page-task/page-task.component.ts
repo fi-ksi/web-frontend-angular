@@ -11,7 +11,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { catchError, distinctUntilChanged, filter, map, mergeMap, shareReplay, tap } from "rxjs/operators";
 import { combineLatest, Observable, of, throwError } from "rxjs";
 import { OpenedTemplate, TaskFullInfo } from "../../../models";
-import { UserService } from "../../../services/shared/user.service";
+import { UserService } from "../../../services";
+import { ROUTES } from "../../../../routes/routes";
 
 @Component({
   selector: 'ksi-page-task',
@@ -76,7 +77,7 @@ export class PageTaskComponent implements OnInit, OnDestroy {
       }),
       catchError((err) => {
         if (err === PageTaskComponent.ERR_LOGIN_DENIED) {
-          this.router.navigate(['/', 'tasks']).then();
+          this.router.navigate(['/', ROUTES.tasks]).then();
           return of(null);
         }
         throw err;

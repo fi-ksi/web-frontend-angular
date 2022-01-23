@@ -1,5 +1,5 @@
 <a *ngIf="achievement$ | async as achievement"
-   [routerLink]="'/achievements/' + achievementId"
+   [routerLink]="['/', routes.routes.achievements, achievementId]"
    [tooltip]="achievement.title"
 >
   <img

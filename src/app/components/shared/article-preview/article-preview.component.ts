@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, Input, HostBinding, HostLis
 import { Article } from "../../../../api";
 import { TranslateService } from "@ngx-translate/core";
 import { Router } from "@angular/router";
+import { ROUTES } from "../../../../routes/routes";
 
 @Component({
   selector: 'ksi-article-preview',
@@ -25,7 +26,7 @@ export class ArticlePreviewComponent implements OnInit {
     if (!this.clickable) {
       return;
     }
-    this.router.navigate(['news', this.article.id]);
+    this.router.navigate([ROUTES.news, this.article.id]).then();
   }
 
   link: string;
@@ -33,6 +34,6 @@ export class ArticlePreviewComponent implements OnInit {
   constructor(public translate: TranslateService, private router: Router) { }
 
   ngOnInit(): void {
-    this.link = `/news/${this.article.id}`
+    this.link = `/${ROUTES.news}/${this.article.id}`
   }
 }

@@ -17,7 +17,7 @@
       <tbody>
       <tr *ngFor="let user of (category.users$ | async)">
         <td class="text-center">{{user.position}}</td>
-        <td><a [routerLink]="'/profile/' + user.id">{{user.first_name}} {{user.last_name}}</a></td>
+        <td><a [routerLink]="['/', routes.routes.profile, user.id]">{{user.first_name}} {{user.last_name}}</a></td>
         <td>
           <ksi-icon-achievement *ngFor="let ach of user.achievements" [achievementId]="ach"></ksi-icon-achievement>
         </td>

@@ -4,7 +4,7 @@
   <div class="achievements">
     <a *ngFor="let achievement of achievements$ | async"
        class="achievement"
-       [routerLink]="'/achievements/' + achievement.id"
+       [routerLink]="['/', routes.routes.achievements, achievement.id]"
     >
       <img [src]="achievement.picture" class="icon" alt="">
       <span class="name">{{achievement.title}}</span>

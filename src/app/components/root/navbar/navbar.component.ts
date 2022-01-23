@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { YearsService, WindowService, ModalService, BackendService } from 'src/app/services';
+import { YearsService, WindowService, ModalService, BackendService, RoutesService } from 'src/app/services';
 import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
 import { map, mapTo } from 'rxjs/operators';
 import { YearSelect } from "../../../models";
@@ -23,7 +23,8 @@ export class NavbarComponent implements OnInit {
     private window: WindowService,
     public years: YearsService,
     public modal: ModalService,
-    public backend: BackendService
+    public backend: BackendService,
+    public routes: RoutesService
   ) {}
 
   ngOnInit(): void {

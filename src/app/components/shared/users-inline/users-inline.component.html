@@ -2,7 +2,7 @@
   *ngFor="let user of (users$ | async) as users; let index = index"
   class="user"
 >
-  <a [routerLink]="'/profile/' + user.id">
+  <a [routerLink]="['/', routes.routes.profile, user.id]">
   <img class="pic" [src]="user.profile_picture" alt="">
   <span class="name">
     {{user.first_name}}

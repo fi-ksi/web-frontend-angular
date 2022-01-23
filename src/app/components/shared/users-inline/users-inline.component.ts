@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { combineLatest, Observable } from "rxjs";
 import { User } from "../../../../api";
-import { UsersCacheService } from "../../../services";
+import { RoutesService, UsersCacheService } from "../../../services";
 
 @Component({
   selector: 'ksi-users-inline',
@@ -18,7 +18,7 @@ export class UsersInlineComponent implements OnInit {
 
   users$: Observable<User[]>;
 
-  constructor(private usersCache: UsersCacheService) { }
+  constructor(private usersCache: UsersCacheService, public routes: RoutesService) { }
 
   ngOnInit(): void {
     this.users$ = combineLatest(

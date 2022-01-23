@@ -11,3 +11,4 @@ export * from './user.service';
 export * from './version.service';
 export * from './window.service';
 export * from './years.service';
+export * from './routes.service';

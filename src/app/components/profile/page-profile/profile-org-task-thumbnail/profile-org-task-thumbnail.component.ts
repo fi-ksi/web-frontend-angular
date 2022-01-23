@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { Observable } from "rxjs";
 import { TaskWithIcon } from "../../../../models";
-import { TasksService } from "../../../../services";
+import { RoutesService, TasksService } from "../../../../services";
 
 @Component({
   selector: 'ksi-profile-org-task-thumbnail',
@@ -15,7 +15,7 @@ export class ProfileOrgTaskThumbnailComponent implements OnInit {
 
   task$: Observable<TaskWithIcon>;
 
-  constructor(private tasks: TasksService) { }
+  constructor(private tasks: TasksService, public routes: RoutesService) { }
 
   ngOnInit(): void {
     this.task$ = this.tasks.getTask(this.taskId);

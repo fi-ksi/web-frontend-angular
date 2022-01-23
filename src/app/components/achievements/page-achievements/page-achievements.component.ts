@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
-import { AchievementService, KsiTitleService, YearsService } from "../../../services";
+import { AchievementService, KsiTitleService, RoutesService, YearsService } from "../../../services";
 import { combineLatest, Observable } from "rxjs";
 import { Achievement } from "../../../../api";
 import { map, mergeMap, shareReplay } from "rxjs/operators";
@@ -18,7 +18,8 @@ export class PageAchievementsComponent implements OnInit {
     private route: ActivatedRoute,
     public years: YearsService,
     private achievementsService: AchievementService,
-    private title: KsiTitleService
+    private title: KsiTitleService,
+    public routes: RoutesService
   ) { }
 
   ngOnInit(): void {

@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { KsiTitleService, YearsService } from "../../../services";
+import { KsiTitleService, RoutesService, YearsService } from "../../../services";
 import { User } from "../../../../api";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
@@ -23,7 +23,7 @@ export class PageResultsComponent implements OnInit {
 
   categories: ResultsCategory[];
 
-  constructor(private years: YearsService, private title: KsiTitleService) { }
+  constructor(private years: YearsService, private title: KsiTitleService, public routes: RoutesService) { }
 
   ngOnInit(): void {
     this.title.subtitle = 'results.title';

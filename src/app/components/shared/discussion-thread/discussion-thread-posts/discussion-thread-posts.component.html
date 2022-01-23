@@ -8,7 +8,7 @@
     <a
       *ngIf="threadId !== null"
       class="link"
-      [routerLink]="'/discussion/' + threadId"
+      [routerLink]="['/', routes.routes.discussion, threadId]"
       [fragment]="'' + post.id"
       tooltip="{{'discussion-thread.post.link' | translate}}"
     >

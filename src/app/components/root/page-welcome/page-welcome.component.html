@@ -26,10 +26,10 @@
       </a>
     </div>
     <div class="begin">
-      <a routerLink="/tasks" class="tasks">
+      <a [routerLink]="['/', routes.routes.tasks]" class="tasks">
         <button class="btn-lg btn">{{'root.welcome.about.begin' | translate}}</button>
       </a>
-      <a  class="more-info" routerLink="/about">- {{'root.welcome.about.more-info' | translate}} -</a>
+      <a  class="more-info" [routerLink]="['/', routes.routes.about]">- {{'root.welcome.about.more-info' | translate}} -</a>
     </div>
   </div>
 </div>
@@ -47,7 +47,7 @@
       <span class="header">{{'root.welcome.about.seminar.title' | translate}}</span>
       <span class="text">{{'root.welcome.about.seminar.text' | translate}}</span>
       <button class="btn-lg btn btn-go"
-              routerLink="/tasks">
+              [routerLink]="['/', routes.routes.tasks]">
         {{'root.welcome.about.lets-start' | translate}}
       </button>
     </div>
@@ -66,7 +66,8 @@
       <span class="header">{{'root.welcome.about.achievements.title' | translate}}</span>
       <span class="text">{{'root.welcome.about.achievements.text' | translate}}</span>
       <button class="btn-lg btn btn-go"
-              routerLink="/achievements">
+              [routerLink]="['/', routes.routes.achievements]"
+      >
         {{'root.welcome.about.lets-start' | translate}}
       </button>
     </div>
@@ -91,15 +92,15 @@
     <span class="header">{{'root.welcome.organisators.title' | translate}}</span>
     <ksi-spinner [source]="years.organisators$"></ksi-spinner>
     <div class="organisators">
-      <a *ngFor="let organisator of (years.organisators$ | async)"
+      <a *ngFor="let organiser of (years.organisators$ | async)"
         class="frame-organisator"
-         [routerLink]="'/profile/' + organisator.id"
+        [routerLink]="['/', routes.routes.profile, organiser.id]"
       >
-        <img [src]="organisator.profile_picture" alt="" class="pic">
+        <img [src]="organiser.profile_picture" alt="" class="pic">
         <span class="name">
-          {{organisator.first_name | uppercase}}
-          {{(organisator.nick_name ? '"' + organisator.nick_name + '"' : '') | uppercase}}
-          {{organisator.last_name | uppercase}}</span>
+          {{organiser.first_name | uppercase}}
+          {{(organiser.nick_name ? '"' + organiser.nick_name + '"' : '') | uppercase}}
+          {{organiser.last_name | uppercase}}</span>
       </a>
     </div>
   </div>

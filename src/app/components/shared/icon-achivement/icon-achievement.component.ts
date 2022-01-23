@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
-import { AchievementService } from "../../../services";
+import { AchievementService, RoutesService } from "../../../services";
 import { Achievement } from "../../../../api";
 import { Observable } from "rxjs";
 
@@ -15,7 +15,7 @@ export class IconAchievementComponent implements OnInit {
 
   achievement$: Observable<Achievement>;
 
-  constructor(private achievementService: AchievementService) { }
+  constructor(private achievementService: AchievementService, public routes: RoutesService) { }
 
   ngOnInit(): void {
     this.achievement$ = this.achievementService.getAchievement(this.achievementId);

@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef } from '@angular/core';
-import { BackendService, KsiTitleService, WindowService, YearsService } from "../../../services";
+import { BackendService, KsiTitleService, RoutesService, WindowService, YearsService } from "../../../services";
 
 @Component({
   selector: 'ksi-page-welcome',
@@ -16,7 +16,8 @@ export class PageWelcomeComponent implements OnInit {
     public years: YearsService,
     private backend: BackendService,
     private cd: ChangeDetectorRef,
-    private elRef: ElementRef
+    private elRef: ElementRef,
+    public routes: RoutesService
   ) {
   }
 

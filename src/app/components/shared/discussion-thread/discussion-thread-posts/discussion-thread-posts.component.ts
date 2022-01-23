@@ -11,10 +11,10 @@ import {
 } from '@angular/core';
 import { PostsMap } from "../../../../models";
 import { Post } from "../../../../../api";
-import { StorageService } from "../../../../services/shared/storage.service";
+import { RoutesService, StorageService } from "../../../../services";
 import { BackendService, IconService, ModalService } from "../../../../services";
 import { Router } from "@angular/router";
-import { UserService } from "../../../../services/shared/user.service";
+import { UserService } from "../../../../services";
 import { filter, take } from "rxjs/operators";
 
 @Component({
@@ -83,7 +83,8 @@ export class DiscussionThreadPostsComponent implements OnInit {
     private modal: ModalService,
     private router: Router,
     private cd: ChangeDetectorRef,
-    private user: UserService
+    private user: UserService,
+    public routes: RoutesService
   ) { }
 
   ngOnInit(): void {

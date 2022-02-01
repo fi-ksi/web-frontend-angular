@@ -12,6 +12,12 @@
     .head {
       margin-bottom: $ksi-margin;
 
+      .task-title {
+        &:first-letter {
+          font-size: 1.3em;
+        }
+      }
+
       .deadline {
         font-size: 0.8rem;
       }

@@ -47,6 +47,12 @@
             </span>
           </div>
           <div ngbDropdownMenu aria-labelledby="dropdown-login">
+            <button ngbDropdownItem
+                    [routerLink]="['/', routes.routes.profile._]"
+            >{{'root.navbar.my-profile' | translate}}</button>
+            <button ngbDropdownItem
+                    [routerLink]="['/', routes.routes.profile._, routes.routes.profile.settings._]"
+            >{{'root.navbar.settings' | translate}}</button>
             <button ngbDropdownItem (click)="backend.logout()">{{'root.navbar.logout' | translate}}</button>
           </div>
         </div>

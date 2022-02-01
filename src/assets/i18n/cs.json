@@ -12,6 +12,8 @@
       "logo": "Obrázek tučňáka Karlíka",
       "login": "Přihlásit se",
       "logout": "Odhlásit se",
+      "my-profile": "Profil",
+      "settings": "Nastavení",
       "title": {
         "long": "Korespondenční seminář z informatiky",
         "short": "KSI"

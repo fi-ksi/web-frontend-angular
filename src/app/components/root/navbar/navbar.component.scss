@@ -93,6 +93,13 @@
       justify-self: flex-end;
       display: inline-block;
 
+      .dropdown-menu {
+        button {
+          text-align: center;
+          padding: $ksi-padding-small;
+        }
+      }
+
       .nav-btn {
         background: $ksi-orange-140;
         @media screen and (max-width: $ksi-max-small-mobile-width) {

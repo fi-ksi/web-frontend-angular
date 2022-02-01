@@ -11,6 +11,7 @@ import { BehaviorSubject, combineLatest, Observable, of, Subject } from "rxjs";
 import { catchError, map, mapTo, mergeMap, shareReplay, tap } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { StorageService } from "./storage.service";
+import { UsersCacheService } from "./users-cache.service";
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +35,7 @@ export class BackendService {
         return of(null);
       }
       return this.http.basicProfileGetSingle().pipe(
-        map((resp) => resp.basicProfile));
+        map((resp) => ({...resp.basicProfile, profile_picture: UsersCacheService.getOrgProfilePicture(resp.basicProfile)})));
     }),
     shareReplay(1)
   );

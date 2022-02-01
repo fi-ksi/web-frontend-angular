@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { AddressService, BackendService, UserService } from "../../../services";
+import { AddressService, BackendService, IconService, UserService } from "../../../services";
 import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { map, mapTo, mergeMap } from "rxjs/operators";
@@ -38,21 +38,31 @@ export class PageProfileMyComponent implements OnInit, OnDestroy {
   }));
 
   editRequest$: Observable<void>;
+  loadRequest$: Observable<unknown>;
+  pictureUploadRequest$: Observable<unknown> | null = null;
 
   countries = AddressService.COUNTRIES;
+
+  profilePicture$: Observable<string | null>;
 
   private _subs: Subscription[] = [];
 
   constructor(
     private fb: FormBuilder,
-    private backend: BackendService,
+    public backend: BackendService,
     private user: UserService,
     private router: Router,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    public icon: IconService
   ) {
   }
 
   ngOnInit(): void {
+    this.profilePicture$ = this.user.isLoggedIn$.pipe(
+      mergeMap(() => this.backend.user$),
+      // add timestamp to the image URL so that every time upon new image upload a fresh profile picture is loaded
+      map((user) => user ? `${user.profile_picture}?${Date.now()}` : user)
+    );
     this._subs.push(this.user.isLoggedIn$.subscribe(() => this.loadProfile()));
   }
 
@@ -61,10 +71,11 @@ export class PageProfileMyComponent implements OnInit, OnDestroy {
   }
 
   private loadProfile(): void {
-    this.user.forceLogin$.pipe(
+    this.form.disable();
+    (this.loadRequest$ = this.user.forceLogin$.pipe(
       mergeMap(() => this.backend.http.profileGetMy()),
       map((response) => response.profile)
-    ).subscribe((profile) => {
+    )).subscribe((profile) => {
       this.form.patchValue({
         email: profile.email,
         nick: profile.nick_name,
@@ -84,8 +95,10 @@ export class PageProfileMyComponent implements OnInit, OnDestroy {
         schoolEnd: profile.school_finish,
         shirtSize: profile.tshirt_size,
       });
+      this.form.enable();
       this.cd.markForCheck();
     });
+    this.cd.markForCheck();
   }
 
   updateUserInfo(): void {
@@ -118,5 +131,23 @@ export class PageProfileMyComponent implements OnInit, OnDestroy {
       this.form.enable();
       this.backend.refreshUser();
     });
+  }
+
+  uploadProfilePicture(event: Event) {
+    const el: HTMLInputElement = event.target as HTMLInputElement;
+    if (!(el.files?.length)) {
+      return;
+    }
+
+    const file = el.files.item(0);
+    el.value = '';
+
+    (this.pictureUploadRequest$ = this.backend.http.profileUploadPictureForm(file!))
+      .subscribe(() => {
+        this.backend.refreshUser();
+        this.pictureUploadRequest$ = null;
+        this.cd.markForCheck();
+      });
+    this.cd.markForCheck();
   }
 }

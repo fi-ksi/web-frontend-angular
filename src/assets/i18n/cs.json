@@ -266,6 +266,7 @@
   "profile": {
     "my": {
       "save": "Uložit změny",
+      "change-picture": "Nahrát nový profilový obrázek",
       "about-me": {
         "title": "O mě",
         "first-name": "Křestní jméno",

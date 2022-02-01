@@ -14,6 +14,7 @@ export class IconService {
   public readonly EMAIL = '🖃';
   public readonly SCHOOL = '🎓';
   public readonly LOCATION = '🖈';
+  public readonly EDIT = '🖉';
 
   constructor() { }
 }

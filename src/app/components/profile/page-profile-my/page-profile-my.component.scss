@@ -8,10 +8,27 @@
 
   .content {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
     max-width: 27cm;
     margin: $ksi-margin;
+
+    .profile-picture {
+      position: relative;
+      margin-bottom: $ksi-margin;
+
+      .btn {
+        position: absolute;
+        bottom: -8px;
+        right: -8px;
+      }
+
+      .picture {
+        @include round-corner;
+        height: 16em;
+      }
+    }
 
     h2 {
       margin: $ksi-margin-small;

@@ -1,4 +1,24 @@
+<ksi-spinner *ngIf="loadRequest$" [source]="loadRequest$"></ksi-spinner>
+
 <div class="content">
+  <div *ngIf="(profilePicture$ | async) as url"  class="profile-picture">
+    <input
+      #pictureSelector
+      style="display: none"
+      type="file"
+      (change)="uploadProfilePicture($event)"
+      accept="image/*"
+    >
+    <button
+      [disabled]="pictureUploadRequest$"
+      class="btn btn-outline-primary edit"
+      tooltip="{{'profile.my.change-picture'|translate}}"
+      (click)="pictureSelector.click()"
+    >{{icon.EDIT}}</button>
+    <img class="picture" [src]="url" alt="">
+  </div>
+  <ksi-spinner *ngIf="pictureUploadRequest$" [source]="pictureUploadRequest$"></ksi-spinner>
+
   <form class="form" [formGroup]="form">
     <!-- About me -->
     <h2>{{'profile.my.about-me.title'|translate}}</h2>

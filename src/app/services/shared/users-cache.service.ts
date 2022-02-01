@@ -64,7 +64,7 @@ export class UsersCacheService {
     };
   }
 
-  public static getOrgProfilePicture(organisator: User): string {
+  public static getOrgProfilePicture(organisator: Pick<User, 'profile_picture' | 'gender'>): string {
     // TODO get picture for all users
     if (organisator.profile_picture) {
       return Utils.fixUrl(`${environment.backend}${organisator.profile_picture}`);

@@ -1,11 +1,19 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { IconService, KsiTitleService, UsersCacheService, WindowService, YearsService } from "../../../services";
-import { ActivatedRoute } from "@angular/router";
-import { combineLatest, Observable } from "rxjs";
+import {
+  BackendService,
+  IconService,
+  KsiTitleService,
+  UsersCacheService,
+  WindowService,
+  YearsService,
+  UserService
+} from "../../../services";
+import { ActivatedRoute, Router } from "@angular/router";
+import { combineLatest, Observable, of } from "rxjs";
 import { map, mergeMap, shareReplay, tap } from "rxjs/operators";
-import { UserService } from "../../../services/shared/user.service";
 import { IUser } from "../../../models";
 import { BarValue } from "ngx-bootstrap/progressbar/progressbar-type.interface";
+import { ROUTES } from "../../../../routes/routes";
 
 @Component({
   selector: 'ksi-page-profile',
@@ -22,8 +30,10 @@ export class PageProfileComponent implements OnInit {
 
   constructor(
     public userService: UserService,
+    private backend: BackendService,
     private users: UsersCacheService,
     private route: ActivatedRoute,
+    private router: Router,
     private title: KsiTitleService,
     public years: YearsService,
     public window: WindowService,
@@ -33,6 +43,17 @@ export class PageProfileComponent implements OnInit {
   ngOnInit(): void {
     this.user$ = combineLatest([this.route.params, this.years.selected$, this.userService.isLoggedIn$]).pipe(
       map(([params, year]) => ({userId: Number(params.id), year})),
+      mergeMap(({userId, year}) => {
+        if (userId && !isNaN(userId)) {
+          return of({userId, year});
+        } else {
+          return this.userService.forceLogin$.pipe(
+            mergeMap(() => this.backend.user$),
+            tap((loggedUser) => this.router.navigate(['/', ROUTES.profile._, `${loggedUser!.id}`])),
+            map((loggedUser) => ({userId: loggedUser!.id, year}))
+          );
+        }
+      }),
       mergeMap(({userId, year}) => this.users.getUser(userId, year)),
       tap((user) => this.title.subtitle = user.first_name),
       shareReplay(1)

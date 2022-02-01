@@ -6,6 +6,12 @@ export const ROUTES: IRoutes = {
   results: 'results',
   tasks: 'tasks',
   discussion: 'discussion',
-  profile: 'profile',
+  profile: {
+    _: 'profile',
+    settings: {
+      _: 'settings',
+      password: 'password'
+    }
+  },
   achievements: 'achievements'
 }

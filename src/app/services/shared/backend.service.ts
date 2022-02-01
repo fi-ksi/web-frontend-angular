@@ -7,7 +7,7 @@ import {
 } from '../../../api';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from "../../../environments/environment";
-import { BehaviorSubject, Observable, of, Subject } from "rxjs";
+import { BehaviorSubject, combineLatest, Observable, of, Subject } from "rxjs";
 import { catchError, map, mapTo, mergeMap, shareReplay, tap } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { StorageService } from "./storage.service";
@@ -24,8 +24,12 @@ export class BackendService {
 
   private readonly loginSubject: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
-  user$: Observable<BasicProfileResponseBasicProfile | null> = this.loginSubject.asObservable().pipe(
-    mergeMap((loginOk) => {
+  private readonly refreshUserSubject: Subject<undefined> = new BehaviorSubject(undefined);
+
+  user$: Observable<BasicProfileResponseBasicProfile | null> = combineLatest(
+    [this.loginSubject.asObservable(), this.refreshUserSubject.asObservable()]
+  ).pipe(
+    mergeMap(([loginOk, _]) => {
       if (!loginOk) {
         return of(null);
       }
@@ -56,6 +60,13 @@ export class BackendService {
   public logout(): void {
     this.deleteSession();
     this.loginSubject.next(false);
+  }
+
+  /**
+   * Force refreshes user data without need to log in and out first
+   */
+  public refreshUser(): void {
+    this.refreshUserSubject.next();
   }
 
   /**

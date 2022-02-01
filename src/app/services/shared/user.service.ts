@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { BackendService } from "./backend.service";
 import { combineLatest, Observable, of } from "rxjs";
 import { UserRole } from "../../../api";
-import { filter, map, mergeMap, shareReplay, take } from "rxjs/operators";
+import { filter, map, mergeMap, shareReplay, take, tap } from "rxjs/operators";
 import { ModalService } from "./modal.service";
+import { Router } from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,23 @@ export class UserService {
   }
 
   /**
+   * This observable fires immediately if user is logged in
+   * If not, then show a login modal once and fire only if the login was successful
+   * If the login modal is canceled, then navigation to the root page is forced
+   */
+  get forceLogin$(): Observable<void> {
+    return this.requestLogin$.pipe(
+      tap((loginOk) => {
+        if (!loginOk) {
+          this.router.navigate(['/']).then();
+        }
+      }),
+      filter((loginOk) => loginOk),
+      map(() => {})
+    );
+  }
+
+  /**
    * Requests a single login attempt if not logged in yet
    */
   get requestLogin$(): Observable<boolean> {
@@ -57,7 +75,7 @@ export class UserService {
     );
   }
 
-  constructor(private backend: BackendService, private modal: ModalService) {
+  constructor(private backend: BackendService, private modal: ModalService, private router: Router) {
     // prepare role observables
     // admin > org > tester > participant > participant_hidden
     this.role$ = backend.user$.pipe(map((user) => user?.role || null));

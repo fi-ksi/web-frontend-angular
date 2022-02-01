@@ -4,6 +4,12 @@ export interface IRoutes {
   results: string;
   tasks: string;
   discussion: string;
-  profile: string;
+  profile: {
+    _: string;
+    settings: {
+      _: string;
+      password: string;
+    }
+  }
   achievements: string;
 }

@@ -264,6 +264,39 @@
     }
   },
   "profile": {
+    "my": {
+      "save": "Uložit změny",
+      "about-me": {
+        "title": "O mě",
+        "first-name": "Křestní jméno",
+        "nickname": "Přezdívka",
+        "last-name": "Příjmení",
+        "sex": {
+          "title": "Pohlaví",
+          "male": "Muž",
+          "female": "Žena"
+        },
+        "shirt-size": "Velikost trička"
+      },
+      "account": {
+        "title": "Můj účet",
+        "email": "Email",
+        "password": "Heslo (alespoň 6 znaků)",
+        "password-repeat": "Heslo znovu"
+      },
+      "address": {
+        "title": "Kde bydlím",
+        "street": "Ulice a ČP",
+        "city": "Město",
+        "postal-code": "PSČ",
+        "country": "Země"
+      },
+      "school": {
+        "title": "Moje škola",
+        "name": "Jméno mé školy",
+        "end": "Rok maturity (předpokládaný)"
+      }
+    },
     "tasks": {
       "male": "Autor úloh",
       "female": "Autorka úloh"

@@ -1,0 +1,30 @@
+@import "src/app/styles/vars";
+@import "src/app/styles/mixins";
+
+:host {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  .content {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    max-width: 27cm;
+    margin: $ksi-margin;
+
+    h2 {
+      margin: $ksi-margin-small;
+      text-align: center;
+    }
+
+    .form-label {
+      margin: $ksi-margin-small $ksi-margin-x-small 0;
+      font-weight: bold;
+    }
+
+    .btn-save {
+      margin: $ksi-margin 0;
+    }
+  }
+}

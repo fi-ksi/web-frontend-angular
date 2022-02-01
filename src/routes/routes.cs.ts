@@ -7,6 +7,12 @@ export const ROUTES: IRoutes = {
   results: 'vysledky',
   tasks: 'ulohy',
   discussion: 'forum',
-  profile: 'profil',
+  profile: {
+    _: 'profil',
+    settings: {
+      _: 'nastaveni',
+      password: 'heslo'
+    }
+  },
   achievements: 'trofeje'
 }

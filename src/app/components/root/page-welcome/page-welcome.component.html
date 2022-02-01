@@ -94,7 +94,7 @@
     <div class="organisators">
       <a *ngFor="let organiser of (years.organisators$ | async)"
         class="frame-organisator"
-        [routerLink]="['/', routes.routes.profile, organiser.id]"
+        [routerLink]="['/', routes.routes.profile._, organiser.id]"
       >
         <img [src]="organiser.profile_picture" alt="" class="pic">
         <span class="name">

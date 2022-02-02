@@ -1,10 +1,12 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { AddressService, BackendService, IconService, UserService } from "../../../services";
+import { AddressService, BackendService, IconService, RoutesService, UserService } from "../../../services";
 import { FormBuilder, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
-import { map, mapTo, mergeMap } from "rxjs/operators";
-import { Observable, Subscription } from "rxjs";
+import { ActivatedRoute, Router } from "@angular/router";
+import { catchError, map, mapTo, mergeMap, shareReplay } from "rxjs/operators";
+import { Observable, of, Subscription } from "rxjs";
 import { ProfileEdit } from "../../../../api";
+import { environment } from "../../../../environments/environment";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
   selector: 'ksi-page-profile-my',
@@ -13,7 +15,7 @@ import { ProfileEdit } from "../../../../api";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PageProfileMyComponent implements OnInit, OnDestroy {
-  form = this.fb.group(({
+  formProfile = this.fb.group(({
     email: ['', [Validators.required, Validators.email]],
 
     firstName: ['', Validators.required],
@@ -37,7 +39,14 @@ export class PageProfileMyComponent implements OnInit, OnDestroy {
     shirtSize: ['NA'],
   }));
 
-  editRequest$: Observable<void>;
+  formPassword = this.fb.group(({
+    current: ['', [Validators.required]],
+    new: ['', [Validators.required, Validators.minLength(6)]],
+    repeat: ['', [Validators.required]],
+  }));
+
+  profileEditRequest$: Observable<unknown>;
+  passwordEditSuccess$: Observable<boolean | null> | null = null;
   loadRequest$: Observable<unknown>;
   pictureUploadRequest$: Observable<unknown> | null = null;
 
@@ -53,7 +62,9 @@ export class PageProfileMyComponent implements OnInit, OnDestroy {
     private user: UserService,
     private router: Router,
     private cd: ChangeDetectorRef,
-    public icon: IconService
+    public icon: IconService,
+    public routes: RoutesService,
+    public route: ActivatedRoute
   ) {
   }
 
@@ -63,6 +74,16 @@ export class PageProfileMyComponent implements OnInit, OnDestroy {
       // add timestamp to the image URL so that every time upon new image upload a fresh profile picture is loaded
       map((user) => user ? `${user.profile_picture}?${Date.now()}` : user)
     );
+
+    // add passwords same validator
+    this.formPassword.controls.repeat.addValidators((control) => {
+      return control.value === this.formPassword.controls.new.value ? null : {'not-same': 'not-same'};
+    });
+    this.formPassword.controls.new.addValidators((_) => {
+      this.formPassword.controls.repeat.updateValueAndValidity();
+      return null;
+    });
+
     this._subs.push(this.user.isLoggedIn$.subscribe(() => this.loadProfile()));
   }
 
@@ -71,12 +92,12 @@ export class PageProfileMyComponent implements OnInit, OnDestroy {
   }
 
   private loadProfile(): void {
-    this.form.disable();
+    this.formProfile.disable();
     (this.loadRequest$ = this.user.forceLogin$.pipe(
       mergeMap(() => this.backend.http.profileGetMy()),
       map((response) => response.profile)
     )).subscribe((profile) => {
-      this.form.patchValue({
+      this.formProfile.patchValue({
         email: profile.email,
         nick: profile.nick_name,
         firstName: profile.first_name,
@@ -95,40 +116,40 @@ export class PageProfileMyComponent implements OnInit, OnDestroy {
         schoolEnd: profile.school_finish,
         shirtSize: profile.tshirt_size,
       });
-      this.form.enable();
+      this.formProfile.enable();
       this.cd.markForCheck();
     });
     this.cd.markForCheck();
   }
 
   updateUserInfo(): void {
-    if (!this.form.valid || this.form.disabled) {
+    if (!this.formProfile.valid || this.formProfile.disabled) {
       return;
     }
-    this.form.disable();
+    this.formProfile.disable();
 
     const edit: ProfileEdit = {
-      email: this.form.controls.email.value,
-      nick_name: this.form.controls.nick.value,
-      first_name: this.form.controls.firstName.value,
-      last_name: this.form.controls.lastName.value,
-      gender: this.form.controls.sex.value,
-      short_info: this.form.controls.aboutMe.value,
-      addr_street: this.form.controls.address.value,
-      addr_city: this.form.controls.city.value,
-      addr_zip: this.form.controls.postalCode.value,
-      addr_country: this.form.controls.country.value,
-      school_name: this.form.controls.schoolName.value,
-      school_street: this.form.controls.schoolAddress.value,
-      school_city: this.form.controls.schoolCity.value,
-      school_zip: this.form.controls.schoolPostalCode.value,
-      school_country: this.form.controls.schoolCountry.value,
-      school_finish: this.form.controls.schoolEnd.value,
-      tshirt_size: this.form.controls.shirtSize.value,
+      email: this.formProfile.controls.email.value,
+      nick_name: this.formProfile.controls.nick.value,
+      first_name: this.formProfile.controls.firstName.value,
+      last_name: this.formProfile.controls.lastName.value,
+      gender: this.formProfile.controls.sex.value,
+      short_info: this.formProfile.controls.aboutMe.value,
+      addr_street: this.formProfile.controls.address.value,
+      addr_city: this.formProfile.controls.city.value,
+      addr_zip: this.formProfile.controls.postalCode.value,
+      addr_country: this.formProfile.controls.country.value,
+      school_name: this.formProfile.controls.schoolName.value,
+      school_street: this.formProfile.controls.schoolAddress.value,
+      school_city: this.formProfile.controls.schoolCity.value,
+      school_zip: this.formProfile.controls.schoolPostalCode.value,
+      school_country: this.formProfile.controls.schoolCountry.value,
+      school_finish: this.formProfile.controls.schoolEnd.value,
+      tshirt_size: this.formProfile.controls.shirtSize.value,
     };
 
-    (this.editRequest$ = this.backend.http.profileEditMy(edit).pipe(mapTo(undefined))).subscribe(() => {
-      this.form.enable();
+    (this.profileEditRequest$ = this.backend.http.profileEditMy(edit).pipe(mapTo(undefined))).subscribe(() => {
+      this.formProfile.enable();
       this.backend.refreshUser();
     });
   }
@@ -149,5 +170,40 @@ export class PageProfileMyComponent implements OnInit, OnDestroy {
         this.cd.markForCheck();
       });
     this.cd.markForCheck();
+  }
+
+  changePassword() {
+    if (!this.formPassword.valid || this.formPassword.disabled) {
+      return;
+    }
+    this.formPassword.disable();
+
+    (this.passwordEditSuccess$ = this.backend.http.changePassword({
+      old_password: this.formPassword.controls.current.value,
+      new_password: this.formPassword.controls.new.value,
+      new_password2: this.formPassword.controls.repeat.value,
+    }).pipe(
+      map((result) => result.result === "ok"),
+      catchError((resp) => {
+        if (resp.status === 400 || resp.status === 401) {
+          // Wrong current password
+          environment.logger.debug('auth failed for changing password', resp);
+          return of(false);
+        }
+        // Some other error
+        throw new HttpErrorResponse({error: resp});
+      }),
+      shareReplay(1)
+    )).subscribe((ok) => {
+      if (ok) {
+        this.formPassword.setValue({
+          current: '',
+          new: '',
+          repeat: ''
+        });
+        this.formPassword.markAsPristine();
+      }
+      this.formPassword.enable();
+    });
   }
 }

@@ -30,6 +30,14 @@
       }
     }
 
+    .link-subpage {
+      margin: $ksi-margin;
+    }
+
+    .form {
+      min-width: MIN(100%, 40ex);
+    }
+
     h2 {
       margin: $ksi-margin-small;
       text-align: center;

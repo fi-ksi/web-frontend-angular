@@ -267,6 +267,11 @@
   },
   "profile": {
     "my": {
+      "do-change-password": "Chi změnit heslo",
+      "change-password": "Změnit heslo",
+      "edit-profile": "Zpět na editaci profilu",
+      "password-change-failed": "Změna hesla selhala, nezadal jsi špatné heslo?",
+      "password-change-success": "Změna hesla proběhla úspěšně",
       "save": "Uložit změny",
       "change-picture": "Nahrát nový profilový obrázek",
       "about-me": {
@@ -284,7 +289,8 @@
       "account": {
         "title": "Můj účet",
         "email": "Email",
-        "password": "Heslo (alespoň 6 znaků)",
+        "password-current": "Stávající heslo",
+        "password": "Nové heslo (alespoň 6 znaků)",
         "password-repeat": "Heslo znovu"
       },
       "address": {

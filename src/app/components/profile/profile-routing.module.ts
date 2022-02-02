@@ -6,7 +6,6 @@ import { ROUTES } from "../../../routes/routes";
 
 const routes: Routes = [
   {path: ROUTES.profile.settings._, component: PageProfileMyComponent},
-  {path: ROUTES.profile.settings.password, component: PageProfileMyComponent, data: {'target': 'change-password'}},
   {path: '', component: PageProfileComponent, pathMatch: 'full'},
   {path: ':id', component: PageProfileComponent}
 ];

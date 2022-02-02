@@ -13,8 +13,17 @@
       margin-bottom: $ksi-margin;
 
       .task-title {
-        &:first-letter {
-          font-size: 1.3em;
+        &.type-0 {
+          text-transform: none;
+        }
+        &.type-1 {
+          text-transform: uppercase;
+          &:first-letter {
+            font-size: 1.3em;
+          }
+        }
+        &.type-2 {
+          text-transform: uppercase;
         }
       }
 

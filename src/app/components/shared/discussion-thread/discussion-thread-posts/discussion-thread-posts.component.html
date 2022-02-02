@@ -6,21 +6,29 @@
   <div class="content" [innerHTML]="post.body"></div>
   <div class="footer" *ngIf="allowActions">
     <a
+      *ngIf="canEdit$ | async"
+      class="edit clickable"
+      tooltip="{{'discussion-thread.post.edit.tooltip' | translate}}"
+      (click)="openEditModal()"
+    >
+      {{'discussion-thread.post.edit.title' | translate}}
+    </a>
+    <a
+      class="reply clickable"
+      tooltip="{{'discussion-thread.post.reply.tooltip' | translate}}"
+      (click)="openReplyModal()"
+    >
+      {{'discussion-thread.post.reply.title' | translate}}
+    </a>
+    <a
       *ngIf="threadId !== null"
       class="link"
       [routerLink]="['/', routes.routes.discussion, threadId]"
       [fragment]="'' + post.id"
       tooltip="{{'discussion-thread.post.link' | translate}}"
     >
-      {{icon.LINK}}
+      #
     </a>
-    <span
-      class="reply clickable"
-      tooltip="{{'discussion-thread.post.reply' | translate}}"
-      (click)="openReplyModal()"
-    >
-      {{icon.REPLY}}
-    </span>
   </div>
 </div>
 

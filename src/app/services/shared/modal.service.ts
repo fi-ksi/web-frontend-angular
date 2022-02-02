@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { ModalGenericComponent } from "../../components/shared/modal-generic/modal-generic.component";
 import { TranslateService } from "@ngx-translate/core";
-import { ModalComponent, OpenedModal, OpenedTemplate, PostsMap } from "../../models";
+import { ModalComponent, OpenedModal, OpenedTemplate, PostReplyMode, PostsMap } from "../../models";
 import { ModalLoginComponent } from "../../components/shared/modal-login/modal-login.component";
 import { filter, mapTo, take } from "rxjs/operators";
 import { environment } from "../../../environments/environment";
@@ -53,9 +53,9 @@ export class ModalService {
     };
   }
 
-  public showModalComponent<T extends ModalComponent>(componentType: Type<T>, options?: ModalOptions): OpenedModal<T> {
+  public showModalComponent<T extends ModalComponent>(componentType: Type<T>, options?: ModalOptions, title?: string): OpenedModal<T> {
     const component = this.container.createComponent(this.resolver.resolveComponentFactory(componentType));
-    const {template, visible$, afterClose$} = this.showModalTemplate(component.instance.templateBody, component.instance.title, options);
+    const {template, visible$, afterClose$} = this.showModalTemplate(component.instance.templateBody, title || component.instance.title, options);
 
     visible$
       .pipe(
@@ -93,12 +93,19 @@ export class ModalService {
     return this.showModalComponent(ModalTermsOfUseComponent, { class: 'modal-full-page' });
   }
 
-  public showPostReplyModal(threadId: number, post: Post | null = null, posts: PostsMap | null = null): OpenedModal<ModalPostReplyComponent> {
-    const ref = this.showModalComponent(ModalPostReplyComponent, {class: 'modal-full-page modal-post-reply'});
+  public showPostReplyModal(threadId: number, post: Post | null = null, posts: PostsMap | null = null, text: string = ''): OpenedModal<ModalPostReplyComponent> {
+    const mode: PostReplyMode = text ? 'edit' : 'reply';
+    const title = `modal.post-reply.title.${mode}`;
+
+    const ref = this.showModalComponent(ModalPostReplyComponent, {class: 'modal-full-page modal-post-reply'}, title);
     const { instance } = ref.component;
     instance.threadId = threadId;
     instance.post = post;
     instance.posts = posts;
+    instance.mode = mode;
+    if (text) {
+      instance.reply.setValue(text);
+    }
     ref.component.changeDetectorRef.markForCheck();
     return ref;
   }

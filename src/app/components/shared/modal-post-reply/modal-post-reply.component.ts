@@ -1,9 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy, TemplateRef, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { ModalComponent, PostsMap } from "../../../models";
+import { ModalComponent, PostReplyMode, PostsMap } from "../../../models";
 import { BsModalRef } from "ngx-bootstrap/modal";
 import { FormControl, Validators } from "@angular/forms";
 import { BackendService } from "../../../services";
 import { Post } from "../../../../api";
+import { Observable } from "rxjs";
 
 @Component({
   selector: 'ksi-modal-post-reply',
@@ -15,11 +16,12 @@ export class ModalPostReplyComponent implements OnInit, ModalComponent {
   post: Post | null;
   posts: PostsMap | null;
   threadId: number;
+  mode: PostReplyMode = 'reply';
 
   @ViewChild('template', {static: true})
   templateBody: TemplateRef<unknown>;
 
-  title = 'modal.post-reply.title';
+  title = '';
 
   reply = new FormControl(null, [Validators.required]);
 
@@ -42,13 +44,24 @@ export class ModalPostReplyComponent implements OnInit, ModalComponent {
     }
     this.reply.disable();
 
-    this.backend.http.postsCreateNew({
+    const reqNew$ = this.backend.http.postsCreateNew({
       post: {
         thread: this.threadId!,
         parent: this.post !== null ? this.post.id : null,
         body: this.reply.value
       }
-    }).subscribe(() => {
+    });
+
+    const reqEdit$ = this.backend.http.postsEditSingle({
+      post: {
+        author: this.post!.author,
+        body: this.reply.value
+      },
+    }, this.post!.id);
+
+    const req$: Observable<unknown> = this.mode === "reply" ? reqNew$ : reqEdit$;
+
+    req$.subscribe(() => {
       this.replied = true;
       this.modal.hide();
     });

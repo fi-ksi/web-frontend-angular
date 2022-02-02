@@ -136,7 +136,10 @@
     },
     "post-reply": {
       "save-reply": "Uložit příspěvek",
-      "title": "Vytvořit nový příspěvek"
+      "title": {
+        "reply": "Vytvořit nový příspěvek",
+        "edit": "Upravit tento příspěvek"
+      }
     },
     "server-error": {
       "title": "Stala se chyba...",
@@ -219,7 +222,14 @@
     "post": {
       "expand": "Rozbalit toto vlákno",
       "link": "Odkaz na tento příspěvek",
-      "reply": "Odpovědět na tento příspěvek",
+      "reply": {
+        "tooltip": "Odpovědět na tento příspěvek",
+        "title": "Odpovědět"
+      },
+      "edit": {
+        "tooltip": "Upravit tento příspěvek",
+        "title": "Upravit"
+      },
       "new": "Přidat příspěvek"
     }
   },

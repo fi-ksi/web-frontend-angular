@@ -15,7 +15,8 @@ import { RoutesService, StorageService } from "../../../../services";
 import { BackendService, IconService, ModalService } from "../../../../services";
 import { Router } from "@angular/router";
 import { UserService } from "../../../../services";
-import { filter, take } from "rxjs/operators";
+import { map } from "rxjs/operators";
+import { combineLatest, Observable } from "rxjs";
 
 @Component({
   selector: 'ksi-discussion-thread-posts',
@@ -69,6 +70,8 @@ export class DiscussionThreadPostsComponent implements OnInit {
 
   maxLevelReached: boolean;
 
+  canEdit$: Observable<boolean>;
+
   @ViewChild('modalReply', {static: true})
   templateModalReply: TemplateRef<unknown>;
 
@@ -92,6 +95,10 @@ export class DiscussionThreadPostsComponent implements OnInit {
     this.expanded = this.storage.get<boolean>('expanded', DiscussionThreadPostsComponent.EXPANDED_DEFAULT)!;
     this.post = this._posts[this.postId];
     this.maxLevelReached = this.maxLevel !== null && this.level >= this.maxLevel;
+    this.canEdit$ = combineLatest([
+      this.user.isOrg$,
+      this.backend.user$.pipe(map((user) => user?.id === this.post.author))
+    ]).pipe(map(([isOrg, isAuthor]) => isOrg || isAuthor));
   }
 
   setExpanded(value: boolean) {
@@ -102,15 +109,23 @@ export class DiscussionThreadPostsComponent implements OnInit {
   openReplyModal(): void {
     this.user.afterLogin$.subscribe(() => {
       const modal = this.modal.showPostReplyModal(this.threadId!, this.post, this.posts);
-      modal.visible$.pipe(
-        filter((visible) => !visible),
-        take(1)
-      ).subscribe(() => {
+      modal.afterClose$.subscribe(() => {
           if (modal.component.instance.replied) {
             this.postsModified.next();
             this.router.navigate(['/discussion', `${this.threadId}`], {fragment: `${this.post.id}`}).then();
           }
         });
+    });
+  }
+
+  openEditModal(): void {
+    this.user.afterLogin$.subscribe(() => {
+      const modal = this.modal.showPostReplyModal(this.threadId!, this.post, this.posts, this.post.body);
+      modal.afterClose$.subscribe(() => {
+        if (modal.component.instance.replied) {
+          this.postsModified.next();
+        }
+      });
     });
   }
 

@@ -3,13 +3,13 @@ import {
   BackendService,
   IconService,
   KsiTitleService,
-  ModalService,
+  ModalService, ModuleService,
   TasksService,
   WindowService
 } from "../../../services";
 import { ActivatedRoute, Router } from "@angular/router";
 import { catchError, distinctUntilChanged, filter, map, mergeMap, shareReplay, tap } from "rxjs/operators";
-import { combineLatest, Observable, of, throwError } from "rxjs";
+import { combineLatest, Observable, of, Subscription, throwError } from "rxjs";
 import { OpenedTemplate, TaskFullInfo } from "../../../models";
 import { UserService } from "../../../services";
 import { ROUTES } from "../../../../routes/routes";
@@ -38,6 +38,8 @@ export class PageTaskComponent implements OnInit, OnDestroy {
 
   private static readonly ERR_LOGIN_DENIED = 'login-required-but-denied';
 
+  private moduleChangeSubs: Subscription[] = [];
+
   constructor(
     private backend: BackendService,
     private route: ActivatedRoute,
@@ -48,6 +50,7 @@ export class PageTaskComponent implements OnInit, OnDestroy {
     private router: Router,
     private tasks: TasksService,
     private user: UserService,
+    private module: ModuleService
   ) {
   }
 
@@ -55,6 +58,7 @@ export class PageTaskComponent implements OnInit, OnDestroy {
     this.task$ = this.route.params.pipe(
       map((params) => Number(params.id)),
       mergeMap((taskId: number) => this.tasks.getTask(taskId)),
+      tap(() => this.unsubscribeModuleChanges()),
       mergeMap((task) => {
         if (task.state !== "locked") {
           return of(task);
@@ -74,6 +78,19 @@ export class PageTaskComponent implements OnInit, OnDestroy {
       map(([head, detail]) => ({head, detail})),
       tap((task) => {
         this.title.subtitle = task.head.title;
+
+        // Watch for module completions and navigate to the solution if user completes this task for the first time
+        if (task.head.state !== "done") {
+          this.moduleChangeSubs.push(...task.detail.modules
+            .map((module) => this.module.statusChanges(module).pipe(filter((change) => change?.result === "ok")).subscribe(() => {
+              this.tasks.getTaskOnce(task.head.id, true, false).subscribe((newTask) => {
+                if (newTask.state === "done") {
+                  this.router.navigate([], {fragment: 'solution'}).then();
+                }
+              });
+            }))
+          );
+        }
       }),
       catchError((err) => {
         if (err === PageTaskComponent.ERR_LOGIN_DENIED) {
@@ -125,6 +142,13 @@ export class PageTaskComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.openModal(null);
+    this.unsubscribeModuleChanges();
+  }
+
+  private unsubscribeModuleChanges() {
+    const subs = this.moduleChangeSubs;
+    this.moduleChangeSubs = [];
+    subs.forEach((s) => s.unsubscribe());
   }
 
   /**

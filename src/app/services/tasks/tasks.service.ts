@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BackendService } from "../shared/backend.service";
-import { combineLatest, merge, Observable, of } from "rxjs";
-import { YearsService } from "../shared/years.service";
-import { map, mergeMap, shareReplay, tap } from "rxjs/operators";
+import { BackendService, YearsService, UserService } from "../shared";
+import { combineLatest, merge, Observable, of, Subject } from "rxjs";
+import { filter, map, mergeMap, shareReplay, take, tap } from "rxjs/operators";
 import { TaskWithIcon, WaveDetails } from "../../models";
 import { Task, Wave } from "src/api";
 import { Utils } from "../../util";
-import { UserService } from "../shared/user.service";
 
 type TasksLevelMap = {[taskId: number]: number};
 type TasksMap = {[taskId: number]: TaskWithIcon};
@@ -22,6 +20,8 @@ export class TasksService {
 
   private static readonly CACHE_MAX_SIZE = 100;
   private readonly cache: {[taskId: number]: TaskWithIcon} = {};
+  private readonly taskUpdatesSubject: Subject<TaskWithIcon> = new Subject<TaskWithIcon>();
+  private readonly taskUpdates$ = this.taskUpdatesSubject.asObservable();
 
   constructor(private backend: BackendService, private year: YearsService, private userService: UserService) {
     this.tasks$ = merge(
@@ -72,7 +72,25 @@ export class TasksService {
       .subscribe(() => Object.keys(this.cache).forEach((key) => delete this.cache[Number(key)]));
   }
 
+  /**
+   * Gets a tasks, fires repeatedly after every cache update
+   * @param taskId if of the requested task
+   * @param refreshCache if set to true, then the data is taken from backend even if already cached
+   */
   public getTask(taskId: number, refreshCache = false): Observable<TaskWithIcon> {
+    return merge(
+      this.getTaskOnce(taskId, refreshCache),
+      this.taskUpdates$.pipe(filter((update) => update !== undefined && update?.id === taskId))
+    );
+  }
+
+  /**
+   * Requests a task, firing only once
+   * @param taskId id of the requested task
+   * @param refreshCache if set to true, then the data is taken from backend even if already cached
+   * @param publishUpdate if set to false then no task update subscribers are notified upon update
+   */
+  public getTaskOnce(taskId: number, refreshCache = false, publishUpdate = true): Observable<TaskWithIcon> {
     if (!refreshCache && taskId in this.cache) {
       return of(this.cache[taskId]);
     }
@@ -90,10 +108,14 @@ export class TasksService {
         }
 
         /*
-        Save the task into cache
-         */
+          Save the task into cache
+        */
         this.cache[task.id] = task;
-      })
+        if (publishUpdate) {
+          this.taskUpdatesSubject.next(task);
+        }
+      }),
+      take(1),
     );
   }
 

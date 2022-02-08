@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { TaskWithIcon } from "../../../models";
-import { UserService } from "../../../services/shared/user.service";
+import { TasksService, UserService } from "../../../services";
+import { Observable } from "rxjs";
 
 @Component({
   selector: 'ksi-task-icon',
@@ -10,9 +11,14 @@ import { UserService } from "../../../services/shared/user.service";
 })
 export class TaskIconComponent implements OnInit {
   @Input()
-  task: TaskWithIcon;
+  set task(val: TaskWithIcon) {
+    // subscribe to the task so that task info is updated on its solve, etc.
+    this.task$ = this.tasks.getTask(val.id);
+  }
 
-  constructor(public user: UserService) { }
+  task$: Observable<TaskWithIcon>;
+
+  constructor(public user: UserService, private tasks: TasksService) { }
 
   ngOnInit(): void {
   }

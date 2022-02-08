@@ -3,7 +3,7 @@ import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest
 import { Router } from "@angular/router";
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
-import { ModalService } from "../shared/modal.service";
+import { ModalService } from "../shared";
 
 @Injectable({
   providedIn: 'root'
@@ -32,9 +32,6 @@ export class HTTPErrorHandlerService implements HttpInterceptor {
             this.modal.showServerErrorModal();
           }
         }
-
-        console.log('my errror', error);
-
         return throwError(error);
       })
     );

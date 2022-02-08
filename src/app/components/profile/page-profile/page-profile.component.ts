@@ -66,21 +66,21 @@ export class PageProfileComponent implements OnInit {
     this.userProgress$ = combineLatest([this.years.selectedFull$, this.user$]).pipe(
       map(([year, user]) => {
         const currentUserPercentage = 100 * user.score / year!.sum_points;
-        const requiredPercentage = (0.6 * year!.sum_points) - currentUserPercentage;
+        const requiredPercentage = Math.max(0, 60 - currentUserPercentage);
         const currentUserPercentageFloored = Math.floor(currentUserPercentage);
 
         return [
           {
             type: user.successful ? 'success' : 'warning',
             value: currentUserPercentage,
-            max: year!.sum_points,
-            label: user.successful ? `${currentUserPercentageFloored}%` : ''
+            max: 100,
+            label: currentUserPercentage >= 50 ? `${currentUserPercentageFloored}%` : ''
           },
           {
             type: 'info',
             value: requiredPercentage,
-            max: year!.sum_points,
-            label: !user.successful ? `${currentUserPercentageFloored}%` : ''
+            max: 100,
+            label: currentUserPercentage < 50 ? `${currentUserPercentageFloored}%` : ''
           }
         ]
       })

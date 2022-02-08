@@ -3,7 +3,7 @@ import {
   BackendService,
   IconService,
   KsiTitleService,
-  ModalService, ModuleService,
+  ModalService, ModuleService, RoutesService,
   TasksService,
   WindowService
 } from "../../../services";
@@ -12,7 +12,6 @@ import { catchError, distinctUntilChanged, filter, map, mergeMap, shareReplay, t
 import { combineLatest, Observable, of, Subscription, throwError } from "rxjs";
 import { OpenedTemplate, TaskFullInfo } from "../../../models";
 import { UserService } from "../../../services";
-import { ROUTES } from "../../../../routes/routes";
 
 @Component({
   selector: 'ksi-page-task',
@@ -50,7 +49,8 @@ export class PageTaskComponent implements OnInit, OnDestroy {
     private router: Router,
     private tasks: TasksService,
     private user: UserService,
-    private module: ModuleService
+    private module: ModuleService,
+    public routes: RoutesService
   ) {
   }
 
@@ -85,7 +85,7 @@ export class PageTaskComponent implements OnInit, OnDestroy {
             .map((module) => this.module.statusChanges(module).pipe(filter((change) => change?.result === "ok")).subscribe(() => {
               this.tasks.getTaskOnce(task.head.id, true, false).subscribe((newTask) => {
                 if (newTask.state === "done") {
-                  this.router.navigate([], {fragment: 'solution'}).then();
+                  this.router.navigate([], {fragment: this.routes.routes.tasks.solution}).then();
                 }
               });
             }))
@@ -94,7 +94,7 @@ export class PageTaskComponent implements OnInit, OnDestroy {
       }),
       catchError((err) => {
         if (err === PageTaskComponent.ERR_LOGIN_DENIED) {
-          this.router.navigate(['/', ROUTES.tasks]).then();
+          this.router.navigate(['/', this.routes.routes.tasks._]).then();
           return of(null);
         }
         throw err;
@@ -103,10 +103,10 @@ export class PageTaskComponent implements OnInit, OnDestroy {
     );
 
     const fragmentMap: { [fragment: string]: TemplateRef<unknown> } = {
-      'solution': this.templateBodySolution,
-      'discussion': this.templateBodyDiscussion,
       'assigment': this.templateBodyAssigment
     };
+    fragmentMap[this.routes.routes.tasks.solution] = this.templateBodySolution;
+    fragmentMap[this.routes.routes.tasks.discussion] = this.templateBodyDiscussion;
 
     this.subpage$ = combineLatest([
       this.route.fragment.pipe(

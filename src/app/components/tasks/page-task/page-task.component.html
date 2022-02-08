@@ -31,13 +31,13 @@
     </article>
 
     <div class="bottom">
-      <a class="discussion" routerLink="." fragment="discussion">
+      <a class="discussion" routerLink="." [fragment]="routes.routes.tasks.discussion">
         <span class="icon">{{icon.DISCUSSION}}</span>
         <span>{{'tasks.discussion' | translate}}</span>
         <span>({{task.detail.posts.length}})</span>
       </a>
 
-      <a *ngIf="task.detail.taskDetails.solution" class="solution" routerLink="." fragment="solution">
+      <a *ngIf="task.detail.taskDetails.solution" class="solution" routerLink="." [fragment]="routes.routes.tasks.solution">
         {{'tasks.solution' | translate}}
       </a>
     </div>

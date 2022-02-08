@@ -5,7 +5,11 @@ export const ROUTES: IRoutes = {
   news: 'novinky',
   about: 'o-ksi',
   results: 'vysledky',
-  tasks: 'ulohy',
+  tasks: {
+    _: 'ulohy',
+    solution: 'reseni',
+    discussion: 'diskuze',
+  },
   discussion: 'forum',
   profile: {
     _: 'profil',

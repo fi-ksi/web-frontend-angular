@@ -1,6 +1,6 @@
 <a class="content"
    *ngIf="(task$ | async) as task"
-   [routerLink]="['/', routes.routes.tasks, taskId]"
+   [routerLink]="['/', routes.routes.tasks._, taskId]"
 >
   <div class="icon-container">
     <img class="icon" [src]="task.icon" alt="">

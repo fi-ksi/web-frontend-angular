@@ -112,7 +112,7 @@ export class DiscussionThreadPostsComponent implements OnInit {
       modal.afterClose$.subscribe(() => {
           if (modal.component.instance.replied) {
             this.postsModified.next();
-            this.router.navigate(['/discussion', `${this.threadId}`], {fragment: `${this.post.id}`}).then();
+            this.router.navigate(['/', this.routes.routes.discussion, `${this.threadId}`], {fragment: `${this.post.id}`}).then();
           }
         });
     });

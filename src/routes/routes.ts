@@ -4,7 +4,11 @@ export const ROUTES: IRoutes = {
   news: 'news',
   about: 'about',
   results: 'results',
-  tasks: 'tasks',
+  tasks: {
+    _: 'tasks',
+    solution: 'solution',
+    discussion: 'discussion',
+  },
   discussion: 'discussion',
   profile: {
     _: 'profile',

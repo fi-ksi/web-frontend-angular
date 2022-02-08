@@ -2,7 +2,11 @@ export interface IRoutes {
   news: string;
   about: string;
   results: string;
-  tasks: string;
+  tasks: {
+    _: string,
+    solution: string;
+    discussion: string;
+  }
   discussion: string;
   profile: {
     _: string;

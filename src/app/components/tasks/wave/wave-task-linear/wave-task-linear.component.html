@@ -1,7 +1,7 @@
 <a class="list-group-item list-group-item-action list-item-task"
    *ngIf="task$ | async as task"
    [class.disabled]="(user.isLoggedIn$ | async) && task.state === 'locked'"
-   [routerLink]="(user.isLoggedIn$ | async) && task.state === 'locked' ? undefined : ['/', routes.routes.tasks, task.id]"
+   [routerLink]="(user.isLoggedIn$ | async) && task.state === 'locked' ? undefined : ['/', routes.routes.tasks._, task.id]"
 >
   <img
     [src]="task.icon"

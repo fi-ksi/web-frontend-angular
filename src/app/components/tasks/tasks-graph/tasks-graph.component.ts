@@ -112,16 +112,24 @@ export class TasksGraphComponent implements OnInit, OnDestroy {
    * If it has, paints them again and continues to watch
    * @private
    */
-  private watchArrowsDraw(drawTimeout: number = 50) {
+  private watchArrowsDraw(drawTimeout: number = 50): void {
     this.watchDrawActive = true;
     /**
      * Gets all sorted tasks and maps the to their positions
      */
-    const getTasksPositions = (): Pick<DOMRect, 'left'>[] => {
+    const getTasksPositions = (): Pick<DOMRect, 'left' | 'top'>[] => {
       return this.getTaskElementsSorted().map((el) => el.getBoundingClientRect())
     }
 
     const elPositions = getTasksPositions();
+
+    // check if elements are already initialized
+    if (!elPositions.find((pos) => pos.left !== 0 || pos.top !== 0)) {
+      // if they are not, schedule the draw for later
+      setTimeout(() => this.watchArrowsDraw(drawTimeout), 100);
+      return;
+    }
+
     this.drawArrows(drawTimeout);
 
     /**

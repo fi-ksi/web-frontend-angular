@@ -1,9 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef } from '@angular/core';
-import { KsiTitleService, ModalService, TasksService, WindowService } from "../../../services";
+import { KsiTitleService, ModalService, TasksService, WindowService, StorageService } from "../../../services";
 import { WaveDetails, WaveView } from "../../../models";
 import { combineLatest, concat, Observable, of } from "rxjs";
 import { map, shareReplay, tap } from "rxjs/operators";
-import { StorageService } from "../../../services/shared/storage.service";
 import { Wave } from "../../../../api";
 import { FormControl } from "@angular/forms";
 

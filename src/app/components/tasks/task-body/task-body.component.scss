@@ -10,6 +10,14 @@
         display: block;
         margin: $ksi-margin 0;
       }
+
+      figure {
+        & > * {
+          max-width: 100%;
+        }
+
+        text-align: center;
+      }
     }
   }
 }

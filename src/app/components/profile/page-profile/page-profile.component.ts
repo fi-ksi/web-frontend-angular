@@ -6,7 +6,7 @@ import {
   UsersCacheService,
   WindowService,
   YearsService,
-  UserService
+  UserService, TasksService
 } from "../../../services";
 import { ActivatedRoute, Router } from "@angular/router";
 import { combineLatest, Observable, of } from "rxjs";
@@ -14,6 +14,7 @@ import { map, mergeMap, shareReplay, tap } from "rxjs/operators";
 import { IUser } from "../../../models";
 import { BarValue } from "ngx-bootstrap/progressbar/progressbar-type.interface";
 import { ROUTES } from "../../../../routes/routes";
+import { ProfileResponse } from "../../../../api";
 
 @Component({
   selector: 'ksi-page-profile',
@@ -28,6 +29,8 @@ export class PageProfileComponent implements OnInit {
 
   userProgress$: Observable<BarValue[]>;
 
+  tasksWithScore$: Observable<{id: number, score?: number}[]>;
+
   constructor(
     public userService: UserService,
     private backend: BackendService,
@@ -37,8 +40,10 @@ export class PageProfileComponent implements OnInit {
     private title: KsiTitleService,
     public years: YearsService,
     public window: WindowService,
-    public icon: IconService
-  ) { }
+    public icon: IconService,
+    private tasks: TasksService
+  ) {
+  }
 
   ngOnInit(): void {
     this.user$ = combineLatest([this.route.params, this.years.selected$, this.userService.isLoggedIn$]).pipe(
@@ -83,6 +88,33 @@ export class PageProfileComponent implements OnInit {
             label: currentUserPercentage < 50 ? `${currentUserPercentageFloored}%` : ''
           }
         ]
+      })
+    );
+
+    const profile$: Observable<ProfileResponse | null> = combineLatest([this.years.selectedFull$, this.user$, this.backend.user$, this.userService.isOrg$]).pipe(
+      mergeMap(([year, selectedUser, loggedInUser, isOrg]) => {
+        if (selectedUser.id !== loggedInUser?.id && !isOrg) {
+          return of(null);
+        }
+        return isOrg ? this.backend.http.profileGetSingle(selectedUser.id, year?.id) : this.backend.http.profileGetMy(year?.id);
+      }),
+      tap((profile) => {
+        if (profile) {
+          profile.tasks.forEach((task) => this.tasks.updateTask(task))
+        }
+      }),
+      shareReplay(1)
+    );
+
+    this.tasksWithScore$ = combineLatest([this.user$, profile$]).pipe(
+      map(([user, profile]) => {
+        if (user.$isOrg) {
+          return user.tasks!.map((taskId) => ({id: taskId}));
+        }
+        if (!profile) {
+          return [];
+        }
+        return profile.taskScores.map((score) => ({id: score.task, score: score.score}));
       })
     );
   }

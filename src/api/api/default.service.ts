@@ -1795,15 +1795,20 @@ export class DefaultService {
     /**
      * 
      * 
+     * @param year 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public profileGetMy(observe?: 'body', reportProgress?: boolean): Observable<ProfileResponse>;
-    public profileGetMy(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ProfileResponse>>;
-    public profileGetMy(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ProfileResponse>>;
-    public profileGetMy(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public profileGetMy(year?: number, observe?: 'body', reportProgress?: boolean): Observable<ProfileResponse>;
+    public profileGetMy(year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ProfileResponse>>;
+    public profileGetMy(year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ProfileResponse>>;
+    public profileGetMy(year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
 
         let headers = this.defaultHeaders;
+        if (year !== undefined && year !== null) {
+            headers = headers.set('year', String(year));
+        }
 
         // authentication (ksi) required
         if (this.configuration.accessToken) {
@@ -1840,19 +1845,24 @@ export class DefaultService {
      * 
      * 
      * @param profileId 
+     * @param year 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public profileGetSingle(profileId: number, observe?: 'body', reportProgress?: boolean): Observable<ProfileResponse>;
-    public profileGetSingle(profileId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ProfileResponse>>;
-    public profileGetSingle(profileId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ProfileResponse>>;
-    public profileGetSingle(profileId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public profileGetSingle(profileId: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<ProfileResponse>;
+    public profileGetSingle(profileId: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ProfileResponse>>;
+    public profileGetSingle(profileId: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ProfileResponse>>;
+    public profileGetSingle(profileId: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (profileId === null || profileId === undefined) {
             throw new Error('Required parameter profileId was null or undefined when calling profileGetSingle.');
         }
 
+
         let headers = this.defaultHeaders;
+        if (year !== undefined && year !== null) {
+            headers = headers.set('year', String(year));
+        }
 
         // authentication (ksi) required
         if (this.configuration.accessToken) {

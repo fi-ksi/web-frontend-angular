@@ -1,0 +1,16 @@
+@import "src/app/styles/vars";
+@import "src/app/styles/mixins";
+
+:host {
+  .content {
+    @include ksi-card(15ex, 3em, 1em);
+    .score {
+      &, :hover, :active, :focus {
+        text-decoration: none !important;
+        border-bottom: none !important;
+      }
+      margin: $ksi-margin-x-small;
+      color: $ksi-gray-90;
+    }
+  }
+}

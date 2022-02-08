@@ -4,14 +4,17 @@ import { TaskWithIcon } from "../../../../models";
 import { RoutesService, TasksService } from "../../../../services";
 
 @Component({
-  selector: 'ksi-profile-org-task-thumbnail',
-  templateUrl: './profile-org-task-thumbnail.component.html',
-  styleUrls: ['./profile-org-task-thumbnail.component.scss'],
+  selector: 'ksi-profile-task-thumbnail',
+  templateUrl: './profile-task-thumbnail.component.html',
+  styleUrls: ['./profile-task-thumbnail.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProfileOrgTaskThumbnailComponent implements OnInit {
+export class ProfileTaskThumbnailComponent implements OnInit {
   @Input()
   taskId: number;
+
+  @Input()
+  score?: number | null;
 
   task$: Observable<TaskWithIcon>;
 
@@ -20,5 +23,4 @@ export class ProfileOrgTaskThumbnailComponent implements OnInit {
   ngOnInit(): void {
     this.task$ = this.tasks.getTask(this.taskId);
   }
-
 }

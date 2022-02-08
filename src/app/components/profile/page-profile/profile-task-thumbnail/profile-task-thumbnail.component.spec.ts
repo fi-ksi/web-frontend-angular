@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProfileOrgTaskThumbnailComponent } from './profile-org-task-thumbnail.component';
+import { ProfileTaskThumbnailComponent } from './profile-task-thumbnail.component';
 
 describe('ProfileOrgTaskThumbnailComponent', () => {
-  let component: ProfileOrgTaskThumbnailComponent;
-  let fixture: ComponentFixture<ProfileOrgTaskThumbnailComponent>;
+  let component: ProfileTaskThumbnailComponent;
+  let fixture: ComponentFixture<ProfileTaskThumbnailComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProfileOrgTaskThumbnailComponent ]
+      declarations: [ ProfileTaskThumbnailComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProfileOrgTaskThumbnailComponent);
+    fixture = TestBed.createComponent(ProfileTaskThumbnailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

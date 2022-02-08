@@ -317,14 +317,19 @@
       }
     },
     "tasks": {
-      "male": "Autor úloh",
-      "female": "Autorka úloh"
+      "author": {
+        "male": "Autor úloh",
+        "female": "Autorka úloh"
+      },
+      "participant": {
+        "male": "Vyřešené úlohy",
+        "female": "Vyřešené úlohy"
+      }
     },
     "seasons": {
       "male": "Účastnil se ročníků",
       "female": "Účastnila se ročníků"
     },
-    "tasks-none": "V tomto ročníku zatím nemá žádné úlohy",
     "trophies": "Získané trofeje",
     "stats": {
       "title": "Statistiky",

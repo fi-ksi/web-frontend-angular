@@ -31,21 +31,7 @@ export class TasksService {
       mergeMap((year) => this.backend.http.tasksGetAll(year?.id)),
       map((response) => response.tasks.map((task) => TasksService.taskAddIcon(task))),
       tap((tasks) => {
-        /*
-         * Empty enough space in cache for new tasks
-         */
-        const cachedKeys = Object.keys(this.cache);
-        let firstKey;
-        while (cachedKeys.length + tasks.length > TasksService.CACHE_MAX_SIZE && (firstKey = cachedKeys.shift())) {
-          delete this.cache[Number(firstKey)];
-        }
-
-        /*
-        Save new tasks into cache
-         */
-        for (let i = 0; i < tasks.length && i < TasksService.CACHE_MAX_SIZE; i++) {
-          this.cache[tasks[i].id] = tasks[i];
-        }
+        tasks.forEach((task) => this.updateTask(task))
       }),
       shareReplay(1)
     );
@@ -97,26 +83,35 @@ export class TasksService {
 
     return this.backend.http.tasksGetSingle(taskId).pipe(
       map((response) => TasksService.taskAddIcon(response.task)),
-      tap((task) =>  {
-        /*
-        Empty space in the cache
-         */
-        const cachedKeys = Object.keys(this.cache);
-        let firstKey;
-        while (cachedKeys.length >= TasksService.CACHE_MAX_SIZE && (firstKey = cachedKeys.shift())) {
-          delete this.cache[Number(firstKey)];
-        }
-
-        /*
-          Save the task into cache
-        */
-        this.cache[task.id] = task;
-        if (publishUpdate) {
-          this.taskUpdatesSubject.next(task);
-        }
-      }),
+      tap((task) => this.updateTask(task, publishUpdate)),
       take(1),
     );
+  }
+
+  /**
+   * Update task in cache
+   * @param task new task value
+   * @param publishUpdate if set to false then no task update subscribers are notified upon update
+   */
+  public updateTask(task: Task, publishUpdate = true): void {
+    const taskWithIcon = TasksService.taskAddIcon(task);
+
+    /*
+      Empty space in the cache
+     */
+    const cachedKeys = Object.keys(this.cache);
+    let firstKey;
+    while (cachedKeys.length >= TasksService.CACHE_MAX_SIZE && (firstKey = cachedKeys.shift())) {
+      delete this.cache[Number(firstKey)];
+    }
+
+    /*
+      Save the task into cache
+    */
+    this.cache[taskWithIcon.id] = taskWithIcon;
+    if (publishUpdate) {
+      this.taskUpdatesSubject.next(taskWithIcon);
+    }
   }
 
   public static sortTasks(tasks: TaskWithIcon[], lockedLast: boolean): TaskWithIcon[] {

@@ -72,17 +72,15 @@
         </progressbar>
       </ng-container>
 
-      <div *ngIf="user.$isOrg">
-        <h3>{{'profile.tasks' | translateGender: user}}</h3>
-        <div class="tasks" *ngIf="user.tasks?.length; else tasksNone">
-          <ksi-profile-org-task-thumbnail
-            *ngFor="let taskId of user.tasks"
-            [taskId]="taskId"
-          ></ksi-profile-org-task-thumbnail>
+      <div *ngIf="tasksWithScore$ | async as tasks">
+        <h3>{{('profile.tasks.' + (user.$isOrg ? 'author' : 'participant')) | translateGender: user}}</h3>
+        <div class="tasks">
+          <ksi-profile-task-thumbnail
+            *ngFor="let task of tasks"
+            [taskId]="task.id"
+            [score]="task.score"
+          ></ksi-profile-task-thumbnail>
         </div>
-        <ng-template #tasksNone>
-          <p>{{'profile.tasks-none' | translate}}</p>
-        </ng-template>
       </div>
     </div>
   </ng-container>

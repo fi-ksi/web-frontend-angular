@@ -6,6 +6,9 @@
     <img class="icon" [src]="task.icon" alt="">
   </div>
   <div class="name">
-    <span>{{task.title}}</span>
+    <div>{{task.title}}</div>
+  </div>
+  <div class="description" *ngIf="score !== undefined">
+    <div class="score">{{score !== null ? score : '-'}}/{{task.max_score}}</div>
   </div>
 </a>

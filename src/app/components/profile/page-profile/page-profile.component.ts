@@ -144,7 +144,7 @@ export class PageProfileComponent implements OnInit {
             tasksSolved: wave.solved,
             bars: PageProfileComponent.generateProgressBar(wave.current, wave.max)
           }
-        })
+        }).filter((wave) => wave.tasksSolved > 0)
       }),
       shareReplay(1)
     );

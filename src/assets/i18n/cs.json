@@ -334,7 +334,8 @@
     "stats": {
       "title": "Statistiky",
       "score": "Skóre",
-      "solved-count": "Vyřešených úloh"
+      "solved-count": "Vyřešených úloh",
+      "whole-year": "Celý ročník"
     }
   },
   "achievements": {

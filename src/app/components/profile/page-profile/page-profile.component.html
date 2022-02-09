@@ -53,23 +53,27 @@
 
       <ng-container *ngIf="!user.$isOrg">
         <h3>{{'profile.stats.title' | translate}}</h3>
-        <div class="stats">
-          <div>
-            <span class="name">{{'profile.stats.score' | translate}}:</span>
-            {{user.score}}
+        <div class="stats" *ngFor="let stats of (userProgress$ | async)">
+          <h4 class="title">{{stats.title}}</h4>
+
+          <div class="numeric">
+            <div>
+              <span class="name">{{'profile.stats.score' | translate}}:</span>
+              {{stats.score}}
+            </div>
+            <div>
+              <span class="name">{{'profile.stats.solved-count' | translate}}:</span>
+              {{stats.tasksSolved}}
+            </div>
           </div>
-          <div>
-            <span class="name">{{'profile.stats.solved-count' | translate}}:</span>
-            {{user.tasks_num}}
-          </div>
+
+          <progressbar
+            class="progress"
+            [striped]="true"
+            [value]="stats.bars"
+          >
+          </progressbar>
         </div>
-        <progressbar
-          *ngIf="userProgress$ | async as progress"
-          class="progress"
-          [striped]="true"
-          [value]="progress"
-        >
-        </progressbar>
       </ng-container>
 
       <div *ngIf="tasksWithScore$ | async as tasks">

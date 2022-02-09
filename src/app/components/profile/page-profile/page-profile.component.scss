@@ -80,11 +80,21 @@
       }
 
       .stats {
-        display: flex;
-        justify-content: space-between;
+        margin: $ksi-margin;
 
-        .name {
-          font-weight: $ksi-semibold;
+        .title {
+          padding-top: $ksi-margin-small;
+          margin-bottom: 0;
+          font-size: 18px;
+        }
+
+        .numeric {
+          display: flex;
+          justify-content: space-between;
+
+          .name {
+            font-weight: $ksi-semibold;
+          }
         }
       }
 

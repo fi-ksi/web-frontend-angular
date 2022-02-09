@@ -11,10 +11,11 @@ import {
 import { ActivatedRoute, Router } from "@angular/router";
 import { combineLatest, Observable, of } from "rxjs";
 import { map, mergeMap, shareReplay, tap } from "rxjs/operators";
-import { IUser } from "../../../models";
+import { IUser, TaskIDWithScore, UserProgress, WaveScore } from "../../../models";
 import { BarValue } from "ngx-bootstrap/progressbar/progressbar-type.interface";
 import { ROUTES } from "../../../../routes/routes";
 import { ProfileResponse } from "../../../../api";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'ksi-page-profile',
@@ -27,9 +28,9 @@ export class PageProfileComponent implements OnInit {
 
   userSeasonsString$: Observable<string>;
 
-  userProgress$: Observable<BarValue[]>;
+  userProgress$: Observable<UserProgress[]>;
 
-  tasksWithScore$: Observable<{id: number, score?: number}[]>;
+  tasksWithScore$: Observable<TaskIDWithScore[]>;
 
   constructor(
     public userService: UserService,
@@ -41,7 +42,8 @@ export class PageProfileComponent implements OnInit {
     public years: YearsService,
     public window: WindowService,
     public icon: IconService,
-    private tasks: TasksService
+    private tasks: TasksService,
+    private translate: TranslateService
   ) {
   }
 
@@ -68,29 +70,6 @@ export class PageProfileComponent implements OnInit {
       map((user) => user.seasons ? user.seasons.map((x) => `${x}.`).join(', ') : '')
     );
 
-    this.userProgress$ = combineLatest([this.years.selectedFull$, this.user$]).pipe(
-      map(([year, user]) => {
-        const currentUserPercentage = 100 * user.score / year!.sum_points;
-        const requiredPercentage = Math.max(0, 60 - currentUserPercentage);
-        const currentUserPercentageFloored = Math.floor(currentUserPercentage);
-
-        return [
-          {
-            type: user.successful ? 'success' : 'warning',
-            value: currentUserPercentage,
-            max: 100,
-            label: currentUserPercentage >= 50 ? `${currentUserPercentageFloored}%` : ''
-          },
-          {
-            type: 'info',
-            value: requiredPercentage,
-            max: 100,
-            label: currentUserPercentage < 50 ? `${currentUserPercentageFloored}%` : ''
-          }
-        ]
-      })
-    );
-
     const profile$: Observable<ProfileResponse | null> = combineLatest([this.years.selectedFull$, this.user$, this.backend.user$, this.userService.isOrg$]).pipe(
       mergeMap(([year, selectedUser, loggedInUser, isOrg]) => {
         if (selectedUser.id !== loggedInUser?.id && !isOrg) {
@@ -115,7 +94,84 @@ export class PageProfileComponent implements OnInit {
           return [];
         }
         return profile.taskScores.map((score) => ({id: score.task, score: score.score}));
-      })
+      }),
+      shareReplay(1)
     );
+
+    const userYearProgress$: Observable<UserProgress> = combineLatest([this.years.selectedFull$, this.user$]).pipe(
+      map(([year, user]) => ({
+        title: this.translate.instant('profile.stats.whole-year'),
+        tasksSolved: user.tasks_num,
+        score: user.score,
+        bars: PageProfileComponent.generateProgressBar(user.score, year?.sum_points || 0)
+      }))
+    );
+
+    const userWavesProgress$: Observable<UserProgress[]> = combineLatest([this.tasksWithScore$, this.tasks.waves$]).pipe(
+      mergeMap(([taskScores, waves]) => {
+        if (!taskScores.length || !waves.length) {
+          return of({});
+        }
+
+        const waveScore: WaveScore = {};
+        const taskScoresById: {[taskId: number]: number} = {};
+        waves.forEach((wave) => waveScore[wave.id] = {title: wave.caption, max: wave.sum_points, current: 0, solved: 0});
+        taskScores.forEach((taskScore) => taskScoresById[taskScore.id] = taskScore.score || 0);
+
+        return combineLatest([...taskScores.map((task) => this.tasks.getTaskOnce(task.id))]).pipe(
+          map((tasks) => {
+            tasks.forEach((task) => {
+              if (task.wave in waveScore) {
+                waveScore[task.wave].current += taskScoresById[task.id];
+                switch (task.state) {
+                  case "done":
+                    waveScore[task.wave].solved += 1;
+                    break;
+                }
+              }
+            });
+
+            return waveScore;
+          })
+        );
+      }),
+      map((waveScore: WaveScore) => {
+        return Object.keys(waveScore).map((waveId) => {
+          const wave = waveScore[Number(waveId)];
+          return {
+            title: wave.title,
+            score: wave.current,
+            tasksSolved: wave.solved,
+            bars: PageProfileComponent.generateProgressBar(wave.current, wave.max)
+          }
+        })
+      }),
+      shareReplay(1)
+    );
+
+    this.userProgress$ = combineLatest([userYearProgress$, userWavesProgress$]).pipe(
+      map(([year, waves]) => [year, ...waves])
+    );
+  }
+
+  private static generateProgressBar(points: number, maxPoints: number, requiredPercentage = 60): BarValue[] {
+    const currentPercentage = 100 * points / maxPoints;
+    const leftRequiredPercentage = Math.max(0, requiredPercentage - currentPercentage);
+    const currentUserPercentageFloored = Math.floor(currentPercentage);
+
+    return [
+      {
+        type: leftRequiredPercentage <= 0 ? 'success' : 'warning',
+        value: currentPercentage,
+        max: 100,
+        label: currentPercentage >= 50 ? `${currentUserPercentageFloored}%` : ''
+      },
+      {
+        type: 'info',
+        value: leftRequiredPercentage,
+        max: 100,
+        label: currentPercentage < 50 ? `${currentUserPercentageFloored}%` : ''
+      }
+    ]
   }
 }

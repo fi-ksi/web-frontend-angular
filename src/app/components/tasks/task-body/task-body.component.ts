@@ -74,10 +74,14 @@ export class TaskBodyComponent implements OnInit {
     // replace LaTex math
     rootElement.querySelectorAll('.math:not(.highlighted)').forEach((math) => {
       math.classList.add('highlighted');
-      let tex = math.textContent || '';
+      let tex: string = math.textContent || '';
       math.innerHTML = '';
 
-      tex = tex.replace(/^\\\((.*)\\\)$/, "$1");
+      // remove unneeded \[ and \( from the start and the end
+      tex = tex
+        .trim()
+        .replace(/^\\\(((?:.|\n)*)\\\)$/gm, "$1")
+        .replace(/^\\\[((?:.|\n)*)\\]$/gm, "$1");
 
       // @ts-ignore
       const node = window.MathJax.tex2svg(tex, {display: false});

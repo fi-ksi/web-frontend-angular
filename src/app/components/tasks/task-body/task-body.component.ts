@@ -53,15 +53,25 @@ export class TaskBodyComponent implements OnInit {
   }
 
   private applyTaskContentStyle(rootElement: HTMLElement): void {
+    // replace source code
     rootElement.querySelectorAll('pre>code:not(.highlighted)').forEach((code) => {
+      let isPlaintext = true;
+
       code.classList.forEach((cls) => {
         if (cls !== 'sourceCode') {
+          isPlaintext = false;
           code.classList.add(`language-${cls}`);
         }
       });
+      if (isPlaintext) {
+        code.classList.add('language-txt');
+      }
+
       code.classList.add('highlighted');
       highlight.highlightElement(code as HTMLElement);
     });
+
+    // replace LaTex math
     rootElement.querySelectorAll('.math:not(.highlighted)').forEach((math) => {
       math.classList.add('highlighted');
       let tex = math.textContent || '';
@@ -73,6 +83,8 @@ export class TaskBodyComponent implements OnInit {
       const node = window.MathJax.tex2svg(tex, {display: false});
       math.appendChild(node);
     });
+
+    // parse KSI collapse
     rootElement.querySelectorAll('.panel.panel-ksi').forEach((el) => {
       const title = el.querySelector('.panel-title')!.textContent!;
       const body = el.querySelector('.panel-body')!.innerHTML!;

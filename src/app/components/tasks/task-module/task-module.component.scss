@@ -41,6 +41,7 @@
     }
 
     .points {
+      flex-shrink: 0;
       transition: font-weight 0.5s;
 
       .unpack {

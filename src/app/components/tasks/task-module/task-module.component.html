@@ -1,9 +1,9 @@
 <div class="header" [class.packed]="packed$ | async">
   <span class="name">
-    {{ module.name }}
+    <span *ngIf="resultOk">{{this.icon.CHECKMARK}}</span>
     <span *ngIf="user.isTester$ | async">
      ({{module.id}})
-    <span *ngIf="resultOk">{{this.icon.CHECKMARK}}</span>
+    {{ module.name }}
   </span>
   </span>
   <span class="points" [class.font-weight-bold]="resultOk">

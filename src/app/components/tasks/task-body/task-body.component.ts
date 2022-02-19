@@ -53,6 +53,14 @@ export class TaskBodyComponent implements OnInit {
   }
 
   private applyTaskContentStyle(rootElement: HTMLElement): void {
+    // parse KSI collapse
+    // must be parsed first so that its content is also parsed
+    rootElement.querySelectorAll('.panel.panel-ksi').forEach((el) => {
+      const title = el.querySelector('.panel-title')!.textContent!;
+      const body = el.querySelector('.panel-body')!.innerHTML!;
+      el.replaceWith(this.createKSIPanel(title, body));
+    });
+
     // replace source code
     rootElement.querySelectorAll('pre>code:not(.highlighted)').forEach((code) => {
       let isPlaintext = true;
@@ -86,13 +94,6 @@ export class TaskBodyComponent implements OnInit {
       // @ts-ignore
       const node = window.MathJax.tex2svg(tex, {display: false});
       math.appendChild(node);
-    });
-
-    // parse KSI collapse
-    rootElement.querySelectorAll('.panel.panel-ksi').forEach((el) => {
-      const title = el.querySelector('.panel-title')!.textContent!;
-      const body = el.querySelector('.panel-body')!.innerHTML!;
-      el.replaceWith(this.createKSIPanel(title, body));
     });
   }
 

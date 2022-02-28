@@ -46,3 +46,15 @@
     text-align: center;
   }
 }
+
+@mixin ksi-page($applyMargin: false) {
+  @if ($applyMargin) {
+    width: min(24cm, calc(100% - (2 * #{$ksi-margin})));
+  } @else {
+    width: min(100%, 24cm);
+  }
+
+  @media print {
+    width: 100%;
+  }
+}

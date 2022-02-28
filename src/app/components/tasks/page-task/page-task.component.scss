@@ -7,7 +7,7 @@
 
   main {
     margin: $ksi-margin-large $ksi-margin;
-    width: min(24cm, calc(100% - (2 * #{$ksi-margin})));
+    @include ksi-page(true);
 
     .head {
       margin-bottom: $ksi-margin;

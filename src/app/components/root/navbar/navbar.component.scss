@@ -1,6 +1,10 @@
 @import "src/app/styles/vars";
 
 :host {
+  @media print {
+    display: none;
+  }
+
   nav {
     &.clickable {
       cursor: pointer;

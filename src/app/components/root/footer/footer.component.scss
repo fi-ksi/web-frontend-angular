@@ -6,6 +6,10 @@
   background: $ksi-blue-30;
   color: $ksi-white;
 
+  @media print {
+    display: none;
+  }
+
   .version {
     font-size: 0.75rem;
     cursor: pointer;

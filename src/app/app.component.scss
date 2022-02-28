@@ -13,6 +13,12 @@
     flex-grow: 1;
     background: $ksi-orange-240;
 
+    @media print {
+      background: #fff;
+      overflow: visible;
+      width: 27cm;
+    }
+
     .page {
       flex-grow: 1;
     }

@@ -166,7 +166,7 @@
       padding: 0 $ksi-padding;
 
       .article {
-        width: min(100%, 24cm);
+        @include ksi-full-width;
       }
     }
 

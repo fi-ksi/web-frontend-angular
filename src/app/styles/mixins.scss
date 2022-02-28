@@ -47,11 +47,12 @@
   }
 }
 
-@mixin ksi-page($applyMargin: false) {
+@mixin ksi-full-width($applyMargin: false, $maxWidth: 24cm) {
+  max-width: $maxWidth;
   @if ($applyMargin) {
-    width: min(24cm, calc(100% - (2 * #{$ksi-margin})));
+    width: calc(100% - (2 * #{$ksi-margin}));
   } @else {
-    width: min(100%, 24cm);
+    width: 100%;
   }
 
   @media print {

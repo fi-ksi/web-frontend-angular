@@ -6,8 +6,8 @@
   justify-content: center;
 
   > article {
+    @include ksi-full-width;
     margin: $ksi-margin;
-    max-width: 24cm;
   }
 
   .faq-container {

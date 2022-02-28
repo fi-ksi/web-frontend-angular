@@ -1,4 +1,5 @@
 @import "src/app/styles/vars";
+@import "src/app/styles/mixins";
 
 :host {
   display: flex;
@@ -17,6 +18,6 @@
   }
 
   .thread {
-    width: min(100%, 24cm);
+    @include ksi-full-width;
   }
 }

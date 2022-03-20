@@ -60,7 +60,7 @@
   <a *ngIf="allowExpansion"
     class="expand"
     (click)="setExpanded(true)"
-    routerLink="."
+    [routerLink]="['/', routes.routes.discussion, threadId]"
     [fragment]="maxLevelReached ? '' + post.id : undefined"
   >
     <span class="icon">{{icon.UNPACK}}</span>

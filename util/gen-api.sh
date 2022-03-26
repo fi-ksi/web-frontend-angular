@@ -8,7 +8,7 @@ function fail() {
 cd "$(dirname "$(realpath "$0")")/../" || fail "Cannot cd here"
 
 if [ ! -f 'swagger-codegen-cli.jar' ]; then
-  wget 'https://repo1.maven.org/maven2/io/swagger/codegen/v3/swagger-codegen-cli/3.0.27/swagger-codegen-cli-3.0.27.jar' -O swagger-codegen-cli.jar || fail "Swagger download failed"
+  wget 'https://repo1.maven.org/maven2/io/swagger/codegen/v3/swagger-codegen-cli/3.0.33/swagger-codegen-cli-3.0.33.jar' -O swagger-codegen-cli.jar || fail "Swagger download failed"
 fi
 
 cli="java -jar swagger-codegen-cli.jar"
@@ -30,7 +30,6 @@ for f in $(find . -type f -name '*.ts' -print); do
 done
 
 sed -e 's/parent: number;/parent: number | null;/' -i 'model/postsCreation.ts'
-sed 's/: ModuleWithProviders/: ModuleWithProviders<ApiModule>/' -i 'api.module.ts'
 sed -E 's|(\s+)public authorizeForm\(grant_type: string, username: string, password: string, refresh_token: string,|\1// @ts-ignore\n\1public  authorizeForm(grant_type: string, username: string = "", password: string = "", refresh_token: string = "",|' -i 'api/default.service.ts'
 
 # next two lines are setting correct Blob response type for requests with Blob return type

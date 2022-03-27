@@ -20,10 +20,10 @@ import { KsiTitleService } from "./services";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsModalService } from "ngx-bootstrap/modal";
 import { RootModule } from "./components/root/root.module";
-import { StorageService } from "./services/shared/storage.service";
 import { QuillModule } from "ngx-quill";
-import { HTTPErrorHandlerService } from "./services";
+import { HTTPErrorHandlerService, StorageService } from "./services";
 import { environment } from "../environments/environment";
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, `${environment.urlPrefix}assets/i18n/`);
@@ -48,7 +48,13 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     NgbModule,
     BrowserAnimationsModule,
     QuillModule.forRoot(),
-    RootModule
+    RootModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   exports: [
     TranslateModule,

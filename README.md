@@ -48,6 +48,13 @@ executed by `npm run gen.colors`
 
 `gen-scss-colors.sh` generates scss variables based on `src/app/styles/theme.scss` and saves them into `src/app/styles/colors.scss` for usage inside the application. SCSS variables are safer than regular css variables because the compiler throws error if used variable is undefined.
 
+### gen-icons.sh
+
+executed by `npm run gen.icons`
+
+`gen-icons.sh` takes main `.svg` icon from `src/assets/img/icon.svg` and generates all required `.png` icons under `src/assets/icons` for PWA.
+
+
 ## Deployment
 
 Automatic deploy is executed based on which branch is pushed into. To see which branch deploys where, take a look inside the `.github/workflows` directory.

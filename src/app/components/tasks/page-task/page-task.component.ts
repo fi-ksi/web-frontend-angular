@@ -68,7 +68,7 @@ export class PageTaskComponent implements OnInit, OnDestroy {
           if (!loginOk) {
             return throwError(PageTaskComponent.ERR_LOGIN_DENIED);
           }
-          return this.tasks.getTask(task.id, true);
+          return this.tasks.getTaskOnce(task.id, true);
         }))
       }),
       mergeMap((task) => combineLatest([

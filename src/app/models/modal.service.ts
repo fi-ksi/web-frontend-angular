@@ -10,7 +10,13 @@ export interface ModalComponent {
 }
 
 interface OpenedModalBase {
+  /**
+   * An observable that fires every time the modal is shown or hidden
+   */
   visible$: Observable<boolean>;
+  /**
+   * An observable that fires only once at the time that the modal is closed
+   */
   afterClose$: Observable<void>;
 }
 

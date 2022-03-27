@@ -24,6 +24,8 @@ import { ModalTermsOfUseComponent } from "../../components/shared/modal-terms-of
 export class ModalService {
   container: ViewContainerRef;
 
+  private loginModalInstance: OpenedModal<ModalLoginComponent> | null = null;
+
   constructor(private resolver: ComponentFactoryResolver, private translate: TranslateService) {
   }
 
@@ -73,8 +75,17 @@ export class ModalService {
     }
   }
 
+  /**
+   * Shows login modal
+   * If already shown, returns the visible instance
+   */
   public showLoginModal(): OpenedModal<ModalLoginComponent> {
-    return this.showModalComponent(ModalLoginComponent);
+    if (!this.loginModalInstance) {
+      this.loginModalInstance = this.showModalComponent(ModalLoginComponent);
+      this.loginModalInstance.afterClose$.subscribe(() => this.loginModalInstance = null);
+    }
+
+    return this.loginModalInstance;
   }
 
   public showRegisterModal(email = '', password = ''): OpenedModal<ModalRegisterComponent> {

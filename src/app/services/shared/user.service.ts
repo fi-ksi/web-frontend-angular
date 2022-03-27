@@ -5,6 +5,7 @@ import { UserRole } from "../../../api";
 import { filter, map, mergeMap, shareReplay, take, tap } from "rxjs/operators";
 import { ModalService } from "./modal.service";
 import { Router } from "@angular/router";
+import { environment } from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +58,7 @@ export class UserService {
    * Requests a single login attempt if not logged in yet
    */
   get requestLogin$(): Observable<boolean> {
+    environment.logger.debug('new login request');
     return this.isLoggedIn$.pipe(
       mergeMap((isLoggedIn) => {
         if (isLoggedIn) {

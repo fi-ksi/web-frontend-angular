@@ -25,6 +25,7 @@ export class ModalService {
   container: ViewContainerRef;
 
   private loginModalInstance: OpenedModal<ModalLoginComponent> | null = null;
+  private serverErrorModalInstance: OpenedModal<ModalServerErrorComponent> | null = null;
 
   constructor(private resolver: ComponentFactoryResolver, private translate: TranslateService) {
   }
@@ -136,6 +137,11 @@ export class ModalService {
   }
 
   public showServerErrorModal(): OpenedModal<ModalServerErrorComponent> {
-    return this.showModalComponent(ModalServerErrorComponent);
+    if (!this.serverErrorModalInstance) {
+      this.serverErrorModalInstance = this.showModalComponent(ModalServerErrorComponent);
+      this.serverErrorModalInstance.afterClose$.subscribe(() => this.serverErrorModalInstance = null);
+    }
+
+    return this.serverErrorModalInstance;
   }
 }

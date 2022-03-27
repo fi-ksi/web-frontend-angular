@@ -15,7 +15,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let user of (category.users$ | async)">
+      <tr *ngFor="let user of (category.users$ | async)" [class.successful]="user.successful">
         <td class="text-center">{{user.position}}</td>
         <td><a [routerLink]="['/', routes.routes.profile._, user.id]">{{user.first_name}} {{user.last_name}}</a></td>
         <td>

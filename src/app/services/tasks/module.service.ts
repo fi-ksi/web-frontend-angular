@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BackendService } from "../shared/backend.service";
+import { BackendService, UserService } from "../shared";
 import {
   KSIModule,
   ModuleGeneral, ModuleGeneralSubmittedFiles,
@@ -13,7 +13,6 @@ import { catchError, filter, map, mapTo, mergeMap, shareReplay, take } from "rxj
 import { FileUpload, ModuleSubmitChange } from "../../models";
 import { TranslateService } from "@ngx-translate/core";
 import { environment } from "../../../environments/environment";
-import { UserService } from "../shared/user.service";
 import { HttpEventType, HttpResponse } from "@angular/common/http";
 
 @Injectable({
@@ -99,7 +98,7 @@ export class ModuleService {
       document.body.appendChild(a);
       a.click();
       a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 60000);
+      window.setTimeout(() => URL.revokeObjectURL(url), 60000);
     }));
   }
 

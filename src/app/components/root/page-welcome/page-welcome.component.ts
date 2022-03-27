@@ -36,7 +36,7 @@ export class PageWelcomeComponent implements OnInit {
     this.aboutInfoSlide = slide;
     this.cd.detectChanges();
 
-    setTimeout(() => {
+    window.setTimeout(() => {
       const carousel = ((this.elRef.nativeElement as HTMLElement).querySelector('.about-carousel') as HTMLElement | null);
       if (!carousel) {
         return;

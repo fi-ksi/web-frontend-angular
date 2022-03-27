@@ -106,7 +106,7 @@ export class TaskBodyComponent implements OnInit {
     comp.instance.title = title;
     comp.instance.content = body;
 
-    setTimeout(() => comp.instance.cd.markForCheck());
+    window.setTimeout(() => comp.instance.cd.markForCheck());
 
     return comp.instance.el.nativeElement;
   }

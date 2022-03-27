@@ -12,7 +12,7 @@ export class HTTPErrorHandlerService implements HttpInterceptor {
   private modal: ModalService;
 
   constructor(private router: Router, private injector: Injector) {
-    setTimeout(() => this.modal = this.injector.get(ModalService));
+    window.setTimeout(() => this.modal = this.injector.get(ModalService));
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -23,7 +23,7 @@ export class HTTPErrorHandlerService implements HttpInterceptor {
             path: location.pathname,
           }
           if (error.status === 403 || error.status === 404) {
-            setTimeout(() => {
+            window.setTimeout(() => {
               this.router.navigate(['/', `${error.status}`], {
                 fragment: position.path
               }).then();

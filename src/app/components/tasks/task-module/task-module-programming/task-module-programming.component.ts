@@ -18,8 +18,7 @@ import { FormControl } from "@angular/forms";
 import * as CodeMirror from '../../../../../../node_modules/codemirror/lib/codemirror';
 import '../../../../../../node_modules/codemirror/mode/python/python';
 import { Observable, Subscription } from "rxjs";
-import { ModuleService } from "../../../../services";
-import { UserService } from "../../../../services/shared/user.service";
+import { ModuleService, UserService } from "../../../../services";
 import { mapTo, tap } from "rxjs/operators";
 
 @Component({
@@ -83,7 +82,7 @@ export class TaskModuleProgrammingComponent implements OnInit, OnDestroy {
     this.codeRunResult$ = this.moduleService.runCode(this.module, this.code.value).pipe(
       tap(() => {
         // Scroll stdout into view after run completed
-        setTimeout(() => {
+        window.setTimeout(() => {
           if (this.runOutput && this.runOutput.nativeElement) {
             this.runOutput.nativeElement.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
           }

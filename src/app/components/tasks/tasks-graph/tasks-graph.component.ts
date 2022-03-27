@@ -126,7 +126,7 @@ export class TasksGraphComponent implements OnInit, OnDestroy {
     // check if elements are already initialized
     if (!elPositions.find((pos) => pos.left !== 0 || pos.top !== 0)) {
       // if they are not, schedule the draw for later
-      setTimeout(() => this.watchArrowsDraw(drawTimeout), 100);
+      window.setTimeout(() => this.watchArrowsDraw(drawTimeout), 100);
       return;
     }
 
@@ -152,7 +152,7 @@ export class TasksGraphComponent implements OnInit, OnDestroy {
         this.watchDrawActive = false;
         return;
       }
-      setTimeout(() => {
+      window.setTimeout(() => {
         const newTimeout = (timeout + 1) * 2;
         if(hasPositionChanged()){
           this.watchArrowsDraw(Math.min(100, newTimeout * 1.2));

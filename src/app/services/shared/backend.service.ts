@@ -173,7 +173,7 @@ export class BackendService {
     }
 
     // schedule automatic token renewal
-    this.timerRefreshToken = setTimeout(
+    this.timerRefreshToken = window.setTimeout(
       () => this.refreshToken(session.refresh_token).subscribe(),
       Math.floor(session.expires_in * 1000 * 0.9)
     );

@@ -32,7 +32,7 @@ export class TaskModuleSortableComponent implements OnInit {
       return;
     }
     // @ts-ignore
-    this.mouseMoveTimer = setTimeout(() => {
+    this.mouseMoveTimer = window.setTimeout(() => {
       if (this.selectedItemEl
         && (
           // if the last click was on the same place as move, ignore this move

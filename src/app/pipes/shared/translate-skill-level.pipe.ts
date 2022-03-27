@@ -10,15 +10,17 @@ export class TranslateSkillLevelPipe implements PipeTransform {
   }
 
   transform(user: User): string {
-    let skill = 'none';
+    let skill: string;
     const ksiSeasons = user.seasons?.length || 0;
-    if (ksiSeasons <= 1) {
+    if (ksiSeasons <= 0) {
+      skill = 'none';
+    } else if (ksiSeasons <= 1) {
       skill = 'novice';
     } else if (ksiSeasons <= 2) {
       skill = 'skilled';
     } else if (ksiSeasons <= 3) {
       skill = 'master';
-    } else if (ksiSeasons <= 5) {
+    } else {
       skill = 'veteran';
     }
 

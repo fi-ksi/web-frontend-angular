@@ -88,6 +88,20 @@ export class ModalService {
     return this.loginModalInstance;
   }
 
+  /**
+   * Hides login modal if was already shown
+   * @return true if modal was visible and is now hidden, false otherwise
+   */
+  public hideLoginModal(): boolean {
+    if (!this.loginModalInstance) {
+      return false;
+    }
+
+    this.loginModalInstance.component.instance.modalRef.hide();
+    this.loginModalInstance = null;
+    return true;
+  }
+
   public showRegisterModal(email = '', password = ''): OpenedModal<ModalRegisterComponent> {
     const ref = this.showModalComponent(ModalRegisterComponent, {
       class: 'modal-full-page',

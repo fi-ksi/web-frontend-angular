@@ -8,10 +8,12 @@ import {
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from "../../../environments/environment";
 import { BehaviorSubject, combineLatest, Observable, of, Subject } from "rxjs";
-import { catchError, map, mapTo, mergeMap, shareReplay, tap } from "rxjs/operators";
+import { catchError, distinctUntilChanged, map, mapTo, mergeMap, shareReplay, tap } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { StorageService } from "./storage.service";
 import { UsersCacheService } from "./users-cache.service";
+import { v4 as uuidv4 } from 'uuid';
+import { AuthMessage, AuthMessageAction } from "../../models";
 
 @Injectable({
   providedIn: 'root'
@@ -27,9 +29,14 @@ export class BackendService {
 
   private readonly refreshUserSubject: Subject<undefined> = new BehaviorSubject(undefined);
 
+  private readonly loginBroadcastChannel = new BroadcastChannel('ksi-login');
+
+  private static readonly instanceId: string = uuidv4();
+
   user$: Observable<BasicProfileResponseBasicProfile | null> = combineLatest(
     [this.loginSubject.asObservable(), this.refreshUserSubject.asObservable()]
   ).pipe(
+    distinctUntilChanged(),
     mergeMap(([loginOk, _]) => {
       if (!loginOk) {
         return of(null);
@@ -42,7 +49,24 @@ export class BackendService {
 
   constructor(private httpClient: HttpClient, private router: Router, private storageRoot: StorageService) {
     this.http = new DefaultService(this.httpClient, environment.backend, new Configuration());
-    this.loadSession().subscribe();
+    this.loadSession().subscribe(() => {
+      // Listen for session changes in other tabs
+      this.loginBroadcastChannel.onmessage = (message: MessageEvent<AuthMessage>) => {
+        if (message.data.source === BackendService.instanceId) {
+          return;
+        }
+        switch (message.data.action) {
+          case "delete":
+            environment.logger.debug('[auth] got message to delete session');
+            this.logout();
+            break;
+          case "refresh":
+            environment.logger.debug('[auth] got message to refresh session');
+            this.applySession(message.data.session!);
+            break;
+        }
+      }
+    });
   }
 
   /**
@@ -86,6 +110,7 @@ export class BackendService {
    */
   private loadSession(): Observable<boolean> {
     const sessionAbsolute = this.authStorage.get<AuthResponse>('session');
+    environment.logger.debug('[auth] loaded login session from storage', sessionAbsolute);
     if (!sessionAbsolute) {
       this.loginSubject.next(false);
       return of(false);
@@ -98,7 +123,6 @@ export class BackendService {
     if (session.expires_in > 0) {
       // not for renewal yet
       this.applySession(session);
-      this.loginSubject.next(true);
       return of(true);
     } else {
       // renew saved sesion
@@ -115,7 +139,10 @@ export class BackendService {
       clearTimeout(this.timerRefreshToken);
     }
     this.http.configuration.accessToken = undefined;
-    this.authStorage.delete('session');
+    if (this.authStorage.get('session')) {
+      this.authStorage.delete('session');
+      this.broadcastLoginAction('delete');
+    }
   }
 
   /**
@@ -128,6 +155,7 @@ export class BackendService {
       ...session,
       expires_in: Date.now() + (session.expires_in * 1000) // save expiration time as absolute time
     });
+    this.broadcastLoginAction('refresh', session);
     this.applySession(session);
   }
 
@@ -137,7 +165,9 @@ export class BackendService {
    * @private
    */
   private applySession(session: AuthResponse): void {
+    environment.logger.debug('[auth] setting new session', session);
     this.http.configuration.accessToken = session.access_token;
+    this.loginSubject.next(true);
     if (this.timerRefreshToken !== null) {
       clearTimeout(this.timerRefreshToken);
     }
@@ -173,5 +203,20 @@ export class BackendService {
         throw new HttpErrorResponse({error: resp});
       })
     );
+  }
+
+  /**
+   * Sends event notification about login to all opened tabs
+   * @param action action to perform
+   * @param session the session to send along the message
+   * @private
+   */
+  private broadcastLoginAction(action: AuthMessageAction, session?: AuthResponse) {
+    const message: AuthMessage = {
+      source: BackendService.instanceId,
+      action,
+      session
+    }
+    this.loginBroadcastChannel.postMessage(message);
   }
 }

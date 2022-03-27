@@ -27,7 +27,7 @@ export class ModalLoginComponent implements OnInit, ModalComponent {
 
   loginOk = false;
 
-  private modalRef: BsModalRef;
+  modalRef: BsModalRef;
 
   constructor(private backend: BackendService, private fb: FormBuilder, private modal: ModalService) {
   }

@@ -37,7 +37,7 @@
         </div>
       </div>
 
-      <ng-container *ngIf="(backend.user$ | async) as user; else notLoggedIn">
+      <ng-container *ngIf="(user$ | async) as user; else notLoggedIn">
         <div ngbDropdown class="login-container">
           <div id="dropdown-login" class="nav-btn" ngbDropdownToggle>
             <span class="username">

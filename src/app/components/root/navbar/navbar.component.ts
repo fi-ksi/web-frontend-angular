@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { YearsService, WindowService, ModalService, BackendService, RoutesService } from 'src/app/services';
 import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
-import { map, mapTo } from 'rxjs/operators';
+import { map, mapTo, tap } from 'rxjs/operators';
 import { YearSelect } from "../../../models";
+import { BasicProfileResponseBasicProfile } from "../../../../api";
 
 @Component({
   selector: 'ksi-navbar',
@@ -17,6 +18,8 @@ export class NavbarComponent implements OnInit {
 
   selectableYears$: Observable<YearSelect[]>;
 
+  user$: Observable<BasicProfileResponseBasicProfile | null>;
+
   private readonly showFullMenuSubject: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(
@@ -28,6 +31,14 @@ export class NavbarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.user$ = this.backend.user$.pipe(
+      tap((user) => {
+        if (user) {
+          this.modal.hideLoginModal();
+        }
+      })
+    );
+
     this.useLongTitle$ = this.window.windowSize$.pipe(
       map((size) => size.width > 1150)
     );

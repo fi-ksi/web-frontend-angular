@@ -8,3 +8,4 @@ export * from './discussion';
 export * from './module.service';
 export * from './users-cache.service';
 export * from './profile';
+export * from './backend.service';

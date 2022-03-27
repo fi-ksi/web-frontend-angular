@@ -57,7 +57,7 @@ export class PageTaskComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.task$ = this.route.params.pipe(
       map((params) => Number(params.id)),
-      mergeMap((taskId: number) => this.tasks.getTask(taskId)),
+      mergeMap((taskId: number) => this.tasks.getTaskOnce(taskId)),
       tap(() => this.unsubscribeModuleChanges()),
       mergeMap((task) => {
         if (task.state !== "locked") {

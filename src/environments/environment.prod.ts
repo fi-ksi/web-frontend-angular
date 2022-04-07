@@ -4,12 +4,12 @@ const doNothing = (..._: any[]) => {};
 
 export const environment: Environment = {
   production: true,
-  backend: 'http://localhost:3030/',
-  urlPrefix: '',
+  backend: 'https://rest.naskoc.fi.muni.cz/',
+  urlPrefix: '/',
   logger: {
-    log: doNothing,
-    error: doNothing,
-    debug: doNothing,
-    warn: doNothing
+    log: console.log,
+    error: console.error,
+    debug: console.debug,
+    warn: console.warn
   }
 };

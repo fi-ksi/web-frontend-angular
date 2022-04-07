@@ -48,31 +48,6 @@
             "ngswConfigPath": "ngsw-config.json"
           },
           "configurations": {
-            "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
-                }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                },
-                {
-                  "replace": "src/routes/routes.ts",
-                  "with": "src/routes/routes.cs.ts"
-                }
-              ],
-              "outputHashing": "all"
-            },
             "pubdev": {
               "buildOptimizer": false,
               "optimization": false,
@@ -91,37 +66,18 @@
                 }
               ]
             },
-            "kyzikos": {
+            "production": {
               "buildOptimizer": true,
               "optimization": true,
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": false,
               "namedChunks": true,
-              "baseHref": "/new/",
+              "baseHref": "/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.kyzikos.ts"
-                },
-                {
-                  "replace": "src/routes/routes.ts",
-                  "with": "src/routes/routes.cs.ts"
-                }
-              ]
-            },
-            "kleobis": {
-              "buildOptimizer": true,
-              "optimization": true,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": false,
-              "namedChunks": true,
-              "baseHref": "/novy-web/",
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.kleobis.ts"
+                  "with": "src/environments/environment.prod.ts"
                 },
                 {
                   "replace": "src/routes/routes.ts",

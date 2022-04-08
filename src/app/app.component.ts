@@ -11,7 +11,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.theme.setLightTheme();
     this.modal.container = this.container;
 
     /*

@@ -4,12 +4,12 @@
 :host {
   .about {
     padding: $ksi-padding;
-    color: $ksi-white;
+    color: $ksi-page-fg;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
     grid-row-gap: $ksi-margin;
-    background: $ksi-orange-140;
+    background: $ksi-page-welcome-banner-bg;
 
     .name {
       display: flex;
@@ -88,9 +88,9 @@
   .about-carousel {
     display: block;
     padding: $ksi-margin;
-    background: $ksi-blue-30;
+    background: $ksi-navbar-bg;
     color: $ksi-white;
-    border: 2px solid $ksi-orange-140;
+    border: 2px solid $ksi-page-welcome-banner-bg;
     border-left: none;
     border-right: none;
 
@@ -154,7 +154,7 @@
         margin: $ksi-margin 0 $ksi-margin-small;
         font-weight: bolder;
         font-size: 1.5rem;
-        color: $ksi-blue-20;
+        color: $ksi-header-fg;
       }
     }
 
@@ -191,7 +191,7 @@
           margin-top: $ksi-margin-small;
           font-weight: bolder;
           text-align: center;
-          color: $ksi-blue-20;
+          color: $ksi-header-fg;
         }
       }
     }

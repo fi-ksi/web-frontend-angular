@@ -12,7 +12,7 @@
     "build.kleobis": "npm run gen.changelog && ng build --configuration kleobis && cp -r src/cgi-bin/ dist/web-frontend-angular/cgi-bin/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "gen.colors": "./util/gen-scss-colors.sh",
+    "gen.theme": "util/gen-scss-theme.sh",
     "gen.api": "./util/gen-api.sh",
     "gen.changelog": "./util/gen-changelog.sh",
     "gen.icons": "./util/gen-icons.sh"

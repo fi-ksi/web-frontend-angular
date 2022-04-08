@@ -3,8 +3,8 @@
 :host {
   padding: $ksi-padding-small $ksi-padding-small 0;
   display: block;
-  background: $ksi-blue-30;
-  color: $ksi-white;
+  background: $ksi-navbar-bg;
+  color: $ksi-navbar-fg;
 
   @media print {
     display: none;

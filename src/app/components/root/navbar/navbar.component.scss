@@ -11,12 +11,12 @@
     }
 
     padding: $ksi-padding;
-    background: $ksi-blue-30;
+    background: $ksi-navbar-bg;
     line-height: 1;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    border-bottom: 4px solid $ksi-orange-140;
+    border-bottom: 4px solid $ksi-page-welcome-banner-bg;
 
     @media screen and (max-width: $ksi-max-small-mobile-width) {
       flex-direction: column;
@@ -42,13 +42,13 @@
       }
 
       &:hover:not(.active) {
-        text-shadow: 1px 0 $ksi-white;
+        text-shadow: 1px 0 $ksi-navbar-fg;
       }
 
       transition: text-shadow 0.2s;
       white-space: break-spaces;
       text-decoration: none;
-      color: $ksi-white;
+      color: $ksi-navbar-fg;
       display: flex;
       align-items: center;
       flex-shrink: 3;
@@ -82,14 +82,14 @@
     }
 
     .nav-btn {
-      color: $ksi-white;
+      color: $ksi-navbar-fg;
       padding: $ksi-padding;
       text-decoration: none;
       cursor: pointer;
       transition: background-color 0.1s;
 
       &.active,&:hover,&[aria-expanded=true] {
-        background: $ksi-orange-140 !important;
+        background: $ksi-page-welcome-banner-bg !important;
       }
     }
 
@@ -98,6 +98,9 @@
       display: inline-block;
 
       .dropdown-menu {
+        color: $ksi-page-fg;
+        background-color: $ksi-page-bg;
+
         button {
           text-align: center;
           padding: $ksi-padding-small;
@@ -105,7 +108,7 @@
       }
 
       .nav-btn {
-        background: $ksi-orange-140;
+        background: $ksi-page-welcome-banner-bg;
         @media screen and (max-width: $ksi-max-small-mobile-width) {
           background: unset;
         }
@@ -124,6 +127,6 @@
   }
 
   .menu-opener {
-    color: $ksi-white;
+    color: $ksi-navbar-fg;
   }
 }

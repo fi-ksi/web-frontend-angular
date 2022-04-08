@@ -5,8 +5,9 @@
   $article-height: 7em;
   $article-preview-lines-count: 2;
 
-  border: 2px solid $ksi-orange-190;
-  background-color: $ksi-orange-230;
+  border: 2px solid $ksi-article-preview-border-fg;
+  color: $ksi-page-fg;
+  background-color: $ksi-article-preview-bg;
   @include round-corner;
   padding: $ksi-padding-small;
   margin: $ksi-margin-small;

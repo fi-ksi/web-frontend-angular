@@ -42,11 +42,11 @@ A few automatics fixes to the generated code are then made by this util.
 
 `gen-changelog.sh` takes git's log and saves this information into `src/assets/changelog/` directory. This is then used by the changelog modal inside the application.
 
-### gen-scss-colors.sh
+### gen-scss-theme.sh
 
-executed by `npm run gen.colors`
+executed by `npm run gen.theme`
 
-`gen-scss-colors.sh` generates scss variables based on `src/app/styles/theme.scss` and saves them into `src/app/styles/colors.scss` for usage inside the application. SCSS variables are safer than regular css variables because the compiler throws error if used variable is undefined.
+`gen-scss-theme.sh` generates scss variables based on `src/app/styles/theme.scss` and saves them into the same file under `AUTO-GENERATED` section. for usage inside the application. SCSS variables are safer than regular css variables because the compiler throws error if used variable is undefined.
 
 ### gen-icons.sh
 

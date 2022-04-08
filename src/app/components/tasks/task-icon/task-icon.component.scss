@@ -48,9 +48,9 @@
 
     .tooltip-inner {
       padding: 0;
-      background-color: $ksi-white;
       border: 2px solid $ksi-orange-130;
-      color: $ksi-black;
+      color: $ksi-page-fg;
+      background-color: $ksi-page-bg;
       text-align: center;
       font-size: 1rem;
 
@@ -59,8 +59,8 @@
         font-weight: bold;
         border-bottom: 2px solid $ksi-orange-150;
         line-height: 1;
-        background: $ksi-blue-30;
-        color: $ksi-white;
+        background: $ksi-navbar-bg;
+        color: $ksi-navbar-fg;
         padding: $ksi-padding-small $ksi-padding-small;
       }
 

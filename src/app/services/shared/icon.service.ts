@@ -13,6 +13,8 @@ export class IconService {
   public readonly SCHOOL = '🎓';
   public readonly LOCATION = '🖈';
   public readonly EDIT = '🖉';
+  public readonly SUN = '☀️';
+  public readonly MOON = '🌜';
 
   constructor() { }
 }

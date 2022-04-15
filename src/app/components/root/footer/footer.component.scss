@@ -2,9 +2,10 @@
 
 :host {
   padding: $ksi-padding-small $ksi-padding-small 0;
-  display: block;
+  display: flex;
   background: $ksi-navbar-bg;
   color: $ksi-navbar-fg;
+  justify-content: space-between;
 
   @media print {
     display: none;

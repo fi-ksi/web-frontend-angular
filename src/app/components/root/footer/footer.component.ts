@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
-import { VersionService } from "../../../services";
+import { IconService, ThemeService, VersionService } from "../../../services";
 
 @Component({
   selector: 'ksi-footer',
@@ -11,5 +11,13 @@ export class FooterComponent {
   @Output()
   changelogShow: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(public version: VersionService) {}
+  constructor(public version: VersionService, public icon: IconService, public theme: ThemeService) {}
+
+  switchTheme(): void {
+    if (this.theme.theme === 'dark') {
+      this.theme.setLightTheme();
+    } else {
+      this.theme.setDarkTheme();
+    }
+  }
 }

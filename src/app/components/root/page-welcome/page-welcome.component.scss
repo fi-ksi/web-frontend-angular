@@ -3,83 +3,137 @@
 
 :host {
   .about {
-    padding: $ksi-padding;
-    color: $ksi-page-fg;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    grid-row-gap: $ksi-margin;
-    background: $ksi-page-welcome-banner-bg;
+    width: 100%;
+    overflow: hidden;
+    height: 550px;
+    display: grid;
+    padding-top: $ksi-padding;
+
+    background-image: url("../../../../assets/img/welcome.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-color: $ksi-page-welcome-banner-bg;
+
+    grid-template: "badges name"
+                   "badges __";
+    grid-template-columns: min-content 1fr;
+    grid-template-rows: min-content 1fr;
+    justify-content: center;
+
+    @media screen and (max-width: $ksi-max-mobile-width) {
+      background-image: none;
+      grid-template: "name"
+                     "badges";
+      height: auto;
+      padding-bottom: $ksi-margin;
+      background-color: $ksi-navbar-bg;
+    }
 
     .name {
+      margin-top: $ksi-margin;
+      grid-area: name;
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       margin-bottom: $ksi-margin;
       color: $ksi-white;
       text-shadow: 1px 1px 3px $ksi-blue-180;
 
       > * {
         text-align: center;
-        border-bottom: 2px solid $ksi-orange-90;
         padding: 0 $ksi-padding $ksi-padding-small;
       }
     }
 
-    .sections {
+    .images {
+      grid-area: badges;
       display: flex;
-      flex-wrap: wrap-reverse;
+      flex-wrap: wrap;
+      justify-content: start;
+      flex-direction: column;
+      margin-left: $ksi-margin-large;
 
-      .images {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-end;
-
-        @media screen and (max-width: $ksi-max-mobile-width) {
-          justify-content: center;
-        }
-
-        align-items: center;
-        flex-grow: 1;
-
-        > *:not(:last-child) {
-          margin-right: $ksi-margin;
-        }
-
-        img {
-          cursor: pointer;
-          height: 12rem;
-          transition: filter 0.2s;
-
-          &:hover, &.active {
-            filter: brightness(1.1);
-          }
-        }
+      > *:not(:last-child) {
+        margin-bottom: $ksi-margin;
       }
 
-      .begin {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+      @media screen and (max-width: $ksi-max-mobile-width) {
         justify-content: center;
-        flex-grow: 5;
+        align-items: center;
+        margin-right: $ksi-margin;
+        margin-bottom: $ksi-margin-small;
+      }
 
-        .tasks {
-          min-width: 70%;
-          margin-bottom: $ksi-margin-small;
+      align-items: center;
+      flex-grow: 1;
 
-          > * {
-            box-shadow: 2px 2px $ksi-blue-30;
-            background: $ksi-blue-70;
-            transition: background-color 0.2s;
-            color: $ksi-white;
-            width: 100%;
-            font-weight: bolder;
-            @include round-corner;
+      img {
+        cursor: pointer;
+        height: 160px;
+        transition: filter 0.2s;
+        filter: brightness(0.95);
 
-            &:hover {
-              background: $ksi-blue-100;
-            }
-          }
+        &:hover, &.active {
+          filter: brightness(1.1);
+        }
+      }
+    }
+  }
+
+  .begin {
+    padding: $ksi-padding;
+    background-color: $ksi-navbar-bg;
+    border-top: 1px solid $ksi-page-welcome-banner-bg;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    @media screen and (max-width: $ksi-max-mobile-width) {
+      background-color: $ksi-page-welcome-banner-bg;
+    }
+
+    .subjects {
+      display: flex;
+      margin-top: $ksi-margin;
+      flex-wrap: wrap;
+
+      @media screen and (max-width: $ksi-max-mobile-width) {
+        display: none;
+      }
+
+      > * {
+        color: $ksi-navbar-fg;
+        font-size: 1.5rem;
+        display: inline-block;
+        font-weight: bold;
+
+        &.active {
+          text-decoration: underline;
+        }
+
+        &:not(:last-child) {
+          margin-right: $ksi-margin;
+        }
+      }
+    }
+
+    .tasks {
+      width: 100%;
+      max-width: 12cm;
+      margin-bottom: $ksi-margin-small;
+
+      > * {
+        width: 100%;
+        font-weight: bolder;
+        @include round-corner;
+
+        @media screen and (max-width: $ksi-max-mobile-width) {
+          background-color: $ksi-blue-70;
+        }
+
+        &:hover {
+          background: $ksi-blue-100;
         }
       }
     }
@@ -90,12 +144,8 @@
     padding: $ksi-margin;
     background: $ksi-navbar-bg;
     color: $ksi-white;
-    border: 2px solid $ksi-page-welcome-banner-bg;
-    border-left: none;
-    border-right: none;
 
     slide {
-
       ::ng-deep {
         .item {
           width: 100%;
@@ -109,12 +159,6 @@
             align-items: center;
             text-align: justify-all;
             max-width: min(60%, 60ex);
-
-            .header {
-              font-weight: bold;
-              font-size: 1.25rem;
-              margin-bottom: $ksi-margin-small;
-            }
 
             .btn-go {
               box-shadow: 2px 2px $ksi-orange-60;
@@ -134,6 +178,12 @@
         }
       }
     }
+  }
+
+  .about-carousel-border {
+    width: 100%;
+    height: 0;
+    border-bottom: 4px solid $ksi-page-welcome-banner-bg;
   }
 
   .articles-organisators-container {

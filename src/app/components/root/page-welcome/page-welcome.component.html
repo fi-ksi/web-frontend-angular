@@ -4,33 +4,45 @@
       {{'root.navbar.title.long' | translate}}
     </span>
   </h1>
-  <div class="sections">
-    <div class="images">
-      <a (click)="toggleAboutInfo(0)">
-        <img src="assets/img/about/seminar.svg"
-             [alt]="'root.welcome.about.seminar.title' | translate"
-             [class.active]="aboutInfoShown && aboutInfoSlide === 0"
-        >
-      </a>
-      <a (click)="toggleAboutInfo(1)">
-        <img src="assets/img/about/kscuk.svg"
-             [alt]="'root.welcome.about.kscuk.title' | translate"
-             [class.active]="aboutInfoShown && aboutInfoSlide === 1"
-        >
-      </a>
-      <a (click)="toggleAboutInfo(2)">
-        <img src="assets/img/about/achievements.svg"
-             [alt]="'root.welcome.about.achievements.title' | translate"
-             [class.active]="aboutInfoShown && aboutInfoSlide === 2"
-        >
-      </a>
-    </div>
-    <div class="begin">
-      <a [routerLink]="['/', routes.routes.tasks._]" class="tasks">
-        <button class="btn-lg btn">{{'root.welcome.about.begin' | translate}}</button>
-      </a>
-      <a  class="more-info" [routerLink]="['/', routes.routes.about]">- {{'root.welcome.about.more-info' | translate}} -</a>
-    </div>
+  <div class="images">
+    <a (click)="toggleAboutInfo(0)" href="#">
+      <img src="assets/img/about/seminar.svg"
+           [alt]="'root.welcome.about.seminar.title' | translate"
+           [class.active]="aboutInfoShown && aboutInfoSlide === 0"
+      >
+    </a>
+    <a (click)="toggleAboutInfo(1)" href="#">
+      <img src="assets/img/about/kscuk.svg"
+           [alt]="'root.welcome.about.kscuk.title' | translate"
+           [class.active]="aboutInfoShown && aboutInfoSlide === 1"
+      >
+    </a>
+    <a (click)="toggleAboutInfo(2)" href="#">
+      <img src="assets/img/about/achievements.svg"
+           [alt]="'root.welcome.about.achievements.title' | translate"
+           [class.active]="aboutInfoShown && aboutInfoSlide === 2"
+      >
+    </a>
+  </div>
+</div>
+
+<div class="begin">
+  <a [routerLink]="['/', routes.routes.tasks._]" class="tasks">
+    <button class="btn-lg btn btn-ksi">{{'root.welcome.about.begin' | translate}}</button>
+  </a>
+  <a  class="more-info" [routerLink]="['/', routes.routes.about]">- {{'root.welcome.about.more-info' | translate}} -</a>
+  <div class="subjects">
+    <a href="#" (click)="toggleAboutInfo(0)" [class.active]="aboutInfoShown && aboutInfoSlide === 0">
+      {{'root.welcome.about.seminar.title' | translate}}
+    </a>
+    <span>-</span>
+    <a href="#" (click)="toggleAboutInfo(1)" [class.active]="aboutInfoShown && aboutInfoSlide === 1">
+      {{'root.welcome.about.kscuk.title' | translate}}
+    </a>
+    <span>-</span>
+    <a href="#" (click)="toggleAboutInfo(2)" [class.active]="aboutInfoShown && aboutInfoSlide === 2">
+      {{'root.welcome.about.achievements.title' | translate}}
+    </a>
   </div>
 </div>
 
@@ -44,7 +56,6 @@
 >
   <slide>
     <div class="content">
-      <span class="header">{{'root.welcome.about.seminar.title' | translate}}</span>
       <span class="text">{{'root.welcome.about.seminar.text' | translate}}</span>
       <button class="btn-lg btn btn-go"
               [routerLink]="['/', routes.routes.tasks._]">
@@ -54,7 +65,6 @@
   </slide>
   <slide>
     <div class="content">
-      <span class="header">{{'root.welcome.about.kscuk.title' | translate}}</span>
       <span class="text">{{'root.welcome.about.kscuk.text' | translate}}</span>
       <button class="btn-lg btn btn-go" (click)="openKScuk()">
         {{'root.welcome.about.lets-start' | translate}}
@@ -63,7 +73,6 @@
   </slide>
   <slide>
     <div class="content">
-      <span class="header">{{'root.welcome.about.achievements.title' | translate}}</span>
       <span class="text">{{'root.welcome.about.achievements.text' | translate}}</span>
       <button class="btn-lg btn btn-go"
               [routerLink]="['/', routes.routes.achievements]"
@@ -73,6 +82,7 @@
     </div>
   </slide>
 </carousel>
+<div class="about-carousel-border"></div>
 
 <div class="articles-organisators-container">
   <div class="articles-container">

@@ -48,6 +48,28 @@ Code highlighting
   }
 }
 
+.panel.card {
+  color: $ksi-page-fg;
+
+  &, .card-header {
+    background: $ksi-page-bg;
+    border-color: $ksi-article-preview-border-fg;
+  }
+
+  .card-header {
+    color: $ksi-title;
+  }
+
+  .accordion-toggle > button {
+    color: $ksi-page-fg;
+
+    &:hover, &:focus {
+      border-color: transparent;
+      text-decoration: none;
+    }
+  }
+}
+
 .modal-content {
   color: $ksi-page-fg;
   background: $ksi-modal-bg;

@@ -140,7 +140,7 @@ export class PageProfileComponent implements OnInit {
           const wave = waveScore[Number(waveId)];
           return {
             title: wave.title,
-            score: wave.current,
+            score: Math.round(10 * wave.current) / 10,
             tasksSolved: wave.solved,
             bars: PageProfileComponent.generateProgressBar(wave.current, wave.max)
           }
@@ -155,7 +155,7 @@ export class PageProfileComponent implements OnInit {
   }
 
   private static generateProgressBar(points: number, maxPoints: number, requiredPercentage = 60): BarValue[] {
-    const currentPercentage = 100 * points / maxPoints;
+    const currentPercentage = Math.round(100 * points / maxPoints);
     const leftRequiredPercentage = Math.max(0, requiredPercentage - currentPercentage);
     const currentUserPercentageFloored = Math.floor(currentPercentage);
 

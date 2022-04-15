@@ -42,11 +42,11 @@
 
       &.animate {
         animation: fly-in 1s;
-      }
 
-      @media screen and (max-width: $ksi-max-mobile-width) {
-        right: 0;
-        animation: none;
+        @media screen and (max-width: $ksi-max-mobile-width) {
+          right: 0;
+          animation: none;
+        }
       }
 
       > * {
@@ -102,10 +102,11 @@
 
         &.animate {
           animation: roll-in 1.2s;
-        }
 
-        @media screen and (max-width: $ksi-max-mobile-width) {
-          animation: none;
+          @media screen and (max-width: $ksi-max-mobile-width) {
+            animation: none;
+            right: 0;
+          }
         }
 
         &:hover, &.active {

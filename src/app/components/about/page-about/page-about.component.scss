@@ -16,16 +16,14 @@
     @include round-corner;
 
     > .question {
-      background-color: $ksi-orange-210;
       font-weight: bold;
       border-bottom: 1px solid $ksi-orange-160;
       padding: $ksi-padding-small;
-      color: $ksi-blue-40;
+      color: $ksi-title;
     }
 
     > .answer {
       padding: $ksi-padding-small;
-      background-color: $ksi-orange-220;
     }
   }
 }

@@ -3,7 +3,7 @@ import { StorageService } from "./storage.service";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { distinctUntilChanged } from "rxjs/operators";
 
-type Theme = 'dark' | 'light';
+export type Theme = 'dark' | 'light';
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +38,7 @@ export class ThemeService {
     const {classList} = document.body;
     classList.forEach((cls) => {
       if (cls.startsWith('theme-')) {
-        document.body.classList.remove(cls);
+        classList.remove(cls);
       }
     });
     classList.add(`theme-${theme}`);

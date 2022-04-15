@@ -21,6 +21,7 @@ import { QuillModule } from "ngx-quill";
 import { ModalServerErrorComponent } from './modal-server-error/modal-server-error.component';
 import { ModalRegisterComponent } from './modal-register/modal-register.component';
 import { ModalTermsOfUseComponent } from './modal-terms-of-use/modal-terms-of-use.component';
+import { AutoThemeDirective } from './auto-theme.directive';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { ModalTermsOfUseComponent } from './modal-terms-of-use/modal-terms-of-us
     ModalServerErrorComponent,
     ModalRegisterComponent,
     ModalTermsOfUseComponent,
+    AutoThemeDirective,
   ],
   exports: [
     ArticlePreviewComponent,
@@ -54,7 +56,8 @@ import { ModalTermsOfUseComponent } from './modal-terms-of-use/modal-terms-of-us
     TranslateSkillLevelPipe,
     TranslateGenderPipe,
     DiscussionThreadPostsComponent,
-    IconAchievementComponent
+    IconAchievementComponent,
+    AutoThemeDirective
   ],
   imports: [
     CommonModule,

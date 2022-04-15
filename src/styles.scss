@@ -27,15 +27,48 @@ Quill.js core style
 @import '~quill/dist/quill.bubble.css';
 @import '~quill/dist/quill.snow.css';
 
+/**
+Codemirror core style
+ */
 @import "~codemirror/lib/codemirror.css";
+.CodeMirror, .CodeMirror-gutters {
+  color: $ksi-code-fg;
+  background: $ksi-code-bg;
+}
 
+/**
+Code highlighting
+ */
+.hljs {
+  color: $ksi-code-fg;
+  background: $ksi-code-bg;
+
+  .hljs-meta .hljs-string, .hljs-regexp, .hljs-string{
+    color: $ksi-code-string-fg;
+  }
+}
+
+.modal-content {
+  color: $ksi-page-fg;
+  background: $ksi-modal-bg;
+}
+
+.form-control {
+  color: $ksi-page-fg;
+  background: $ksi-modal-bg;
+
+  &:focus {
+    color: $ksi-input-focus-fg;
+    background: $ksi-input-focus-bg;
+  }
+}
 
 .btn-ksi {
-  color: $ksi-white;
+  color: $ksi-navbar-fg;
   padding: $ksi-padding-small;
   text-decoration: none;
   transition: background-color 0.1s;
-  background-color: $ksi-orange-140;
+  background-color: $ksi-page-welcome-banner-bg;
   border-radius: 0;
 
   &.active,&:hover:not([disabled]),&[aria-expanded=true] {

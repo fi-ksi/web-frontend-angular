@@ -10,14 +10,15 @@
   display: block;
   border: 1px solid $ksi-orange-180;
   margin: $ksi-margin;
-  background: $ksi-orange-230;
+  background: $ksi-thumbnail-bg;
+  color: $ksi-page-fg;
   box-sizing: content-box;
   width: $width;
   padding: $ksi-padding-small;
   transition: all 0.3s;
 
   &:hover {
-    background-color: $ksi-orange-240;
+    background-color: $ksi-thumbnail-hover-bg;
     border-color: $ksi-orange-200;
   }
 

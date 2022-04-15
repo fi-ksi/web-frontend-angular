@@ -104,6 +104,11 @@
         button {
           text-align: center;
           padding: $ksi-padding-small;
+          color: $ksi-page-fg;
+
+          &:hover {
+            background: $ksi-dropdown-hover-bg;
+          }
         }
       }
 

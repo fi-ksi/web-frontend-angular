@@ -1,5 +1,5 @@
 <div class="about">
-  <h1 class="name">
+  <h1 class="name" [class.animate]="animate">
     <span>
       {{'root.navbar.title.long' | translate}}
     </span>
@@ -7,18 +7,21 @@
   <div class="images">
     <a (click)="toggleAboutInfo(0)" href="#">
       <img src="assets/img/about/seminar.svg"
+           [class.animate]="animate"
            [alt]="'root.welcome.about.seminar.title' | translate"
            [class.active]="aboutInfoShown && aboutInfoSlide === 0"
       >
     </a>
     <a (click)="toggleAboutInfo(1)" href="#">
       <img src="assets/img/about/kscuk.svg"
+           [class.animate]="animate"
            [alt]="'root.welcome.about.kscuk.title' | translate"
            [class.active]="aboutInfoShown && aboutInfoSlide === 1"
       >
     </a>
     <a (click)="toggleAboutInfo(2)" href="#">
       <img src="assets/img/about/achievements.svg"
+           [class.animate]="animate"
            [alt]="'root.welcome.about.achievements.title' | translate"
            [class.active]="aboutInfoShown && aboutInfoSlide === 2"
       >

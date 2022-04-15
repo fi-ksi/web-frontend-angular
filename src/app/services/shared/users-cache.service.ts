@@ -33,10 +33,7 @@ export class UsersCacheService {
     }
 
     return this.backend.http.usersGetSingle(userId, year?.id).pipe(
-      map((response) =>
-        ({...response.user, profile_picture: UsersCacheService.getOrgProfilePicture(response.user)})
-      ),
-      map((user) => this.getIUser(user)),
+      map((resp) => this.getIUser(resp.user)),
       tap((user) => {
         const cachedKeys = Object.keys(this.cache);
         let firstKey;
@@ -60,18 +57,15 @@ export class UsersCacheService {
       $isAdmin: isAdmin,
       $isOrg: isOrg,
       $year: typeof year !== "undefined" ? year : this.year.selected,
-      $fullName: fullName
+      $fullName: fullName,
+      profile_picture: UsersCacheService.getProfilePicture(user, isOrg)
     };
   }
 
-  public static getOrgProfilePicture(organisator: Pick<User, 'profile_picture' | 'gender'>): string {
-    // TODO get picture for all users
-    if (organisator.profile_picture) {
-      return Utils.fixUrl(`${environment.backend}${organisator.profile_picture}`);
+  public static getProfilePicture(user: Pick<User, 'profile_picture' | 'gender'>, isOrg: boolean): string {
+    if (user.profile_picture) {
+      return Utils.fixUrl(`${environment.backend}${user.profile_picture}`);
     }
-    if (organisator.gender === 'male') {
-      return 'assets/img/avatar/org.svg';
-    }
-    return 'assets/img/avatar/org-woman.svg';
+    return `assets/img/avatar/${isOrg ? 'org' : 'default'}${user.gender === 'male' ? '' : '-woman'}.svg`;
   }
 }

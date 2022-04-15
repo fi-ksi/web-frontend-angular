@@ -42,7 +42,7 @@ export class BackendService {
         return of(null);
       }
       return this.http.basicProfileGetSingle().pipe(
-        map((resp) => ({...resp.basicProfile, profile_picture: UsersCacheService.getOrgProfilePicture(resp.basicProfile)})));
+        map((resp) => ({...resp.basicProfile, profile_picture: UsersCacheService.getProfilePicture(resp.basicProfile, false)})));
     }),
     shareReplay(1)
   );

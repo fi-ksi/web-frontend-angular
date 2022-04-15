@@ -99,7 +99,7 @@ export class YearsService {
         this.backend.http.usersGetAll('organisators', 'score', year?.id || undefined)
       ), map((response) => response.users.map((user) => ({
         ...user,
-        profile_picture: UsersCacheService.getOrgProfilePicture(user)
+        profile_picture: UsersCacheService.getProfilePicture(user, true)
       })))
     );
 

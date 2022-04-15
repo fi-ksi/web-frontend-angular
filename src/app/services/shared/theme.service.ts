@@ -9,9 +9,10 @@ export type Theme = 'dark' | 'light';
   providedIn: 'root'
 })
 export class ThemeService {
-  private storage: StorageService;
   private static THEME_DEFAULT: Theme = 'light';
 
+  private readonly themeBroadcastChannel = new BroadcastChannel('ksi-theme');
+  private storage: StorageService;
   private readonly themeChangeSubject: Subject<Theme> = new BehaviorSubject(ThemeService.THEME_DEFAULT);
   readonly theme$: Observable<Theme> = this.themeChangeSubject.asObservable().pipe(distinctUntilChanged());
   theme: Theme = ThemeService.THEME_DEFAULT;
@@ -24,6 +25,8 @@ export class ThemeService {
     } else {
       this.setDarkTheme(false);
     }
+
+    this.themeBroadcastChannel.onmessage =(message: MessageEvent<Theme>) => this.setTheme(message.data, false);
   }
 
   public setLightTheme(saveSelection = true): void {
@@ -46,6 +49,7 @@ export class ThemeService {
 
     if(saveSelection) {
       this.storage.set<Theme>('selected', theme, ThemeService.THEME_DEFAULT);
+      this.themeBroadcastChannel.postMessage(theme);
     }
   }
 }

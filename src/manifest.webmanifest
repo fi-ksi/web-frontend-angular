@@ -1,8 +1,8 @@
 {
   "name": "Korespondenční seminář z informatiky",
   "short_name": "KSI",
-  "theme_color": "#FBAF40",
-  "background_color": "#fafafa",
+  "theme_color": "#233140",
+  "background_color": "#233140",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",

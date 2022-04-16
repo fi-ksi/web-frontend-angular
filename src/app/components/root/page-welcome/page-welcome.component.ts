@@ -8,9 +8,6 @@ import { BackendService, KsiTitleService, RoutesService, WindowService, YearsSer
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PageWelcomeComponent implements OnInit {
-  static ANIMATION_SHOWN = false;
-
-  animate = false;
 
   aboutInfoSlide = 0;
   aboutInfoShown = false;
@@ -27,10 +24,6 @@ export class PageWelcomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.title.subtitle = null;
-
-    if (!PageWelcomeComponent.ANIMATION_SHOWN) {
-      this.animate = PageWelcomeComponent.ANIMATION_SHOWN = true;
-    }
   }
 
   toggleAboutInfo(slide: number): void {

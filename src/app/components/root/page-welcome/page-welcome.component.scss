@@ -5,7 +5,7 @@
   .about {
     width: 100%;
     overflow: hidden;
-    height: 550px;
+    height: 450px;
     display: grid;
     padding-top: $ksi-padding;
 
@@ -13,7 +13,7 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    background-color: $ksi-page-welcome-banner-bg;
+    background-color: $ksi-navbar-bg;
 
     grid-template: "badges name"
                    "badges __";
@@ -27,7 +27,6 @@
                      "badges";
       height: auto;
       padding-bottom: $ksi-margin;
-      background-color: $ksi-navbar-bg;
     }
 
     .name {
@@ -39,35 +38,11 @@
       margin-bottom: $ksi-margin;
       color: $ksi-white;
       text-shadow: 1px 1px 3px $ksi-blue-180;
-
-      &.animate {
-        animation: fly-in 1s;
-
-        @media screen and (max-width: $ksi-max-mobile-width) {
-          right: 0;
-          animation: none;
-        }
-      }
+      font-size: 2.3rem;
 
       > * {
         text-align: center;
         padding: 0 $ksi-padding $ksi-padding-small;
-      }
-
-      @keyframes fly-in {
-        0% {
-          right: 100vw;
-          transform: scale(1.3) rotate(-15deg);
-          letter-spacing: 20px;
-        }
-        70% {
-          right: 0;
-          transform: scale(1) rotate(0);
-          letter-spacing: 5px;
-        }
-        100% {
-          letter-spacing: initial;
-        }
       }
     }
 
@@ -84,10 +59,10 @@
       }
 
       @media screen and (max-width: $ksi-max-mobile-width) {
-        justify-content: center;
+        justify-content: space-around;
         align-items: center;
-        margin-right: $ksi-margin;
         margin-bottom: $ksi-margin-small;
+        flex-direction: row;
       }
 
       align-items: center;
@@ -96,35 +71,26 @@
       img {
         position: relative;
         cursor: pointer;
-        height: 160px;
+        height: 130px;
         transition: filter 0.2s;
         filter: brightness(0.95);
 
-        &.animate {
-          animation: roll-in 1.2s;
+        @media screen and (max-width: $ksi-max-mobile-width) {
+          height: 8rem;
+        }
+
+        &:not(:last-child) {
+          margin-bottom: 8px;
 
           @media screen and (max-width: $ksi-max-mobile-width) {
-            animation: none;
-            right: 0;
+            margin-right: $ksi-margin;
+            margin-bottom: $ksi-margin-small;
+            height: 5rem;
           }
         }
 
         &:hover, &.active {
           filter: brightness(1.1);
-        }
-
-        @keyframes roll-in {
-          0% {
-            right: 100vw;
-            transform: rotate(180deg);
-          }
-          70% {
-            right: 0;
-            transform: rotate(120deg);
-          }
-          100% {
-            transform: rotate(0);
-          }
         }
       }
     }

@@ -12,6 +12,7 @@ import {
 import highlight from "highlight.js";
 import 'mathjax/es5/tex-svg'; // allows us to call window.MathJax.tex2svg
 import { TaskCollapsibleComponent } from "./task-collapsible/task-collapsible.component";
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 
 @Component({
   selector: 'ksi-task-body',
@@ -22,6 +23,11 @@ import { TaskCollapsibleComponent } from "./task-collapsible/task-collapsible.co
 export class TaskBodyComponent implements OnInit {
   @Input()
   body: string;
+
+  @Input()
+  trusted: boolean = false;
+
+  html: string | SafeHtml;
 
   @ViewChild('content', { static: false })
   set article(content: ElementRef<HTMLElement>) {
@@ -47,9 +53,15 @@ export class TaskBodyComponent implements OnInit {
 
   private panelFactory?: ComponentFactory<TaskCollapsibleComponent>;
 
-  constructor(private resolver: ComponentFactoryResolver, private container: ViewContainerRef) { }
+  constructor(private resolver: ComponentFactoryResolver, private container: ViewContainerRef, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
+    if (this.trusted) {
+      this.html = this.sanitizer.bypassSecurityTrustHtml(this.body);
+    } else {
+      this.html = this.body;
+    }
+    this.body = '';
   }
 
   private applyTaskContentStyle(rootElement: HTMLElement): void {

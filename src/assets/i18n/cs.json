@@ -91,7 +91,8 @@
       "password": "heslo",
       "login": "Přihlásit se",
       "failed": "Přihlášení selhalo - je kombinace jména a hesla správná?",
-      "register": "Ještě nemám účet, ale chci se zaregistrovat!"
+      "register": "Ještě nemám účet, ale chci se zaregistrovat!",
+      "forgotten-password": "Neznám svoje heslo"
     },
     "register": {
       "title": "Registruj se do KSI",
@@ -153,6 +154,11 @@
       "title": "Prosím potvrď",
       "yes": "Ano",
       "no": "Ne"
+    },
+    "reset-password": {
+      "title": "Obnovit zapomenuté heslo",
+      "submit": "Zaslat odkaz na obnovení hesla",
+      "done": "Požadavek úspěšně odeslán, prosím zkontroluj svůj email"
     }
   },
   "tasks": {

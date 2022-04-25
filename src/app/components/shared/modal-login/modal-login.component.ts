@@ -3,7 +3,7 @@ import { ModalComponent } from "../../../models";
 import { FormBuilder, Validators } from "@angular/forms";
 import { BackendService, ModalService } from "../../../services";
 import { Observable } from "rxjs";
-import { map, shareReplay, tap } from "rxjs/operators";
+import { map, shareReplay, take, tap } from "rxjs/operators";
 import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -82,5 +82,10 @@ export class ModalLoginComponent implements OnInit, ModalComponent {
         this.login();
       }
     );
+  }
+
+  openForgottenPasswordModal(): void {
+    this.modalRef.onHide?.pipe(take(1)).subscribe(() => this.modal.showForgottenPasswordModal());
+    this.modalRef.hide();
   }
 }

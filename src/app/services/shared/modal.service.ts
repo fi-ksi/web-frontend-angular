@@ -19,6 +19,9 @@ import { ModalRegisterComponent } from "../../components/shared/modal-register/m
 import { ModalTermsOfUseComponent } from "../../components/shared/modal-terms-of-use/modal-terms-of-use.component";
 import { Observable } from "rxjs";
 import { ModalYesNoComponent } from "../../components/shared/modal-yes-no/modal-yes-no.component";
+import {
+  ModalResetPasswordComponent
+} from "../../components/shared/modal-reset-password/modal-reset-password.component";
 
 @Injectable({
   providedIn: 'root'
@@ -113,6 +116,14 @@ export class ModalService {
     });
 
     ref.component.instance.form.patchValue({email, password});
+
+    return ref;
+  }
+
+  public showForgottenPasswordModal(email = ''): OpenedModal<ModalResetPasswordComponent> {
+    const ref = this.showModalComponent(ModalResetPasswordComponent);
+
+    ref.component.instance.form.patchValue({email});
 
     return ref;
   }

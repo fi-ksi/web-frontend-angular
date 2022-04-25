@@ -23,6 +23,7 @@ import { ModalRegisterComponent } from './modal-register/modal-register.componen
 import { ModalTermsOfUseComponent } from './modal-terms-of-use/modal-terms-of-use.component';
 import { AutoThemeDirective } from './auto-theme.directive';
 import { ModalYesNoComponent } from './modal-yes-no/modal-yes-no.component';
+import { ModalResetPasswordComponent } from './modal-reset-password/modal-reset-password.component';
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import { ModalYesNoComponent } from './modal-yes-no/modal-yes-no.component';
     ModalTermsOfUseComponent,
     AutoThemeDirective,
     ModalYesNoComponent,
+    ModalResetPasswordComponent,
   ],
   exports: [
     ArticlePreviewComponent,

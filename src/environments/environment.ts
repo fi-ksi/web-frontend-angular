@@ -6,7 +6,7 @@ import { Environment } from "./model";
 
 export const environment: Environment = {
   production: false,
-  disableRegistration: true,
+  disableRegistration: false,
   backend: 'http://localhost:3030/',
   urlPrefix: '',
   logger: {

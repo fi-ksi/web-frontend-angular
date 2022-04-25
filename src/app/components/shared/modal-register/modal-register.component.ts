@@ -69,10 +69,10 @@ export class ModalRegisterComponent implements OnInit, OnDestroy, ModalComponent
   ) { }
 
   ngOnInit(): void {
-    this.optional$ = this.translate.stream('modal.register.optional').pipe(map(() => this.translate.instant('modal.register.optional')));
+    this.optional$ = this.translate.get('modal.register.optional');
 
     if (environment.disableRegistration) {
-      this.errorMsg$ = this.translate.stream('modal.register.disabled').pipe(map(() => this.translate.instant('modal.register.disabled')));
+      this.errorMsg$ = this.translate.get('modal.register.disabled');
       this.form.disable();
     }
 

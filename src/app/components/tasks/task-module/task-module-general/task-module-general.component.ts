@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { ModuleService } from "../../../../services";
+import { ModalService, ModuleService } from "../../../../services";
 import { ModuleGeneral, ModuleGeneralSubmittedFiles } from "../../../../../api";
 import { Observable, Subject, Subscription } from "rxjs";
 import { debounceTime, map, mergeMap } from "rxjs/operators";
@@ -25,7 +25,7 @@ export class TaskModuleGeneralComponent implements OnInit, OnDestroy {
 
   private subs: Subscription[] = [];
 
-  constructor(private moduleService: ModuleService, private cd: ChangeDetectorRef) { }
+  constructor(private moduleService: ModuleService, private cd: ChangeDetectorRef, private modal: ModalService) { }
 
   ngOnInit(): void {
     this.submittedFiles = [...this.module.submitted_files];
@@ -90,8 +90,11 @@ export class TaskModuleGeneralComponent implements OnInit, OnDestroy {
   }
 
   deleteFile(file: ModuleGeneralSubmittedFiles) {
-    // TODO yes/no question
-    this.moduleService.deleteFile(file).subscribe(() => this.refreshSubmittedFiles.next());
+    this.modal.yesNo('tasks.module.general.delete-confirm', false).subscribe((confirmation) => {
+      if (confirmation) {
+        this.moduleService.deleteFile(file).subscribe(() => this.refreshSubmittedFiles.next());
+      }
+    });
   }
 
   downloadFile(file: ModuleGeneralSubmittedFiles) {

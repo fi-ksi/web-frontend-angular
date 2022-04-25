@@ -22,6 +22,7 @@ import { ModalServerErrorComponent } from './modal-server-error/modal-server-err
 import { ModalRegisterComponent } from './modal-register/modal-register.component';
 import { ModalTermsOfUseComponent } from './modal-terms-of-use/modal-terms-of-use.component';
 import { AutoThemeDirective } from './auto-theme.directive';
+import { ModalYesNoComponent } from './modal-yes-no/modal-yes-no.component';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { AutoThemeDirective } from './auto-theme.directive';
     ModalRegisterComponent,
     ModalTermsOfUseComponent,
     AutoThemeDirective,
+    ModalYesNoComponent,
   ],
   exports: [
     ArticlePreviewComponent,

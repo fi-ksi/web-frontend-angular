@@ -18,7 +18,7 @@ import { FormControl } from "@angular/forms";
 import * as CodeMirror from '../../../../../../node_modules/codemirror/lib/codemirror';
 import '../../../../../../node_modules/codemirror/mode/python/python';
 import { Observable, Subscription } from "rxjs";
-import { ModuleService, UserService } from "../../../../services";
+import { ModalService, ModuleService, UserService } from "../../../../services";
 import { mapTo, tap } from "rxjs/operators";
 
 @Component({
@@ -49,7 +49,7 @@ export class TaskModuleProgrammingComponent implements OnInit, OnDestroy {
 
   private subs: Subscription[] = [];
 
-  constructor(private moduleService: ModuleService, public user: UserService, private cd: ChangeDetectorRef) { }
+  constructor(private moduleService: ModuleService, public user: UserService, private cd: ChangeDetectorRef, private modal: ModalService) { }
 
   ngOnDestroy(): void {
     this.subs.forEach((sub) => sub.unsubscribe());
@@ -142,8 +142,11 @@ export class TaskModuleProgrammingComponent implements OnInit, OnDestroy {
   }
 
   reset(): void {
-    // TODO yes/no confirmation
-    this.code.setValue(this.module.default_code);
+    this.modal.yesNo('tasks.module.programming.reset-confirm', false).subscribe((confirmation) => {
+      if (confirmation) {
+        this.code.setValue(this.module.default_code);
+      }
+    });
   }
 
   /**

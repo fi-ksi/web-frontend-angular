@@ -1,0 +1,7 @@
+<ng-template #template>
+  <p class="question" *ngIf="question">{{question | translate}}</p>
+  <div class="controls">
+    <button class="btn btn-ksi yes" (click)="saveAnswer(true)">{{optionYes | translate}}</button>
+    <button class="btn btn-ksi no" (click)="saveAnswer(false)">{{optionNo | translate}}</button>
+  </div>
+</ng-template>

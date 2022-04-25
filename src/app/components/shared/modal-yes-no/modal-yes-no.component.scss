@@ -1,0 +1,30 @@
+@import "src/app/styles/vars";
+@import "src/app/styles/mixins";
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+
+  .btn {
+    flex-grow: 1;
+    width: 100%;
+    margin-top: $ksi-padding-small;
+
+    &.yes {
+      margin-right: $ksi-margin-small;
+    }
+
+    &.no {
+      margin-left: $ksi-margin-small;
+    }
+  }
+
+  @media screen and (max-width: $ksi-max-mobile-width) {
+    flex-direction: column;
+
+    .btn {
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+    }
+  }
+}

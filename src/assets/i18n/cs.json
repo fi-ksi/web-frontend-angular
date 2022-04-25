@@ -148,6 +148,11 @@
     "tos": {
       "title": "Souhlas se zpracováním osobních údajů",
       "ok": "Dobře"
+    },
+    "yes-no": {
+      "title": "Prosím potvrď",
+      "yes": "Ano",
+      "no": "Ne"
     }
   },
   "tasks": {
@@ -169,7 +174,8 @@
         "run-result": "Výstup kódu",
         "download": "Stáhnout kód",
         "upload": "Nahrát z disku",
-        "reset": "Obnovit výchozí kód"
+        "reset": "Obnovit výchozí kód",
+        "reset-confirm": "Tato akce smaže všechny tvoje úpravy. Vážně ji chceš provést?"
       },
       "general": {
         "submitted-files": "Nahrané soubory",
@@ -177,6 +183,7 @@
         "uploading": "Nahrávané",
         "upload": "Nahrát",
         "delete": "odstranit",
+        "delete-confirm": "Vážně chceš smazat tento soubor?",
         "download": "stáhnout",
         "select-file": "Vybrat soubory"
       },

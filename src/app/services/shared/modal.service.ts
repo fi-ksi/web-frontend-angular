@@ -9,7 +9,7 @@ import { ModalGenericComponent } from "../../components/shared/modal-generic/mod
 import { TranslateService } from "@ngx-translate/core";
 import { ModalComponent, OpenedModal, OpenedTemplate, PostReplyMode, PostsMap } from "../../models";
 import { ModalLoginComponent } from "../../components/shared/modal-login/modal-login.component";
-import { filter, mapTo, take } from "rxjs/operators";
+import { filter, map, mapTo, take } from "rxjs/operators";
 import { environment } from "../../../environments/environment";
 import { ModalOptions } from "ngx-bootstrap/modal";
 import { ModalPostReplyComponent } from "../../components/shared/modal-post-reply/modal-post-reply.component";
@@ -17,6 +17,8 @@ import { Post } from "../../../api";
 import { ModalServerErrorComponent } from "../../components/shared/modal-server-error/modal-server-error.component";
 import { ModalRegisterComponent } from "../../components/shared/modal-register/modal-register.component";
 import { ModalTermsOfUseComponent } from "../../components/shared/modal-terms-of-use/modal-terms-of-use.component";
+import { Observable } from "rxjs";
+import { ModalYesNoComponent } from "../../components/shared/modal-yes-no/modal-yes-no.component";
 
 @Injectable({
   providedIn: 'root'
@@ -117,6 +119,32 @@ export class ModalService {
 
   public showTOSModal(): OpenedModal<ModalTermsOfUseComponent> {
     return this.showModalComponent(ModalTermsOfUseComponent, { class: 'modal-full-page' });
+  }
+
+  public yesNo(
+    question: string | null = null,
+    defaultAnswer: boolean | null = null,
+    optionYes: string | null = null,
+    optionNo: string | null = null
+  ): Observable<boolean | null> {
+    const ref = this.showModalComponent(ModalYesNoComponent);
+    const {instance} = ref.component;
+
+    if (question) {
+      instance.question = question;
+    }
+    if (optionYes) {
+      instance.optionYes = optionYes;
+    }
+    if (optionNo) {
+      instance.optionNo = optionNo;
+    }
+    instance.cd.markForCheck();
+
+    return ref.afterClose$.pipe(map(() => {
+      const {answer} = instance;
+      return answer !== null ? answer : defaultAnswer;
+    }));
   }
 
   public showPostReplyModal(threadId: number, post: Post | null = null, posts: PostsMap | null = null, text: string = ''): OpenedModal<ModalPostReplyComponent> {

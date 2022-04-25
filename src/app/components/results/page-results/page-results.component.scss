@@ -21,10 +21,10 @@
 
     .results-table {
       tr.successful {
-        background: $ksi-orange-230;
+        background: $ksi-successful-result-fg-1;
 
         &:nth-of-type(2n+1) {
-          background: $ksi-orange-220;
+          background: $ksi-successful-result-fg-2;
         }
       }
 

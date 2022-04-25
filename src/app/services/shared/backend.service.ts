@@ -42,7 +42,13 @@ export class BackendService {
         return of(null);
       }
       return this.http.basicProfileGetSingle().pipe(
-        map((resp) => ({...resp.basicProfile, profile_picture: UsersCacheService.getProfilePicture(resp.basicProfile, false)})));
+        map((resp) => {
+          if (resp?.basicProfile?.signed_in) {
+            return {...resp.basicProfile, profile_picture: UsersCacheService.getProfilePicture(resp.basicProfile, false)};
+          }
+          this.logout();
+          return null;
+        }));
     }),
     shareReplay(1)
   );

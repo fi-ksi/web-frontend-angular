@@ -3,8 +3,8 @@
     <span *ngIf="resultOk">{{this.icon.CHECKMARK}}</span>
     <span *ngIf="user.isTester$ | async">
      ({{module.id}})
+    </span>
     {{ module.name }}
-  </span>
   </span>
   <span class="points" [class.font-weight-bold]="resultOk">
     {{ module.max_score | translatePoints }}

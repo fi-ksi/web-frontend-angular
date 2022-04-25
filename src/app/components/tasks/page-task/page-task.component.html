@@ -51,7 +51,7 @@
 
 <ng-template #bodySolution>
   <ng-container *ngIf="(task$ | async) as task">
-    <article class="body">
+    <article *ngIf="task.detail.taskDetails.solution" class="body">
       <ksi-task-body [body]="task.detail.taskDetails.solution" [trusted]="true"></ksi-task-body>
     </article>
   </ng-container>

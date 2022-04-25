@@ -9,9 +9,10 @@ import {
 } from "../../../services";
 import { ActivatedRoute, Router } from "@angular/router";
 import { catchError, distinctUntilChanged, filter, map, mergeMap, shareReplay, tap } from "rxjs/operators";
-import { combineLatest, Observable, of, Subscription, throwError } from "rxjs";
+import { BehaviorSubject, combineLatest, Observable, of, Subscription, throwError } from "rxjs";
 import { OpenedTemplate, TaskFullInfo } from "../../../models";
 import { UserService } from "../../../services";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'ksi-page-task',
@@ -36,6 +37,8 @@ export class PageTaskComponent implements OnInit, OnDestroy {
   private openedModal: OpenedTemplate | null = null;
 
   private static readonly ERR_LOGIN_DENIED = 'login-required-but-denied';
+
+  private readonly refreshTaskDetailsSubject = new BehaviorSubject<void>(undefined);
 
   private moduleChangeSubs: Subscription[] = [];
 
@@ -73,7 +76,9 @@ export class PageTaskComponent implements OnInit, OnDestroy {
       }),
       mergeMap((task) => combineLatest([
         of(task),
-        this.backend.http.taskDetailsGetSingle(task.id)
+        this.refreshTaskDetailsSubject.asObservable().pipe(
+          mergeMap(() => this.backend.http.taskDetailsGetSingle(task.id))
+        )
       ])),
       map(([head, detail]) => ({head, detail})),
       tap((task) => {
@@ -81,11 +86,15 @@ export class PageTaskComponent implements OnInit, OnDestroy {
 
         // Watch for module completions and navigate to the solution if user completes this task for the first time
         if (task.head.state !== "done") {
+          environment.logger.debug(`[TASK] this task is not done yet (${task.head.state})`);
           this.moduleChangeSubs.push(...task.detail.modules
             .map((module) => this.module.statusChanges(module).pipe(filter((change) => change?.result === "ok")).subscribe(() => {
               this.tasks.getTaskOnce(task.head.id, true, false).subscribe((newTask) => {
+                environment.logger.debug(`[TASK] got an update of current status change, now ${newTask.state}`);
                 if (newTask.state === "done") {
-                  this.router.navigate([], {fragment: this.routes.routes.tasks.solution}).then();
+                  environment.logger.debug(`[TASK] this task was just solved!`);
+                  this.refreshTaskDetailsSubject.next()
+                  this.router.navigate([], {fragment: this.routes.routes.tasks.solution}).then()
                 }
               });
             }))

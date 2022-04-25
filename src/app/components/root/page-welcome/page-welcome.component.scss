@@ -5,11 +5,10 @@
   .about {
     width: 100%;
     overflow: hidden;
-    height: 450px;
+    height: auto;
     display: grid;
     padding-top: $ksi-padding;
 
-    background-image: url("../../../../assets/img/welcome.jpg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -34,10 +33,10 @@
       margin-top: $ksi-margin;
       grid-area: name;
       display: flex;
-      justify-content: flex-start;
+      justify-content: center;
       margin-bottom: $ksi-margin;
-      color: $ksi-white;
-      text-shadow: 1px 1px 3px $ksi-blue-180;
+      color: $ksi-header-fg;
+      text-shadow: 1px 1px 3px $ksi-page-fg;
       font-size: 2.3rem;
 
       > * {
@@ -48,7 +47,7 @@
 
     .images {
       grid-area: badges;
-      display: flex;
+      display: none;
       flex-wrap: wrap;
       justify-content: flex-start;
       flex-direction: column;

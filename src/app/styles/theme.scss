@@ -2,15 +2,15 @@
 
 //noinspection DuplicatedCode
 body {
-  --ksi-page-bg: #{$ksi-orange-240};
+  --ksi-page-bg: #{$ksi-white};
   --ksi-page-fg: #{$ksi-gray-30};
 
   --ksi-modal-bg: #{$ksi-white};
 
-  --ksi-navbar-bg: #{$ksi-blue-30};
-  --ksi-navbar-fg: #{$ksi-white};
+  --ksi-navbar-bg: #{$ksi-white};
+  --ksi-navbar-fg: #{$ksi-blue-110};
 
-  --ksi-page-welcome-banner-bg: #{$ksi-orange-140};
+  --ksi-page-welcome-banner-bg: #{$ksi-orange-160};
   --ksi-header-fg: #{$ksi-blue-20};
 
   --ksi-footer-link-fg: #{$ksi-blue-190};
@@ -37,6 +37,9 @@ body {
   --ksi-successful-result-fg-2: #{$ksi-orange-220};
 
   &.theme-dark {
+    --ksi-navbar-bg: #{$ksi-gray-20};
+    --ksi-navbar-fg: #{$ksi-white};
+
     --ksi-page-bg: #{$ksi-gray-20};
     --ksi-page-fg: #{$ksi-gray-220};
 

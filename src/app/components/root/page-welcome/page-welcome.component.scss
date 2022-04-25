@@ -121,10 +121,6 @@
       margin-top: $ksi-margin;
       flex-wrap: wrap;
 
-      @media screen and (max-width: $ksi-max-mobile-width) {
-        display: none;
-      }
-
       > * {
         color: $ksi-navbar-fg;
         font-size: 1.5rem;
@@ -152,11 +148,7 @@
         @include round-corner;
 
         @media screen and (max-width: $ksi-max-mobile-width) {
-          background-color: $ksi-blue-70;
-        }
-
-        &:hover {
-          background: $ksi-blue-100;
+          border: 1px solid $ksi-blue-70;
         }
       }
     }
@@ -165,7 +157,7 @@
   .about-carousel {
     display: block;
     padding: $ksi-margin;
-    background: $ksi-navbar-bg;
+    background: $ksi-blue-100;
     color: $ksi-white;
 
     slide {

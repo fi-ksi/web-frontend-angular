@@ -48,16 +48,16 @@
     "welcome": {
       "about": {
         "seminar": {
-          "title": "Pochop informatiku",
-          "text": "KSI, neboli Korespondenční Seminář z Informatiky, je celoroční soutěž pro středoškoláky z České i Slovenské republiky organizovaná studenty Fakulty informatiky Masarykovy univerzity. Cílem semináře je seznámit řešitele se zajímavými oblastmi informatiky a procvičit programátorské, matematické a logické myšlení. Seminář je uzpůsoben jak pro úplné začátečníky, kteří si na jednoduchých příkladech procvičí danou problematiku, tak pro zkušenější řešitele, kteří se pokusí pokořit hlavní soutěžní úlohy."
+          "title": "Buď připraven",
+          "text": "Naskoč na FI je soubor úloh, která tě připraví na tvoje začátky na Fakultě informatiky Masarykovi univerzity. V Naskoč na FI tě provedeme takovými oblastmi, které se ti budou na FI hodit téměř každodenně."
         },
         "kscuk": {
-          "title":  "Zúčastni se soustřední a KSÍletů",
-          "text": "Při řešení našeho semináře nemusíš jen sedět doma za počítačem. Během roku pro všechny řešitele pravidelně pořádáme výlety (Ksílety), na kterých se můžeš seznámit s ostatními řešiteli, osobně poznat organizátory a zahrát si kupu zajímavých her. V září se mohou úspěšní řešitelé těšit na týdenní soustředění K-SCUK, které je společné pro KSI a  biologický seminář IBIS. Náplní soustředění je jak odborný program, díky kterému se opět naučíš něco nového z informatiky, tak bohatý doprovodný program."
+          "title":  "Zorientuj se na vysoké",
+          "text": "Víš jak dlouhý je semestr? Co je to ten kredit? Jak se máš přihlásit na zkoušky a projekty? Na střední tyhle pojmy moc neměly smysl, ale na vysoké se ti bude hodit je ovládat jako lusknutím prstu."
         },
         "achievements": {
-          "title": "Získej všechny trofeje",
-          "text": "Za každou vyřešenou úlohu dostáváš body. Pokud budeš mít na konci roku alespoň 60 % z celkového možného počtu bodů, staneš se úspěšným řešitelem. V průběhu řešení semináře můžeš navíc za překonávání milníků, odevzdávání zajímavých řešení nebo třeba za účast na KSI akcích obdržet nejrůznější odznáčky. Podaří se ti jich získat co nejvíc? Ulovíš i ty nejvzácnější? Soutěž s ostatními řešiteli a posbírej je všechny! "
+          "title": "Získej náskok",
+          "text": "Vyřeš všechny naše úlohy a přijď na FI se znalostmi, které ne všichni tvoji spolužáci budou mít. Díky tomu, že se nebudeš muset učit přihlásit se na fakultních počítačích, budeš moct využít získaný navíc!"
         },
         "begin":  "Začni řešit",
         "lets-start": "Jdu na to",

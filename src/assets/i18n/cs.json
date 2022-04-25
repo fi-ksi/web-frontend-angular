@@ -185,7 +185,9 @@
         "delete": "odstranit",
         "delete-confirm": "Vážně chceš smazat tento soubor?",
         "download": "stáhnout",
-        "select-file": "Vybrat soubory"
+        "select-file": "Vybrat soubory",
+        "size-to-large": "Maximální povolená velikost jednoho souboru je {{size}} MiB",
+        "too-many-files": "Nemůžeš nahrát více než {{count}} souborů"
       },
       "result": {
         "ok": "Tvé řešení je správné!",

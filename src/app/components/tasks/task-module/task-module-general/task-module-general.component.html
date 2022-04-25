@@ -15,6 +15,10 @@
   </li>
 </ul>
 
+<div *ngIf="error$ | async as error" class="alert alert-danger">
+  {{error | translate}}
+</div>
+
 <ng-container *ngIf="uploadedFile">
   <h6>{{'tasks.module.general.uploading'|translate}}</h6>
   <ul>
@@ -30,14 +34,14 @@
 <div class="buttons">
   <button
     class="btn btn-ksi"
-    [disabled]="submittedFiles.length + filesToUpload.length >= 20"
+    [disabled]="error$ | async"
     (click)="fileSelector.click()"
   >
     {{'tasks.module.general.select-file'|translate}}
   </button>
   <button
     class="btn btn-ksi"
-    [disabled]="this.uploadedFile || submittedFiles.length + filesToUpload.length >= 20 || !this.filesToUpload?.length"
+    [disabled]="this.uploadedFile || (error$ | async) || !this.filesToUpload?.length"
     (click)="upload()"
   >
     {{'tasks.module.general.upload'|translate}}

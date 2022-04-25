@@ -3,6 +3,7 @@ import { ModalService, ModuleService } from "../../../../services";
 import { ModuleGeneral, ModuleGeneralSubmittedFiles } from "../../../../../api";
 import { Observable, Subject, Subscription } from "rxjs";
 import { debounceTime, map, mergeMap } from "rxjs/operators";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'ksi-task-module-general',
@@ -16,6 +17,8 @@ export class TaskModuleGeneralComponent implements OnInit, OnDestroy {
 
   submittedFiles: ModuleGeneralSubmittedFiles[] = [];
 
+  error$: Observable<string>;
+
   private refreshSubmittedFiles: Subject<void> = new Subject<void>();
 
   filesToUpload: File[] = [];
@@ -25,7 +28,15 @@ export class TaskModuleGeneralComponent implements OnInit, OnDestroy {
 
   private subs: Subscription[] = [];
 
-  constructor(private moduleService: ModuleService, private cd: ChangeDetectorRef, private modal: ModalService) { }
+  private static readonly MAX_UPLOAD_SIZE_MB = 20;
+  private static readonly MAX_UPLOAD_FILES = 20;
+
+  constructor(
+    private moduleService: ModuleService,
+    private cd: ChangeDetectorRef,
+    private modal: ModalService,
+    private translate: TranslateService
+  ) { }
 
   ngOnInit(): void {
     this.submittedFiles = [...this.module.submitted_files];
@@ -37,6 +48,7 @@ export class TaskModuleGeneralComponent implements OnInit, OnDestroy {
           map((module) => module.submitted_files)
         ).subscribe((submittedFiles) => {
           this.submittedFiles = submittedFiles;
+          this.checkUploadAllowed();
           this.cd.markForCheck();
       })
     );
@@ -62,7 +74,6 @@ export class TaskModuleGeneralComponent implements OnInit, OnDestroy {
         this.upload();
         this.cd.markForCheck();
       }
-      // TODO handle fail
     });
   }
 
@@ -81,11 +92,13 @@ export class TaskModuleGeneralComponent implements OnInit, OnDestroy {
     }
     el.value = '';
 
+    this.checkUploadAllowed();
     this.cd.markForCheck();
   }
 
   cancelUpload(file: File): void {
     this.filesToUpload = this.filesToUpload.filter((x) => x !== file);
+    this.checkUploadAllowed();
     this.cd.markForCheck();
   }
 
@@ -99,5 +112,21 @@ export class TaskModuleGeneralComponent implements OnInit, OnDestroy {
 
   downloadFile(file: ModuleGeneralSubmittedFiles) {
     this.moduleService.downloadFile(file).subscribe();
+  }
+
+  private checkUploadAllowed(): void {
+    if (this.submittedFiles.length + this.filesToUpload.length > TaskModuleGeneralComponent.MAX_UPLOAD_FILES) {
+      this.error$ = this.translate
+        .get('tasks.module.general.too-many-files', {count: TaskModuleGeneralComponent.MAX_UPLOAD_FILES});
+      return;
+    }
+
+    for (let file of this.filesToUpload) {
+      if (file.size >= TaskModuleGeneralComponent.MAX_UPLOAD_SIZE_MB * 1024 * 1024) {
+        this.error$ = this.translate
+          .get('tasks.module.general.size-to-large', {size: TaskModuleGeneralComponent.MAX_UPLOAD_SIZE_MB});
+        return;
+      }
+    }
   }
 }

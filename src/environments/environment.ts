@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  disableRegistration: true,
   backend: 'http://localhost:3030/',
   urlPrefix: '',
   logger: {

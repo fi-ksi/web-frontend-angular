@@ -4,6 +4,7 @@
 
 export const environment = {
   production: true,
+  disableRegistration: true,
   backend: 'https://rest.ksi.fi.muni.cz/',
   urlPrefix: '/novy-web/',
   logger: {

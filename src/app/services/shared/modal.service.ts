@@ -163,8 +163,8 @@ export class ModalService {
     }));
   }
 
-  public showPostReplyModal(threadId: number, post: Post | null = null, posts: PostsMap | null = null, text: string = ''): OpenedModal<ModalPostReplyComponent> {
-    const mode: PostReplyMode = text ? 'edit' : 'reply';
+  public showPostReplyModal(threadId: number | null, post: Post | null = null, posts: PostsMap | null = null, text: string = ''): OpenedModal<ModalPostReplyComponent> {
+    const mode: PostReplyMode = threadId === null ? 'new-thread' : text ? 'edit' : 'reply';
     const title = `modal.post-reply.title.${mode}`;
 
     const ref = this.showModalComponent(ModalPostReplyComponent, {class: 'modal-full-page modal-post-reply'}, title);
@@ -174,7 +174,7 @@ export class ModalService {
     instance.posts = posts;
     instance.mode = mode;
     if (text) {
-      instance.reply.setValue(text);
+      instance.form.controls.content.setValue(text);
     }
     ref.component.changeDetectorRef.markForCheck();
     return ref;

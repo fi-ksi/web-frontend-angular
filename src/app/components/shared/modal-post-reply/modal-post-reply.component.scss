@@ -1,0 +1,10 @@
+@import "src/app/styles/vars";
+@import "src/app/styles/mixins";
+
+form > *:not(:last-child) {
+  margin-bottom: $ksi-margin;
+}
+
+.save-reply {
+  margin-top: $ksi-margin;
+}

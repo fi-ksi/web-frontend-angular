@@ -143,9 +143,11 @@
     },
     "post-reply": {
       "save-reply": "Uložit příspěvek",
+      "thread-name": "Název nového vlákna",
       "title": {
         "reply": "Vytvořit nový příspěvek",
-        "edit": "Upravit tento příspěvek"
+        "edit": "Upravit tento příspěvek",
+        "new-thread": "Vytvořit nové celoročníkové vlákno"
       }
     },
     "server-error": {
@@ -261,7 +263,8 @@
     "title": "Celoročníková diskuzní vlákna",
     "name": "Název",
     "posts-count": "Počet příspěvků",
-    "show-full": "Zobrazit celou diskuzi"
+    "show-full": "Zobrazit celou diskuzi",
+    "new": "Založit nové celoročníkové vlákno"
   },
   "new": {
     "single": "nový",

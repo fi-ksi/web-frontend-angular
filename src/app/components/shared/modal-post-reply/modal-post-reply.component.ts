@@ -1,10 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy, TemplateRef, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { ModalComponent, PostReplyMode, PostsMap } from "../../../models";
 import { BsModalRef } from "ngx-bootstrap/modal";
-import { FormControl, Validators } from "@angular/forms";
-import { BackendService } from "../../../services";
+import { FormBuilder, Validators } from "@angular/forms";
+import { BackendService, YearsService } from "../../../services";
 import { Post } from "../../../../api";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
+import { mergeMap, tap } from "rxjs/operators";
 
 @Component({
   selector: 'ksi-modal-post-reply',
@@ -15,21 +16,40 @@ import { Observable } from "rxjs";
 export class ModalPostReplyComponent implements OnInit, ModalComponent {
   post: Post | null;
   posts: PostsMap | null;
-  threadId: number;
-  mode: PostReplyMode = 'reply';
+  threadId: number | null;
+
+  get mode(): PostReplyMode {
+    return this._mode;
+  }
+
+  set mode(value: PostReplyMode) {
+    this._mode = value;
+    if (this._mode === 'new-thread') {
+      this.form.controls.threadName.setValidators([Validators.maxLength(ModalPostReplyComponent.THREAD_NAME_MAX_LENGTH), Validators.required]);
+    } else {
+      this.form.controls.threadName.setValidators([]);
+    }
+    this.cd.markForCheck();
+  }
+  private _mode: PostReplyMode = 'reply';
+
+  private static readonly THREAD_NAME_MAX_LENGTH = 100;
+
+  form = this.fb.group(({
+    threadName: ['', []],
+    content: ['', [Validators.required]],
+  }));
 
   @ViewChild('template', {static: true})
   templateBody: TemplateRef<unknown>;
 
   title = '';
 
-  reply = new FormControl(null, [Validators.required]);
-
   private modal: BsModalRef<unknown>;
 
   replied = false;
 
-  constructor(private cd: ChangeDetectorRef, private backend: BackendService) { }
+  constructor(private cd: ChangeDetectorRef, private backend: BackendService, private fb: FormBuilder, private year: YearsService) { }
 
   ngOnInit(): void {
   }
@@ -39,31 +59,42 @@ export class ModalPostReplyComponent implements OnInit, ModalComponent {
   }
 
   saveReply(): void {
-    if (!this.reply.valid) {
+    if (!this.form.valid) {
       return;
     }
-    this.reply.disable();
+    this.form.disable();
 
-    const reqNew$ = this.backend.http.postsCreateNew({
-      post: {
-        thread: this.threadId!,
-        parent: this.post !== null ? this.post.id : null,
-        body: this.reply.value
+    const reqThreadNew$ = this.backend.http.threadsCreateNew({
+      thread: {
+        _public: true,
+        title: this.form.controls.threadName.value,
+        year: this.year.selected!.id
       }
     });
 
-    const reqEdit$ = this.backend.http.postsEditSingle({
+    const reqPre$: Observable<unknown> = this.threadId === null ? reqThreadNew$.pipe(tap((r) => {
+      this.threadId = r.thread.id;
+    })) : of(true);
+
+    const reqNew = () => this.backend.http.postsCreateNew({
+      post: {
+        thread: this.threadId!,
+        parent: this.post !== null ? this.post.id : null,
+        body: this.form.controls.content.value
+      }
+    });
+
+    const reqEdit = () => this.backend.http.postsEditSingle({
       post: {
         author: this.post!.author,
-        body: this.reply.value
+        body: this.form.controls.content.value
       },
     }, this.post!.id);
 
-    const req$: Observable<unknown> = this.mode === "reply" ? reqNew$ : reqEdit$;
-
-    req$.subscribe(() => {
-      this.replied = true;
-      this.modal.hide();
-    });
+    reqPre$.pipe(mergeMap(() => this._mode !== "edit" ? reqNew() : reqEdit()))
+      .subscribe(() => {
+        this.replied = true;
+        this.modal.hide();
+      });
   }
 }

@@ -1,9 +1,5 @@
-<div>
-  <a href="https://forms.gle/PYuGoKCjCwyjkvgP6" target="_blank">Zpětná vazba</a><span style="display: none">{{'root.footer.license' | translate}}</span>
-  <div class="version" (click)="changelogShow.emit()">{{'root.footer.version' | translate}} {{version.version$ | async}}</div>
-</div>
-<div>
-  <button class="btn" (click)="switchTheme()">
-    {{ (theme.theme$ | async) === 'light' ? icon.MOON : icon.SUN}}
-  </button>
-</div>
+<a href="https://forms.gle/PYuGoKCjCwyjkvgP6" target="_blank">{{'root.footer.bug-report' | translate}}</a>
+-
+<span class="version" (click)="changelogShow.emit()">{{'root.footer.version' | translate}} {{version.version$ | async}}</span>
+-
+<span>{{'root.footer.license' | translate}}</span>

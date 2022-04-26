@@ -1,18 +1,16 @@
 @import "src/app/styles/vars";
 
 :host {
-  padding: $ksi-padding-small $ksi-padding-small 0;
-  display: flex;
+  padding: $ksi-padding-small $ksi-padding-small;
   background: $ksi-navbar-bg;
   color: $ksi-navbar-fg;
-  justify-content: space-between;
+  font-size: 0.75rem;
 
   @media print {
     display: none;
   }
 
   .version {
-    font-size: 0.75rem;
     cursor: pointer;
   }
 }

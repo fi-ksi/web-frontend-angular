@@ -12,7 +12,7 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    background-color: $ksi-navbar-bg;
+    background-color: $ksi-page-welcome-banner-bg;
 
     grid-template: "badges name"
                    "badges __";
@@ -36,8 +36,8 @@
       justify-content: center;
       margin-bottom: $ksi-margin;
       color: $ksi-header-fg;
-      text-shadow: 1px 1px 3px $ksi-page-fg;
       font-size: 2.3rem;
+      transform: scaleX(1.1);
 
       > * {
         text-align: center;
@@ -97,24 +97,12 @@
 
   .begin {
     padding: $ksi-padding;
-    background-color: $ksi-navbar-bg;
+    background-color: $ksi-page-welcome-banner-bg;
     border-top: 1px solid $ksi-page-welcome-banner-bg;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    @media screen and (max-width: $ksi-max-mobile-width) {
-      background-color: $ksi-page-welcome-banner-bg;
-    }
-
-    .more-info {
-      color: $ksi-footer-link-fg;
-
-      &:hover {
-        color: $ksi-footer-link-fg-hover;
-      }
-    }
 
     .subjects {
       display: flex;
@@ -146,10 +134,7 @@
         width: 100%;
         font-weight: bolder;
         @include round-corner;
-
-        @media screen and (max-width: $ksi-max-mobile-width) {
-          border: 1px solid $ksi-blue-70;
-        }
+        border: 1px solid $ksi-blue-70;
       }
     }
   }

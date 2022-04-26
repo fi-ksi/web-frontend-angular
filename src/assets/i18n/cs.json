@@ -26,7 +26,7 @@
       "category": {
         "tasks": "Úlohy",
         "results": "Výsledky",
-        "about": "O KSI",
+        "about": "O Naskoč",
         "news": "Novinky",
         "discussion": "Diskuze",
         "admin": "Admin"
@@ -59,7 +59,7 @@
           "title": "Získej náskok",
           "text": "Vyřeš všechny naše úlohy a přijď na FI se znalostmi, které ne všichni tvoji spolužáci budou mít. Díky tomu, že se nebudeš muset učit přihlásit se na fakultních počítačích, budeš moct využít získaný navíc!"
         },
-        "begin":  "Začni řešit",
+        "begin":  "Chci naskočit",
         "lets-start": "Jdu na to",
         "more-info": "Zjisti více"
       },
@@ -67,7 +67,7 @@
         "title": "Novinky"
       },
       "organisators": {
-        "title": "Organizátoři KSI"
+        "title": "Organizátoři Naskoč na FI"
       }
     }
   },
@@ -75,7 +75,7 @@
     "title": "Novinky"
   },
   "about": {
-    "title": "O KSI"
+    "title": "O Naskoč na FI"
   },
   "results": {
     "title": "Výsledky",
@@ -93,7 +93,7 @@
   },
   "modal": {
     "login": {
-      "title": "Přihlaš se do KSI",
+      "title": "Přihlaš se do Naskoč na FI",
       "email": "e-mail",
       "password": "heslo",
       "login": "Přihlásit se",
@@ -102,7 +102,7 @@
       "forgotten-password": "Neznám svoje heslo"
     },
     "register": {
-      "title": "Registruj se do KSI",
+      "title": "Registruj se do Naskoč na FI",
       "register": "Zaregistrovat se!",
       "fill-testing": "[DEV] Rychlá registrace",
       "optional": "Nepovinné - ",
@@ -139,7 +139,7 @@
       },
       "tos": {
         "title": "Souhlasy",
-        "agreed": "Souhlasím s pravidly KSI a ",
+        "agreed": "Souhlasím s pravidly Naskoč na FI a ",
         "text": "zpracováním svých osobních údajů"
       }
     },

@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from "@angular/forms";
 import { BehaviorSubject } from "rxjs";
 import { BsModalRef } from "ngx-bootstrap/modal";
 import { BackendService } from "../../../services";
+import { ModalComponent } from "../../../models";
 
 @Component({
   selector: 'ksi-modal-reset-password',
@@ -10,7 +11,7 @@ import { BackendService } from "../../../services";
   styleUrls: ['./modal-reset-password.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ModalResetPasswordComponent implements OnInit {
+export class ModalResetPasswordComponent implements OnInit, ModalComponent {
   @ViewChild('template', {static: true})
   templateBody: TemplateRef<unknown>;
 

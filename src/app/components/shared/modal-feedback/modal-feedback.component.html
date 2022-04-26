@@ -1,0 +1,29 @@
+<ng-template #template>
+  <p [innerHTML]="'modal.feedback.text' | translate"></p>
+
+  <form (submit)="sendFeedback()" [formGroup]="form">
+    <label for="feedback-email" class="form-label">{{'modal.feedback.email' | translate}}</label>
+    <input
+      id="feedback-email"
+      type="email"
+      class="form-control"
+      [placeholder]="'modal.feedback.email' | translate"
+      formControlName="email"
+    >
+
+    <textarea
+      class="form-control"
+      rows="5"
+      [placeholder]="'modal.feedback.content' | translate"
+      formControlName="content"
+    ></textarea>
+
+    <div *ngIf="showSuccess$ | async" class="alert alert-info" role="alert">
+      {{'modal.feedback.done' | translate}}
+    </div>
+
+    <button [disabled]="!form.valid" type="submit" class="btn btn-ksi w-100 btn-login">
+      {{'modal.feedback.submit' | translate}}
+    </button>
+  </form>
+</ng-template>

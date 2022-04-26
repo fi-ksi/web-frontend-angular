@@ -50,6 +50,7 @@
             <button ngbDropdownItem
                     [routerLink]="['/', routes.routes.profile._]"
             >{{'root.navbar.my-profile' | translate}}</button>
+            <button ngbDropdownItem (click)="modal.showFeedbackModal()">{{'root.navbar.feedback' | translate}}</button>
             <button ngbDropdownItem
                     [routerLink]="['/', routes.routes.profile._, routes.routes.profile.settings._]"
             >{{'root.navbar.settings' | translate}}</button>

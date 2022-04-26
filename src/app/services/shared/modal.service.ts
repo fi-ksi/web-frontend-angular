@@ -22,6 +22,7 @@ import { ModalYesNoComponent } from "../../components/shared/modal-yes-no/modal-
 import {
   ModalResetPasswordComponent
 } from "../../components/shared/modal-reset-password/modal-reset-password.component";
+import { ModalFeedbackComponent } from "../../components/shared/modal-feedback/modal-feedback.component";
 
 @Injectable({
   providedIn: 'root'
@@ -130,6 +131,10 @@ export class ModalService {
 
   public showTOSModal(): OpenedModal<ModalTermsOfUseComponent> {
     return this.showModalComponent(ModalTermsOfUseComponent, { class: 'modal-full-page' });
+  }
+
+  public showFeedbackModal(): OpenedModal<ModalFeedbackComponent> {
+    return this.showModalComponent(ModalFeedbackComponent, { class: 'modal-full-page' });
   }
 
   public yesNo(

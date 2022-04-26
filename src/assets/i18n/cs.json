@@ -225,9 +225,29 @@
       "task": "Úloha {{ name }}"
     },
     "settings": {
-      "open-button": "Otevřít nastavení zobrazení úloh",
+      "open-button": "Vysvětlení grafu a nastavení",
       "title": "Nastavení zobrazení úloh",
-      "split-waves": "Rozdělit graf podle vln"
+      "split-waves": "Rozdělit graf podle vln",
+      "explanation": {
+        "title": "Vysvětlení grafu",
+        "nodes": "Uzly",
+        "task": {
+          "algo": "Algoritmická úloha",
+          "programming": "Programovací úloha",
+          "special": "Speciální úloha",
+          "theoretical": "Teoretická úloha",
+          "surprise": "Úloha s překvapením",
+          "mixed": "Smíšená úloha",
+          "large": "Velká úloha",
+          "locked": "Zamčená úloha",
+          "finished": "Opravená úloha",
+          "correcting": "Neopravená úloha"
+        },
+        "edges": {
+          "title": "Hrany",
+          "text": "Pro odemčení úlohy musíte mít odemčené všechny hrany stejné barvy směrující do ní."
+        }
+      }
     },
     "solution": "Řešení"
   },

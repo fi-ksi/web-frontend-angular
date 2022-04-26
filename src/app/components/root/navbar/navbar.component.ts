@@ -1,5 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { YearsService, WindowService, ModalService, BackendService, RoutesService } from 'src/app/services';
+import {
+  YearsService,
+  WindowService,
+  ModalService,
+  BackendService,
+  RoutesService,
+  ThemeService
+} from 'src/app/services';
 import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
 import { map, mapTo, tap } from 'rxjs/operators';
 import { YearSelect } from "../../../models";
@@ -27,7 +34,8 @@ export class NavbarComponent implements OnInit {
     public years: YearsService,
     public modal: ModalService,
     public backend: BackendService,
-    public routes: RoutesService
+    public routes: RoutesService,
+    public theme: ThemeService
   ) {}
 
   ngOnInit(): void {
@@ -65,5 +73,13 @@ export class NavbarComponent implements OnInit {
     e.stopPropagation();
     this.showFullMenuSubject.next(false);
     return false;
+  }
+
+  switchTheme(): void {
+    if (this.theme.theme === 'dark') {
+      this.theme.setLightTheme();
+    } else {
+      this.theme.setDarkTheme();
+    }
   }
 }

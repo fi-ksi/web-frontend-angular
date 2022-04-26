@@ -57,6 +57,7 @@ jobs:
             false
           fi
       - name: delete temporary release
+        if: always()
         uses: esoadamo/delete-release-action@v1.0.24
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

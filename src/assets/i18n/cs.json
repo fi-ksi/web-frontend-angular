@@ -48,8 +48,8 @@
     "welcome": {
       "about": {
         "seminar": {
-          "title": "Buď připraven",
-          "text": "Naskoč na FI je soubor úloh, která tě připraví na tvoje začátky na Fakultě informatiky Masarykovi univerzity. V Naskoč na FI tě provedeme takovými oblastmi, které se ti budou na FI hodit téměř každodenně."
+          "title": "Připrav se",
+          "text": "Naskoč na FI je soubor úloh, které tě připraví na tvoje začátky na Fakultě informatiky Masarykovy univerzity. V Naskoč na FI tě provedeme takovými oblastmi, které se ti budou na FI hodit téměř každodenně."
         },
         "kscuk": {
           "title":  "Zorientuj se na vysoké",
@@ -57,7 +57,7 @@
         },
         "achievements": {
           "title": "Získej náskok",
-          "text": "Vyřeš všechny naše úlohy a přijď na FI se znalostmi, které ne všichni tvoji spolužáci budou mít. Díky tomu, že se nebudeš muset učit přihlásit se na fakultních počítačích, budeš moct využít získaný navíc!"
+          "text": "Vyřeš všechny naše úlohy a přijď na FI se znalostmi, které ne všichni tvoji spolužáci budou mít. Díky tomu, že se nebudeš muset učit přihlásit se na fakultních počítačích, budeš moct využít získaný čas navíc na cokoliv, co si budeš přát!"
         },
         "begin":  "Chci naskočit",
         "lets-start": "Jdu na to",

@@ -135,7 +135,8 @@
       "school": {
         "title": "Moje škola",
         "name": "Jméno mé školy",
-        "end": "Rok maturity (předpokládaný)"
+        "end": "Rok maturity",
+        "fi-mu": "Jsem z FI MU"
       },
       "tos": {
         "title": "Souhlasy",

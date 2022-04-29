@@ -28,6 +28,7 @@ function main() {
     tar -xf "$downloadPath" -C "$extractDir" > /dev/null &&
     rm "$downloadPath" > /dev/null &&
     rsync -rE --delete-after "$extractDir/" "$TARGET_DIR" > /dev/null &&
+    chmod +x "$TARGET_DIR/cgi-bin/dist-update.sh" > /dev/null &&
     rm -rf "$extractDir" > /dev/null &&
     echo "OK"
   else

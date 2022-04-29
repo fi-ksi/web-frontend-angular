@@ -2,8 +2,7 @@ name: deploy-pubdev
 on:
   push:
     branches:
-      - 'ahlava'
-      - 'main'
+      - 'dev-ahlava'
 jobs:
   deploy-pubdev:
     runs-on: ubuntu-latest

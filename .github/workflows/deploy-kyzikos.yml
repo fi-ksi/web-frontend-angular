@@ -2,8 +2,7 @@ name: deploy-kyzikos
 on:
   push:
     branches:
-      - 'kyzikos'
-      - 'main'
+      - 'dev-kyzikos'
 jobs:
   deploy-kyzikos:
     runs-on: ubuntu-latest

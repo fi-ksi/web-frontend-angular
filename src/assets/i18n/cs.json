@@ -115,7 +115,8 @@
         "sex": {
           "title": "Pohlaví",
           "male": "Muž",
-          "female": "Žena"
+          "female": "Žena",
+          "other": "Jiné"
         },
         "shirt-size": "velikost trička"
       },
@@ -304,41 +305,50 @@
     "role": {
       "admin": {
         "male": "organizátor",
-        "female": "organizátorka"
+        "female": "organizátorka",
+        "other": "organizátor"
       },
       "org": {
         "male": "organizátor",
-        "female": "organizátorka"
+        "female": "organizátorka",
+        "other": "organizátor"
       },
       "tester": {
         "male": "organizátor",
-        "female": "organizátorka"
+        "female": "organizátorka",
+        "other": "organizátor"
       },
       "participant": {
         "male": "řešitel",
-        "female": "řešitelka"
+        "female": "řešitelka",
+        "other": "řešitel"
       }
     },
     "skill": {
       "none": {
         "male": "nezkušený",
-        "female": "nezkušená"
+        "female": "nezkušená",
+        "other": "nezkušený"
       },
       "novice": {
         "male": "nový",
-        "female": "nová"
+        "female": "nová",
+        "other": "nový"
       },
       "skilled": {
         "male": "zkušený",
-        "female": "zkušená"
+        "female": "zkušená",
+        "other": "zkušený"
       },
       "master": {
         "male": "mistr",
-        "female": "mistrině"
+        "female": "mistrině",
+        "other": "mistr"
       },
       "veteran": {
         "male": "veterán",
-        "female": "veteránka"
+        "female": "veteránka",
+        "other": "veterán"
       }
     }
   },
@@ -359,7 +369,8 @@
         "sex": {
           "title": "Pohlaví",
           "male": "Muž",
-          "female": "Žena"
+          "female": "Žena",
+          "other": "Jiné"
         },
         "shirt-size": "Velikost trička"
       },
@@ -386,17 +397,20 @@
     "tasks": {
       "author": {
         "male": "Autor úloh",
-        "female": "Autorka úloh"
+        "female": "Autorka úloh",
+        "other": "Autor úloh"
       },
       "participant": {
         "male": "Vyřešené úlohy",
+        "other": "Vyřešené úlohy",
         "female": "Vyřešené úlohy"
       },
       "no-yet": "V tomto ročníku nemá {{name}} zatím žádné zveřejněné úlohy"
     },
     "seasons": {
       "male": "Účastnil se ročníků",
-      "female": "Účastnila se ročníků"
+      "female": "Účastnila se ročníků",
+      "other": "Účastnil se ročníků"
     },
     "trophies": "Získané trofeje",
     "stats": {

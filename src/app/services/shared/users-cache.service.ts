@@ -66,6 +66,6 @@ export class UsersCacheService {
     if (user.profile_picture) {
       return Utils.fixUrl(`${environment.backend}${user.profile_picture}`);
     }
-    return `assets/img/avatar/${isOrg ? 'org' : 'default'}${user.gender === 'male' ? '' : '-woman'}.svg`;
+    return `assets/img/avatar/${isOrg ? 'org' : 'default'}${user.gender === 'female' ? '-woman' : ''}.svg`;
   }
 }

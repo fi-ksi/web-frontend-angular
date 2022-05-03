@@ -5,6 +5,7 @@ import { filter, map, mergeMap, shareReplay, take, tap } from "rxjs/operators";
 import { TaskWithIcon, WaveDetails } from "../../models";
 import { Task, Wave } from "src/api";
 import { Utils } from "../../util";
+import { environment } from "../../../environments/environment";
 
 type TasksLevelMap = {[taskId: number]: number};
 type TasksMap = {[taskId: number]: TaskWithIcon};
@@ -146,6 +147,46 @@ export class TasksService {
       levels.push(taskLevels[level]);
     }
 
+    /*
+    Optimize and minimize possible task crossings
+    For each task in every level compute:
+    - how many crossings occur
+    - how many crossing occur if the task is switched with a task to its left
+    If the new crossing count is smaller than the previous one, repeat whole process until no further
+    minimization is possible
+     */
+    const crossingOptimizationsStart = Date.now();
+    levels.forEach((level, levelIndex) => {
+      if (levelIndex === 0) {
+        // skip first level because it has no parents
+        return;
+      }
+
+      // change is set to false
+      let change = true;
+      while (change) {
+        change = false;
+        for (let taskIndex = 1; taskIndex < level.length; taskIndex++) {
+          // create new level with the task switched with the previous one
+          const levelNew = [...level];
+          levelNew[taskIndex] = level[taskIndex - 1];
+          levelNew[taskIndex - 1] = level[taskIndex];
+
+          const crossingsCur = TasksService.getLevelCrossingsCount(level, levels[levelIndex - 1]);
+          const crossingNew =  TasksService.getLevelCrossingsCount(levelNew, levels[levelIndex - 1]);
+
+          if (crossingNew < crossingsCur) {
+            change = true;
+            // new crossings count is smaller, apply the change
+            level[taskIndex] = levelNew[taskIndex];
+            level[taskIndex - 1] = levelNew[taskIndex - 1];
+          }
+        }
+      }
+    });
+
+    environment.logger.debug('[TASKS]', `optimization of ${tasks.length} tasks took ${Date.now() - crossingOptimizationsStart}ms`);
+
     return levels;
   }
 
@@ -171,6 +212,46 @@ export class TasksService {
       taskLevels[level].push(task);
     }
     return level;
+  }
+
+  /**
+   * Computes how many crosses of task prerequisites are present in this level order
+   * @param level current level to count crossing count for
+   * @param parent parent level of this level
+   * @private
+   */
+  private static getLevelCrossingsCount(level: TaskWithIcon[], parent: TaskWithIcon[]): number {
+    const parentIds = parent.map((t) => t.id);
+
+    let globalCrosses = 0;
+
+    level.forEach((task, taskI) => {
+      let taskCrosses = 0;
+
+      // compute how many previous tasks in this level have parent with higher index than this task
+      for (let task2I = 0; task2I < taskI; task2I ++) {
+        const task2 = level[task2I];
+        const task2ParentIndexes = Utils
+          .flatArray(task2.prerequisities)
+          .map((id) => parentIds.indexOf(id))
+          .filter((id) => id !== -1);
+        taskCrosses += task2ParentIndexes.filter((index) => index > taskI).length;
+      }
+
+      // compute how many following tasks in this level have parent with lower index than this task
+      for (let task2I = level.length - 1; task2I > taskI; task2I --) {
+        const task2 = level[task2I];
+        const task2ParentIndexes = Utils
+          .flatArray(task2.prerequisities)
+          .map((id) => parentIds.indexOf(id))
+          .filter((id) => id !== -1);
+        taskCrosses += task2ParentIndexes.filter((index) => index < taskI).length;
+      }
+
+      globalCrosses += taskCrosses;
+    });
+
+    return globalCrosses;
   }
 
   public static createTasksMap(tasks: TaskWithIcon[], saveInto?: TasksMap): TasksMap {

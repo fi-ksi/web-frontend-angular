@@ -10,6 +10,14 @@
     display: none;
   }
 
+  a {
+    color: $ksi-footer-link-fg;
+
+    &:hover {
+      color: $ksi-footer-link-fg-hover;
+    }
+  }
+
   .version {
     cursor: pointer;
   }

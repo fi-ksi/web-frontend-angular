@@ -109,6 +109,14 @@
       background-color: $ksi-page-welcome-banner-bg;
     }
 
+    .more-info {
+      color: $ksi-footer-link-fg;
+
+      &:hover {
+        color: $ksi-footer-link-fg-hover;
+      }
+    }
+
     .subjects {
       display: flex;
       margin-top: $ksi-margin;

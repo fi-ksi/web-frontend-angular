@@ -1,8 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { KsiTitleService, RoutesService, YearsService } from "../../../services";
-import { User } from "../../../../api";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { KsiTitleService, RoutesService, YearsService } from '../../../services';
+import { User } from '../../../../api';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Utils } from '../../../util';
 
 interface PositionedUser extends User {
   position: string;
@@ -28,8 +29,10 @@ export class PageResultsComponent implements OnInit {
   ngOnInit(): void {
     this.title.subtitle = 'results.title';
     this.categories = [
-      {name: 'results.category.highschoolers', users$: PageResultsComponent.countPositions(this.years.usersHighSchool$)},
-      {name: 'results.category.others', users$: PageResultsComponent.countPositions(this.years.usersOther$)},
+      {name: 'results.category.others',
+        users$: PageResultsComponent.countPositions(
+          combineLatest([this.years.usersOther$, this.years.usersHighSchool$]).pipe(map(([a, b]) => Utils.flatArray([a, b])))
+        )},
     ];
   }
 
@@ -49,7 +52,7 @@ export class PageResultsComponent implements OnInit {
         });
 
         let previousEndingPos = 1;
-        for (let score of scores) {
+        for (const score of scores) {
           scorePositions[score] = {
             from: previousEndingPos,
             to: previousEndingPos + scoresCount[score] - 1,

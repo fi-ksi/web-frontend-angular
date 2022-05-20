@@ -242,29 +242,9 @@
       "task": "Úloha {{ name }}"
     },
     "settings": {
-      "open-button": "Vysvětlení grafu a nastavení",
-      "title": "Nastavení zobrazení úloh",
-      "split-waves": "Rozdělit graf podle vln",
-      "explanation": {
-        "title": "Vysvětlení grafu",
-        "nodes": "Uzly",
-        "task": {
-          "algo": "Algoritmická úloha",
-          "programming": "Programovací úloha",
-          "special": "Speciální úloha",
-          "theoretical": "Teoretická úloha",
-          "surprise": "Úloha s překvapením",
-          "mixed": "Smíšená úloha",
-          "large": "Velká úloha",
-          "locked": "Zamčená úloha",
-          "finished": "Opravená úloha",
-          "correcting": "Neopravená úloha"
-        },
-        "edges": {
-          "title": "Hrany",
-          "text": "Pro odemčení úlohy musíte mít odemčené všechny hrany stejné barvy směrující do ní."
-        }
-      }
+      "open-button": "S čím mám začít?",
+      "title": "Nápověda se začátkem",
+      "explanation": "<p>Ze začátku vidíš všechna zveřejněná témata letošního ročníku zabalená. Aby se nějaké rozbalilo, stačí na něj kliknout. Obecně vzato je jedno, jakým tématem se rozhodneš začít, znalost jednoho tématu by neměla být potřeba pro pochopení jiného. Pokud tě nejvíce zajímá konkrétní část z letošních témat, neboj se do nich pustit jako prvních!</p><p>Témata také budou v průběhu ročníku přibývat, o každé takové změně se dozvíš v rámci <a href=novinky>Novinek</a> nebo emailem. Navíc, některá témata se navzájem na sebe odkazují, pokud je tedy projdeš všechny, získáš vhled hned z několika stran. Nezapomeň ale, že úloha se ti otevře až poté, co vyřešíš všechny předchozí úlohy z tématu.</p><p>Tyto témata jsou v tuto chvíli zveřejněná:</p>"
     },
     "solution": "Řešení",
     "results": "Výsledky"

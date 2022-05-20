@@ -28,8 +28,8 @@ export class PageTasksComponent implements OnInit {
 
   splitWavesControl = new FormControl();
 
-  private static readonly WAVE_OPENED_DEFAULT = true;
-  private static readonly WAVE_GRAPH_SPLIT_DEFAULT = false;
+  private static readonly WAVE_OPENED_DEFAULT = false;
+  private static readonly WAVE_GRAPH_SPLIT_DEFAULT = true;
 
   constructor(
     public tasks: TasksService,

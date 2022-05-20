@@ -159,10 +159,20 @@ export class TaskModuleProgrammingComponent implements OnInit, OnDestroy {
     // @ts-ignore
     const editor = CodeMirror(this.codeEditorContainer.nativeElement, {
       lineNumbers: true,
+      indentUnit: 4,  // PEP-8 needs 4 spaces
+    });
+    // map tab key to spaces
+    editor.setOption("extraKeys", {
+      Tab: function(cm: any) {
+        const spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+        cm.replaceSelection(spaces);
+      }
     });
     // @ts-ignore
     editor.on('change', (event) => this.code.setValue(event.doc.getValue()));
-    this.subs.push(this.code.valueChanges.subscribe((value) => {
+    this.subs.push(this.code.valueChanges.subscribe((value: string) => {
+      // replace all tabs with spaces
+      value = value.replace(/\t/g, '    ');
       if (editor.doc.getValue() !== value) {
         editor.doc.setValue(value);
       }

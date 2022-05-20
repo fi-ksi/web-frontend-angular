@@ -1,6 +1,5 @@
-<a href="https://forms.gle/PYuGoKCjCwyjkvgP6" target="_blank">{{'root.footer.bug-report' | translate}}</a>
+<a href="https://forms.gle/8mPnU8iiJhjyGy2B9" target="_blank">{{'root.footer.bug-report' | translate}}</a>
 -
 <span class="version" (click)="changelogShow.emit()">{{'root.footer.version' | translate}} {{version.version$ | async}}</span>
 -
-<span>{{'root.footer.license' | translate}}</span>
-
+<span [innerHTML]="'root.footer.license' | translate"></span>

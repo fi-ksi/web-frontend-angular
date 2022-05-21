@@ -38,7 +38,11 @@ export class TasksService {
 
     this.waves$ =  year.selected$.pipe(
       mergeMap((year) => this.backend.http.wavesGetAll(year?.id)),
-      map((response) => response.waves)
+      map((response) => {
+        const {waves} = response;
+        waves.sort((a, b) => a.index - b.index);
+        return waves;
+      })
     );
 
     this.waveDetails$ = combineLatest([

@@ -26,9 +26,14 @@
 
 <ng-template #modalSettings>
   <div class="settings-explanation">
-    <div [innerHTML]="'tasks.settings.explanation' | translate"></div>
-    <ul>
-      <li  *ngFor="let wave of (nonEmptyWaves$ | async)">{{wave.caption}}</li>
-    </ul>
+    <ng-container *ngIf="(nonEmptyWaves$ | async) as waves; else noWavesYet">
+      <div [innerHTML]="'tasks.settings.explanation' | translate"></div>
+      <ul>
+        <li  *ngFor="let wave of waves">{{wave.caption}}</li>
+      </ul>
+    </ng-container>
+    <ng-template #noWavesYet>
+      <div [innerHTML]="'tasks.settings.empty' | translate"></div>
+    </ng-template>
   </div>
 </ng-template>

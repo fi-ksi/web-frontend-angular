@@ -40,18 +40,41 @@
       border-bottom: 2px solid $border-color;
     }
 
+    @media print {
+      padding-bottom: $ksi-padding;
+      border-bottom: 2px solid $border-color;
+    }
+
     .points {
       flex-shrink: 0;
       transition: font-weight 0.5s;
 
       .unpack {
         margin-left: $ksi-margin-small;
+
+        @media print {
+          display: none;
+        }
       }
     }
   }
 
   .description {
     padding-top: $ksi-padding;
+  }
+
+  .content-container {
+    &.packed {
+      visibility: hidden;
+      max-height: 0;
+      overflow: hidden;
+
+      @media print {
+        visibility: visible;
+        max-height: initial;
+        overflow: initial;
+      }
+    }
   }
 
   .result {

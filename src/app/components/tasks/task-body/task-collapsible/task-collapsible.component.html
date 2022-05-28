@@ -1,3 +1,10 @@
-<accordion [isAnimated]="true">
+<accordion [isAnimated]="true" class="content-dynamic">
   <accordion-group [heading]="title"><div [innerHTML]="content"></div></accordion-group>
 </accordion>
+
+<div class="content-static">
+  <div class="head">
+    {{title}}
+  </div>
+  <div class="content" [innerHTML]="content"></div>
+</div>

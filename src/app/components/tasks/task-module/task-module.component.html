@@ -12,7 +12,7 @@
   </span>
 </div>
 
-<ng-container *ngIf="!(packed$ | async)">
+<div class="content-container" [class.packed]="packed$ | async">
   <article class="description">
     <ksi-task-body [body]="module.description"></ksi-task-body>
   </article>
@@ -38,5 +38,4 @@
       <textarea class="area-code-output" [value]="status.report || ''" [readOnly]="true"></textarea>
     </ng-container>
   </ng-container>
-
-</ng-container>
+</div>

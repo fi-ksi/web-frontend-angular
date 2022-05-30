@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ICON_SRC="src/assets/img/icon.svg"
+ICON_SRC="src/assets/img/karlik_color.png"
 ICONS_DIR="src/assets/icons"
 
 cd "$(dirname "$(realpath "$0")")/../" || fail "Cannot cd here"

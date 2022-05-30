@@ -3,6 +3,7 @@ var _paq = window._paq = window._paq || [];
 _paq.push(["setDomains", ["*.ksi.fi.muni.cz"]]);
 _paq.push(["setDoNotTrack", true]);
 _paq.push(["disableCookies"]);
+_paq.push(["setExcludedQueryParams", ["fbclid"]]);
 
 _paq.push(['trackPageView']);
 

@@ -17,7 +17,7 @@ while true; do
   changelog="$changelogNew"
 done
 
-version="$(git log -1 --format="%at" | xargs -I{} date -d @{} +%y%m%d.%H%M%S)"
+version="$(git log -1 --format="%ct" | xargs -I{} date -d @{} +%y%m%d.%H%M%S)"
 
 echo "$version" > src/assets/changelog/version.txt
 echo "$changelog" > src/assets/changelog/changelog.json

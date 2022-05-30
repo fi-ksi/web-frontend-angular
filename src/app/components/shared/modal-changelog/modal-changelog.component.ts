@@ -81,7 +81,7 @@ export class ModalChangelogComponent implements OnInit, OnDestroy {
             }
 
             // filter out too old changes
-            const date = new Date(change.commiter.date);
+            const date = new Date(change.author.date);
             if (date < since!) {
               return;
             }

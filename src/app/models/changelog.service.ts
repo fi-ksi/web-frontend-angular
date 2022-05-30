@@ -1,6 +1,6 @@
 export interface ChangelogItem {
   subject: string;
-  commiter: {
+  author: {
     date: string;
   }
 }

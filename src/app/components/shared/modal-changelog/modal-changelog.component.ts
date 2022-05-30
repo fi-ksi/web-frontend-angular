@@ -8,10 +8,10 @@ import {
   OnDestroy
 } from '@angular/core';
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
-import { VersionService, StorageService } from "../../../services";
+import { VersionService, StorageService, UserService } from "../../../services";
 import { combineLatest, concat, of, Subscription } from "rxjs";
 import { DateInputFormControl } from "../../../util";
-import { skip } from "rxjs/operators";
+import { filter, skip, take } from "rxjs/operators";
 
 @Component({
   selector: 'ksi-modal-changelog',
@@ -41,7 +41,8 @@ export class ModalChangelogComponent implements OnInit, OnDestroy {
     private modalService: BsModalService,
     private version: VersionService,
     private cd: ChangeDetectorRef,
-    private storageRoot: StorageService
+    private storageRoot: StorageService,
+    private user: UserService,
   ) {
   }
 
@@ -103,7 +104,7 @@ export class ModalChangelogComponent implements OnInit, OnDestroy {
       this.changeCategories = Object.keys(this.changes).sort();
       this.cd.markForCheck();
       if (this.changeCategories.length) {
-        this.openModal();
+        this.user.isTester$.pipe(filter((x) => x), take(1)).subscribe(() => this.openModal());
       }
     }));
 

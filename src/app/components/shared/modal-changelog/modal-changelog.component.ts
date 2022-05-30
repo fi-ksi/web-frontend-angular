@@ -26,7 +26,7 @@ export class ModalChangelogComponent implements OnInit, OnDestroy {
   @ViewChild('template', {static: true})
   template: TemplateRef<unknown>;
 
-  changes: { [category: string]: { date: Date, caption: string, type: 'feat' | 'fix' }[] } = {};
+  changes: { [category: string]: { date: Date, caption: string, type: 'feat' | 'fix' | 'patch' }[] } = {};
   changeCategories: string[];
 
   controlSince = new DateInputFormControl();
@@ -65,7 +65,7 @@ export class ModalChangelogComponent implements OnInit, OnDestroy {
         return;
       }
 
-      const reCommitMessage = /^(feat|fix)(?:\((.*?)\))?:\s+(.*)$/;
+      const reCommitMessage = /^(feat|fix|patch)(?:\((.*?)\))?:\s+(.*)$/;
 
       this.changes = {};
       this.changeCategories = [];
@@ -86,7 +86,7 @@ export class ModalChangelogComponent implements OnInit, OnDestroy {
             }
 
             // sort changes by category
-            const type = reResult[1] as 'fix' | 'feat';
+            const type = reResult[1] as 'fix' | 'feat' | 'patch';
             const category = reResult[2] || '';
             const caption = reResult[3];
 

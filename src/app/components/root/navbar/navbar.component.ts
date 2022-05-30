@@ -8,9 +8,10 @@ import {
   ThemeService
 } from 'src/app/services';
 import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
-import { map, mapTo, tap } from 'rxjs/operators';
+import { filter, map, mapTo, tap } from 'rxjs/operators';
 import { YearSelect } from "../../../models";
 import { BasicProfileResponseBasicProfile } from "../../../../api";
+import { RouteConfigLoadEnd, RouteConfigLoadStart, Router } from "@angular/router";
 
 @Component({
   selector: 'ksi-navbar',
@@ -27,6 +28,8 @@ export class NavbarComponent implements OnInit {
 
   user$: Observable<BasicProfileResponseBasicProfile | null>;
 
+  loadingNewPage$: Observable<boolean>;
+
   private readonly showFullMenuSubject: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(
@@ -35,10 +38,16 @@ export class NavbarComponent implements OnInit {
     public modal: ModalService,
     public backend: BackendService,
     public routes: RoutesService,
-    public theme: ThemeService
+    public theme: ThemeService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.loadingNewPage$ = this.router.events.pipe(
+      filter((x) => x instanceof RouteConfigLoadStart || x instanceof RouteConfigLoadEnd),
+      map((x) => x instanceof RouteConfigLoadStart)
+    );
+
     this.user$ = this.backend.user$.pipe(
       tap((user) => {
         if (user) {

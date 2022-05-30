@@ -16,7 +16,6 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    border-bottom: 4px solid $ksi-page-welcome-banner-bg;
 
     @media screen and (max-width: $ksi-max-small-mobile-width) {
       flex-direction: column;
@@ -133,5 +132,31 @@
 
   .menu-opener {
     color: $ksi-navbar-fg;
+  }
+
+  > .navbar-separator {
+    height: 4px;
+    background: $ksi-page-welcome-banner-bg;
+    padding: 0;
+    margin: 0;
+    transition: background 0.5s;
+
+    &.loading {
+      background: repeating-linear-gradient(45deg, $ksi-page-welcome-banner-bg, $ksi-navbar-bg);
+      background-size: 200%;
+      animation: 1.5s loading-progress infinite linear;
+    }
+
+    @keyframes loading-progress {
+      0% {
+        background-position: top left;
+      }
+      50% {
+        background-position: bottom right;
+      }
+      100% {
+        background-position: top left;
+      }
+    }
   }
 }

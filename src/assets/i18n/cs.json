@@ -214,7 +214,7 @@
       "result": {
         "ok": "Tvé řešení je správné!",
         "nok": "Tvé řešení není správné",
-        "error": "Při vyhodnocování tvého řešení nastala chyba, kontaktuj organizátora"
+        "error": "Při vyhodnocování tvého řešení nastala chyba, můžeš to zkusit ještě jednout nebo kontaktuj organizátora"
       },
       "sortable": {
         "result": "Výsledek",

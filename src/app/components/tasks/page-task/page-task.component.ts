@@ -92,9 +92,10 @@ export class PageTaskComponent implements OnInit, OnDestroy {
               this.tasks.getTaskOnce(task.head.id, true, false).subscribe((newTask) => {
                 environment.logger.debug(`[TASK] got an update of current status change, now ${newTask.state}`);
                 if (newTask.state === "done") {
-                  environment.logger.debug(`[TASK] this task was just solved!`);
-                  this.refreshTaskDetailsSubject.next()
-                  this.router.navigate([], {fragment: this.routes.routes.tasks.solution}).then()
+                  environment.logger.debug('[TASK] this task was just solved!');
+                  this.refreshTaskDetailsSubject.next();
+                  this.tasks.updateTask(newTask, true);
+                  this.router.navigate([], {fragment: this.routes.routes.tasks.solution}).then();
                 }
               });
             }))

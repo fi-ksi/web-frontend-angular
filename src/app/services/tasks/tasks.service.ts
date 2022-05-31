@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { BackendService, YearsService, UserService } from "../shared";
 import { combineLatest, merge, Observable, of, Subject } from "rxjs";
-import { filter, map, mergeMap, shareReplay, take, tap } from "rxjs/operators";
+import { filter, map, mapTo, mergeMap, shareReplay, take, tap } from "rxjs/operators";
 import { TaskWithIcon, WaveDetails } from "../../models";
 import { Task, Wave } from "src/api";
 import { Utils } from "../../util";
+import { environment } from "../../../environments/environment";
 
-type TasksLevelMap = {[taskId: number]: number};
-type TasksMap = {[taskId: number]: TaskWithIcon};
-type TasksLevels = {[level: number]: TaskWithIcon[]};
+type TasksLevelMap = { [taskId: number]: number };
+type TasksMap = { [taskId: number]: TaskWithIcon };
+type TasksLevels = { [level: number]: TaskWithIcon[] };
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,8 @@ export class TasksService {
   readonly tasks$: Observable<TaskWithIcon[]>;
 
   private static readonly CACHE_MAX_SIZE = 100;
-  private readonly cache: {[taskId: number]: TaskWithIcon} = {};
+  private readonly cache: { [taskId: number]: TaskWithIcon } = {};
+  private readonly cacheRequirementsState: { [taskId: number]: { [requirementId: number]: string } } = {};
   private readonly taskUpdatesSubject: Subject<TaskWithIcon> = new Subject<TaskWithIcon>();
   private readonly taskUpdates$ = this.taskUpdatesSubject.asObservable();
 
@@ -36,7 +38,7 @@ export class TasksService {
       shareReplay(1)
     );
 
-    this.waves$ =  year.selected$.pipe(
+    this.waves$ = year.selected$.pipe(
       mergeMap((year) => this.backend.http.wavesGetAll(year?.id)),
       map((response) => {
         const {waves} = response;
@@ -54,12 +56,15 @@ export class TasksService {
           ...waveHead,
           tasks: tasks.filter((task) => task.wave === waveHead.id)
         }));
-    }), shareReplay(1)
+      }), shareReplay(1)
     );
 
     // flush cache on login change
     this.userService.isLoggedIn$
-      .subscribe(() => Object.keys(this.cache).forEach((key) => delete this.cache[Number(key)]));
+      .subscribe(() => {
+        Object.keys(this.cache).forEach((key) => delete this.cache[Number(key)]);
+        Object.keys(this.cacheRequirementsState).forEach((key) => delete this.cacheRequirementsState[Number(key)]);
+      });
   }
 
   /**
@@ -98,6 +103,7 @@ export class TasksService {
    * @param publishUpdate if set to false then no task update subscribers are notified upon update
    */
   public updateTask(task: Task, publishUpdate = true): void {
+    environment.logger.debug(`[TASK] updating task cache for task ${task.id}, publish update: ${publishUpdate}`);
     const taskWithIcon = TasksService.taskAddIcon(task);
 
     /*
@@ -106,7 +112,11 @@ export class TasksService {
     const cachedKeys = Object.keys(this.cache);
     let firstKey;
     while (cachedKeys.length >= TasksService.CACHE_MAX_SIZE && (firstKey = cachedKeys.shift())) {
-      delete this.cache[Number(firstKey)];
+      const key = Number(firstKey);
+      delete this.cache[key];
+      if (key in this.cacheRequirementsState) {
+        delete this.cacheRequirementsState[key];
+      }
     }
 
     /*
@@ -116,6 +126,53 @@ export class TasksService {
     if (publishUpdate) {
       this.taskUpdatesSubject.next(taskWithIcon);
     }
+  }
+
+  /**
+   * Watches for changes in the state of the requirements of the task
+   * @param task task to which requirements watch for
+   * @return Observable<true> emits whenever the state the requirements has changed from the initial state
+   */
+  public watchTaskRequirementsStateChange(task: TaskWithIcon): Observable<true> {
+    // watch tasks requirements for state change
+    const requirementsIDs = Utils.flatArray(task.prerequisities);
+
+    return combineLatest(requirementsIDs.map((watchedTaskId) => this.getTask(watchedTaskId))).pipe(
+      filter((tasks: TaskWithIcon[]) => {
+        let requirementsState;
+
+        if (task.id in this.cacheRequirementsState) {
+          environment.logger.debug(`[TASK] requirement watch cache reused for task ${task.id}`);
+          requirementsState = this.cacheRequirementsState[task.id];
+        } else if (task.id in this.cache) {
+          environment.logger.debug(`[TASK] requirement watch cache init for task ${task.id}`);
+          requirementsState = this.cacheRequirementsState[task.id] = {};
+        } else {
+          environment.logger.debug(`[TASK] requirement watch cache unavailable ${task.id}`);
+          requirementsState = {};
+        }
+
+        const changed: number[] = [];
+
+        for (const requirement of tasks) {
+          // compare states for changes
+          const savedState = requirementsState[requirement.id];
+          environment.logger.debug(`[TASK] requirement ${requirement.id} of task ${task.id} was ${savedState} and now is ${requirement.state}`);
+          if (savedState !== requirement.state) {
+            requirementsState[requirement.id] = requirement.state;
+            if (savedState !== undefined) {
+              changed.push(requirement.id);
+            }
+          }
+        }
+
+        const isChange = changed.length > 0;
+        if (isChange) {
+          environment.logger.debug(`[TASK] requirement of task ${task.id} have changed their state: ${changed}`);
+        }
+        return isChange;
+      }),
+      mapTo(true));
   }
 
   public static sortTasks(tasks: TaskWithIcon[], lockedLast: boolean): TaskWithIcon[] {

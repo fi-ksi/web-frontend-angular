@@ -55,6 +55,8 @@ export class ModalRegisterComponent implements OnInit, OnDestroy, ModalComponent
 
   countries = AddressService.COUNTRIES;
 
+  countries_keys = AddressService.COUNTRIES_KEYS;
+
   registrationSuccessful = false;
 
   private _subs: Subscription[] = [];

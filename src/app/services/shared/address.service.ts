@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AddressService {
-  public static readonly COUNTRIES = {
+  public static readonly COUNTRIES: { [country_id: string]: string } = {
     "cz": "Česko",
     "sk": "Slovensko",
     "AF": "Afghanistan",
@@ -255,6 +255,20 @@ export class AddressService {
     "ZM": "Zambia",
     "ZW": "Zimbabwe"
   };
+
+  public static readonly COUNTRIES_KEYS = Object.keys(AddressService.COUNTRIES).sort((a, b) => {
+    if (a.toLowerCase() === a && b.toLowerCase() !== b) {
+      return -1;
+    }
+    if (a.toLowerCase() !== a && b.toLowerCase() === b) {
+      return 1;
+    }
+
+    const valA = AddressService.COUNTRIES[a];
+    const valB = AddressService.COUNTRIES[b];
+
+    return valA.localeCompare(valB);
+  });
 
   constructor() { }
 }

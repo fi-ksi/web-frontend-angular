@@ -103,6 +103,7 @@
     "register": {
       "title": "Registruj se do KSI",
       "register": "Zaregistrovat se!",
+      "fill-testing": "[DEV] Rychlá registrace",
       "optional": "Nepovinné - ",
       "disabled": "Registrování bylo na této verzi webu dočasně vyřazeno",
       "about-me": {

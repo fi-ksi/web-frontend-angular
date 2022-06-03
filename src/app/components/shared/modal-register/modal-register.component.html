@@ -196,6 +196,14 @@
 
     <div class="row">
       <button
+        *ngIf="allowTestingAccountRegistration"
+        class="btn btn-ksi btn-register w-100"
+        [disabled]="form.disabled"
+        (click)="registerTestingAccount()"
+      >
+        {{'modal.register.fill-testing'|translate}}
+      </button>
+      <button
         class="btn btn-ksi btn-register w-100"
         [disabled]="!form.valid || form.disabled"
         (click)="register()"

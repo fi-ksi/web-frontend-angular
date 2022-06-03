@@ -9,4 +9,5 @@ export interface Environment {
     warn: (...data: any[]) => void
   },
   disableRegistration?: boolean,
+  allowTestingAccountRegistration?: boolean,
 }

@@ -53,9 +53,11 @@ export class ModalRegisterComponent implements OnInit, OnDestroy, ModalComponent
 
   errorMsg$: Observable<string>;
 
-  countries = AddressService.COUNTRIES;
+  readonly countries = AddressService.COUNTRIES;
 
-  countries_keys = AddressService.COUNTRIES_KEYS;
+  readonly countries_keys = AddressService.COUNTRIES_KEYS;
+
+  readonly allowTestingAccountRegistration = environment.allowTestingAccountRegistration;
 
   registrationSuccessful = false;
 
@@ -111,6 +113,38 @@ export class ModalRegisterComponent implements OnInit, OnDestroy, ModalComponent
 
   ngOnDestroy(): void {
     this._subs.forEach((s) => s.unsubscribe());
+  }
+
+  registerTestingAccount(): void {
+    if (!this.allowTestingAccountRegistration) {
+      return;
+    }
+    const number = Math.floor(Date.now() / 1000);
+
+    this.form.patchValue({
+      email: `quick-test-${number}@localhost`,
+      nick: '[DEV]',
+      firstName: 'Test',
+      lastName: `${number}`,
+      sex: Math.random() < 0.5 ? 'male' : 'female',
+      aboutMe: '',
+      address: 'Testing',
+      city: 'City',
+      postalCode: '4242',
+      country: 'cz',
+      schoolName: 'FI MU',
+      schoolAddress: 'Botanicka 68a',
+      schoolCity: 'Brno',
+      schoolPostalCode: '602 00',
+      schoolCountry: 'cz',
+      schoolEnd: '2012',
+      shirtSize: 'S',
+      password: '123456',
+      passwordRepeat: '123456',
+      tos: true
+    });
+
+    this.register();
   }
 
   openTOS(e: MouseEvent): false {

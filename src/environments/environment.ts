@@ -14,7 +14,8 @@ export const environment: Environment = {
     error: console.error,
     debug: console.debug,
     warn: console.warn
-  }
+  },
+  allowTestingAccountRegistration: true
 };
 
 /*

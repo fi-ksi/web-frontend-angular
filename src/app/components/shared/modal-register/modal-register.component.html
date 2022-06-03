@@ -41,9 +41,9 @@
           <select class="form-control" formControlName="country">
             <option [value]="null">{{'modal.register.address.country'|translate}}</option>
             <option
-              *ngFor="let country of (countries | keyvalue)"
-              [value]="country.key"
-            >{{country.value}}</option>
+              *ngFor="let country of countries_keys"
+              [value]="country"
+            >{{countries[country]}}</option>
           </select>
         </div>
       </div>

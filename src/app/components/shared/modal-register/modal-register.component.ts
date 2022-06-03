@@ -92,10 +92,6 @@ export class ModalRegisterComponent implements OnInit, ModalComponent {
     this.modalRef = ref;
   }
 
-  ngOnDestroy(): void {
-    this._subs.forEach((s) => s.unsubscribe());
-  }
-
   registerTestingAccount(): void {
     if (!this.allowTestingAccountRegistration) {
       return;

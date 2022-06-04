@@ -13,5 +13,5 @@ import { Category } from './category';
 
 export interface FeedbackCreation { 
     categories: Array<Category>;
-    taskId: number;
+    taskId?: number;
 }

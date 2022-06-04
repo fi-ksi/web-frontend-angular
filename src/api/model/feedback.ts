@@ -13,7 +13,7 @@ import { Category } from './category';
 
 export interface Feedback { 
     categories: Array<Category>;
-    taskId: number;
+    taskId?: number;
     id: number;
     userId: number;
     lastUpdated: string;

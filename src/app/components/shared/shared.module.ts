@@ -11,7 +11,7 @@ import {
 import { TranslateModule } from "@ngx-translate/core";
 import { UsersInlineComponent } from './users-inline/users-inline.component';
 import { TooltipModule } from "ngx-bootstrap/tooltip";
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { TranslateSkillLevelPipe } from "../../pipes";
 import { IconAchievementComponent } from "./icon-achivement/icon-achievement.component";
 import { ModalGenericComponent } from "./modal-generic/modal-generic.component";
@@ -25,6 +25,8 @@ import { AutoThemeDirective } from './auto-theme.directive';
 import { ModalYesNoComponent } from './modal-yes-no/modal-yes-no.component';
 import { ModalResetPasswordComponent } from './modal-reset-password/modal-reset-password.component';
 import { ModalFeedbackComponent } from './modal-feedback/modal-feedback.component';
+import { FeedbackComponent } from './feedback/feedback.component';
+import { RatingModule } from "ngx-bootstrap/rating";
 
 
 @NgModule({
@@ -50,28 +52,32 @@ import { ModalFeedbackComponent } from './modal-feedback/modal-feedback.componen
     ModalYesNoComponent,
     ModalResetPasswordComponent,
     ModalFeedbackComponent,
+    FeedbackComponent,
   ],
-  exports: [
-    ArticlePreviewComponent,
-    SpinnerComponent,
-    TranslatePointsPipe,
-    TranslateNewItemsPipe,
-    DiscussionThreadComponent,
-    UsersInlineComponent,
-    TranslateRolePipe,
-    TranslateSkillLevelPipe,
-    TranslateGenderPipe,
-    DiscussionThreadPostsComponent,
-    IconAchievementComponent,
-    AutoThemeDirective
-  ],
+    exports: [
+        ArticlePreviewComponent,
+        SpinnerComponent,
+        TranslatePointsPipe,
+        TranslateNewItemsPipe,
+        DiscussionThreadComponent,
+        UsersInlineComponent,
+        TranslateRolePipe,
+        TranslateSkillLevelPipe,
+        TranslateGenderPipe,
+        DiscussionThreadPostsComponent,
+        IconAchievementComponent,
+        AutoThemeDirective,
+        FeedbackComponent
+    ],
   imports: [
     CommonModule,
     RouterModule,
     TranslateModule,
     TooltipModule,
     ReactiveFormsModule,
-    QuillModule
+    QuillModule,
+    RatingModule,
+    FormsModule
   ]
 })
 export class SharedModule {

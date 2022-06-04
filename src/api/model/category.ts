@@ -12,7 +12,7 @@
 
 export interface Category { 
     id: string;
-    answer: string;
+    answer?: string | number;
     ftype: Category.FtypeEnum;
     text: string;
 }

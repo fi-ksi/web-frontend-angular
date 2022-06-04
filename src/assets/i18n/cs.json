@@ -224,6 +224,17 @@
     },
     "discussion": "Diskuze",
     "deadline": "Datum ukončení",
+    "feedback": {
+      "send": "Odeslat zpětnou vazbu",
+      "sent": "Máme to, díky!",
+      "intro": "Jaké máš z této úlohy pocity?",
+      "edit": "Upravit zpětnou vazbu",
+      "incomplete": "Prosím, vyplň nejdříve všechny povinné položky",
+      "lime": {
+        "little": "Málo",
+        "much": "Moc"
+      }
+    },
     "graph":  {
       "task": "Úloha {{ name }}"
     },

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BackendService, YearsService, UserService } from "../shared";
-import { combineLatest, merge, Observable, of, Subject } from "rxjs";
-import { filter, map, mapTo, mergeMap, shareReplay, take, tap } from "rxjs/operators";
-import { TaskWithIcon, WaveDetails } from "../../models";
-import { Task, Wave } from "src/api";
-import { Utils } from "../../util";
-import { environment } from "../../../environments/environment";
+import { BackendService, YearsService, UserService } from '../shared';
+import { combineLatest, merge, Observable, of, Subject } from 'rxjs';
+import { filter, map, mapTo, mergeMap, shareReplay, take, tap } from 'rxjs/operators';
+import { TaskWithIcon, WaveDetails } from '../../models';
+import { Feedback, Task, Wave } from 'src/api';
+import { Cache, Utils } from '../../util';
+import { environment } from '../../../environments/environment';
 
 type TasksLevelMap = { [taskId: number]: number };
 type TasksMap = { [taskId: number]: TaskWithIcon };
@@ -18,6 +18,11 @@ export class TasksService {
   readonly waveDetails$: Observable<WaveDetails[]>;
   readonly waves$: Observable<Wave[]>;
   readonly tasks$: Observable<TaskWithIcon[]>;
+
+  public readonly cacheFeedbacks = new Cache<number, Feedback>(
+    TasksService.CACHE_MAX_SIZE,
+    (x) => this.backend.http.feedbackGetSingle(x).pipe(map((x) => x.feedback))
+  );
 
   private static readonly CACHE_MAX_SIZE = 100;
   private readonly cache: { [taskId: number]: TaskWithIcon } = {};
@@ -33,7 +38,7 @@ export class TasksService {
       mergeMap((year) => this.backend.http.tasksGetAll(year?.id)),
       map((response) => response.tasks.map((task) => TasksService.taskAddIcon(task))),
       tap((tasks) => {
-        tasks.forEach((task) => this.updateTask(task))
+        tasks.forEach((task) => this.updateTask(task));
       }),
       shareReplay(1)
     );
@@ -182,7 +187,7 @@ export class TasksService {
     }
     const locked: TaskWithIcon[] = [];
     const unlocked = flatLevels.filter((task) => {
-      if (task.state === "locked") {
+      if (task.state === 'locked') {
         locked.push(task);
         return false;
       }
@@ -193,7 +198,7 @@ export class TasksService {
   }
 
   public static splitToLevels(tasks: TaskWithIcon[], saveTaskMap?: TasksMap): TaskWithIcon[][] {
-    if (typeof saveTaskMap === "undefined") {
+    if (typeof saveTaskMap === 'undefined') {
       saveTaskMap = {};
     }
     TasksService.createTasksMap(tasks, saveTaskMap);
@@ -201,6 +206,7 @@ export class TasksService {
     const levels: TaskWithIcon[][] = [];
     const levelsCache: TasksLevelMap = {};
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     tasks.forEach((t) => TasksService.getTaskLevel(saveTaskMap!, t, levelsCache, taskLevels));
     const maxLevel = Math.max(...Object.keys(taskLevels).map((x) => Number(x)));
     for (let level = 0; level <= maxLevel; level++) {
@@ -211,10 +217,10 @@ export class TasksService {
   }
 
   public static getTaskLevel(tasksMap: TasksMap, task?: TaskWithIcon, knownLevels?: TasksLevelMap, taskLevels?: TasksLevels): number {
-    if (typeof task === "undefined" || !(task.id in tasksMap)) {
+    if (typeof task === 'undefined' || !(task.id in tasksMap)) {
       return -1;
     }
-    if (typeof knownLevels === "undefined") {
+    if (typeof knownLevels === 'undefined') {
       knownLevels = {};
     }
     if (task.id in knownLevels) {
@@ -225,7 +231,7 @@ export class TasksService {
       .map((requirementId) => TasksService.getTaskLevel(tasksMap, tasksMap[requirementId], knownLevels, taskLevels))
     );
     knownLevels[task.id] = level;
-    if (typeof taskLevels !== "undefined") {
+    if (typeof taskLevels !== 'undefined') {
       if (!(level in taskLevels)) {
         taskLevels[level] = [];
       }
@@ -235,7 +241,7 @@ export class TasksService {
   }
 
   public static createTasksMap(tasks: TaskWithIcon[], saveInto?: TasksMap): TasksMap {
-    const r: TasksMap = typeof saveInto === "undefined" ? {} : saveInto;
+    const r: TasksMap = typeof saveInto === 'undefined' ? {} : saveInto;
     tasks.forEach((t) => r[t.id] = t);
     return r;
   }

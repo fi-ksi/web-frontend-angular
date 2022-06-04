@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
-import { BackendService } from '../../../services';
+import { BackendService, TasksService } from '../../../services';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Feedback } from '../../../../api';
 import { map, tap } from 'rxjs/operators';
@@ -25,11 +25,10 @@ export class FeedbackComponent implements OnInit {
   readonly incompleteSubject = new BehaviorSubject<boolean>(false);
   readonly incomplete$ = this.incompleteSubject.asObservable();
 
-  constructor(private backend: BackendService) { }
+  constructor(private backend: BackendService, private tasks: TasksService) { }
 
   ngOnInit(): void {
-    this.feedback$ = this.backend.http.feedbackGetSingle(this.feedbackId).pipe(
-      map((x) => x.feedback),
+    this.feedback$ = this.tasks.cacheFeedbacks.getOnce(this.feedbackId).pipe(
       map((feedback) => {
         if (!feedback.taskId) {
           feedback.taskId = this.taskId;
@@ -49,6 +48,7 @@ export class FeedbackComponent implements OnInit {
       return;
     }
 
+    this.tasks.cacheFeedbacks.set(this.feedbackId, feedback);
     const req$: Observable<unknown> = feedback.filled
       ? this.backend.http.feedbackEditSingle({feedback}, this.feedbackId)
       : this.backend.http.feedbackCreateNew({feedback});

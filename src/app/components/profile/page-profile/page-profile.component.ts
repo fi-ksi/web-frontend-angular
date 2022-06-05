@@ -6,16 +6,16 @@ import {
   UsersCacheService,
   WindowService,
   YearsService,
-  UserService, TasksService
-} from "../../../services";
-import { ActivatedRoute, Router } from "@angular/router";
-import { combineLatest, Observable, of } from "rxjs";
-import { map, mergeMap, shareReplay, tap } from "rxjs/operators";
-import { IUser, TaskIDWithScore, UserProgress, WaveScore } from "../../../models";
-import { BarValue } from "ngx-bootstrap/progressbar/progressbar-type.interface";
-import { ROUTES } from "../../../../routes/routes";
-import { ProfileResponse } from "../../../../api";
-import { TranslateService } from "@ngx-translate/core";
+  UserService, TasksService, AddressService
+} from '../../../services';
+import { ActivatedRoute, Router } from '@angular/router';
+import { combineLatest, Observable, of } from 'rxjs';
+import { map, mergeMap, shareReplay, tap } from 'rxjs/operators';
+import { IUser, TaskIDWithScore, UserProgress, WaveScore } from '../../../models';
+import { BarValue } from 'ngx-bootstrap/progressbar/progressbar-type.interface';
+import { ROUTES } from '../../../../routes/routes';
+import { ProfileResponse } from '../../../../api';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'ksi-page-profile',
@@ -31,6 +31,8 @@ export class PageProfileComponent implements OnInit {
   userProgress$: Observable<UserProgress[]>;
 
   tasksWithScore$: Observable<TaskIDWithScore[]>;
+
+  readonly countries = AddressService.COUNTRIES;
 
   constructor(
     public userService: UserService,
@@ -56,12 +58,13 @@ export class PageProfileComponent implements OnInit {
         } else {
           return this.userService.forceLogin$.pipe(
             mergeMap(() => this.backend.user$),
-            tap((loggedUser) => this.router.navigate(['/', ROUTES.profile._, `${loggedUser!.id}`])),
-            map((loggedUser) => ({userId: loggedUser!.id, year}))
+            tap((loggedUser) => this.router.navigate(['/', ROUTES.profile._, `${loggedUser?.id}`])),
+            map((loggedUser) => ({userId: loggedUser?.id, year}))
           );
         }
       }),
-      mergeMap(({userId, year}) => this.users.getUser(userId, year)),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      mergeMap(({userId, year}) => this.users.getUser(userId!, year)),
       tap((user) => this.title.subtitle = user.first_name),
       shareReplay(1)
     );
@@ -79,7 +82,7 @@ export class PageProfileComponent implements OnInit {
       }),
       tap((profile) => {
         if (profile) {
-          profile.tasks.forEach((task) => this.tasks.updateTask(task))
+          profile.tasks.forEach((task) => this.tasks.updateTask(task));
         }
       }),
       shareReplay(1)
@@ -88,6 +91,7 @@ export class PageProfileComponent implements OnInit {
     this.tasksWithScore$ = combineLatest([this.user$, profile$]).pipe(
       map(([user, profile]) => {
         if (user.$isOrg) {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           return user.tasks!.map((taskId) => ({id: taskId}));
         }
         if (!profile) {
@@ -124,9 +128,9 @@ export class PageProfileComponent implements OnInit {
               if (task.wave in waveScore) {
                 waveScore[task.wave].current += taskScoresById[task.id];
                 switch (task.state) {
-                  case "done":
-                    waveScore[task.wave].solved += 1;
-                    break;
+                case 'done':
+                  waveScore[task.wave].solved += 1;
+                  break;
                 }
               }
             });
@@ -143,8 +147,8 @@ export class PageProfileComponent implements OnInit {
             score: Math.round(10 * wave.current) / 10,
             tasksSolved: wave.solved,
             bars: PageProfileComponent.generateProgressBar(wave.current, wave.max)
-          }
-        }).filter((wave) => wave.tasksSolved > 0)
+          };
+        }).filter((wave) => wave.tasksSolved > 0);
       }),
       shareReplay(1)
     );
@@ -172,6 +176,6 @@ export class PageProfileComponent implements OnInit {
         max: 100,
         label: currentPercentage < 50 ? `${currentUserPercentageFloored}%` : ''
       }
-    ]
+    ];
   }
 }

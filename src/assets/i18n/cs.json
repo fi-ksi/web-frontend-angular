@@ -388,7 +388,8 @@
       "participant": {
         "male": "Vyřešené úlohy",
         "female": "Vyřešené úlohy"
-      }
+      },
+      "no-yet": "V tomto ročníku nemá {{name}} zatím žádné zveřejněné úlohy"
     },
     "seasons": {
       "male": "Účastnil se ročníků",

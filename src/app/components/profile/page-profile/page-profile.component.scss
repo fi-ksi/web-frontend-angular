@@ -66,6 +66,10 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
+
+        &.empty {
+          margin: $ksi-margin;
+        }
       }
 
       .trophies {

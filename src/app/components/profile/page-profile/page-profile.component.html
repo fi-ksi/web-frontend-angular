@@ -36,7 +36,7 @@
           </tr>
           <tr>
             <th scope="col">{{icon.LOCATION}}</th>
-            <td>{{user.addr_country}}</td>
+            <td>{{countries[user.addr_country!] || countries[user.addr_country!.toUpperCase()] || user.addr_country}}</td>
           </tr>
           </tbody>
         </table>
@@ -78,13 +78,18 @@
 
       <div *ngIf="tasksWithScore$ | async as tasks">
         <h3>{{('profile.tasks.' + (user.$isOrg ? 'author' : 'participant')) | translateGender: user}}</h3>
-        <div class="tasks">
+        <div class="tasks" *ngIf="tasks && tasks.length; else noTasks">
           <ksi-profile-task-thumbnail
             *ngFor="let task of tasks"
             [taskId]="task.id"
             [score]="task.score"
           ></ksi-profile-task-thumbnail>
         </div>
+        <ng-template #noTasks>
+          <div class="tasks empty">
+            {{'profile.tasks.no-yet' | translate: {name: user.first_name} }}
+          </div>
+        </ng-template>
       </div>
     </div>
   </ng-container>

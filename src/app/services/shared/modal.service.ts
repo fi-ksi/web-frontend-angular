@@ -5,24 +5,24 @@ import {
   TemplateRef, Type,
   ViewContainerRef
 } from '@angular/core';
-import { ModalGenericComponent } from "../../components/shared/modal-generic/modal-generic.component";
-import { TranslateService } from "@ngx-translate/core";
-import { ModalComponent, OpenedModal, OpenedTemplate, PostReplyMode, PostsMap } from "../../models";
-import { ModalLoginComponent } from "../../components/shared/modal-login/modal-login.component";
-import { filter, map, mapTo, take } from "rxjs/operators";
-import { environment } from "../../../environments/environment";
-import { ModalOptions } from "ngx-bootstrap/modal";
-import { ModalPostReplyComponent } from "../../components/shared/modal-post-reply/modal-post-reply.component";
-import { Post } from "../../../api";
-import { ModalServerErrorComponent } from "../../components/shared/modal-server-error/modal-server-error.component";
-import { ModalRegisterComponent } from "../../components/shared/modal-register/modal-register.component";
-import { ModalTermsOfUseComponent } from "../../components/shared/modal-terms-of-use/modal-terms-of-use.component";
-import { Observable } from "rxjs";
-import { ModalYesNoComponent } from "../../components/shared/modal-yes-no/modal-yes-no.component";
+import { ModalGenericComponent } from '../../components/shared/modal-generic/modal-generic.component';
+import { TranslateService } from '@ngx-translate/core';
+import { ModalComponent, OpenedModal, OpenedTemplate, PostReplyMode, PostsMap } from '../../models';
+import { ModalLoginComponent } from '../../components/shared/modal-login/modal-login.component';
+import { filter, map, mapTo, take } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
+import { ModalOptions } from 'ngx-bootstrap/modal';
+import { ModalPostReplyComponent } from '../../components/shared/modal-post-reply/modal-post-reply.component';
+import { Post } from '../../../api';
+import { ModalServerErrorComponent } from '../../components/shared/modal-server-error/modal-server-error.component';
+import { ModalRegisterComponent } from '../../components/shared/modal-register/modal-register.component';
+import { ModalTermsOfUseComponent } from '../../components/shared/modal-terms-of-use/modal-terms-of-use.component';
+import { Observable } from 'rxjs';
+import { ModalYesNoComponent } from '../../components/shared/modal-yes-no/modal-yes-no.component';
 import {
   ModalResetPasswordComponent
-} from "../../components/shared/modal-reset-password/modal-reset-password.component";
-import { ModalFeedbackComponent } from "../../components/shared/modal-feedback/modal-feedback.component";
+} from '../../components/shared/modal-reset-password/modal-reset-password.component';
+import { ModalFeedbackComponent } from '../../components/shared/modal-feedback/modal-feedback.component';
 
 @Injectable({
   providedIn: 'root'
@@ -51,8 +51,8 @@ export class ModalService {
     const afterClose$ = visible$.pipe(filter((visible) => !visible), take(1), mapTo(undefined));
 
     afterClose$.subscribe(() => {
-      environment.logger.debug('destroying modal component on hide');
-      comp.destroy()
+      environment.logger.debug('[MODAL] destroying modal component on hide');
+      comp.destroy();
     });
 
     return {
@@ -72,14 +72,15 @@ export class ModalService {
         take(1)
       ).subscribe(() => {
         environment.logger.debug('sending modal ref', template.instance.modalRef);
-        component.instance.onModalOpened(template.instance.modalRef!)
-    });
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        component.instance.onModalOpened(template.instance.modalRef!);
+      });
 
     return {
       component,
       visible$,
       afterClose$,
-    }
+    };
   }
 
   /**
@@ -113,7 +114,7 @@ export class ModalService {
     const ref = this.showModalComponent(ModalRegisterComponent, {
       class: 'modal-full-page',
       ignoreBackdropClick: true,
-      backdrop: "static"
+      backdrop: 'static'
     });
 
     ref.component.instance.form.patchValue({email, password});
@@ -163,7 +164,7 @@ export class ModalService {
     }));
   }
 
-  public showPostReplyModal(threadId: number | null, post: Post | null = null, posts: PostsMap | null = null, text: string = ''): OpenedModal<ModalPostReplyComponent> {
+  public showPostReplyModal(threadId: number | null, post: Post | null = null, posts: PostsMap | null = null, text = ''): OpenedModal<ModalPostReplyComponent> {
     const mode: PostReplyMode = threadId === null ? 'new-thread' : text ? 'edit' : 'reply';
     const title = `modal.post-reply.title.${mode}`;
 

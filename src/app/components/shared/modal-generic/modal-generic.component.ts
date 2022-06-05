@@ -7,10 +7,10 @@ import {
   ViewChild,
   ChangeDetectorRef
 } from '@angular/core';
-import { BsModalRef, BsModalService, ModalOptions } from "ngx-bootstrap/modal";
-import { BehaviorSubject, Subject } from "rxjs";
-import { shareReplay, take } from "rxjs/operators";
-import { environment } from "../../../../environments/environment";
+import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { shareReplay, take } from 'rxjs/operators';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'ksi-modal-generic',
@@ -43,6 +43,7 @@ export class ModalGenericComponent implements OnInit {
     public cd: ChangeDetectorRef,
   ) { }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   ngOnInit(): void {
   }
 
@@ -51,10 +52,10 @@ export class ModalGenericComponent implements OnInit {
       return;
     }
     this.modalRef = this.modalService.show(this.template, this.options);
-    environment.logger.debug('setting modal as visible');
+    environment.logger.debug('[MODAL] Setting modal as visible');
     this.visible = true;
     this.visibleSubject.next(true);
-    this.modalRef.onHidden!.pipe(take(1)).subscribe(() => {
+    this.modalRef.onHidden?.pipe(take(1)).subscribe(() => {
       this.visible = false;
       this.visibleSubject.next(false);
     });

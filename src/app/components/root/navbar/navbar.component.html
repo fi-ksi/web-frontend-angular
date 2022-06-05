@@ -7,19 +7,19 @@
 
     <div class="navigation">
       <div class="categories">
-        <a class="nav-btn" [routerLink]="['/', routes.routes.tasks._]" routerLinkActive="active">
+        <a class="nav-btn" [routerLink]="['/', routes.routes.tasks._]" routerLinkActive="active" (click)="hideFullMenu($event)">
           {{'root.navbar.category.tasks' | translate}}
         </a>
-        <a class="nav-btn" [routerLink]="['/', routes.routes.results]" routerLinkActive="active">
+        <a class="nav-btn" [routerLink]="['/', routes.routes.results]" routerLinkActive="active" (click)="hideFullMenu($event)">
           {{'root.navbar.category.results' | translate}}
         </a>
-        <a class="nav-btn" [routerLink]="['/', routes.routes.about]" routerLinkActive="active">
+        <a class="nav-btn" [routerLink]="['/', routes.routes.about]" routerLinkActive="active" (click)="hideFullMenu($event)">
           {{'root.navbar.category.about' | translate}}
         </a>
-        <a class="nav-btn" [routerLink]="['/', routes.routes.news]" routerLinkActive="active">
+        <a class="nav-btn" [routerLink]="['/', routes.routes.news]" routerLinkActive="active" (click)="hideFullMenu($event)">
           {{'root.navbar.category.news' | translate}}
         </a>
-        <a class="nav-btn" [routerLink]="['/', routes.routes.discussion]" routerLinkActive="active">
+        <a class="nav-btn" [routerLink]="['/', routes.routes.discussion]" routerLinkActive="active" (click)="hideFullMenu($event)">
           {{'root.navbar.category.discussion' | translate}}
         </a>
 

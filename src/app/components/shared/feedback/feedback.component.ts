@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core
 import { BackendService, TasksService } from '../../../services';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Feedback } from '../../../../api';
-import { map, tap } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'ksi-feedback',
@@ -17,10 +17,12 @@ export class FeedbackComponent implements OnInit {
   @Input()
   taskId: number;
 
-  feedback$: Observable<Feedback>;
+  feedback$: Observable<Feedback | null>;
 
-  readonly fillStatusSubject = new BehaviorSubject<'filled' | 'unfilled' | 'filledNow' | null>(null);
-  readonly fillStatus$ = this.fillStatusSubject.asObservable();
+  showFeedback$: Observable<boolean>;
+
+  readonly filledNowSubject = new BehaviorSubject<boolean>(false);
+  readonly filledNow$ = this.filledNowSubject.asObservable();
 
   readonly incompleteSubject = new BehaviorSubject<boolean>(false);
   readonly incomplete$ = this.incompleteSubject.asObservable();
@@ -28,17 +30,22 @@ export class FeedbackComponent implements OnInit {
   constructor(private backend: BackendService, private tasks: TasksService) { }
 
   ngOnInit(): void {
-    this.feedback$ = this.tasks.cacheFeedbacks.getOnce(this.feedbackId).pipe(
+    this.feedback$ = this.tasks.cacheFeedbacks.get(this.feedbackId).pipe(
       map((feedback) => {
+        if (feedback.filled) {
+          return null;
+        }
+
         if (!feedback.taskId) {
           feedback.taskId = this.taskId;
         }
         feedback.categories.forEach((c) => c.answer = c.answer !== undefined ? c.answer : (c.ftype === 'text_large' ? '' : -1));
         return feedback;
       }),
-      tap((feedback) => {
-        this.fillStatusSubject.next(feedback.filled ? 'filled' : 'unfilled');
-      })
+    );
+
+    this.showFeedback$ = this.tasks.getTask(this.taskId).pipe(
+      map((task) => task.state !== 'base' && task.state !== 'locked')
     );
   }
 
@@ -48,12 +55,12 @@ export class FeedbackComponent implements OnInit {
       return;
     }
 
-    this.tasks.cacheFeedbacks.set(this.feedbackId, feedback);
+    this.tasks.cacheFeedbacks.set(this.feedbackId, { ...feedback, filled: true });
     const req$: Observable<unknown> = feedback.filled
       ? this.backend.http.feedbackEditSingle({feedback}, this.feedbackId)
       : this.backend.http.feedbackCreateNew({feedback});
 
-    this.fillStatusSubject.next('filledNow');
-    req$.subscribe();
+    this.filledNowSubject.next(true);
+    req$.pipe(mergeMap(() => this.tasks.cacheFeedbacks.refresh(this.feedbackId))).subscribe();
   }
 }

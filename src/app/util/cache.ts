@@ -35,34 +35,42 @@ export class Cache<K, V> {
   public get(key: K): Observable<V> {
     const iKey = this.getInternalKey(key);
 
-    const initial$: Observable<V> = of(true).pipe(
+    return of(true).pipe(
       mergeMap(() => {
+        let initial$: Observable<V>;
+
         if (iKey in this.cacheAccessTime) {
           this.updateAccessTime(iKey);
-          return of(this.cache[iKey]);
-        } else if(this.fetchNew !== undefined) {
-          return this.fetchNew(key).pipe(
-            take(1),
-            tap((v) => this.set(key, v, false))
-          );
+          initial$ = of(this.cache[iKey]);
         } else {
-          throw new Error(`Cache item '${key}' accessed, but not cached nor auto-cacheable`);
+          initial$ = this.refresh(key, false);
         }
+
+        const updates$: Observable<V> = this.update$.pipe(
+          filter((k) => k !== null),
+          filter((k) => k === iKey),
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          map((k) => this.cache[k!]),
+        );
+
+        return concat(initial$, updates$);
       })
     );
-
-    const updates$: Observable<V> = this.update$.pipe(
-      filter((k) => k !== null),
-      filter((k) => k === iKey),
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      map((k) => this.cache[k!])
-    );
-
-    return concat(initial$, updates$);
   }
 
   public getOnce(key: K): Observable<V> {
     return this.get(key).pipe(take(1));
+  }
+
+  public refresh(key: K, publishUpdate = true): Observable<V> {
+    if(this.fetchNew !== undefined) {
+      return this.fetchNew(key).pipe(
+        take(1),
+        tap((v) => this.set(key, v, publishUpdate))
+      );
+    } else {
+      throw new Error(`Cache item '${key}' accessed, but not cached nor auto-cacheable`);
+    }
   }
 
   private getInternalKey(key: K): string {

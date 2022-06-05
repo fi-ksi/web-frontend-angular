@@ -1,26 +1,31 @@
-<ng-container *ngIf="feedback$ | async as feedback">
-  <ng-container [ngSwitch]="fillStatus$ | async">
-    <div *ngSwitchCase="'unfilled'" class="feedback-form">
-      <p class="intro">{{'tasks.feedback.intro'|translate}}</p>
-      <div *ngFor="let category of feedback.categories" class="option">
-        <span class="description">{{category.text}}</span>
-        <ng-container [ngSwitch]="category.ftype">
-          <rating *ngSwitchCase="'stars'" class="answer stars" [(ngModel)]="category.answer" [max]="5"></rating>
-          <div *ngSwitchCase="'line'" class="line answer">
-            <span>{{'tasks.feedback.lime.little'|translate}}</span>
-            <input  class="form-control range" type="range" min="1" max="5" [(ngModel)]="category.answer">
-            <span>{{'tasks.feedback.lime.much'|translate}}</span>
-          </div>
-          <textarea *ngSwitchCase="'text_large'" class="form-control answer text" [(ngModel)]="category.answer"></textarea>
-        </ng-container>
+<ng-container *ngIf="showFeedback$ | async">
+  <ng-container *ngIf="!(filledNow$ | async); else filledNow">
+    <ng-container *ngIf="feedback$ | async as feedback">
+      <div class="feedback-form">
+        <p class="intro">{{'tasks.feedback.intro'|translate}}</p>
+        <div *ngFor="let category of feedback.categories" class="option">
+          <span class="description">{{category.text}}</span>
+          <ng-container [ngSwitch]="category.ftype">
+            <rating *ngSwitchCase="'stars'" class="answer stars" [(ngModel)]="category.answer" [max]="5"></rating>
+            <div *ngSwitchCase="'line'" class="line answer">
+              <span>{{'tasks.feedback.lime.little'|translate}}</span>
+              <input  class="form-control range" type="range" min="1" max="5" [(ngModel)]="category.answer">
+              <span>{{'tasks.feedback.lime.much'|translate}}</span>
+            </div>
+            <textarea *ngSwitchCase="'text_large'" class="form-control answer text" [(ngModel)]="category.answer"></textarea>
+          </ng-container>
+        </div>
+        <div class="alert alert-info incomplete" *ngIf="incomplete$ | async">
+          {{'tasks.feedback.incomplete'|translate}}
+        </div>
+        <button class="btn btn-ksi w-100" (click)="sendFeedback(feedback)">{{'tasks.feedback.send'|translate}}</button>
       </div>
-      <div class="alert alert-info incomplete" *ngIf="incomplete$ | async">
-        {{'tasks.feedback.incomplete'|translate}}
-      </div>
-      <button class="btn btn-ksi w-100" (click)="sendFeedback(feedback)">{{'tasks.feedback.send'|translate}}</button>
-    </div>
-    <div *ngSwitchCase="'filledNow'" class="alert alert-success filled-now">
-      {{'tasks.feedback.sent'|translate}}
-    </div>
+    </ng-container>
   </ng-container>
 </ng-container>
+
+<ng-template #filledNow>
+  <div class="alert alert-success filled-now">
+    {{'tasks.feedback.sent'|translate}}
+  </div>
+</ng-template>

@@ -22,7 +22,7 @@ export class Cache<K, V> {
   public set(key: K, value: V, publishUpdate = true): void {
     const iKey = this.getInternalKey(key);
 
-    if (!(iKey in this.cacheAccessTime)) {
+    if (!this.contains(key)) {
       this.shrink();
     }
     this.cache[iKey] = value;
@@ -39,7 +39,7 @@ export class Cache<K, V> {
       mergeMap(() => {
         let initial$: Observable<V>;
 
-        if (iKey in this.cacheAccessTime) {
+        if (this.contains(key)) {
           this.updateAccessTime(iKey);
           initial$ = of(this.cache[iKey]);
         } else {
@@ -62,6 +62,16 @@ export class Cache<K, V> {
     return this.get(key).pipe(take(1));
   }
 
+  public getSync(key: K): V | undefined {
+    const iKey = this.getInternalKey(key);
+    return this.cache[iKey];
+  }
+
+  public contains(key: K): boolean {
+    const iKey = this.getInternalKey(key);
+    return iKey in this.cacheAccessTime;
+  }
+
   public refresh(key: K, publishUpdate = true): Observable<V> {
     if(this.fetchNew !== undefined) {
       return this.fetchNew(key).pipe(
@@ -71,6 +81,14 @@ export class Cache<K, V> {
     } else {
       throw new Error(`Cache item '${key}' accessed, but not cached nor auto-cacheable`);
     }
+  }
+
+  public flush(): void {
+    const keys = Object.keys(this.cacheAccessTime);
+    keys.forEach((k) => {
+      delete this.cache[k];
+      delete this.cacheAccessTime[k];
+    });
   }
 
   private getInternalKey(key: K): string {

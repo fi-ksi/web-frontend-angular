@@ -26,7 +26,10 @@ export class TasksService {
 
   private static readonly CACHE_MAX_SIZE = 100;
   private readonly cache: { [taskId: number]: TaskWithIcon } = {};
-  private readonly cacheRequirementsState: { [taskId: number]: { [requirementId: number]: string } } = {};
+  private readonly cacheRequirementsState = new Cache<number, { [requirementId: number]: string }>(
+    1000,
+    () => of({})
+  );
   private readonly taskUpdatesSubject: Subject<TaskWithIcon> = new Subject<TaskWithIcon>();
   private readonly taskUpdates$ = this.taskUpdatesSubject.asObservable();
 
@@ -68,7 +71,7 @@ export class TasksService {
     this.userService.isLoggedIn$
       .subscribe(() => {
         Object.keys(this.cache).forEach((key) => delete this.cache[Number(key)]);
-        Object.keys(this.cacheRequirementsState).forEach((key) => delete this.cacheRequirementsState[Number(key)]);
+        this.cacheRequirementsState.flush();
       });
   }
 
@@ -119,9 +122,6 @@ export class TasksService {
     while (cachedKeys.length >= TasksService.CACHE_MAX_SIZE && (firstKey = cachedKeys.shift())) {
       const key = Number(firstKey);
       delete this.cache[key];
-      if (key in this.cacheRequirementsState) {
-        delete this.cacheRequirementsState[key];
-      }
     }
 
     /*
@@ -144,17 +144,16 @@ export class TasksService {
 
     return combineLatest(requirementsIDs.map((watchedTaskId) => this.getTask(watchedTaskId))).pipe(
       filter((tasks: TaskWithIcon[]) => {
-        let requirementsState;
+        let requirementsState: { [requirementId: number]: string; };
 
-        if (task.id in this.cacheRequirementsState) {
+        if (this.cacheRequirementsState.contains(task.id)) {
           environment.logger.debug(`[TASK] requirement watch cache reused for task ${task.id}`);
-          requirementsState = this.cacheRequirementsState[task.id];
-        } else if (task.id in this.cache) {
-          environment.logger.debug(`[TASK] requirement watch cache init for task ${task.id}`);
-          requirementsState = this.cacheRequirementsState[task.id] = {};
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          requirementsState = this.cacheRequirementsState.getSync(task.id)!;
         } else {
-          environment.logger.debug(`[TASK] requirement watch cache unavailable ${task.id}`);
+          environment.logger.debug(`[TASK] requirement watch cache init for task ${task.id}`);
           requirementsState = {};
+          this.cacheRequirementsState.set(task.id, requirementsState);
         }
 
         const changed: number[] = [];

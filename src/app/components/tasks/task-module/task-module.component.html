@@ -4,7 +4,7 @@
     <span *ngIf="user.isTester$ | async">
      ({{module.id}})
     </span>
-    {{ module.name }}
+    <ksi-task-body [body]="module.name"></ksi-task-body>
   </span>
   <span class="points" [class.font-weight-bold]="resultOk">
     {{ module.max_score | translatePoints }}

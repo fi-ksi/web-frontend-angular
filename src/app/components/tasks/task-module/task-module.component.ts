@@ -1,9 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, HostBinding } from '@angular/core';
-import { KSIModule, ModuleSubmitResponse } from "../../../../api";
-import { UserService } from "../../../services/shared/user.service";
-import { BehaviorSubject, merge, Observable, Subject } from "rxjs";
-import { IconService, ModuleService } from "../../../services";
-import { map, shareReplay, tap } from "rxjs/operators";
+import { KSIModule, ModuleSubmitResponse } from '../../../../api';
+import { BehaviorSubject, merge, Observable, Subject } from 'rxjs';
+import { IconService, ModuleService, UserService } from '../../../services';
+import { map, shareReplay, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'ksi-task-module',
@@ -24,6 +23,7 @@ export class TaskModuleComponent implements OnInit {
   /**
    * this.module typed as any
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   moduleAny: any;
 
   statusChanges$: Observable<ModuleSubmitResponse | null>;
@@ -59,15 +59,15 @@ export class TaskModuleComponent implements OnInit {
 
     this.moduleAny = this.module;
     switch (this.module.state) {
-      case "correct":
-        if (this.module.autocorrect) {
-          this.packedSubject.next(true);
-          this.resultOk = true;
-        }
-        break;
-      case "incorrect":
-        this.resultBad = true;
-        break;
+    case 'correct':
+      if (this.module.autocorrect) {
+        this.packedSubject.next(true);
+        this.resultOk = true;
+      }
+      break;
+    case 'incorrect':
+      this.resultBad = true;
+      break;
     }
   }
 

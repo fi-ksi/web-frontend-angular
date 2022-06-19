@@ -14,11 +14,12 @@ echo "Deploying as $(whoami), TARGET=$TARGET_DIR, HOME=$HOME" >&2
 function main() {
   downloadUrl="$INPUT"
   if [ -z "$downloadUrl" ]; then
-    echo "ERR: NO INPUT"
+    echo "ERR: NO INPUT" >&2
+    echo "FAIL"
     return 0
   fi
 
-  regexUrl="^https://github.com/${GITHUB_OWNER}/${GITHUB_REPOSITORY}/releases/download/.*/${PATCH_FILE_NAME}\$"
+  regexUrl="^https://github.com/${GITHUB_OWNER}/${GITHUB_REPOSITORY}/releases/download/temp-[a-zA-Z0-9]+/${PATCH_FILE_NAME}\$"
 
   if echo "$downloadUrl" | grep --quiet -E "$regexUrl"; then
     # continues only if github owner and repo and filename matches
@@ -32,8 +33,9 @@ function main() {
     rm -rf "$extractDir" > /dev/null &&
     echo "OK"
   else
-    echo "ERR: INVALID INPUT"
-    echo "INPUT: '$downloadUrl'"
+    echo "ERR: INVALID DEPLOY INPUT" >&2
+    echo "INPUT: '$downloadUrl'" >&2
+    echo "FAIL"
   fi
 }
 

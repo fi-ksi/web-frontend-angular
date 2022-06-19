@@ -1,7 +1,5 @@
 #!/bin/bash
 # A cgi hook that takes URL with new FE build on stdin
-# https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
-set -uo pipefail
 
 GITHUB_OWNER="fi-ksi"
 GITHUB_REPOSITORY="web-frontend-angular"
@@ -11,6 +9,10 @@ TARGET_DIR="$(dirname "$(dirname "$(realpath "$0")")")"
 INPUT="$(cat)"
 
 [ -z "$HOME" ] && HOME="$(eval echo "~$(whoami)")"
+
+# https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
+set -uo pipefail
+
 echo "Deploying as $(whoami), TARGET=$TARGET_DIR, HOME=$HOME" >&2
 
 function main() {

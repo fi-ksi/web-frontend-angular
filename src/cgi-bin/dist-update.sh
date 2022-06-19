@@ -1,5 +1,7 @@
 #!/bin/bash
 # A cgi hook that takes URL with new FE build on stdin
+# https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
+set -uo pipefail
 
 GITHUB_OWNER="fi-ksi"
 GITHUB_REPOSITORY="web-frontend-angular"

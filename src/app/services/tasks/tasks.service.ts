@@ -64,7 +64,33 @@ export class TasksService {
           ...waveHead,
           tasks: tasks.filter((task) => task.wave === waveHead.id)
         }));
-      }), shareReplay(1)
+      }),
+      map((waves: WaveDetails[]) => {
+        if (!environment.mergeSimilarWaves) {
+          return waves;
+        }
+        const similarWaves: {[caption: string]: WaveDetails[]} = {};
+        waves.forEach((w) => {
+          const similarName = Object.keys(similarWaves).find((name) => w.caption.startsWith(`${name} -- `));
+          if (similarName) {
+            similarWaves[similarName].push(w);
+          } else {
+            similarWaves[w.caption] = [];
+          }
+        });
+
+        return waves
+          .filter((w) => w.caption in similarWaves)
+          .map((w) => {
+            const similar = similarWaves[w.caption];
+            w.$mergedWaveIds = new Set(similar.map((w2) => w2.id));
+            w.task_cnt += similar.map((w2) => w2.task_cnt).reduce((p, a) => p + a, 0);
+            w.sum_points += similar.map((w2) => w2.sum_points).reduce((p, a) => p + a, 0);
+            similar.forEach((w2) => w.tasks.push(...w2.tasks));
+            return w;
+          });
+      }),
+      shareReplay(1)
     );
 
     // flush cache on login change

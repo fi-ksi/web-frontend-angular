@@ -3,11 +3,12 @@ export interface Environment {
   backend: string,
   urlPrefix: string,
   logger: {
-    log: (...data: any[]) => void,
-    error: (...data: any[]) => void,
-    debug: (...data: any[]) => void,
-    warn: (...data: any[]) => void
+    log: (...data: unknown[]) => void,
+    error: (...data: unknown[]) => void,
+    debug: (...data: unknown[]) => void,
+    warn: (...data: unknown[]) => void
   },
   disableRegistration?: boolean,
   allowTestingAccountRegistration?: boolean,
+  mergeSimilarWaves?: boolean
 }

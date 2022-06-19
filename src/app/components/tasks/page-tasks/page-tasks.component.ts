@@ -1,10 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef } from '@angular/core';
-import { KsiTitleService, ModalService, TasksService, WindowService, StorageService } from "../../../services";
-import { WaveDetails, WaveView } from "../../../models";
-import { combineLatest, concat, Observable, of } from "rxjs";
-import { map, shareReplay, tap } from "rxjs/operators";
-import { Wave } from "../../../../api";
-import { FormControl } from "@angular/forms";
+import { KsiTitleService, ModalService, TasksService, WindowService, StorageService } from '../../../services';
+import { WaveDetails, WaveView } from '../../../models';
+import { combineLatest, concat, Observable, of } from 'rxjs';
+import { map, shareReplay, tap } from 'rxjs/operators';
+import { Wave } from '../../../../api';
+import { FormControl } from '@angular/forms';
 
 interface WaveOpened extends WaveDetails {
   opened: boolean;
@@ -21,7 +21,7 @@ export class PageTasksComponent implements OnInit {
 
   viewMode$: Observable<WaveView>;
 
-  @ViewChild("modalSettings", {static: true})
+  @ViewChild('modalSettings', {static: true})
   modalSettings: TemplateRef<unknown>;
 
   private readonly storageWaves = this.storageRoot.open(['tasks', 'waves']);
@@ -58,9 +58,9 @@ export class PageTasksComponent implements OnInit {
     ]).pipe(
       map(([isMobile, splitWaves]) => {
         if (isMobile) {
-          return "linear";
+          return 'linear';
         }
-        return splitWaves ? "wave-graph" : "graph";
+        return splitWaves ? 'wave-graph' : 'graph';
       })
     );
     this.nonEmptyWaves$ = this.tasks.waveDetails$.pipe(
@@ -68,6 +68,7 @@ export class PageTasksComponent implements OnInit {
         .filter((wave) => wave.tasks.length > 0)
         .map((wave) => ({
           ...wave,
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           opened: this.waveStorage(wave).get<boolean>('opened', PageTasksComponent.WAVE_OPENED_DEFAULT)!
         }))
       )

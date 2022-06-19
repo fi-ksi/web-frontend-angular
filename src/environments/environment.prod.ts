@@ -11,5 +11,6 @@ export const environment: Environment = {
     error: console.error,
     debug: doNothing,
     warn: doNothing
-  }
+  },
+  mergeSimilarWaves: true
 };

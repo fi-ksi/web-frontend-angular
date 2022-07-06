@@ -53,7 +53,7 @@ export class TaskBodyComponent implements OnInit {
 
   private articleObserver: MutationObserver | null = null;
 
-  private panelFactory?: ComponentFactory<TaskPanel>;
+  private panelFactories: {[componentName: string]: ComponentFactory<TaskPanel>} = {};
 
   constructor(private resolver: ComponentFactoryResolver, private container: ViewContainerRef, private sanitizer: DomSanitizer) { }
 
@@ -124,10 +124,10 @@ export class TaskBodyComponent implements OnInit {
   }
 
   private createKSIPanel(title: string, body: string, component: Type<TaskPanel>): HTMLElement {
-    if (this.panelFactory === undefined) {
-      this.panelFactory = this.resolver.resolveComponentFactory(component);
+    if (this.panelFactories[component.name] === undefined) {
+      this.panelFactories[component.name] = this.resolver.resolveComponentFactory(component);
     }
-    const comp = this.container.createComponent(this.panelFactory);
+    const comp = this.container.createComponent(this.panelFactories[component.name]);
 
     comp.instance.title = title;
     comp.instance.content = body;

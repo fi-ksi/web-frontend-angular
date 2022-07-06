@@ -74,7 +74,7 @@ export class TaskBodyComponent implements OnInit {
       const title = el.querySelector('.panel-title')!.textContent!;
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const body = el.querySelector('.panel-body')!.innerHTML!;
-      el.replaceWith(this.createKSIPanel(title, body, TaskCollapsibleComponent));
+      el.replaceWith(this.createKSIPanel(title, body, TaskCollapsibleComponent, 'ksi-collapsible'));
     });
 
     // parse KSI tip
@@ -83,7 +83,7 @@ export class TaskBodyComponent implements OnInit {
       const title = el.getAttribute('title');
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const body = el.innerHTML!;
-      el.replaceWith(this.createKSIPanel(title || '', body, TaskTipComponent));
+      el.replaceWith(this.createKSIPanel(title || '', body, TaskTipComponent, 'ksi-tip'));
     });
 
     // replace source code
@@ -123,11 +123,19 @@ export class TaskBodyComponent implements OnInit {
     });
   }
 
-  private createKSIPanel(title: string, body: string, component: Type<TaskPanel>): HTMLElement {
-    if (this.panelFactories[component.name] === undefined) {
-      this.panelFactories[component.name] = this.resolver.resolveComponentFactory(component);
+  /**
+   * Creates a new KSI panel
+   * @param title title of the panel
+   * @param body HTML content of the panel
+   * @param component what component to create
+   * @param factoryName unique name of factory for each component type (can be component's tag)
+   * @private
+   */
+  private createKSIPanel(title: string, body: string, component: Type<TaskPanel>, factoryName: string): HTMLElement {
+    if (this.panelFactories[factoryName] === undefined) {
+      this.panelFactories[factoryName] = this.resolver.resolveComponentFactory(component);
     }
-    const comp = this.container.createComponent(this.panelFactories[component.name]);
+    const comp = this.container.createComponent(this.panelFactories[factoryName]);
 
     comp.instance.title = title;
     comp.instance.content = body;

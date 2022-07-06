@@ -11,9 +11,7 @@
   <span class="name">
       {{task.title}}
     </span>
-  <span class="description">
-      {{task.intro}}
-    </span>
+  <span class="description" [innerHTML]="task.intro"></span>
   <span class="deadline">
       {{'tasks.deadline' | translate}}: {{task.time_deadline | date}}
     </span>

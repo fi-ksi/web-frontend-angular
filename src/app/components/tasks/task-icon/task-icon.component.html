@@ -16,7 +16,7 @@
 
   <ng-template #tooltip>
     <div class="name">{{task.title | uppercase}}</div>
-    <p class="description">{{task.intro}}</p>
+    <p class="description" [innerHTML]="task.intro"></p>
     <div class="stats">{{task.time_deadline | date}}, {{task.max_score | translatePoints}}</div>
   </ng-template>
 </ng-container>

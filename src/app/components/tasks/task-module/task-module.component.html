@@ -29,9 +29,8 @@
   <ng-container *ngIf="statusChanges$ | async as status">
     <div
       [class]="' result alert alert-' + (status.result === 'ok' ? 'success' : 'danger')"
-    >
-      {{ status.error || status.message }}
-    </div>
+      [innerHTML]="status.error || status.message"
+    ></div>
 
     <ng-container *ngIf="user.isOrg$ | async">
       <h6 class="report-heading">{{'tasks.module.report'|translate}}</h6>

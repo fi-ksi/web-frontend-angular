@@ -79,8 +79,8 @@
 
   .result {
     text-align: center;
-    padding: 0;
-    margin: $ksi-margin $ksi-margin-small $ksi-margin-small;
+    padding: $ksi-margin-small;
+    margin: $ksi-margin 0 $ksi-margin-small;
 
     &.error, &.nok {
       background: $ksi-red-100;

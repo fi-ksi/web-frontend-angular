@@ -1,0 +1,20 @@
+@import "src/app/styles/vars";
+@import "src/app/styles/mixins";
+
+:host {
+  display: flex;
+  border: 2px solid $ksi-article-preview-border-fg;
+  padding: $ksi-margin;
+  @include round-corner;
+
+  .icon {
+    height: 3em;
+    box-sizing: content-box;
+    margin-right: $ksi-margin;
+  }
+
+  .text {
+    display: inline;
+    flex-grow: 1;
+  }
+}

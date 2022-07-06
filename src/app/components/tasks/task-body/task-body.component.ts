@@ -7,12 +7,14 @@ import {
   ElementRef,
   ComponentFactoryResolver,
   ComponentFactory,
-  ViewContainerRef
+  ViewContainerRef, Type
 } from '@angular/core';
-import highlight from "highlight.js";
+import highlight from 'highlight.js';
 import 'mathjax/es5/tex-svg'; // allows us to call window.MathJax.tex2svg
-import { TaskCollapsibleComponent } from "./task-collapsible/task-collapsible.component";
-import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
+import { TaskCollapsibleComponent } from './task-collapsible/task-collapsible.component';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { TaskTipComponent } from './task-tip/task-tip.component';
+import { TaskPanel } from '../../../models';
 
 @Component({
   selector: 'ksi-task-body',
@@ -25,7 +27,7 @@ export class TaskBodyComponent implements OnInit {
   body: string;
 
   @Input()
-  trusted: boolean = false;
+  trusted = false;
 
   html: string | SafeHtml;
 
@@ -51,7 +53,7 @@ export class TaskBodyComponent implements OnInit {
 
   private articleObserver: MutationObserver | null = null;
 
-  private panelFactory?: ComponentFactory<TaskCollapsibleComponent>;
+  private panelFactory?: ComponentFactory<TaskPanel>;
 
   constructor(private resolver: ComponentFactoryResolver, private container: ViewContainerRef, private sanitizer: DomSanitizer) { }
 
@@ -68,9 +70,20 @@ export class TaskBodyComponent implements OnInit {
     // parse KSI collapse
     // must be parsed first so that its content is also parsed
     rootElement.querySelectorAll('.panel.panel-ksi').forEach((el) => {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const title = el.querySelector('.panel-title')!.textContent!;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const body = el.querySelector('.panel-body')!.innerHTML!;
-      el.replaceWith(this.createKSIPanel(title, body));
+      el.replaceWith(this.createKSIPanel(title, body, TaskCollapsibleComponent));
+    });
+
+    // parse KSI tip
+    rootElement.querySelectorAll('ksi-tip').forEach((el) => {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const title = el.getAttribute('title');
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const body = el.innerHTML!;
+      el.replaceWith(this.createKSIPanel(title || '', body, TaskTipComponent));
     });
 
     // replace source code
@@ -100,18 +113,19 @@ export class TaskBodyComponent implements OnInit {
       // remove unneeded \[ and \( from the start and the end
       tex = tex
         .trim()
-        .replace(/^\\\(((?:.|\n)*)\\\)$/gm, "$1")
-        .replace(/^\\\[((?:.|\n)*)\\]$/gm, "$1");
+        .replace(/^\\\(((?:.|\n)*)\\\)$/gm, '$1')
+        .replace(/^\\\[((?:.|\n)*)\\]$/gm, '$1');
 
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       const node = window.MathJax.tex2svg(tex, {display: false});
       math.appendChild(node);
     });
   }
 
-  private createKSIPanel(title: string, body: string): HTMLElement {
+  private createKSIPanel(title: string, body: string, component: Type<TaskPanel>): HTMLElement {
     if (this.panelFactory === undefined) {
-      this.panelFactory = this.resolver.resolveComponentFactory(TaskCollapsibleComponent);
+      this.panelFactory = this.resolver.resolveComponentFactory(component);
     }
     const comp = this.container.createComponent(this.panelFactory);
 

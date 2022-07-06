@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef } from '@angular/core';
-import { IconService } from "../../../../services";
+import { IconService } from '../../../../services';
+import { TaskPanel } from '../../../../models';
 
 @Component({
   selector: 'ksi-task-collapsible',
@@ -7,7 +8,7 @@ import { IconService } from "../../../../services";
   styleUrls: ['./task-collapsible.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TaskCollapsibleComponent implements OnInit {
+export class TaskCollapsibleComponent implements OnInit, TaskPanel {
   title: string;
   content: string;
 

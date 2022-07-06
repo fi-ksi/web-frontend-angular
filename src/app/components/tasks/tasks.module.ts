@@ -26,6 +26,7 @@ import {
 } from "./task-module/task-module-sortable/task-module-sortable-place/task-module-sortable-place.component";
 import { TaskCollapsibleComponent } from './task-body/task-collapsible/task-collapsible.component';
 import { WaveTaskLinearComponent } from './wave/wave-task-linear/wave-task-linear.component';
+import { TaskTipComponent } from './task-body/task-tip/task-tip.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { WaveTaskLinearComponent } from './wave/wave-task-linear/wave-task-linea
         TaskModuleSortableItemComponent,
         TaskModuleSortablePlaceComponent,
         TaskCollapsibleComponent,
-        WaveTaskLinearComponent
+        WaveTaskLinearComponent,
+        TaskTipComponent
     ],
     imports: [
         CommonModule,

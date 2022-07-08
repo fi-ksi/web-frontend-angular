@@ -14,7 +14,7 @@ import 'mathjax/es5/tex-svg'; // allows us to call window.MathJax.tex2svg
 import { TaskCollapsibleComponent } from './task-collapsible/task-collapsible.component';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { TaskTipComponent } from './task-tip/task-tip.component';
-import { TaskPanel } from '../../../models';
+import { TaskPanel, TaskTipData } from '../../../models';
 
 @Component({
   selector: 'ksi-task-body',
@@ -53,7 +53,7 @@ export class TaskBodyComponent implements OnInit {
 
   private articleObserver: MutationObserver | null = null;
 
-  private panelFactories: {[componentName: string]: ComponentFactory<TaskPanel>} = {};
+  private panelFactories: {[componentName: string]: ComponentFactory<TaskPanel<unknown>>} = {};
 
   constructor(private resolver: ComponentFactoryResolver, private container: ViewContainerRef, private sanitizer: DomSanitizer) { }
 
@@ -81,9 +81,11 @@ export class TaskBodyComponent implements OnInit {
     rootElement.querySelectorAll('ksi-tip').forEach((el) => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const title = el.getAttribute('title');
+      const authorStr = el.getAttribute('author');
+      const author = authorStr ? Number(authorStr) : null;
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const body = el.innerHTML!;
-      el.replaceWith(this.createKSIPanel(title || '', body, TaskTipComponent, 'ksi-tip'));
+      el.replaceWith(this.createKSIPanel<TaskTipData>(title || '', body, TaskTipComponent, 'ksi-tip', {author}));
     });
 
     // replace source code
@@ -129,9 +131,10 @@ export class TaskBodyComponent implements OnInit {
    * @param body HTML content of the panel
    * @param component what component to create
    * @param factoryName unique name of factory for each component type (can be component's tag)
+   * @param data additional data passed to the info panel
    * @private
    */
-  private createKSIPanel(title: string, body: string, component: Type<TaskPanel>, factoryName: string): HTMLElement {
+  private createKSIPanel<T>(title: string, body: string, component: Type<TaskPanel<T>>, factoryName: string, data?: T): HTMLElement {
     if (this.panelFactories[factoryName] === undefined) {
       this.panelFactories[factoryName] = this.resolver.resolveComponentFactory(component);
     }
@@ -139,6 +142,9 @@ export class TaskBodyComponent implements OnInit {
 
     comp.instance.title = title;
     comp.instance.content = body;
+    if (data !== undefined) {
+      comp.instance.data = data;
+    }
 
     window.setTimeout(() => comp.instance.cd.markForCheck());
 

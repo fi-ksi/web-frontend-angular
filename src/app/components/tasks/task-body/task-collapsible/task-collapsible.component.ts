@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { IconService } from '../../../../services';
 import { TaskPanel } from '../../../../models';
 
@@ -8,13 +8,10 @@ import { TaskPanel } from '../../../../models';
   styleUrls: ['./task-collapsible.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TaskCollapsibleComponent implements OnInit, TaskPanel {
+export class TaskCollapsibleComponent implements TaskPanel<never> {
   title: string;
   content: string;
 
   constructor(public el: ElementRef, public cd: ChangeDetectorRef, public icon: IconService) { }
-
-  ngOnInit(): void {
-  }
 
 }

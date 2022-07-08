@@ -1,7 +1,7 @@
 <ksi-spinner [source]="task$"></ksi-spinner>
 <main *ngIf="(task$ | async) as task">
   <div class="head">
-    <h2 [class]="' task-title type-' + (task.head.id % 3)">{{task.head.title}}</h2>
+    <h2 [class]="' task-title type-' + (task.head.id % 3)" [innerHTML]="task.head.title"></h2>
     <div *ngIf="(authors$ | async) as authors" class="authors-container">
       {{(authors.length > 1 ? 'tasks.author.multiple' : 'tasks.author.single') | translate}}:
       <ksi-users-inline class="authors" [users]="authors"></ksi-users-inline>

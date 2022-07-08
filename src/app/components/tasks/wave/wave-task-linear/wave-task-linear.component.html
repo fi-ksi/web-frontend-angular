@@ -8,9 +8,7 @@
     alt=""
     class="icon"
   >
-  <span class="name">
-      {{task.title}}
-    </span>
+  <span class="name" [innerHTML]="task.title"></span>
   <span class="description" [innerHTML]="task.intro"></span>
   <span class="deadline">
       {{'tasks.deadline' | translate}}: {{task.time_deadline | date}}

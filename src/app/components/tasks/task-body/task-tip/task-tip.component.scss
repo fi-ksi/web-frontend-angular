@@ -4,7 +4,7 @@
 :host {
   display: flex;
   border: 2px solid $ksi-article-preview-border-fg;
-  padding: $ksi-margin;
+  padding: $ksi-margin $ksi-margin 0;
   @include round-corner;
 
   .icon {

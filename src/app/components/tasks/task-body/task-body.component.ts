@@ -78,7 +78,7 @@ export class TaskBodyComponent implements OnInit {
     });
 
     // parse KSI tip
-    rootElement.querySelectorAll('ksi-tip').forEach((el) => {
+    rootElement.querySelectorAll('.ksi-custom.ksi-tip').forEach((el) => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const title = el.getAttribute('title');
       const authorStr = el.getAttribute('author');

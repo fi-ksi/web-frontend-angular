@@ -77,21 +77,18 @@ export class TaskBodyComponent implements OnInit {
     // parse KSI collapse
     // must be parsed first so that its content is also parsed
     rootElement.querySelectorAll('.panel.panel-ksi').forEach((el) => {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const title = el.querySelector('.panel-title')!.textContent!;
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const body = el.querySelector('.panel-body')!.innerHTML!;
+      const title = el.querySelector('.panel-title')?.textContent || '';
+      const body = el.querySelector('.panel-body')?.innerHTML || '';
       el.replaceWith(this.createKSIPanel(title, body, TaskCollapsibleComponent, 'ksi-collapsible', {trustedContent: this.trusted}));
     });
 
     // parse KSI tip
     rootElement.querySelectorAll('.ksi-custom.ksi-tip').forEach((el) => {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const title = el.getAttribute('title');
-      const authorStr = el.getAttribute('author');
+      const title = el.getAttribute('title') || '';
+      // sometimes backend parses the author attribute as data-author, we have to account for both
+      const authorStr = el.getAttribute('author') || el.getAttribute('data-author');
       const author = authorStr ? Number(authorStr) : null;
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const body = el.innerHTML!;
+      const body = el.innerHTML || '';
       el.replaceWith(this.createKSIPanel<TaskTipData>(title || '', body, TaskTipComponent, 'ksi-tip', {author}));
     });
 

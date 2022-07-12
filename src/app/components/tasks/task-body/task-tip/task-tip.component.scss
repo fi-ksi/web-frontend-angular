@@ -4,7 +4,7 @@
 :host {
   display: flex;
   border: 2px solid $ksi-article-preview-border-fg;
-  padding: $ksi-margin $ksi-margin 0;
+  padding: $ksi-margin $ksi-margin;
   @include round-corner;
 
   .icon {
@@ -12,11 +12,27 @@
     height: 3em;
     box-sizing: content-box;
     margin-right: $ksi-margin;
-    margin-bottom: $ksi-margin;
   }
 
   .text {
     display: inline;
     flex-grow: 1;
+
+    ::ng-deep {
+      &:first-child {
+        /*
+        In case of a multiline tip, show first paragraph right after title
+         */
+        display: inline;
+      }
+
+      &:last-child {
+        /*
+        The margin and padding is applied by the tag itself, no need for more
+         */
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+    }
   }
 }

@@ -1,10 +1,14 @@
 <accordion [isAnimated]="true" class="content-dynamic">
-  <accordion-group [heading]="title"><div [innerHTML]="content"></div></accordion-group>
+  <accordion-group [heading]="title">
+    <ksi-task-body [body]="content" [trusted]="data && data.trustedContent"></ksi-task-body>
+  </accordion-group>
 </accordion>
 
 <div class="content-static">
   <div class="head">
     {{title}}
   </div>
-  <div class="content" [innerHTML]="content"></div>
+  <div class="content">
+    <ksi-task-body [body]="content" [trusted]="data && data.trustedContent"></ksi-task-body>
+  </div>
 </div>

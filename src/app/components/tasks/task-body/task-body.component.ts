@@ -24,9 +24,16 @@ import { TaskPanel, TaskTipData } from '../../../models';
 })
 export class TaskBodyComponent implements OnInit {
   @Input()
+  /**
+   * HTML to show inside
+   */
   body: string;
 
   @Input()
+  /**
+   * If set to true, then possibly malicious code can be executed (but this is required by some tasks)
+   * Set to true only when sure about data origin
+   */
   trusted = false;
 
   html: string | SafeHtml;
@@ -74,7 +81,7 @@ export class TaskBodyComponent implements OnInit {
       const title = el.querySelector('.panel-title')!.textContent!;
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const body = el.querySelector('.panel-body')!.innerHTML!;
-      el.replaceWith(this.createKSIPanel(title, body, TaskCollapsibleComponent, 'ksi-collapsible'));
+      el.replaceWith(this.createKSIPanel(title, body, TaskCollapsibleComponent, 'ksi-collapsible', {trustedContent: this.trusted}));
     });
 
     // parse KSI tip

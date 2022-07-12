@@ -11,3 +11,7 @@ export interface TaskPanel<T> {
 export interface TaskTipData {
   author: number | null;
 }
+
+export interface TaskCollapsibleData {
+  trustedContent: boolean;
+}

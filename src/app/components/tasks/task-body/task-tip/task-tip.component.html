@@ -1,4 +1,13 @@
-<img [src]="imageSrc$ | async" class="icon" alt="">
+<ng-container *ngIf="author$ | async as author; else img">
+  <a class="icon" [routerLink]="['/', routes.profile._, author.id]" [tooltip]="author.first_name">
+    <ng-container [ngTemplateOutlet]="img"></ng-container>
+  </a>
+</ng-container>
+<ng-template #img>
+  <div  class="icon">
+    <img [src]="imageSrc$ | async" alt="">
+  </div>
+</ng-template>
 <div class="content">
   <b>{{title}}</b>: <div class="text" [innerHTML]="content"></div>
 </div>

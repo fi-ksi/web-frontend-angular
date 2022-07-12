@@ -3,6 +3,7 @@ import { IUser, TaskPanel, TaskTipData } from '../../../../models';
 import { UsersCacheService } from '../../../../services';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ROUTES } from '../../../../../routes/routes';
 
 @Component({
   selector: 'ksi-task-tip',
@@ -23,6 +24,8 @@ export class TaskTipComponent implements TaskPanel<TaskTipData>, OnInit {
   imageSrc$: Observable<string>;
 
   author$: Observable<IUser | null>;
+
+  routes = ROUTES;
 
   constructor(public cd: ChangeDetectorRef, public el: ElementRef, public users: UsersCacheService) {
   }

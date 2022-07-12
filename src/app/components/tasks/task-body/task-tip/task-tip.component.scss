@@ -8,10 +8,18 @@
   @include round-corner;
 
   .icon {
-    @include round-corner;
-    height: 3em;
-    box-sizing: content-box;
     margin-right: $ksi-margin;
+    display: block;
+    min-width: 3em;
+    height: 3em;
+    box-sizing: border-box;
+
+    img {
+      min-width: 3em;
+      height: 3em;
+      @include round-corner;
+      box-sizing: content-box;
+    }
   }
 
   .text {

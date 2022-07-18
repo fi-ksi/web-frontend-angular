@@ -170,7 +170,7 @@ export class PageProfileComponent implements OnInit {
     );
   }
 
-  private static generateProgressBar(points: number, maxPoints: number, requiredPercentage = 60): BarValue[] {
+  private static generateProgressBar(points: number, maxPoints: number, requiredPercentage = 90): BarValue[] {
     const currentPercentage = Math.round(100 * points / maxPoints);
     const leftRequiredPercentage = Math.max(0, requiredPercentage - currentPercentage);
     const currentUserPercentageFloored = Math.floor(currentPercentage);

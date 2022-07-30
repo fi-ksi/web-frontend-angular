@@ -114,3 +114,11 @@ Code highlighting
     max-width: min(95vw, 26cm);
   }
 }
+
+blockquote {
+  margin: 0;
+  margin-left: $ksi-margin-small;
+  padding-left: $ksi-padding-small;
+  padding-bottom: $ksi-padding-x-small;
+  border-left: 2px solid $ksi-gray-80;
+}

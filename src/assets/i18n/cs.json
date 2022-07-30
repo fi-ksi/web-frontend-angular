@@ -400,7 +400,10 @@
       "title": "Statistiky",
       "score": "Skóre",
       "solved-count": "Vyřešených úloh",
-      "whole-year": "Celý ročník"
+      "whole-year": "Celý ročník",
+      "prediction-normal": "Potřebuješ získat ještě {{percent}}% z celkového počtu bodů",
+      "prediction-positive": "Jsi úspěšným řešitelem KSI",
+      "prediction-negative": "V tomto ročníku se již nemůžeš stát úspěšným řešitelem"
     }
   },
   "achievements": {

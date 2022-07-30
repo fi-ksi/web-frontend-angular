@@ -101,6 +101,11 @@
             font-weight: $ksi-semibold;
           }
         }
+
+        .prediction {
+          font-size: 16px;
+          margin-top: $ksi-margin-small;
+        }
       }
 
       .progress {

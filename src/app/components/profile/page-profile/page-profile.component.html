@@ -53,8 +53,19 @@
 
       <ng-container *ngIf="!user.$isOrg">
         <h3>{{'profile.stats.title' | translate}}</h3>
-        <div class="stats" *ngFor="let stats of (userProgress$ | async)">
+        <div class="stats" *ngFor="let stats of (userProgress$ | async); let first = first">
           <h4 class="title">{{stats.title}}</h4>
+          <h5 class="prediction" *ngIf="first && (prediction$ | async) as prediction">
+            <span *ngIf="user.successful" class="text-success">
+              {{'profile.stats.prediction.positive' | translate}}
+            </span>
+            <span *ngIf="!user.successful && prediction.doable">
+              {{'profile.stats.prediction.normal' | translate: {percent: prediction.percentFromTotalNeeded} }}
+            </span>
+            <span *ngIf="!user.successful && !prediction.doable">
+              {{'profile.stats.prediction.negative' | translate}}
+            </span>
+          </h5>
 
           <div class="numeric">
             <div>

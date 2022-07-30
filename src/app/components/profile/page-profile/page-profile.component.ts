@@ -11,7 +11,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, mergeMap, shareReplay, tap } from 'rxjs/operators';
-import { IUser, TaskIDWithScore, UserProgress, WaveScore } from '../../../models';
+import {IUser, TaskIDWithScore, TaskWithIcon, UserProgress, WaveScore, IPrediction} from '../../../models';
 import { BarValue } from 'ngx-bootstrap/progressbar/progressbar-type.interface';
 import { ROUTES } from '../../../../routes/routes';
 import { ProfileResponse } from '../../../../api';
@@ -31,6 +31,8 @@ export class PageProfileComponent implements OnInit {
   userProgress$: Observable<UserProgress[]>;
 
   tasksWithScore$: Observable<TaskIDWithScore[]>;
+
+  prediction$: Observable<IPrediction | null>;
 
   readonly countries = AddressService.COUNTRIES;
 
@@ -156,6 +158,16 @@ export class PageProfileComponent implements OnInit {
     this.userProgress$ = combineLatest([userYearProgress$, userWavesProgress$]).pipe(
       map(([year, waves]) => [year, ...waves])
     );
+
+    this.prediction$ = combineLatest([this.tasks.tasks$, this.userProgress$, this.years.selectedFull$]).pipe(
+      map(([tasks, userProgress, year]) => {
+        if (userProgress.length === 0){
+          return null;
+        }
+
+        return PageProfileComponent.generatePrediction(tasks, userProgress[0], year?.sum_points || 0);
+      })
+    );
   }
 
   private static generateProgressBar(points: number, maxPoints: number, requiredPercentage = 60): BarValue[] {
@@ -177,5 +189,30 @@ export class PageProfileComponent implements OnInit {
         label: currentPercentage < 50 ? `${currentUserPercentageFloored}%` : ''
       }
     ];
+  }
+
+  /**
+   * Returns prediction based on users progress for current year.
+   *
+   * @param tasks all available tasks
+   * @param totalProgress users progress
+   * @param maxScore max score possible
+   */
+  private static generatePrediction(tasks: TaskWithIcon[], totalProgress: UserProgress, maxScore: number): IPrediction {
+    const currentPoints = totalProgress.score;
+
+    let missedScore = 0;
+    for (const task of tasks){
+      const deadlineDate = new Date(task.time_deadline);
+      const today = new Date();
+
+      if (deadlineDate < today) {
+        missedScore += task.max_score;
+      }
+    }
+
+    const percentNeeded = (maxScore > 0) ? (60 - Math.floor(100 * currentPoints / maxScore)) : 60;
+
+    return {percentFromTotalNeeded: percentNeeded, doable: missedScore <= (maxScore * 0.4)};
   }
 }

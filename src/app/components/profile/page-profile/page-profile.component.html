@@ -57,13 +57,13 @@
           <h4 class="title">{{stats.title}}</h4>
           <h5 class="prediction" *ngIf="first && (prediction$ | async) as prediction">
             <span *ngIf="user.successful" class="text-success">
-              {{'profile.stats.prediction-positive' | translate}}
+              {{'profile.stats.prediction.positive' | translate}}
             </span>
             <span *ngIf="!user.successful && prediction.doable">
-              {{'profile.stats.prediction-normal' | translate: {percent: prediction.percentFromTotalNeeded} }}
+              {{'profile.stats.prediction.normal' | translate: {percent: prediction.percentFromTotalNeeded} }}
             </span>
             <span *ngIf="!user.successful && !prediction.doable">
-              {{'profile.stats.prediction-negative' | translate}}
+              {{'profile.stats.prediction.negative' | translate}}
             </span>
           </h5>
 

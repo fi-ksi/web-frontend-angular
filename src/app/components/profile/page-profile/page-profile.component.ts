@@ -11,12 +11,11 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, mergeMap, shareReplay, tap } from 'rxjs/operators';
-import {IUser, TaskIDWithScore, TaskWithIcon, UserProgress, WaveScore} from '../../../models';
+import {IUser, TaskIDWithScore, TaskWithIcon, UserProgress, WaveScore, IPrediction} from '../../../models';
 import { BarValue } from 'ngx-bootstrap/progressbar/progressbar-type.interface';
 import { ROUTES } from '../../../../routes/routes';
 import { ProfileResponse } from '../../../../api';
 import { TranslateService } from '@ngx-translate/core';
-import {IPrediction} from '../../../models/prediction';
 
 @Component({
   selector: 'ksi-page-profile',

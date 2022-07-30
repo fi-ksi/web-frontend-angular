@@ -6,6 +6,7 @@ export interface IRoutes {
     _: string,
     solution: string;
     discussion: string;
+    results: string;
   }
   discussion: string;
   profile: {

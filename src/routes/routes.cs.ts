@@ -9,6 +9,7 @@ export const ROUTES: IRoutes = {
     _: 'ulohy',
     solution: 'reseni',
     discussion: 'diskuze',
+    results: 'vysledky'
   },
   discussion: 'forum',
   profile: {

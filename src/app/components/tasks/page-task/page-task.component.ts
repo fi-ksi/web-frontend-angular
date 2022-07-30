@@ -5,14 +5,16 @@ import {
   KsiTitleService,
   ModalService, ModuleService, RoutesService,
   TasksService,
-  WindowService
+  WindowService,
+  UsersCacheService
 } from "../../../services";
 import { ActivatedRoute, Router } from "@angular/router";
 import { catchError, distinctUntilChanged, filter, map, mergeMap, shareReplay, tap } from "rxjs/operators";
 import { BehaviorSubject, combineLatest, Observable, of, Subscription, throwError } from "rxjs";
-import { OpenedTemplate, TaskFullInfo } from "../../../models";
+import {IUser, OpenedTemplate, TaskFullInfo} from '../../../models';
 import { UserService } from "../../../services";
 import { environment } from "../../../../environments/environment";
+import {UserScore} from '../../../../api';
 
 @Component({
   selector: 'ksi-page-task',
@@ -34,6 +36,13 @@ export class PageTaskComponent implements OnInit, OnDestroy {
   @ViewChild('bodyAssigment', {static: true})
   templateBodyAssigment: TemplateRef<unknown>;
 
+  @ViewChild('bodyResults', {static: true})
+  templateBodyResults: TemplateRef<unknown>;
+
+  private templateRefMapper: Map<TemplateRef<unknown>, string>;
+
+  public userScores$: Observable<{user: IUser, score: number}[]>;
+
   private openedModal: OpenedTemplate | null = null;
 
   private static readonly ERR_LOGIN_DENIED = 'login-required-but-denied';
@@ -53,7 +62,8 @@ export class PageTaskComponent implements OnInit, OnDestroy {
     private tasks: TasksService,
     private user: UserService,
     private module: ModuleService,
-    public routes: RoutesService
+    public routes: RoutesService,
+    public usersCache: UsersCacheService
   ) {
   }
 
@@ -117,6 +127,7 @@ export class PageTaskComponent implements OnInit, OnDestroy {
     };
     fragmentMap[this.routes.routes.tasks.solution] = this.templateBodySolution;
     fragmentMap[this.routes.routes.tasks.discussion] = this.templateBodyDiscussion;
+    fragmentMap[this.routes.routes.tasks.results] = this.templateBodyResults;
 
     this.subpage$ = combineLatest([
       this.route.fragment.pipe(
@@ -148,6 +159,32 @@ export class PageTaskComponent implements OnInit, OnDestroy {
         (task) => task !== null ? [task.head.author, task.head.co_author].filter((orgId) => orgId !== null) : []
       )
     );
+
+    this.userScores$ = this.task$.pipe(
+      mergeMap(
+        (task: TaskFullInfo | null) => {
+          if (task === null){
+            return of([]);
+          }
+
+          return combineLatest([
+            combineLatest(task.detail.userScores.map((score: UserScore) => this.usersCache.getUser(score.id))),
+            combineLatest(task.detail.userScores.map((score: UserScore) => of(score.score)))
+          ]);
+        }
+      ), map(([users, scores]) => {
+        const userScores = [];
+        for (let i = 0; i < users.length; i++) {
+          userScores.push({
+            user: users[i], score: scores[i]
+          });
+        }
+
+        return userScores;
+      })
+    );
+
+    this.templateRefMapper = this.generateTemplateRefMap();
   }
 
   ngOnDestroy(): void {
@@ -172,7 +209,7 @@ export class PageTaskComponent implements OnInit, OnDestroy {
       this.openedModal = null;
     }
     if (body) {
-      const title = body == this.templateBodyDiscussion ? 'tasks.discussion' : 'tasks.solution';
+      const title = this.templateRefMapper.get(body) || '';
       const modal = this.openedModal = this.modal.showModalTemplate(body, title, {class: 'modal-full-page'});
       const sub = this.openedModal.visible$.pipe(filter((visible) => !visible)).subscribe(() => {
         if (this.openedModal === modal) {
@@ -181,5 +218,13 @@ export class PageTaskComponent implements OnInit, OnDestroy {
         sub.unsubscribe();
       });
     }
+  }
+
+  private generateTemplateRefMap(): Map<TemplateRef<unknown>, string> {
+    return new Map([
+      [this.templateBodyDiscussion, 'tasks.discussion'],
+      [this.templateBodySolution, 'tasks.solution'],
+      [this.templateBodyResults, 'tasks.results']
+    ]);
   }
 }

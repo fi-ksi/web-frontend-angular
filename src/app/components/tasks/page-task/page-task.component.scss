@@ -66,6 +66,14 @@
           padding-right: $ksi-padding-x-small;
         }
       }
+
+      .results {
+        margin-left: $ksi-margin-x-large;
+      }
+
+      .results, .solution {
+        display: inline-block;
+      }
     }
 
     .modules {

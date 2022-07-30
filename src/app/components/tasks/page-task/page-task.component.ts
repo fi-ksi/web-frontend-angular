@@ -68,6 +68,8 @@ export class PageTaskComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.templateRefMapper = this.generateTemplateRefMap();
+
     this.task$ = this.route.params.pipe(
       map((params) => Number(params.id)),
       mergeMap((taskId: number) => this.tasks.getTaskOnce(taskId)),
@@ -183,8 +185,6 @@ export class PageTaskComponent implements OnInit, OnDestroy {
         return userScores;
       })
     );
-
-    this.templateRefMapper = this.generateTemplateRefMap();
   }
 
   ngOnDestroy(): void {

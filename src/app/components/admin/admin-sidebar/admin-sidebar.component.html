@@ -1,9 +1,19 @@
-<nav class="navigation-bar">
-  <a class="title" [routerLink]="['/', routes.routes.admin._]" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active">{{'admin.navbar.title'|translate}}</a>
-  <a class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.tasks]" routerLinkActive="active" (click)="hideFullMenu($event)">
-    {{'admin.navbar.tasks' | translate}}
-  </a>
-  <a class="nav-btn" [routerLink]="['test1']" routerLinkActive="active" (click)="hideFullMenu($event)">
-    Placeholder
-  </a>
-</nav>
+<ng-container *ngIf="visible$ | async; else hidden">
+  <nav class="navigation-bar">
+    <a class="title" [routerLink]="['/', routes.routes.admin._]" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active">{{'admin.navbar.title'|translate}}</a>
+    <a class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.tasks]" routerLinkActive="active" (click)="hideFullMenu($event)">
+      {{'admin.navbar.tasks' | translate}}
+    </a>
+    <a class="nav-btn" [routerLink]="['test1']" routerLinkActive="active" (click)="hideFullMenu($event)">
+      Placeholder
+    </a>
+
+    <div *ngIf="window.isMobile$ | async" class="hide-button clickable" (click)="hideFullMenu($event)"><span>{{icon.BACK}}</span></div>
+  </nav>
+</ng-container>
+
+<ng-template #hidden>
+  <nav class="navigation-bar hidden" (click)="showFullMenu($event)">
+    <span>{{icon.FORWARD}}</span>
+  </nav>
+</ng-template>

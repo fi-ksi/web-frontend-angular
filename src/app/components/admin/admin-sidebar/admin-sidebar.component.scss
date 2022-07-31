@@ -12,6 +12,12 @@
     border-bottom: 1px solid $ksi-page-welcome-banner-bg;
     text-align: center;
 
+    &.hidden {
+      display: flex;
+      justify-content: center;
+      cursor: pointer;
+    }
+
     .title {
       color: $ksi-navbar-fg;
       text-decoration: none;
@@ -21,6 +27,13 @@
         cursor: default;
         font-weight: bold;
       }
+    }
+
+    .hide-button {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 }

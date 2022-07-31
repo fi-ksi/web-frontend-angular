@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { RoutesService, UserService } from '../../../services';
-import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { IconService, RoutesService, UserService, WindowService } from '../../../services';
+import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,20 +13,44 @@ import { Router } from '@angular/router';
 export class AdminSidebarComponent implements OnInit, OnDestroy {
   private _subs: Subscription[] = [];
 
-  constructor(public routes: RoutesService, private userService: UserService, private router: Router) { }
+  visible$: Observable<boolean>;
+
+  private readonly hideSubject = new BehaviorSubject(true);
+
+  constructor(
+    public routes: RoutesService,
+    private userService: UserService,
+    private router: Router,
+    public window: WindowService,
+    public icon: IconService
+  ) { }
 
   ngOnInit(): void {
     this._subs.push(this.userService.isTester$.pipe(filter((x) => !x)).subscribe(() => {
       // Leave admin menu when the users logs off
       this.router.navigate(['/']).then();
     }));
+
+    this.visible$ = combineLatest([this.window.isMobile$, this.hideSubject.asObservable()]).pipe(map(
+      ([isMobile, hideNow]) => {
+        return !isMobile || !hideNow;
+      }
+    ));
   }
 
   ngOnDestroy(): void {
     this._subs.forEach((s) => s.unsubscribe());
   }
 
-  hideFullMenu(event: MouseEvent) {
-    // TODO: implement
+  hideFullMenu(event: MouseEvent): false {
+    this.hideSubject.next(true);
+    event.stopPropagation();
+    return false;
+  }
+
+  showFullMenu(event: MouseEvent): false {
+    this.hideSubject.next(false);
+    event.stopPropagation();
+    return false;
   }
 }

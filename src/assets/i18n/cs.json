@@ -424,13 +424,18 @@
   "admin": {
     "navbar": {
       "title": "Admin",
-      "tasks": "Úlohy"
+      "tasks": "Úlohy",
+      "monitor": "Monitor"
     },
     "root": {
       "title": "Organizároské rozhraní",
       "tasks": {
         "title": "Úlohy",
         "description": "Přidávání nových úloh. Vypouštění nových verzí úloh. Merge do masteru."
+      },
+      "monitor": {
+        "title": "Monitorovací nástěnka",
+        "description": "Sledování statistik úloh, vln a ročníků. Zpětná vazba od řešitelů."
       }
     }
   }

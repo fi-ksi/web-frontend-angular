@@ -20,5 +20,6 @@ export interface IRoutes {
   admin: {
     _: string;
     tasks: string;
+    monitor: string;
   };
 }

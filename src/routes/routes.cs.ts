@@ -22,6 +22,7 @@ export const ROUTES: IRoutes = {
   achievements: 'trofeje',
   admin: {
     _: 'admin',
-    tasks: 'ulohy'
+    tasks: 'ulohy',
+    monitor: 'monitor'
   }
 };

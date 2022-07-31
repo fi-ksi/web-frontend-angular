@@ -1,0 +1,14 @@
+@import "src/app/styles/vars";
+@import "src/app/styles/mixins";
+
+@include page-admin;
+
+:host {
+  .content {
+    .frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  }
+}

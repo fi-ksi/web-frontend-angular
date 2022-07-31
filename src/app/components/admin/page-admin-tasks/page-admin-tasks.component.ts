@@ -1,4 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { YearsService } from '../../../services';
+import { AdminTask } from '../../../../api';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'ksi-page-admin-tasks',
@@ -7,10 +10,12 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PageAdminTasksComponent implements OnInit {
+  tasks$: Observable<AdminTask[]>;
 
-  constructor() { }
+  constructor(private years: YearsService) { }
 
   ngOnInit(): void {
+    this.tasks$ = this.years.adminTasks$;
   }
 
 }

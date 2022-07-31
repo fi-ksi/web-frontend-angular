@@ -6,13 +6,15 @@ import { PageAdminRootComponent } from './page-admin-root/page-admin-root.compon
 import { AdminSidebarComponent } from './admin-sidebar/admin-sidebar.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { PageAdminTasksComponent } from './page-admin-tasks/page-admin-tasks.component';
+import { AdminSectionCardComponent } from './page-admin-root/admin-section-card/admin-section-card.component';
 
 
 @NgModule({
   declarations: [
     PageAdminRootComponent,
     AdminSidebarComponent,
-    PageAdminTasksComponent
+    PageAdminTasksComponent,
+    AdminSectionCardComponent
   ],
   imports: [
     CommonModule,

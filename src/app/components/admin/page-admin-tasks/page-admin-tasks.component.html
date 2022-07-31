@@ -1,2 +1,8 @@
 <ksi-admin-sidebar></ksi-admin-sidebar>
-<p>page-admin-tasks works!</p>
+<div class="content">
+  <ul>
+    <li *ngFor="let task of (tasks$ | async)">
+      {{task.title}} - {{task.deploy_status}}
+    </li>
+  </ul>
+</div>

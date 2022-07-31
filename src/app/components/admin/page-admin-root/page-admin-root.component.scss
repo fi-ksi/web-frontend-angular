@@ -2,3 +2,19 @@
 @import "src/app/styles/mixins";
 
 @include page-admin;
+
+:host {
+  .content {
+    .title {
+      text-align: center;
+      margin-top: $ksi-margin;
+    }
+
+    .cards {
+      display: flex;
+      gap: $ksi-margin-small;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+}

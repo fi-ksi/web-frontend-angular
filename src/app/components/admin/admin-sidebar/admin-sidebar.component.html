@@ -4,9 +4,6 @@
     <a class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.tasks]" routerLinkActive="active" (click)="hideFullMenu($event)">
       {{'admin.navbar.tasks' | translate}}
     </a>
-    <a class="nav-btn" [routerLink]="['test1']" routerLinkActive="active" (click)="hideFullMenu($event)">
-      Placeholder
-    </a>
 
     <div *ngIf="window.isMobile$ | async" class="hide-button clickable" (click)="hideFullMenu($event)"><span>{{icon.BACK}}</span></div>
   </nav>

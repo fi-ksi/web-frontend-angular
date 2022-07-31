@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of, Subject } from "rxjs";
-import { YearSelect } from "../../models";
-import { Article, Thread, User, Year } from "../../../api";
-import { map, mergeMap, shareReplay, switchMap, tap } from "rxjs/operators";
-import { BackendService } from "./backend.service";
-import { Utils } from "../../util";
-import { StorageService } from "./storage.service";
-import { UsersCacheService } from "./users-cache.service";
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { YearSelect } from '../../models';
+import { AdminTask, Article, Thread, User, Year } from '../../../api';
+import { map, mergeMap, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { BackendService } from './backend.service';
+import { Utils } from '../../util';
+import { StorageService } from './storage.service';
+import { UsersCacheService } from './users-cache.service';
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +44,8 @@ export class YearsService {
   readonly usersOther$: Observable<User[]>;
 
   readonly discussionThreads$: Observable<Thread[]>;
+
+  readonly adminTasks$: Observable<AdminTask[]>;
 
   private selectedSubject: Subject<YearSelect | null>;
   private _selected: YearSelect | null;
@@ -122,6 +124,13 @@ export class YearsService {
         (year) => this.backend.http.threadsGetAll(undefined, year?.id)
       ),
       map((response) => response.threads)
+    );
+
+    this.adminTasks$ = this.selected$.pipe(
+      mergeMap(
+        (year) => this.backend.http.adminTasksGetAll(undefined, year?.id)
+      ),
+      map((response) => response.atasks)
     );
   }
 }

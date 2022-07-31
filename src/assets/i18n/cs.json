@@ -425,6 +425,13 @@
     "navbar": {
       "title": "Admin",
       "tasks": "Úlohy"
+    },
+    "root": {
+      "title": "Organizároské rozhraní",
+      "tasks": {
+        "title": "Úlohy",
+        "description": "Přidávání nových úloh. Vypouštění nových verzí úloh. Merge do masteru."
+      }
     }
   }
 }

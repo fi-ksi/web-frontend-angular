@@ -1,8 +1,11 @@
 <ksi-admin-sidebar></ksi-admin-sidebar>
 <div class="content">
-  <ul>
-    <li *ngFor="let task of (tasks$ | async)">
-      {{task.title}} - {{task.deploy_status}}
-    </li>
-  </ul>
+  <div *ngFor="let waveTasks of (waveTasks$ | async)">
+    <h3>{{waveTasks.wave.caption}}</h3>
+    <ul>
+      <li *ngFor="let task of waveTasks.tasks">
+        {{task.title}}
+      </li>
+    </ul>
+  </div>
 </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import { Observable } from 'rxjs';
-import { BackendService } from '../../../services';
+import { BackendService, KsiTitleService } from '../../../services';
 import { map } from 'rxjs/operators';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
@@ -13,9 +13,11 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 export class PageAdminMonitorComponent implements OnInit {
   src$: Observable<SafeUrl>;
 
-  constructor(private backend: BackendService, private sanitizer: DomSanitizer) { }
+  constructor(private backend: BackendService, private sanitizer: DomSanitizer, private title: KsiTitleService) { }
 
   ngOnInit(): void {
+    this.title.subtitle = 'admin.root.monitor.title';
+
     this.src$ = this.backend.http.adminMonitoringDashboardURL().pipe(map(
       (r) => this.sanitizer.bypassSecurityTrustResourceUrl(r.url)
     ));

@@ -19,6 +19,11 @@ export class TasksService {
   readonly waves$: Observable<Wave[]>;
   readonly tasks$: Observable<TaskWithIcon[]>;
 
+  public readonly cacheWaves = new Cache<number, Wave>(
+    TasksService.CACHE_MAX_SIZE,
+    (x) => this.backend.http.wavesGetSingle(x).pipe(map((r) => r.wave))
+  )
+
   public readonly cacheFeedbacks = new Cache<number, Feedback>(
     TasksService.CACHE_MAX_SIZE,
     (x) => this.backend.http.feedbackGetSingle(x).pipe(map((x) => x.feedback))
@@ -52,7 +57,8 @@ export class TasksService {
         const {waves} = response;
         waves.sort((a, b) => a.index - b.index);
         return waves;
-      })
+      }),
+      tap((waves) => waves.forEach((wave) => this.cacheWaves.set(wave.id, wave)))
     );
 
     this.waveDetails$ = combineLatest([

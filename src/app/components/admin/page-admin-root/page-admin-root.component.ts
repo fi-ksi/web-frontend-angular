@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { KsiTitleService } from '../../../services';
 
 @Component({
   selector: 'ksi-page-admin-root',
@@ -8,9 +9,10 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 })
 export class PageAdminRootComponent implements OnInit {
 
-  constructor() { }
+  constructor(private title: KsiTitleService) { }
 
   ngOnInit(): void {
+    this.title.subtitle = 'admin.root.title';
   }
 
 }

@@ -404,8 +404,16 @@
       "whole-year": "Celý ročník",
       "prediction": {
         "normal": "Potřebuješ získat ještě {{percent}}% z celkového počtu bodů",
-        "positive": "Jsi úspěšným řešitelem KSI",
-        "negative": "V tomto ročníku se již nemůžeš stát úspěšným řešitelem"
+        "positive": {
+          "male": "Jsi úspěšným řešitelem KSI",
+          "female": "Jsi úspěšnou řešitelkou KSI",
+          "other": "Jsi úspěšným řešitelem KSI"
+        },
+        "negative": {
+          "male": "V tomto ročníku se již nejspíše nemůžeš stát úspěšným řešitelem",
+          "female": "V tomto ročníku se již nejspíše nemůžeš stát úspěšnou řešitelkou",
+          "other": "V tomto ročníku se již nejspíše nemůžeš stát úspěšným řešitelem"
+        }
       }
     }
   },

@@ -1,4 +1,4 @@
-<div class="card" (click)="navigate()">
+<a class="card" [routerLink]="['/', routes.routes.admin._, relativeUrl]">
   <img class="icon" src="assets/img/karlik_color.png" alt="">
   <span class="name">
     {{'admin.root.' + name + '.title' | translate}}
@@ -6,4 +6,4 @@
   <span class="description">
     {{'admin.root.' + name + '.description' | translate}}
   </span>
-</div>
+</a>

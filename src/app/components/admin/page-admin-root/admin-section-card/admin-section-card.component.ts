@@ -1,6 +1,6 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, ChangeDetectionStrategy, Input, OnInit } from '@angular/core';
 import { ROUTES } from '../../../../../routes/routes';
+import { RoutesService } from '../../../../services';
 
 @Component({
   selector: 'ksi-admin-section-card',
@@ -8,17 +8,18 @@ import { ROUTES } from '../../../../../routes/routes';
   styleUrls: ['./admin-section-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminSectionCardComponent {
+export class AdminSectionCardComponent implements OnInit {
   @Input()
   name: string;
 
-  constructor(private router: Router) {
+  relativeUrl: string;
+
+  constructor(public routes: RoutesService) {
   }
 
-  navigate(): void {
+  ngOnInit(): void {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const relativeAdminURL = ROUTES.admin[this.name];
-    this.router.navigate(['/', ROUTES.admin._, relativeAdminURL]).then();
+    this.relativeUrl = ROUTES.admin[this.name];
   }
 }

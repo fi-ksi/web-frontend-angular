@@ -1,4 +1,4 @@
-<nav [class.clickable]="!(showFullMenu$ | async)" (click)="showFullMenu()">
+<nav class="navigation-bar" [class.clickable]="!(showFullMenu$ | async)" (click)="showFullMenu()">
   <ng-container *ngIf="(showFullMenu$ | async); else menuOpener">
     <a class="logo" routerLink="/" routerLinkActive="active">
       <img src="assets/img/karlik_color.png" alt="{{'root.navbar.logo' | translate}}">
@@ -21,6 +21,11 @@
         </a>
         <a class="nav-btn" [routerLink]="['/', routes.routes.discussion]" routerLinkActive="active" (click)="hideFullMenu($event)">
           {{'root.navbar.category.discussion' | translate}}
+        </a>
+        <a *ngIf="(userService.isTester$ | async)" class="nav-btn"
+           [routerLink]="['/', routes.routes.admin._]"
+           routerLinkActive="active" (click)="hideFullMenu($event)">
+          {{'root.navbar.category.admin' | translate}}
         </a>
 
         <div ngbDropdown>

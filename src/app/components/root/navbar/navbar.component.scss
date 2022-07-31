@@ -5,13 +5,8 @@
     display: none;
   }
 
-  nav {
-    &.clickable {
-      cursor: pointer;
-    }
-
+  .navigation-bar {
     padding: $ksi-padding;
-    background: $ksi-navbar-bg;
     line-height: 1;
     display: flex;
     flex-wrap: wrap;
@@ -78,18 +73,6 @@
       }
 
       align-items: center;
-    }
-
-    .nav-btn {
-      color: $ksi-navbar-fg;
-      padding: $ksi-padding;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background-color 0.1s;
-
-      &.active,&:hover,&[aria-expanded=true] {
-        background: $ksi-page-welcome-banner-bg !important;
-      }
     }
 
     .login-container {

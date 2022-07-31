@@ -122,3 +122,20 @@ blockquote {
   padding-bottom: $ksi-padding-x-small;
   border-left: 2px solid $ksi-gray-80;
 }
+
+.navigation-bar {
+  background: $ksi-navbar-bg;
+  color: $ksi-navbar-fg;
+
+  .nav-btn {
+    color: $ksi-navbar-fg;
+    padding: $ksi-padding;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.1s;
+
+    &.active,&:hover,&[aria-expanded=true] {
+      background: $ksi-page-welcome-banner-bg !important;
+    }
+  }
+}

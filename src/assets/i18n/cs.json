@@ -28,7 +28,8 @@
         "results": "Výsledky",
         "about": "O KSI",
         "news": "Novinky",
-        "discussion": "Diskuze"
+        "discussion": "Diskuze",
+        "admin": "Admin"
       }
     },
     "not-found": {
@@ -419,5 +420,11 @@
   },
   "achievements": {
     "title": "Trofeje"
+  },
+  "admin": {
+    "navbar": {
+      "title": "Admin",
+      "tasks": "Úlohy"
+    }
   }
 }

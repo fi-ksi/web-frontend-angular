@@ -1,0 +1,26 @@
+@import "src/app/styles/vars";
+@import "src/app/styles/mixins";
+
+:host {
+  nav {
+    height: 100%;
+    padding: $ksi-margin $ksi-margin-small;
+    margin-right: $ksi-margin-small;
+    display: flex;
+    flex-direction: column;
+    border-right: 4px solid $ksi-page-welcome-banner-bg;
+    border-bottom: 1px solid $ksi-page-welcome-banner-bg;
+    text-align: center;
+
+    .title {
+      color: $ksi-navbar-fg;
+      text-decoration: none;
+      margin-bottom: $ksi-margin-small;
+
+      &.active {
+        cursor: default;
+        font-weight: bold;
+      }
+    }
+  }
+}

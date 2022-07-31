@@ -5,13 +5,13 @@ import {
   ModalService,
   BackendService,
   RoutesService,
-  ThemeService
+  ThemeService, UserService
 } from 'src/app/services';
 import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
 import { filter, map, mapTo, tap } from 'rxjs/operators';
-import { YearSelect } from "../../../models";
-import { BasicProfileResponseBasicProfile } from "../../../../api";
-import { RouteConfigLoadEnd, RouteConfigLoadStart, Router } from "@angular/router";
+import { YearSelect } from '../../../models';
+import { BasicProfileResponseBasicProfile } from '../../../../api';
+import { RouteConfigLoadEnd, RouteConfigLoadStart, Router } from '@angular/router';
 
 @Component({
   selector: 'ksi-navbar',
@@ -39,7 +39,8 @@ export class NavbarComponent implements OnInit {
     public backend: BackendService,
     public routes: RoutesService,
     public theme: ThemeService,
-    private router: Router
+    private router: Router,
+    public userService: UserService,
   ) {}
 
   ngOnInit(): void {

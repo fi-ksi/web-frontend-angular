@@ -17,4 +17,8 @@ export interface IRoutes {
     }
   }
   achievements: string;
+  admin: {
+    _: string;
+    tasks: string;
+  };
 }

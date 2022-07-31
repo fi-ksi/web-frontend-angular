@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PageWelcomeComponent } from "./components/root/page-welcome/page-welcome.component";
-import { PageNotFoundComponent } from "./components/root/page-not-found/page-not-found.component";
-import { PageForbiddenComponent } from "./components/root/page-forbidden/page-forbidden.component";
-import { ROUTES } from "../routes/routes";
+import { PageWelcomeComponent } from './components/root/page-welcome/page-welcome.component';
+import { PageNotFoundComponent } from './components/root/page-not-found/page-not-found.component';
+import { PageForbiddenComponent } from './components/root/page-forbidden/page-forbidden.component';
+import { ROUTES } from '../routes/routes';
 
 const routes: Routes = [
   { path: '',   component: PageWelcomeComponent, pathMatch: 'full' },
@@ -16,6 +16,7 @@ const routes: Routes = [
   { path: ROUTES.discussion, loadChildren: () => import('./components/discussion/discussion.module').then((m) => m.DiscussionModule)},
   { path: ROUTES.profile._, loadChildren: () => import('./components/profile/profile.module').then((m) => m.ProfileModule)},
   { path: ROUTES.achievements, loadChildren: () => import('./components/achievements/achievements.module').then((m) => m.AchievementsModule)},
+  { path: ROUTES.admin._, loadChildren: () => import('./components/admin/admin.module').then((m) => m.AdminModule)},
   { path: '**', component: PageNotFoundComponent }
 ];
 

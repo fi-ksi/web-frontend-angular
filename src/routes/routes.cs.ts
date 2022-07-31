@@ -1,4 +1,4 @@
-import { IRoutes } from "../app/models/routes";
+import { IRoutes } from '../app/models/routes';
 
 // noinspection JSUnusedGlobalSymbols
 export const ROUTES: IRoutes = {
@@ -19,5 +19,9 @@ export const ROUTES: IRoutes = {
       password: 'heslo'
     }
   },
-  achievements: 'trofeje'
-}
+  achievements: 'trofeje',
+  admin: {
+    _: 'admin',
+    tasks: 'ulohy'
+  }
+};

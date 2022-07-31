@@ -1,4 +1,4 @@
-import { IRoutes } from "../app/models/routes";
+import { IRoutes } from '../app/models/routes';
 
 export const ROUTES: IRoutes = {
   news: 'news',
@@ -18,5 +18,9 @@ export const ROUTES: IRoutes = {
       password: 'password'
     }
   },
-  achievements: 'achievements'
-}
+  achievements: 'achievements',
+  admin: {
+    _: 'admin',
+    tasks: 'tasks'
+  }
+};

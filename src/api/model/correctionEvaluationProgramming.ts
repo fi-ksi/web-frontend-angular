@@ -9,6 +9,8 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { EmptyDict } from './emptyDict';
+import { CorrectionEvaluationFile } from './correctionEvaluationFile';
 
-export type InlineResponse200 = string | EmptyDict;
+export interface CorrectionEvaluationProgramming { 
+    files: Array<CorrectionEvaluationFile>;
+}

@@ -10,10 +10,11 @@
  * Do not edit the class manually.
  */
 import { ModuleSortableSortableList } from './moduleSortableSortableList';
+import { ModuleType } from './moduleType';
 
 export interface ModuleSortable { 
     id: number;
-    type: ModuleSortable.TypeEnum;
+    type: ModuleType;
     name: string;
     description: string;
     autocorrect: boolean;
@@ -23,14 +24,6 @@ export interface ModuleSortable {
     sortable_list: ModuleSortableSortableList;
 }
 export namespace ModuleSortable {
-    export type TypeEnum = 'general' | 'programming' | 'quiz' | 'sortable' | 'text';
-    export const TypeEnum = {
-        General: 'general' as TypeEnum,
-        Programming: 'programming' as TypeEnum,
-        Quiz: 'quiz' as TypeEnum,
-        Sortable: 'sortable' as TypeEnum,
-        Text: 'text' as TypeEnum
-    };
     export type StateEnum = 'correct' | 'incorrect' | 'blank';
     export const StateEnum = {
         Correct: 'correct' as StateEnum,

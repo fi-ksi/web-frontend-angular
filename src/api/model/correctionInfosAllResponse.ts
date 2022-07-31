@@ -9,6 +9,12 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { EmptyDict } from './emptyDict';
+import { CorrectionInfoTask } from './correctionInfoTask';
+import { CorrectionInfoUser } from './correctionInfoUser';
+import { Wave } from './wave';
 
-export type InlineResponse200 = string | EmptyDict;
+export interface CorrectionInfosAllResponse { 
+    correctionInfos: Array<CorrectionInfoTask>;
+    waves: Array<Wave>;
+    users: Array<CorrectionInfoUser>;
+}

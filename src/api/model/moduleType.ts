@@ -9,6 +9,13 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { EmptyDict } from './emptyDict';
 
-export type InlineResponse200 = string | EmptyDict;
+export type ModuleType = 'general' | 'programming' | 'quiz' | 'sortable' | 'text';
+
+export const ModuleType = {
+    General: 'general' as ModuleType,
+    Programming: 'programming' as ModuleType,
+    Quiz: 'quiz' as ModuleType,
+    Sortable: 'sortable' as ModuleType,
+    Text: 'text' as ModuleType
+};

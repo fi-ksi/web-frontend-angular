@@ -9,7 +9,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { EmptyDict } from './emptyDict';
-import { ErrorDict } from './errorDict';
+import { DirContentResponse } from './dirContentResponse';
+import { Uint8Array } from './uint8Array';
 
-export type InlineResponse2001 = EmptyDict | ErrorDict;
+export type InlineResponse2001 = Uint8Array | DirContentResponse;

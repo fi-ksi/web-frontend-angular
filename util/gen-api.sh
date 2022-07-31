@@ -8,7 +8,7 @@ function fail() {
 cd "$(dirname "$(realpath "$0")")/../" || fail "Cannot cd here"
 
 if [ ! -f 'swagger-codegen-cli.jar' ]; then
-  wget 'https://repo1.maven.org/maven2/io/swagger/codegen/v3/swagger-codegen-cli/3.0.33/swagger-codegen-cli-3.0.33.jar' -O swagger-codegen-cli.jar || fail "Swagger download failed"
+  wget 'https://repo1.maven.org/maven2/io/swagger/codegen/v3/swagger-codegen-cli/3.0.34/swagger-codegen-cli-3.0.34.jar' -O swagger-codegen-cli.jar || fail "Swagger download failed"
 fi
 
 cli="java -jar swagger-codegen-cli.jar"

@@ -9,6 +9,12 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { EmptyDict } from './emptyDict';
+import { ModuleType } from './moduleType';
 
-export type InlineResponse200 = string | EmptyDict;
+export interface CorrectionModule { 
+    id: number;
+    name: string;
+    autocorrect: boolean;
+    max_points: number;
+    type: ModuleType;
+}

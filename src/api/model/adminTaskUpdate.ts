@@ -9,6 +9,11 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { EmptyDict } from './emptyDict';
 
-export type InlineResponse200 = string | EmptyDict;
+export interface AdminTaskUpdate { 
+    title: string;
+    git_path: string;
+    git_branch: string;
+    git_commit: string;
+    eval_comment?: string;
+}

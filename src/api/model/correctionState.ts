@@ -9,6 +9,10 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { EmptyDict } from './emptyDict';
 
-export type InlineResponse200 = string | EmptyDict;
+export type CorrectionState = 'corrected' | 'notcorrected';
+
+export const CorrectionState = {
+    Corrected: 'corrected' as CorrectionState,
+    Notcorrected: 'notcorrected' as CorrectionState
+};

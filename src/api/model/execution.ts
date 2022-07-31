@@ -9,6 +9,14 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { EmptyDict } from './emptyDict';
+import { ExecutionResult } from './executionResult';
 
-export type InlineResponse200 = string | EmptyDict;
+export interface Execution { 
+    id: number;
+    module: number;
+    user: number;
+    code: string;
+    result: ExecutionResult;
+    time: string;
+    report: string;
+}

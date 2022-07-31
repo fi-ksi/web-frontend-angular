@@ -9,6 +9,11 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { EmptyDict } from './emptyDict';
+import { AdminTaskDeployStatus } from './adminTaskDeployStatus';
 
-export type InlineResponse200 = string | EmptyDict;
+export interface AdminTaskDeployResponse { 
+    id: number;
+    log: string;
+    deploy_date: string;
+    deploy_status: AdminTaskDeployStatus;
+}

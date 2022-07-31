@@ -9,6 +9,8 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { EmptyDict } from './emptyDict';
 
-export type InlineResponse200 = string | EmptyDict;
+export interface CodeEvaluationResponseErrorErrors { 
+    title: string;
+    id: number;
+}

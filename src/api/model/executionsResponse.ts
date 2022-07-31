@@ -9,6 +9,10 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { EmptyDict } from './emptyDict';
+import { Execution } from './execution';
+import { ExecutionsResponseMeta } from './executionsResponseMeta';
 
-export type InlineResponse200 = string | EmptyDict;
+export interface ExecutionsResponse { 
+    execs: Array<Execution>;
+    meta: ExecutionsResponseMeta;
+}

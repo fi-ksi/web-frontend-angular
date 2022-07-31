@@ -9,10 +9,11 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { ModuleType } from './moduleType';
 
 export interface ModuleProgramming { 
     id: number;
-    type: ModuleProgramming.TypeEnum;
+    type: ModuleType;
     name: string;
     description: string;
     autocorrect: boolean;
@@ -25,14 +26,6 @@ export interface ModuleProgramming {
     last_origin?: string;
 }
 export namespace ModuleProgramming {
-    export type TypeEnum = 'general' | 'programming' | 'quiz' | 'sortable' | 'text';
-    export const TypeEnum = {
-        General: 'general' as TypeEnum,
-        Programming: 'programming' as TypeEnum,
-        Quiz: 'quiz' as TypeEnum,
-        Sortable: 'sortable' as TypeEnum,
-        Text: 'text' as TypeEnum
-    };
     export type StateEnum = 'correct' | 'incorrect' | 'blank';
     export const StateEnum = {
         Correct: 'correct' as StateEnum,

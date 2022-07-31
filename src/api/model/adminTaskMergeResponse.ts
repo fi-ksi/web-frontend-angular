@@ -9,6 +9,15 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { EmptyDict } from './emptyDict';
 
-export type InlineResponse200 = string | EmptyDict;
+export interface AdminTaskMergeResponse { 
+    result?: AdminTaskMergeResponse.ResultEnum;
+    error?: string;
+}
+export namespace AdminTaskMergeResponse {
+    export type ResultEnum = 'ok' | 'error';
+    export const ResultEnum = {
+        Ok: 'ok' as ResultEnum,
+        Error: 'error' as ResultEnum
+    };
+}

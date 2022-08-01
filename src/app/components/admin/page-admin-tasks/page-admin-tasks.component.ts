@@ -100,10 +100,16 @@ export class PageAdminTasksComponent implements OnInit {
 
   showDeployLog(task: AdminTask): void {
     this.deployLogSubject.next(null);
-    this.modal.showModalTemplate(this.modalDeployLog, 'admin.tasks.deploy.log.title', {class: 'modal-full-page'});
-    this.backend.http.adminTasksGetDeploySingle(task.id).subscribe((r) => {
+    const s = timer(100, 1500).pipe(
+      mergeMap(() => this.backend.http.adminTasksGetDeploySingle(task.id))
+    ).subscribe((r) => {
       this.deployLogSubject.next(r);
     });
+    this.modal.showModalTemplate(
+      this.modalDeployLog,
+      'admin.tasks.deploy.log.title',
+      {class: 'modal-full-page'}
+    ).afterClose$.subscribe(() => s.unsubscribe());
   }
 
   mergeTask(task: IAdminTask): void {

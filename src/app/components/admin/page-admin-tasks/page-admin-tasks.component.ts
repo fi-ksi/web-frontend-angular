@@ -28,8 +28,11 @@ export class PageAdminTasksComponent implements OnInit {
   @ViewChild('modalDeployLog', { static: true })
   modalDeployLog: TemplateRef<unknown>;
 
-  readonly deployLogSubject = new BehaviorSubject<AdminTaskDeployResponse | null>(null);
+  private readonly deployLogSubject = new BehaviorSubject<AdminTaskDeployResponse | null>(null);
   readonly deployLog$ = this.deployLogSubject.asObservable();
+
+  private readonly deployDisableSubject = new BehaviorSubject<boolean>(false);
+  readonly deployDisable$ = this.deployDisableSubject.asObservable();
 
   waveTasks$: Observable<WaveTasks[]>;
 
@@ -76,6 +79,9 @@ export class PageAdminTasksComponent implements OnInit {
   }
 
   deployTask(task: AdminTask): void {
+    this.deployDisableSubject.next(true);
+    setTimeout(() => this.deployDisableSubject.next(false), 500);
+
     this.backend.http.adminTaskDeploySingle(task.id).pipe(take(1)).subscribe(() => {
       // Periodically listen to deploy status changes and if the deployment ends with an error, show the deployment log
       const s = timer(100, 1500).pipe(

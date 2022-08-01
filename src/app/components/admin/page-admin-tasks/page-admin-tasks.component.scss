@@ -5,8 +5,12 @@
 
 :host {
   .content {
-    @include ksi-full-width;
     justify-self: center;
+
+    > .title {
+      margin: $ksi-margin;
+      text-align: center;
+    }
 
     .tasks-table {
       position: relative;
@@ -42,6 +46,12 @@
             margin-right: $ksi-margin-small;
           }
         }
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: $ksi-padding-small;
       }
 
       .deploy-status {

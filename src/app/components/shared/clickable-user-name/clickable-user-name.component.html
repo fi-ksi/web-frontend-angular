@@ -1,0 +1,3 @@
+<a *ngIf="user$ | async as user" [routerLink]="['/', routes.routes.profile._, user.id]">
+  {{user.$fullName}}
+</a>

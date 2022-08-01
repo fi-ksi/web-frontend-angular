@@ -11,3 +11,4 @@ export * from './profile';
 export * from './backend.service';
 export * from './task';
 export * from './prediction';
+export * from './admin-task.service';

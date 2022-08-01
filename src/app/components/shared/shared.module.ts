@@ -1,23 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ArticlePreviewComponent } from "./article-preview/article-preview.component";
-import { RouterModule } from "@angular/router";
-import { SpinnerComponent } from "./spinner/spinner.component";
-import { TranslateGenderPipe, TranslateNewItemsPipe, TranslatePointsPipe, TranslateRolePipe } from "../../pipes";
+import { ArticlePreviewComponent } from './article-preview/article-preview.component';
+import { RouterModule } from '@angular/router';
+import { SpinnerComponent } from './spinner/spinner.component';
+import { TranslateGenderPipe, TranslateNewItemsPipe, TranslatePointsPipe, TranslateRolePipe } from '../../pipes';
 import { DiscussionThreadComponent } from './discussion-thread/discussion-thread.component';
 import {
   DiscussionThreadPostsComponent
 } from './discussion-thread/discussion-thread-posts/discussion-thread-posts.component';
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslateModule } from '@ngx-translate/core';
 import { UsersInlineComponent } from './users-inline/users-inline.component';
-import { TooltipModule } from "ngx-bootstrap/tooltip";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { TranslateSkillLevelPipe } from "../../pipes";
-import { IconAchievementComponent } from "./icon-achivement/icon-achievement.component";
-import { ModalGenericComponent } from "./modal-generic/modal-generic.component";
-import { ModalLoginComponent } from "./modal-login/modal-login.component";
-import { ModalPostReplyComponent } from "./modal-post-reply/modal-post-reply.component";
-import { QuillModule } from "ngx-quill";
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateSkillLevelPipe } from '../../pipes';
+import { IconAchievementComponent } from './icon-achivement/icon-achievement.component';
+import { ModalGenericComponent } from './modal-generic/modal-generic.component';
+import { ModalLoginComponent } from './modal-login/modal-login.component';
+import { ModalPostReplyComponent } from './modal-post-reply/modal-post-reply.component';
+import { QuillModule } from 'ngx-quill';
 import { ModalServerErrorComponent } from './modal-server-error/modal-server-error.component';
 import { ModalRegisterComponent } from './modal-register/modal-register.component';
 import { ModalTermsOfUseComponent } from './modal-terms-of-use/modal-terms-of-use.component';
@@ -26,7 +26,8 @@ import { ModalYesNoComponent } from './modal-yes-no/modal-yes-no.component';
 import { ModalResetPasswordComponent } from './modal-reset-password/modal-reset-password.component';
 import { ModalFeedbackComponent } from './modal-feedback/modal-feedback.component';
 import { FeedbackComponent } from './feedback/feedback.component';
-import { RatingModule } from "ngx-bootstrap/rating";
+import { RatingModule } from 'ngx-bootstrap/rating';
+import { ClickableUserNameComponent } from './clickable-user-name/clickable-user-name.component';
 
 
 @NgModule({
@@ -53,22 +54,24 @@ import { RatingModule } from "ngx-bootstrap/rating";
     ModalResetPasswordComponent,
     ModalFeedbackComponent,
     FeedbackComponent,
+    ClickableUserNameComponent,
   ],
-    exports: [
-        ArticlePreviewComponent,
-        SpinnerComponent,
-        TranslatePointsPipe,
-        TranslateNewItemsPipe,
-        DiscussionThreadComponent,
-        UsersInlineComponent,
-        TranslateRolePipe,
-        TranslateSkillLevelPipe,
-        TranslateGenderPipe,
-        DiscussionThreadPostsComponent,
-        IconAchievementComponent,
-        AutoThemeDirective,
-        FeedbackComponent
-    ],
+  exports: [
+    ArticlePreviewComponent,
+    SpinnerComponent,
+    TranslatePointsPipe,
+    TranslateNewItemsPipe,
+    DiscussionThreadComponent,
+    UsersInlineComponent,
+    TranslateRolePipe,
+    TranslateSkillLevelPipe,
+    TranslateGenderPipe,
+    DiscussionThreadPostsComponent,
+    IconAchievementComponent,
+    AutoThemeDirective,
+    FeedbackComponent,
+    ClickableUserNameComponent
+  ],
   imports: [
     CommonModule,
     RouterModule,

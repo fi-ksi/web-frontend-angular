@@ -447,18 +447,24 @@
         "name": "Název",
         "author": "Autor",
         "max-points": "Body",
-        "last-deploy": "Poslední deploy",
+        "last-deploy": "Poslední nasazení",
         "state": "Stav",
         "actions": {
+          "title": "Akce",
           "deploy": "Nasadit"
         }
       },
-      "deploy-status": {
-        "done": "Úspěšně nasazeno",
-        "deploying": "Nasazuji...",
-        "default": "Ještě nenasazeno",
-        "error": "Při nasazování nastala chyba",
-        "diff": "Provádím diff..."
+      "deploy": {
+        "status": {
+          "done": "Úspěšně nasazeno",
+          "deploying": "Nasazuji...",
+          "default": "Ještě nenasazeno",
+          "error": "Při nasazování nastala chyba",
+          "diff": "Provádím diff..."
+        },
+        "log": {
+          "title": "Záznam nasazení úlohy"
+        }
       }
     }
   }

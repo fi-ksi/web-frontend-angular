@@ -9,7 +9,7 @@
         <th scope="col">{{'admin.tasks.head.author' | translate}}</th>
         <th scope="col">{{'admin.tasks.head.max-points' | translate}}</th>
         <th scope="col">{{'admin.tasks.head.last-deploy' | translate}}</th>
-        <th scope="col"></th>
+        <th scope="col">{{'admin.tasks.head.actions.title' | translate}}</th>
         <th scope="col">{{'admin.tasks.head.state' | translate}}</th>
       </tr>
       </thead>
@@ -23,37 +23,51 @@
             </div>
           </td>
         </tr>
-        <tr *ngFor="let task of waveTasks.tasks">
-          <td>
-            <a [routerLink]="['/', routes.routes.tasks._, task.id]">{{task.id}}</a>
-          </td>
-          <td>
-            <a [routerLink]="['/', routes.routes.tasks._, task.id]">
-              {{task.title}}
-            </a>
-          </td>
-          <td>{{task.author}}</td>
-          <td>{{task.max_score}}</td>
-          <td>{{task.deploy_date | date: 'short'}}</td>
-          <td>
-            <button class="btn btn-outline-primary">{{'admin.tasks.head.actions.deploy'|translate}}</button>
-          </td>
-          <td>
-            <span class="badge"
-                  [class.badge-success]="task.deploy_status === 'done'"
-                  [class.badge-dager]="task.deploy_status === 'error'"
-                  tooltip="{{('admin.tasks.deploy-status.'+task.deploy_status) | translate}}"
-            >
-              <ng-container [ngSwitch]="task.deploy_status">
-                <span *ngSwitchCase="'done'">{{icon.CHECKMARK}}</span>
-                <span *ngSwitchCase="'error'">{{icon.CROSS}}</span>
-                <span *ngSwitchDefault>{{icon.CHECKMARK}}</span>
-              </ng-container>
-            </span>
-          </td>
+        <tr *ngFor="let task$ of waveTasks.tasks">
+          <ng-container *ngIf="task$ | async as task">
+            <td>
+              <a [routerLink]="['/', routes.routes.tasks._, task.id]">{{task.id}}</a>
+            </td>
+            <td>
+              <a [routerLink]="['/', routes.routes.tasks._, task.id]">
+                {{task.title}}
+              </a>
+            </td>
+            <td>
+              <ksi-clickable-user-name [userId]="task.author"></ksi-clickable-user-name>
+            </td>
+            <td>{{task.max_score}}</td>
+            <td>{{task.deploy_date | date: 'short'}}</td>
+            <td>
+              <button *ngIf="task.$canBeDeployed$ | async" class="btn btn-outline-primary" (click)="deployTask(task)">{{'admin.tasks.head.actions.deploy'|translate}}</button>
+            </td>
+            <td class="text-center">
+              <div [class]="'clickable badge deploy-status badge-' + (task.deploy_status === 'done' ? 'success' : task.deploy_status === 'error' ? 'danger' : 'warning')"
+                   tooltip="{{('admin.tasks.deploy.status.'+task.deploy_status) | translate}}"
+                   (click)="showDeployLog(task)"
+              >
+                <ng-container [ngSwitch]="task.deploy_status">
+                  <span *ngSwitchCase="'done'">{{icon.CHECKMARK}}</span>
+                  <span *ngSwitchCase="'error'">{{icon.CROSS}}</span>
+                  <span *ngSwitchDefault>{{icon.WARNING}}</span>
+                </ng-container>
+              </div>
+            </td>
+          </ng-container>
         </tr>
       </ng-container>
       </tbody>
     </table>
   </div>
 </div>
+
+<ng-template #modalDeployLog>
+  <ng-container *ngIf="deployLog$ | async as log; else deployLogLoading">
+    <pre>
+{{log.log}}
+    </pre>
+  </ng-container>
+  <ng-template #deployLogLoading>
+    ...
+  </ng-template>
+</ng-template>

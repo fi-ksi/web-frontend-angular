@@ -15,9 +15,9 @@
         vertical-align: middle;
       }
 
-     .table-head-row {
-       position: sticky;
-       top: 0;
+      .table-head-row {
+        position: sticky;
+        top: 0;
       }
 
       .wave {
@@ -47,6 +47,30 @@
       .deploy-status {
         position: relative;
         display: block;
+
+        transition: background-color 0.3s;
+
+        &.blink {
+          animation: blink 2s infinite linear;
+        }
+
+        @keyframes blink {
+          0% {
+            background-color: $ksi-orange-120;
+          }
+
+          25% {
+            background-color: $ksi-orange-180;
+          }
+
+          75% {
+            background-color: $ksi-orange-180;
+          }
+
+          100% {
+            background-color: $ksi-orange-120;
+          }
+        }
       }
     }
   }

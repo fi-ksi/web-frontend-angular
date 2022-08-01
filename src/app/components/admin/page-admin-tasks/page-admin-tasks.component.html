@@ -23,8 +23,8 @@
             </div>
           </td>
         </tr>
-        <tr *ngFor="let task$ of waveTasks.tasks">
-          <ng-container *ngIf="task$ | async as task">
+        <ng-container *ngFor="let task$ of waveTasks.tasks">
+          <tr  *ngIf="task$ | async as task" class="row-task">
             <td>
               <a [routerLink]="['/', routes.routes.tasks._, task.id]">{{task.id}}</a>
             </td>
@@ -39,10 +39,15 @@
             <td>{{task.max_score}}</td>
             <td>{{task.deploy_date | date: 'short'}}</td>
             <td>
-              <button *ngIf="task.$canBeDeployed$ | async" class="btn btn-outline-primary" (click)="deployTask(task)">{{'admin.tasks.head.actions.deploy'|translate}}</button>
+              <button
+                *ngIf="task.$canBeDeployed$ | async"
+                class="btn btn-outline-primary btn-deploy"
+                (click)="deployTask(task)"
+              >{{'admin.tasks.head.actions.deploy'|translate}}</button>
             </td>
             <td class="text-center">
               <div [class]="'clickable badge deploy-status badge-' + (task.deploy_status === 'done' ? 'success' : task.deploy_status === 'error' ? 'danger' : 'warning')"
+                   [class.blink]="!task.$isStableDeployState"
                    tooltip="{{('admin.tasks.deploy.status.'+task.deploy_status) | translate}}"
                    (click)="showDeployLog(task)"
               >
@@ -53,8 +58,8 @@
                 </ng-container>
               </div>
             </td>
-          </ng-container>
-        </tr>
+          </tr>
+        </ng-container>
       </ng-container>
       </tbody>
     </table>

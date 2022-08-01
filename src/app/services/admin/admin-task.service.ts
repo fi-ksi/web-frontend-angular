@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Cache } from '../../util';
 import { AdminTask } from '../../../api';
 import { BackendService, UserService } from '../shared';
-import { map } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 import { IAdminTask } from '../../models';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Subscription, timer } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +15,8 @@ export class AdminTaskService {
     (id) => this.backend.http.adminTasksGetSingle(id).pipe(map((r) => this.enrichTask(r.atask)))
   );
 
+  private listeningDeployStatusChanges: {[taskId: number]: Subscription} = {};
+
   constructor(private backend: BackendService, private user: UserService) { }
 
   public enrichTask(task: AdminTask): IAdminTask {
@@ -23,9 +25,20 @@ export class AdminTaskService {
       map(([user, isAdmin]) => isAdmin || user?.id === task.author)
     );
 
+    const listeningForDeployStatusChange = task.id in this.listeningDeployStatusChanges;
+
+    if (!isStableDeployState && !listeningForDeployStatusChange) {
+      // If the task id deploying or in a diff, then listen for subsequent status changes
+      this.listeningDeployStatusChanges[task.id] = timer(5000).pipe(mergeMap(() => this.tasksCache.refresh(task.id))).subscribe();
+    } else if (listeningForDeployStatusChange) {
+      // If the task has entered to a stable deploy state, stop listening
+      this.listeningDeployStatusChanges[task.id].unsubscribe();
+    }
+
     return {
       ...task,
-      $canBeDeployed$: userHasPermissions.pipe(map((userHasPermissions) => userHasPermissions && isStableDeployState))
+      $canBeDeployed$: userHasPermissions.pipe(map((userHasPermissions) => userHasPermissions && isStableDeployState)),
+      $isStableDeployState: isStableDeployState
     };
   }
 }

@@ -77,10 +77,11 @@ export class PageAdminTasksComponent implements OnInit {
 
   deployTask(task: AdminTask): void {
     this.backend.http.adminTaskDeploySingle(task.id).pipe(take(1)).subscribe(() => {
+      // Periodically listen to deploy status changes and if the deployment ends with an error, show the deployment log
       const s = timer(100, 1500).pipe(
         mergeMap(() => this.adminTasks.tasksCache.refresh(task.id))
       ).subscribe((task) => {
-        if (task.deploy_status === 'done' || task.deploy_status === 'error') {
+        if (task.$isStableDeployState) {
           s.unsubscribe();
         }
 
@@ -92,6 +93,7 @@ export class PageAdminTasksComponent implements OnInit {
   }
 
   showDeployLog(task: AdminTask): void {
+    this.deployLogSubject.next(null);
     this.modal.showModalTemplate(this.modalDeployLog, 'admin.tasks.deploy.log.title', {class: 'modal-full-page'});
     this.backend.http.adminTasksGetDeploySingle(task.id).subscribe((r) => {
       this.deployLogSubject.next(r);

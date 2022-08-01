@@ -211,7 +211,7 @@ export class PageProfileComponent implements OnInit {
       }
     }
 
-    const percentNeeded = (maxScore > 0) ? (60 - Math.floor(100 * currentPoints / maxScore)) : 60;
+    const percentNeeded = (maxScore > 0) ? (90 - Math.floor(100 * currentPoints / maxScore)) : 90;
 
     return {percentFromTotalNeeded: percentNeeded, doable: missedScore <= (maxScore * 0.4)};
   }

@@ -21,9 +21,9 @@ export class AdminTaskService {
 
   public enrichTask(task: AdminTask): IAdminTask {
     const isStableDeployState = task.deploy_status === 'done' || task.deploy_status === 'error' || task.deploy_status === 'default';
-    const isMerged = task.git_branch !== 'master';
+    const isMerged = task.git_branch === 'master';
 
-    const userHasPermissions$ = combineLatest([this.backend.user$, this.user.isAdmin$]).pipe(
+    const canBeDeployed$ = combineLatest([this.backend.user$, this.user.isAdmin$]).pipe(
       map(([user, isAdmin]) => isAdmin || (user?.id === task.author && !isMerged))
     );
     const canBeDeleted$ = this.user.isAdmin$;
@@ -41,7 +41,7 @@ export class AdminTaskService {
 
     return {
       ...task,
-      $canBeDeployed$: userHasPermissions$,
+      $canBeDeployed$: canBeDeployed$,
       $isStableDeployState: isStableDeployState,
       $canBeDeleted$: canBeDeleted$,
       $isMerged: isMerged,

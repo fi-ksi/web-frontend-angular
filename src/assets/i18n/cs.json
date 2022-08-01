@@ -451,7 +451,11 @@
         "state": "Stav",
         "actions": {
           "title": "Akce",
-          "deploy": "Nasadit"
+          "deploy": "Nasadit",
+          "merge": {
+            "title": "Merge",
+            "confirmation": "Opravdu chceš nastavit větev této úlohy na master?"
+          }
         }
       },
       "deploy": {

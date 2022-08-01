@@ -10,7 +10,7 @@ import {
 } from '../../../services';
 import { AdminTask, AdminTaskDeployResponse, Wave } from '../../../../api';
 import { BehaviorSubject, combineLatest, Observable, of, timer } from 'rxjs';
-import { map, mergeMap, take } from 'rxjs/operators';
+import { filter, map, mergeMap, take } from 'rxjs/operators';
 import { IAdminTask } from '../../../models';
 
 interface WaveTasks {
@@ -41,7 +41,7 @@ export class PageAdminTasksComponent implements OnInit {
     public routes: RoutesService,
     private backend: BackendService,
     private modal: ModalService,
-    private adminTasks: AdminTaskService
+    private adminTasks: AdminTaskService,
   ) { }
 
   ngOnInit(): void {
@@ -98,5 +98,15 @@ export class PageAdminTasksComponent implements OnInit {
     this.backend.http.adminTasksGetDeploySingle(task.id).subscribe((r) => {
       this.deployLogSubject.next(r);
     });
+  }
+
+  mergeTask(task: IAdminTask): void {
+    this.modal.yesNo('admin.tasks.head.actions.merge.confirmation')
+      .pipe(
+        filter((r) => !!r),
+        mergeMap(() => this.backend.http.adminTaskMergeSingle(task.id)),
+        mergeMap(() => this.adminTasks.tasksCache.refresh(task.id))
+      )
+      .subscribe();
   }
 }

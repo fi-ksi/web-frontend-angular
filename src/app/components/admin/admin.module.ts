@@ -8,6 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { PageAdminTasksComponent } from './page-admin-tasks/page-admin-tasks.component';
 import { AdminSectionCardComponent } from './page-admin-root/admin-section-card/admin-section-card.component';
 import { PageAdminMonitorComponent } from './page-admin-monitor/page-admin-monitor.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { PageAdminMonitorComponent } from './page-admin-monitor/page-admin-monit
   imports: [
     CommonModule,
     AdminRoutingModule,
-    TranslateModule
+    TranslateModule,
+    SharedModule
   ]
 })
 export class AdminModule { }

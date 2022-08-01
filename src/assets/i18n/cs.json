@@ -437,6 +437,22 @@
         "title": "Monitorovací nástěnka",
         "description": "Sledování statistik úloh, vln a ročníků. Zpětná vazba od řešitelů."
       }
+    },
+    "tasks": {
+      "wave": {
+        "tasks": "úloh"
+      },
+      "head": {
+        "id": "ID",
+        "name": "Název",
+        "author": "Autor",
+        "max-points": "Body",
+        "last-deploy": "Poslední deploy",
+        "state": "Stav",
+        "actions": {
+          "deploy": "Nasadit"
+        }
+      }
     }
   }
 }

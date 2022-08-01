@@ -67,8 +67,14 @@
     height: 100%;
     display: flex;
 
-    .content {
+    .content-container {
       flex-grow: 1;
+      display: flex;
+      justify-content: center;
+
+      .content {
+        @include ksi-full-width;
+      }
     }
   }
 }

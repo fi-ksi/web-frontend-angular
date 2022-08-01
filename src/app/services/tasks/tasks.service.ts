@@ -90,7 +90,7 @@ export class TasksService {
           .map((w) => {
             const similar = similarWaves[w.caption];
             w.$mergedWaveIds = new Set(similar.map((w2) => w2.id));
-            w.task_cnt += similar.map((w2) => w2.task_cnt).reduce((p, a) => p + a, 0);
+            w.tasks_cnt += similar.map((w2) => w2.tasks_cnt).reduce((p, a) => p + a, 0);
             w.sum_points += similar.map((w2) => w2.sum_points).reduce((p, a) => p + a, 0);
             similar.forEach((w2) => w.tasks.push(...w2.tasks));
             return w;

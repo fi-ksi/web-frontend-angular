@@ -19,5 +19,5 @@ export interface Wave {
     id: number;
     _public: boolean;
     sum_points: number;
-    task_cnt: number;
+    tasks_cnt: number;
 }

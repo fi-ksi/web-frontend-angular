@@ -1,11 +1,43 @@
 <ksi-admin-sidebar></ksi-admin-sidebar>
-<div class="content">
-  <div *ngFor="let waveTasks of (waveTasks$ | async)">
-    <h3>{{waveTasks.wave.caption}}</h3>
-    <ul>
-      <li *ngFor="let task of waveTasks.tasks">
-        {{task.title}}
-      </li>
-    </ul>
+<div class="content-container">
+  <div class="content">
+    <table class="table table-striped table-responsive-md tasks-table" ksiTheme>
+      <thead>
+      <tr>
+        <th scope="col">{{'admin.tasks.head.id' | translate}}</th>
+        <th scope="col">{{'admin.tasks.head.name' | translate}}</th>
+        <th scope="col">{{'admin.tasks.head.author' | translate}}</th>
+        <th scope="col">{{'admin.tasks.head.max-points' | translate}}</th>
+        <th scope="col">{{'admin.tasks.head.last-deploy' | translate}}</th>
+        <th scope="col"></th>
+        <th scope="col">{{'admin.tasks.head.state' | translate}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <ng-container *ngFor="let waveTasks of (waveTasks$ | async)">
+        <tr class="wave">
+          <td colspan="7">
+            <div class="info">
+              <span class="title">{{waveTasks.wave.caption}}</span>
+              <span class="desc">({{waveTasks.wave.sum_points | translatePoints}}, {{waveTasks.wave.tasks_cnt}} {{'admin.tasks.wave.tasks'|translate}})</span>
+            </div>
+          </td>
+        </tr>
+        <tr *ngFor="let task of waveTasks.tasks">
+          <td>{{task.id}}</td>
+          <td>{{task.title}}</td>
+          <td>{{task.author}}</td>
+          <td>{{task.max_score}}</td>
+          <td>{{task.deploy_date | date: 'short'}}</td>
+          <td>
+            <button class="btn btn-outline-primary">{{'admin.tasks.head.actions.deploy'|translate}}</button>
+          </td>
+          <td>
+            <span class="badge" [class.badge-success]="task.deploy_status === 'done'" [class.badge-dager]="task.deploy_status === 'error'">{{task.deploy_status}}</span>
+          </td>
+        </tr>
+      </ng-container>
+      </tbody>
+    </table>
   </div>
 </div>

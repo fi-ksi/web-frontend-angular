@@ -2,3 +2,40 @@
 @import "src/app/styles/mixins";
 
 @include page-admin;
+
+:host {
+  .content {
+    @include ksi-full-width;
+    justify-self: center;
+
+    .tasks-table {
+      td {
+        vertical-align: middle;
+      }
+
+      .wave {
+        > td {
+          padding: 0;
+          margin: 0;
+          border: none;
+        }
+
+        padding: 0;
+        background: $ksi-page-bg;
+        border: none;
+
+        .info {
+          margin: $ksi-margin;
+          margin-top: $ksi-margin-large;
+          border-left: 2px solid $ksi-article-preview-border-fg;
+          padding-left: $ksi-padding-small;
+
+          .title {
+            font-size: 1.5rem;
+            margin-right: $ksi-margin-small;
+          }
+        }
+      }
+    }
+  }
+}

@@ -402,9 +402,9 @@
       "prediction": {
         "normal": "Potřebuješ získat ještě {{percent}}% z celkového počtu bodů",
         "positive": {
-          "male": "Jsi úspěšným řešitelem KSI",
-          "female": "Jsi úspěšnou řešitelkou KSI",
-          "other": "Jsi úspěšným řešitelem KSI"
+          "male": "Jsi úspěšným řešitelem Naskoč na FI",
+          "female": "Jsi úspěšnou řešitelkou Naskoč na FI",
+          "other": "Jsi úspěšným řešitelem Naskoč na FI"
         },
         "negative": {
           "male": "V tomto ročníku se již nejspíše nemůžeš stát úspěšným řešitelem",

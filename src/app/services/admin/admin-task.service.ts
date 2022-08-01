@@ -5,6 +5,7 @@ import { BackendService, UserService } from '../shared';
 import { map, mergeMap } from 'rxjs/operators';
 import { IAdminTask } from '../../models';
 import { combineLatest, Subscription, timer } from 'rxjs';
+import { TasksService } from '../tasks';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class AdminTaskService {
 
   private listeningDeployStatusChanges: {[taskId: number]: Subscription} = {};
 
-  constructor(private backend: BackendService, private user: UserService) { }
+  constructor(private backend: BackendService, private user: UserService, private tasks: TasksService) { }
 
   public enrichTask(task: AdminTask): IAdminTask {
     const isStableDeployState = task.deploy_status === 'done' || task.deploy_status === 'error' || task.deploy_status === 'default';
@@ -37,6 +38,7 @@ export class AdminTaskService {
     } else if (listeningForDeployStatusChange) {
       // If the task has entered to a stable deploy state, stop listening
       this.listeningDeployStatusChanges[task.id].unsubscribe();
+      this.tasks.getTaskOnce(task.id, true).subscribe();
     }
 
     return {

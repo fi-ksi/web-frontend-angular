@@ -438,6 +438,9 @@
         "description": "Sledování statistik úloh, vln a ročníků. Zpětná vazba od řešitelů."
       }
     },
+    "monitor": {
+      "new-window": "Otevřít v novém panelu"
+    },
     "tasks": {
       "wave": {
         "tasks": "úloh"

@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import { Observable } from 'rxjs';
 import { BackendService, KsiTitleService } from '../../../services';
 import { map } from 'rxjs/operators';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'ksi-page-admin-monitor',
@@ -11,7 +11,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PageAdminMonitorComponent implements OnInit {
-  src$: Observable<SafeUrl>;
+  src$: Observable<SafeResourceUrl>;
 
   constructor(private backend: BackendService, private sanitizer: DomSanitizer, private title: KsiTitleService) { }
 
@@ -22,5 +22,4 @@ export class PageAdminMonitorComponent implements OnInit {
       (r) => this.sanitizer.bypassSecurityTrustResourceUrl(r.url)
     ));
   }
-
 }

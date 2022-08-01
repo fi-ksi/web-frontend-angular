@@ -5,6 +5,14 @@
 
 :host {
   .content-container {
+    display: flex;
+    flex-direction: column;
+
+    .link {
+      margin: $ksi-margin-small;
+      text-align: right;
+    }
+
     .frame {
       width: 100%;
       height: 100%;

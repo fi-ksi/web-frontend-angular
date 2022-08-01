@@ -430,7 +430,7 @@
     "root": {
       "title": "Organizároské rozhraní",
       "tasks": {
-        "title": "Úlohy",
+        "title": "Správa úloh",
         "description": "Přidávání nových úloh. Vypouštění nových verzí úloh. Merge do masteru."
       },
       "monitor": {
@@ -452,6 +452,13 @@
         "actions": {
           "deploy": "Nasadit"
         }
+      },
+      "deploy-status": {
+        "done": "Úspěšně nasazeno",
+        "deploying": "Nasazuji...",
+        "default": "Ještě nenasazeno",
+        "error": "Při nasazování nastala chyba",
+        "diff": "Provádím diff..."
       }
     }
   }

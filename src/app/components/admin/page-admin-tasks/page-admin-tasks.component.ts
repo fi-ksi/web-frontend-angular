@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { KsiTitleService, TasksService, YearsService } from '../../../services';
+import { IconService, KsiTitleService, RoutesService, TasksService, YearsService } from '../../../services';
 import { AdminTask, Wave } from '../../../../api';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
@@ -18,7 +18,13 @@ interface WaveTasks {
 export class PageAdminTasksComponent implements OnInit {
   waveTasks$: Observable<WaveTasks[]>;
 
-  constructor(private years: YearsService, private title: KsiTitleService, private tasks: TasksService) { }
+  constructor(
+    private years: YearsService,
+    private title: KsiTitleService,
+    private tasks: TasksService,
+    public icon: IconService,
+    public routes: RoutesService
+  ) { }
 
   ngOnInit(): void {
     this.waveTasks$ = this.years.adminTasks$.pipe(

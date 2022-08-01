@@ -1,20 +1,24 @@
 <ng-container *ngIf="visible$ | async; else hidden">
-  <nav class="navigation-bar">
-    <a class="title" [routerLink]="['/', routes.routes.admin._]" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active">{{'admin.navbar.title'|translate}}</a>
+  <div class="content" [class.clickable]="window.isMobile$ | async" (click)="hideFullMenu($event)">
+    <nav class="navigation-bar">
+      <a class="title" [routerLink]="['/', routes.routes.admin._]" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active">{{'admin.navbar.title'|translate}}</a>
 
-    <a class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.tasks]" routerLinkActive="active" (click)="hideFullMenu($event)">
-      {{'admin.navbar.tasks' | translate}}
-    </a>
-    <a class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.monitor]" routerLinkActive="active" (click)="hideFullMenu($event)">
-      {{'admin.navbar.monitor' | translate}}
-    </a>
+      <a class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.tasks]" routerLinkActive="active" (click)="hideFullMenu($event)">
+        {{'admin.navbar.tasks' | translate}}
+      </a>
+      <a class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.monitor]" routerLinkActive="active" (click)="hideFullMenu($event)">
+        {{'admin.navbar.monitor' | translate}}
+      </a>
 
-    <div *ngIf="window.isMobile$ | async" class="hide-button clickable" (click)="hideFullMenu($event)"><span>{{icon.BACK}}</span></div>
-  </nav>
+      <div *ngIf="window.isMobile$ | async" class="hide-button clickable">{{icon.BACK}}</div>
+    </nav>
+  </div>
 </ng-container>
 
 <ng-template #hidden>
-  <nav class="navigation-bar hidden" (click)="showFullMenu($event)">
-    <span>{{icon.FORWARD}}</span>
-  </nav>
+  <div class="content" [class.clickable]="window.isMobile$ | async" (click)="showFullMenu($event)">
+    <nav class="navigation-bar hidden">
+      <span>{{icon.FORWARD}}</span>
+    </nav>
+  </div>
 </ng-template>

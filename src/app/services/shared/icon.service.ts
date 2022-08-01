@@ -16,6 +16,6 @@ export class IconService {
   public readonly EDIT = '🖉';
   public readonly SUN = '☀️';
   public readonly MOON = '🌜';
-
-  constructor() { }
+  public readonly CROSS = '☓';
+  public readonly WARNING = '⚠';
 }

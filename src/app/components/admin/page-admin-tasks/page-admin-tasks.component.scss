@@ -9,8 +9,15 @@
     justify-self: center;
 
     .tasks-table {
+      position: relative;
+
       td {
         vertical-align: middle;
+      }
+
+     .table-head-row {
+       position: sticky;
+       top: 0;
       }
 
       .wave {

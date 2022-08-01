@@ -9,6 +9,7 @@ import { PageAdminTasksComponent } from './page-admin-tasks/page-admin-tasks.com
 import { AdminSectionCardComponent } from './page-admin-root/admin-section-card/admin-section-card.component';
 import { PageAdminMonitorComponent } from './page-admin-monitor/page-admin-monitor.component';
 import { SharedModule } from '../shared/shared.module';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { SharedModule } from '../shared/shared.module';
     CommonModule,
     AdminRoutingModule,
     TranslateModule,
-    SharedModule
+    SharedModule,
+    TooltipModule
   ]
 })
 export class AdminModule { }

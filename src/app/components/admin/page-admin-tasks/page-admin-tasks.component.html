@@ -3,7 +3,7 @@
   <div class="content">
     <table class="table table-striped table-responsive-md tasks-table" ksiTheme>
       <thead>
-      <tr>
+      <tr class="table-head-row">
         <th scope="col">{{'admin.tasks.head.id' | translate}}</th>
         <th scope="col">{{'admin.tasks.head.name' | translate}}</th>
         <th scope="col">{{'admin.tasks.head.author' | translate}}</th>
@@ -24,8 +24,14 @@
           </td>
         </tr>
         <tr *ngFor="let task of waveTasks.tasks">
-          <td>{{task.id}}</td>
-          <td>{{task.title}}</td>
+          <td>
+            <a [routerLink]="['/', routes.routes.tasks._, task.id]">{{task.id}}</a>
+          </td>
+          <td>
+            <a [routerLink]="['/', routes.routes.tasks._, task.id]">
+              {{task.title}}
+            </a>
+          </td>
           <td>{{task.author}}</td>
           <td>{{task.max_score}}</td>
           <td>{{task.deploy_date | date: 'short'}}</td>
@@ -33,7 +39,17 @@
             <button class="btn btn-outline-primary">{{'admin.tasks.head.actions.deploy'|translate}}</button>
           </td>
           <td>
-            <span class="badge" [class.badge-success]="task.deploy_status === 'done'" [class.badge-dager]="task.deploy_status === 'error'">{{task.deploy_status}}</span>
+            <span class="badge"
+                  [class.badge-success]="task.deploy_status === 'done'"
+                  [class.badge-dager]="task.deploy_status === 'error'"
+                  tooltip="{{('admin.tasks.deploy-status.'+task.deploy_status) | translate}}"
+            >
+              <ng-container [ngSwitch]="task.deploy_status">
+                <span *ngSwitchCase="'done'">{{icon.CHECKMARK}}</span>
+                <span *ngSwitchCase="'error'">{{icon.CROSS}}</span>
+                <span *ngSwitchDefault>{{icon.CHECKMARK}}</span>
+              </ng-container>
+            </span>
           </td>
         </tr>
       </ng-container>

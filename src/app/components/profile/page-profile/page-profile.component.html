@@ -23,7 +23,7 @@
         </span>
       </span>
 
-      <div class="grant-successful" *ngIf="(userService.isAdmin$ | async)  && !(hasSuccessfulTrophy$ | async) && !user.$isOrg && !user.cheat">
+      <div class="grant-successful" *ngIf="(userService.isAdmin$ | async)  && !(hasSuccessfulTrophy$ | async) && !user.$isOrg && !user.cheat && user.successful">
         <button
           #grantSuccessfulButton
           class="btn btn-ksi w-100"

@@ -77,7 +77,7 @@ export class PageProfileComponent implements OnInit {
         }
       }),
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      mergeMap(({userId, year}) => this.users.getUser(userId!, year)),
+      mergeMap(({userId}) => this.users.getUser(userId!)),
       tap((user) => this.title.subtitle = user.first_name),
       shareReplay(1)
     );
@@ -269,11 +269,12 @@ export class PageProfileComponent implements OnInit {
     grantSuccessfulButton.disabled = true;
     combineLatest([this.user$, this.achievement.getSpecialAchievement('successful')]).pipe(
       take(1),
-      mergeMap(([user, achievement]) => combineLatest([this.backend.http.adminAchievementsGrant({
+      mergeMap(([user, achievement]) => combineLatest([of(user), this.backend.http.adminAchievementsGrant({
         users: [user.id],
         achievement: achievement.id,
         task: null
-      }), of(user)]))
+      })])),
+      mergeMap(([user]) => this.users.cache.refresh(user.id))
     ).subscribe();
   }
 }

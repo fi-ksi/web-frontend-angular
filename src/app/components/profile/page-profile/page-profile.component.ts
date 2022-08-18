@@ -6,7 +6,7 @@ import {
   UsersCacheService,
   WindowService,
   YearsService,
-  UserService, TasksService, AddressService, DiplomasService, ModalService
+  UserService, TasksService, AddressService, DiplomasService, ModalService, AchievementService
 } from '../../../services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
@@ -37,6 +37,8 @@ export class PageProfileComponent implements OnInit {
 
   prediction$: Observable<IPrediction | null>;
 
+  hasSuccessfulTrophy$: Observable<boolean>;
+
   private readonly diplomaURLSubject = new BehaviorSubject<string | null>(null);
   readonly diplomaURL$ = this.diplomaURLSubject.asObservable();
 
@@ -55,7 +57,8 @@ export class PageProfileComponent implements OnInit {
     public icon: IconService,
     private tasks: TasksService,
     private translate: TranslateService,
-    private modal: ModalService
+    private modal: ModalService,
+    private achievement: AchievementService
   ) {
   }
 
@@ -176,6 +179,10 @@ export class PageProfileComponent implements OnInit {
         return PageProfileComponent.generatePrediction(tasks, userProgress[0], year?.sum_points || 0);
       })
     );
+
+    this.hasSuccessfulTrophy$ = combineLatest([this.user$, this.achievement.getSpecialAchievement('successful')]).pipe(
+      map(([user, achievement]) => user.achievements.indexOf(achievement.id) > -1)
+    );
   }
 
   private static generateProgressBar(points: number, maxPoints: number, requiredPercentage = 60): BarValue[] {
@@ -256,5 +263,17 @@ export class PageProfileComponent implements OnInit {
       this.modal.showModalTemplate(this.modalDiploma, 'profile.diploma.modal.title', {class: 'modal-full-width modal-full-height'})
         .afterClose$.subscribe(() => this.diplomaURLSubject.next(null));
     });
+  }
+
+  grantSuccessfulTrophy(grantSuccessfulButton: HTMLButtonElement): void {
+    grantSuccessfulButton.disabled = true;
+    combineLatest([this.user$, this.achievement.getSpecialAchievement('successful')]).pipe(
+      take(1),
+      mergeMap(([user, achievement]) => combineLatest([this.backend.http.adminAchievementsGrant({
+        users: [user.id],
+        achievement: achievement.id,
+        task: null
+      }), of(user)]))
+    ).subscribe();
   }
 }

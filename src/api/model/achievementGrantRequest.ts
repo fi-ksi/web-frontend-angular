@@ -12,6 +12,6 @@
 
 export interface AchievementGrantRequest { 
     users: Array<number>;
-    task: number;
+    task: number | null;
     achievement: number;
 }

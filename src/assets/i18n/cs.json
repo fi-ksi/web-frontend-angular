@@ -427,6 +427,9 @@
         "title": "Diplom",
         "download": "Stáhnout diplom"
       }
+    },
+    "grant-successful-trophy": {
+      "button": "Udělit řád úspěšného řešitele"
     }
   },
   "achievements": {

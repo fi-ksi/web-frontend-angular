@@ -416,6 +416,13 @@
           "other": "V tomto ročníku se již nejspíše nemůžeš stát úspěšným řešitelem"
         }
       }
+    },
+    "diploma": {
+      "grant": {
+        "button": "Udělit diplom",
+        "confirmation": "Vážně chceš udělit diplom? Tato akce nelze vzít zpět."
+      },
+      "show": "Zobrazit diplom"
     }
   },
   "achievements": {

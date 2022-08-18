@@ -6,7 +6,7 @@ import {
   UsersCacheService,
   WindowService,
   YearsService,
-  UserService, TasksService, AddressService
+  UserService, TasksService, AddressService, DiplomasService, ModalService
 } from '../../../services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, Observable, of } from 'rxjs';
@@ -14,7 +14,7 @@ import { map, mergeMap, shareReplay, tap } from 'rxjs/operators';
 import {IUser, TaskIDWithScore, TaskWithIcon, UserProgress, WaveScore, IPrediction} from '../../../models';
 import { BarValue } from 'ngx-bootstrap/progressbar/progressbar-type.interface';
 import { ROUTES } from '../../../../routes/routes';
-import { ProfileResponse } from '../../../../api';
+import { ProfileResponse, User } from '../../../../api';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -38,6 +38,7 @@ export class PageProfileComponent implements OnInit {
 
   constructor(
     public userService: UserService,
+    public diplomaService: DiplomasService,
     private backend: BackendService,
     private users: UsersCacheService,
     private route: ActivatedRoute,
@@ -47,7 +48,8 @@ export class PageProfileComponent implements OnInit {
     public window: WindowService,
     public icon: IconService,
     private tasks: TasksService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private modal: ModalService
   ) {
   }
 
@@ -214,5 +216,24 @@ export class PageProfileComponent implements OnInit {
     const percentNeeded = (maxScore > 0) ? (60 - Math.floor(100 * currentPoints / maxScore)) : 60;
 
     return {percentFromTotalNeeded: percentNeeded, doable: missedScore <= (maxScore * 0.4)};
+  }
+
+  uploadDiploma(user: User, event: Event, diplomaUploadButton: HTMLButtonElement): void {
+    const el: HTMLInputElement = event.target as HTMLInputElement;
+    if (el.files === null) {
+      return;
+    }
+
+    const file = el.files.item(0);
+    if (file === null) {
+      return;
+    }
+
+    this.modal.yesNo('profile.diploma.grant.confirmation').subscribe((answer) => {
+      if (answer) {
+        diplomaUploadButton.disabled = true;
+        this.diplomaService.uploadDiploma(user, file);
+      }
+    });
   }
 }

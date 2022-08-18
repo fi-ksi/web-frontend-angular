@@ -41,6 +41,15 @@
           </tbody>
         </table>
       </div>
+      <ng-container *ngIf="diplomaService.userHasDiploma(user) | async; else diplomaUpload">
+        <button class="btn btn-ksi w-100">{{'profile.diploma.show'|translate}}</button>
+      </ng-container>
+      <ng-template #diplomaUpload>
+        <ng-container *ngIf="userService.isAdmin$ | async">
+          <input #diplomaFileSelector style="display: none" type="file" [multiple]="false" (change)="uploadDiploma(user, $event, diplomaUploadButton)">
+          <button #diplomaUploadButton class="btn btn-ksi w-100" (click)="diplomaFileSelector.click()">{{'profile.diploma.grant.button'|translate}}</button>
+        </ng-container>
+      </ng-template>
     </div>
 
     <div class="right-panel">

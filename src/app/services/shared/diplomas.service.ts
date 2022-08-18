@@ -26,6 +26,14 @@ export class DiplomasService {
     );
   }
 
+  userDiplomaURL(user: User): Observable<string | undefined> {
+    return combineLatest([this.cache.get(user.id), this.years.selected$]).pipe(
+      map(
+        ([diplomas, year]) => diplomas.find((diploma) => diploma.year === year?.id)?.url
+      )
+    );
+  }
+
   uploadDiploma(user: User, file: File): void {
     this.backend.http.adminDiplomaGrantForm(file, user.id, this.years.selected?.id).subscribe(() => {
       environment.logger.debug(`[DIPLOMA] Successfully granted to ${user.id}, refreshing diploma cache`);

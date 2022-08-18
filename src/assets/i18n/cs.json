@@ -422,7 +422,11 @@
         "button": "Udělit diplom",
         "confirmation": "Vážně chceš udělit diplom? Tato akce nelze vzít zpět."
       },
-      "show": "Zobrazit diplom"
+      "show": "Zobrazit diplom",
+      "modal": {
+        "title": "Diplom",
+        "download": "Stáhnout diplom"
+      }
     }
   },
   "achievements": {

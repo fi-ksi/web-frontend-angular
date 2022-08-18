@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef } from '@angular/core';
 import {
   BackendService,
   IconService,
@@ -9,8 +9,8 @@ import {
   UserService, TasksService, AddressService, DiplomasService, ModalService
 } from '../../../services';
 import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatest, Observable, of } from 'rxjs';
-import { map, mergeMap, shareReplay, tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import { map, mergeMap, shareReplay, take, tap } from 'rxjs/operators';
 import {IUser, TaskIDWithScore, TaskWithIcon, UserProgress, WaveScore, IPrediction} from '../../../models';
 import { BarValue } from 'ngx-bootstrap/progressbar/progressbar-type.interface';
 import { ROUTES } from '../../../../routes/routes';
@@ -24,6 +24,9 @@ import { TranslateService } from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PageProfileComponent implements OnInit {
+  @ViewChild('modalDiploma', { static: true })
+  modalDiploma: TemplateRef<unknown>;
+
   user$: Observable<IUser>;
 
   userSeasonsString$: Observable<string>;
@@ -33,6 +36,9 @@ export class PageProfileComponent implements OnInit {
   tasksWithScore$: Observable<TaskIDWithScore[]>;
 
   prediction$: Observable<IPrediction | null>;
+
+  private readonly diplomaURLSubject = new BehaviorSubject<string | null>(null);
+  readonly diplomaURL$ = this.diplomaURLSubject.asObservable();
 
   readonly countries = AddressService.COUNTRIES;
 
@@ -234,6 +240,21 @@ export class PageProfileComponent implements OnInit {
         diplomaUploadButton.disabled = true;
         this.diplomaService.uploadDiploma(user, file);
       }
+    });
+  }
+
+  showDiploma(): void {
+    this.user$.pipe(
+      mergeMap((user) => this.diplomaService.userDiplomaURL(user)),
+      take(1)
+    ).subscribe((diplomaURL) => {
+      if (diplomaURL === undefined) {
+        return;
+      }
+
+      this.diplomaURLSubject.next(diplomaURL);
+      this.modal.showModalTemplate(this.modalDiploma, 'profile.diploma.modal.title', {class: 'modal-full-width modal-full-height'})
+        .afterClose$.subscribe(() => this.diplomaURLSubject.next(null));
     });
   }
 }

@@ -113,6 +113,18 @@ Code highlighting
   &.modal-full-page {
     max-width: min(95vw, 26cm);
   }
+
+  &.modal-full-width {
+    max-width: 98vw;
+  }
+
+  &.modal-full-height {
+    height: calc(100vh - 2 * #{$ksi-padding-large});
+
+    .modal-content {
+      height: 100%;
+    }
+  }
 }
 
 blockquote {

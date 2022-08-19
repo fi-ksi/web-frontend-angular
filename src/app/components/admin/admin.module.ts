@@ -10,6 +10,7 @@ import { AdminSectionCardComponent } from './page-admin-root/admin-section-card/
 import { PageAdminMonitorComponent } from './page-admin-monitor/page-admin-monitor.component';
 import { SharedModule } from '../shared/shared.module';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { PageAdminEmailComponent } from './page-admin-email/page-admin-email.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     AdminSidebarComponent,
     PageAdminTasksComponent,
     AdminSectionCardComponent,
-    PageAdminMonitorComponent
+    PageAdminMonitorComponent,
+    PageAdminEmailComponent
   ],
   imports: [
     CommonModule,

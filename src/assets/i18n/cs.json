@@ -439,7 +439,8 @@
     "navbar": {
       "title": "Admin",
       "tasks": "Úlohy",
-      "monitor": "Monitor"
+      "monitor": "Monitor",
+      "email": "E-mail"
     },
     "root": {
       "title": "Organizároské rozhraní",
@@ -450,6 +451,10 @@
       "monitor": {
         "title": "Monitorovací nástěnka",
         "description": "Sledování statistik úloh, vln a ročníků. Zpětná vazba od řešitelů."
+      },
+      "email": {
+        "title": "Poslat email",
+        "description": "Zasílání emailů řešitelům ohledně nových vln a dalších akcích."
       }
     },
     "monitor": {

@@ -49,7 +49,7 @@
               <button
                 *ngIf="task.$canBeMerged$ | async"
                 class="btn btn-outline-primary"
-                (click)="mergeTask(task)"
+                (click)="mergeTask(task, $event)"
               >{{'admin.tasks.head.actions.merge.title'|translate}}</button>
             </td>
             <td class="text-center">

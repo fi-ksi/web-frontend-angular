@@ -1,5 +1,5 @@
-import { Task } from "../../api";
-import { environment } from "../../environments/environment";
+import { Task } from '../../api';
+import { environment } from '../../environments/environment';
 
 type RecursiveArray<T> = Array<T | RecursiveArray<T>>;
 
@@ -33,7 +33,7 @@ export class Utils {
    * @return true if the element is contained inside the multidimensional array
    */
   public static deepContains<T>(array: RecursiveArray<T>, element: T): boolean {
-    for (let x of array) {
+    for (const x of array) {
       if ((Array.isArray(x) && Utils.deepContains(x, element)) || (element === x)) {
         return true;
       }
@@ -43,6 +43,7 @@ export class Utils {
 
   public static flatArray<T>(array: RecursiveArray<T>): T[] {
     if ('flat' in Array.prototype) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       return array.flat(999) as T[];
     }
@@ -66,5 +67,21 @@ export class Utils {
   public static fixUrl(url: string): string {
     const replace = (x: string): string => x.replace(/([^:])\/\//g, '$1/');
     return replace(replace(url));
+  }
+
+  public static hideButton(button: HTMLButtonElement, showAfter?: number): void {
+    button.disabled = true;
+    const origOpacity = button.style.opacity;
+    const origTransition = button.style.transition;
+    button.style.transition = 'opacity 0.3s';
+    button.style.opacity = '0';
+
+    if (showAfter) {
+      setTimeout(() => {
+        button.disabled = false;
+        button.style.opacity = origOpacity;
+        setTimeout(() =>  button.style.transition = origTransition, 300);
+      }, showAfter);
+    }
   }
 }

@@ -10,8 +10,9 @@ import {
 } from '../../../services';
 import { AdminTask, AdminTaskDeployResponse, Wave } from '../../../../api';
 import { BehaviorSubject, combineLatest, Observable, of, timer } from 'rxjs';
-import { filter, map, mergeMap, take } from 'rxjs/operators';
+import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
 import { IAdminTask } from '../../../models';
+import { Utils } from '../../../util';
 
 interface WaveTasks {
   wave: Wave,
@@ -77,9 +78,7 @@ export class PageAdminTasksComponent implements OnInit {
   }
 
   deployTask(task: AdminTask, event: MouseEvent): void {
-    const deployButton = event.target as HTMLButtonElement;
-    deployButton.disabled = true;
-    setTimeout(() => deployButton.disabled = false, 2000);
+    Utils.hideButton(event.target as HTMLButtonElement, 2000);
 
     this.backend.http.adminTaskDeploySingle(task.id).pipe(take(1)).subscribe(() => {
       // Periodically listen to deploy status changes and if the deployment ends with an error, show the deployment log
@@ -111,10 +110,11 @@ export class PageAdminTasksComponent implements OnInit {
     ).afterClose$.subscribe(() => s.unsubscribe());
   }
 
-  mergeTask(task: IAdminTask): void {
+  mergeTask(task: IAdminTask, event: MouseEvent): void {
     this.modal.yesNo('admin.tasks.head.actions.merge.confirmation')
       .pipe(
         filter((r) => !!r),
+        tap(() => Utils.hideButton(event.target as HTMLButtonElement)),
         mergeMap(() => this.backend.http.adminTaskMergeSingle(task.id)),
         mergeMap(() => this.adminTasks.tasksCache.refresh(task.id))
       )

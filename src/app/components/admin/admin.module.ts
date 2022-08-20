@@ -11,6 +11,8 @@ import { PageAdminMonitorComponent } from './page-admin-monitor/page-admin-monit
 import { SharedModule } from '../shared/shared.module';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { PageAdminEmailComponent } from './page-admin-email/page-admin-email.component';
+import { QuillModule } from 'ngx-quill';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -27,7 +29,9 @@ import { PageAdminEmailComponent } from './page-admin-email/page-admin-email.com
     AdminRoutingModule,
     TranslateModule,
     SharedModule,
-    TooltipModule
+    TooltipModule,
+    QuillModule,
+    ReactiveFormsModule
   ]
 })
 export class AdminModule { }

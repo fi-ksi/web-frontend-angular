@@ -7,5 +7,20 @@
   .content-container {
     display: flex;
     flex-direction: column;
+    margin-top: $ksi-margin-large;
+
+    .form-label {
+      margin-bottom: 0;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    .body-container {
+      background: $ksi-input-focus-bg;
+    }
+
+    .btn-send {
+      margin-top: $ksi-margin;
+    }
   }
 }

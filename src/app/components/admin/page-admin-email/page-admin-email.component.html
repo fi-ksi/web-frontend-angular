@@ -1,3 +1,27 @@
 <ksi-admin-sidebar></ksi-admin-sidebar>
 <div class="content-container">
+  <div class="content">
+    <form [formGroup]="emailForm">
+      <div class="form-group">
+        <label class="form-label" for="subject">{{'admin.email.subject.title'|translate}}</label>
+        <input class="form-control" id="subject" formControlName="subject">
+      </div>
+
+      <label class="form-label" for="mail-body">{{'admin.email.body'|translate}}</label>
+      <div class="body-container">
+        <quill-editor id="mail-body" class="body" formControlName="body"></quill-editor>
+      </div>
+
+      <button type="submit" class="btn btn-ksi w-100 btn-send">{{'admin.email.send.check'|translate}}</button>
+    </form>
+  </div>
 </div>
+
+<ng-template #modalMailCheck>
+  <div class="subject-container">
+    <span class="font-weight-bold">{{'admin.email.subject.title'|translate}}:</span>
+    {{emailForm.controls.subject.valueChanges | async}}
+  </div>
+
+  <div class="body" [innerHTML]="emailForm.controls.body.valueChanges | async"></div>
+</ng-template>

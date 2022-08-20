@@ -460,6 +460,16 @@
     "monitor": {
       "new-window": "Otevřít v novém panelu"
     },
+    "email": {
+      "subject": {
+        "title": "Předmět",
+        "initial": "[KSI] "
+      },
+      "body": "Tělo textu",
+      "send": {
+        "check": "Přejít ke kontrole a odeslání"
+      }
+    },
     "tasks": {
       "wave": {
         "tasks": "úloh"

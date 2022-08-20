@@ -10,6 +10,7 @@ export class Cache<K, V> {
   private readonly fetchNew?: CacheFetchFunction<K, V>;
   private readonly updateSubject = new BehaviorSubject<string | null>(null);
   private readonly update$ = this.updateSubject.asObservable();
+  private readonly fetchingNow: {[internalKey: string]: {publishUpdate: boolean}} = {};
 
   constructor(
     size: number,
@@ -46,14 +47,7 @@ export class Cache<K, V> {
           initial$ = this.refresh(key, false);
         }
 
-        const updates$: Observable<V> = this.update$.pipe(
-          filter((k) => k !== null),
-          filter((k) => k === iKey),
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          map((k) => this.cache[k!]),
-        );
-
-        return concat(initial$, updates$);
+        return concat(initial$, this.getUpdatesFor(key));
       })
     );
   }
@@ -73,10 +67,21 @@ export class Cache<K, V> {
   }
 
   public refresh(key: K, publishUpdate = true): Observable<V> {
-    if(this.fetchNew !== undefined) {
+    if (this.fetchNew !== undefined) {
+      const iKey = this.getInternalKey(key);
+      if (iKey in this.fetchingNow) {
+        this.fetchingNow[iKey].publishUpdate = this.fetchingNow[iKey].publishUpdate || publishUpdate;
+        return this.getUpdatesFor(key);
+      }
+      this.fetchingNow[iKey] = {publishUpdate};
+
       return this.fetchNew(key).pipe(
         take(1),
-        tap((v) => this.set(key, v, publishUpdate))
+        tap((v) => {
+          const { publishUpdate } = this.fetchingNow[iKey];
+          delete this.fetchingNow[iKey];
+          this.set(key, v, publishUpdate);
+        })
       );
     } else {
       throw new Error(`Cache item '${key}' accessed, but not cached nor auto-cacheable`);
@@ -97,6 +102,17 @@ export class Cache<K, V> {
 
   private updateAccessTime(key: string) {
     this.cacheAccessTime[key] = new Date();
+  }
+
+  private getUpdatesFor(key: K): Observable<V> {
+    const iKey = this.getInternalKey(key);
+
+    return this.update$.pipe(
+      filter((k) => k !== null),
+      filter((k) => k === iKey),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      map((k) => this.cache[k!]),
+    );
   }
 
   /**

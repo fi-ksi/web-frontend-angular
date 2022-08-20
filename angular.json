@@ -98,7 +98,7 @@
               "extractLicenses": false,
               "sourceMap": false,
               "namedChunks": true,
-              "baseHref": "/new/",
+              "baseHref": "/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",

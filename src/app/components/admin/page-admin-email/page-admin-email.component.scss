@@ -4,7 +4,7 @@
 @include page-admin;
 
 :host {
-  .content-container {
+  .content {
     display: flex;
     flex-direction: column;
     margin-top: $ksi-margin-large;

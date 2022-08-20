@@ -42,9 +42,8 @@
             <td class="actions">
               <button
                 *ngIf="task.$canBeDeployed$ | async"
-                [disabled]="deployDisable$ | async"
                 class="btn btn-outline-primary btn-deploy"
-                (click)="deployTask(task)"
+                (click)="deployTask(task, $event)"
               >{{'admin.tasks.head.actions.deploy'|translate}}</button>
 
               <button

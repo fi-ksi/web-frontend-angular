@@ -25,14 +25,11 @@ interface WaveTasks {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PageAdminTasksComponent implements OnInit {
-  @ViewChild('modalDeployLog', { static: true })
+  @ViewChild('modalDeployLog', {static: true})
   modalDeployLog: TemplateRef<unknown>;
 
   private readonly deployLogSubject = new BehaviorSubject<AdminTaskDeployResponse | null>(null);
   readonly deployLog$ = this.deployLogSubject.asObservable();
-
-  private readonly deployDisableSubject = new BehaviorSubject<boolean>(false);
-  readonly deployDisable$ = this.deployDisableSubject.asObservable();
 
   waveTasks$: Observable<WaveTasks[]>;
 
@@ -45,12 +42,13 @@ export class PageAdminTasksComponent implements OnInit {
     private backend: BackendService,
     private modal: ModalService,
     private adminTasks: AdminTaskService,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.waveTasks$ = this.years.adminTasks$.pipe(
       mergeMap((tasks) => {
-        const waveIdTasks: {[waveId: number]: Observable<IAdminTask>[]} = {};
+        const waveIdTasks: { [waveId: number]: Observable<IAdminTask>[] } = {};
         tasks.forEach((task) => {
           this.adminTasks.tasksCache.set(task.id, this.adminTasks.enrichTask(this.adminTasks.enrichTask(task)));
           if (!(task.wave in waveIdTasks)) {
@@ -78,9 +76,10 @@ export class PageAdminTasksComponent implements OnInit {
     this.title.subtitle = 'admin.root.tasks.title';
   }
 
-  deployTask(task: AdminTask): void {
-    this.deployDisableSubject.next(true);
-    setTimeout(() => this.deployDisableSubject.next(false), 500);
+  deployTask(task: AdminTask, event: MouseEvent): void {
+    const deployButton = event.target as HTMLButtonElement;
+    deployButton.disabled = true;
+    setTimeout(() => deployButton.disabled = false, 2000);
 
     this.backend.http.adminTaskDeploySingle(task.id).pipe(take(1)).subscribe(() => {
       // Periodically listen to deploy status changes and if the deployment ends with an error, show the deployment log

@@ -24,8 +24,8 @@ export class AdminTaskService {
     const isStableDeployState = task.deploy_status === 'done' || task.deploy_status === 'error' || task.deploy_status === 'default';
     const isMerged = task.git_branch === 'master';
 
-    const canBeDeployed$ = combineLatest([this.backend.user$, this.user.isAdmin$]).pipe(
-      map(([user, isAdmin]) => isAdmin || (user?.id === task.author && !isMerged))
+    const canBeDeployed$ = combineLatest([this.backend.user$, this.user.isAdmin$, this.tasks.cacheWaves.get(task.wave)]).pipe(
+      map(([user, isAdmin, wave]) => isAdmin || (!isMerged && (user?.id === task.author || user?.id === wave.garant)))
     );
     const canBeDeleted$ = this.user.isAdmin$;
     const canBeMerged$ = this.user.isAdmin$.pipe(map((isAdmin) => isAdmin && !isMerged));

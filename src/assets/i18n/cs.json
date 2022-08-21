@@ -461,9 +461,29 @@
       "new-window": "Otevřít v novém panelu"
     },
     "email": {
+      "title": "Posílání emailů",
       "subject": {
         "title": "Předmět",
         "initial": "[KSI] "
+      },
+      "type": {
+        "title": "Kategorie emailu",
+        "ksi": "informace o průběhu semináře (nová vlna, ...)",
+        "event": "pozvánka na akci (KSÍlet, Poznej FI, ...)"
+      },
+      "sex": {
+        "title": "Z daného ročníku poslat podle pohlaví",
+        "both": "dívkám i chlapcům",
+        "male": "chlapcům",
+        "female": "dívkám"
+      },
+      "to": {
+        "title": "Poslat řešitelům ročníku"
+      },
+      "successful": {
+        "title": "Z daného ročníku poslat podle úspěšnosti",
+        "all": "jakkoliv úspěšným",
+        "successful": "pouze úspěšným"
       },
       "body": "Tělo textu",
       "send": {

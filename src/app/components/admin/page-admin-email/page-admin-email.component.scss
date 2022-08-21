@@ -7,20 +7,27 @@
   .content {
     display: flex;
     flex-direction: column;
-    margin-top: $ksi-margin-large;
 
-    .form-label {
-      margin-bottom: 0;
-      font-weight: bold;
-      font-size: 0.9rem;
-    }
-
-    .body-container {
-      background: $ksi-input-focus-bg;
-    }
-
-    .btn-send {
+    .title {
       margin-top: $ksi-margin;
+      text-align: center;
+      margin-bottom: $ksi-margin;
+    }
+
+    .form {
+      .form-label {
+        margin-bottom: 0;
+        font-weight: bold;
+        font-size: 0.9rem;
+      }
+
+      .body-container {
+        background: $ksi-input-focus-bg;
+      }
+
+      .row {
+        margin-top: $ksi-margin-small;
+      }
     }
   }
 }

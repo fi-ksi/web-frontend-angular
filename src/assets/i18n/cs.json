@@ -461,10 +461,17 @@
       "new-window": "Otevřít v novém panelu"
     },
     "email": {
+      "summary": "Tento email budu posílat {{successful}} {{sex}} {{school}} účastnících se ročníku {{year}}. Tento email je {{type}}.",
       "title": "Posílání emailů",
       "subject": {
         "title": "Předmět",
         "initial": "[KSI] "
+      },
+      "school": {
+        "title": "Z daného ročníku poslat podle školy",
+        "hs": "středoškolákům",
+        "other": "NEstředoškolákům",
+        "both": "z jakékoliv školy"
       },
       "type": {
         "title": "Kategorie emailu",

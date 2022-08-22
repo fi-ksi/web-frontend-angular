@@ -5,23 +5,29 @@
 
     <form [formGroup]="emailForm" class="form form-group">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6 col-xl-3">
           <label class="form-label" for="email-to">{{'admin.email.to.title'|translate}}</label>
           <select id="email-to" class="form-control" formControlName="to">
             <option *ngFor="let year of years.all$ | async" [value]="year.id">{{year.year}}</option>
           </select>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6 col-xl-3">
           <label class="form-label" for="email-successful">{{'admin.email.successful.title'|translate}}</label>
           <select id="email-successful" class="form-control" formControlName="successful">
             <option [value]="false">{{'admin.email.successful.all'|translate|titlecase}}</option>
             <option [value]="true">{{'admin.email.successful.successful'|translate|titlecase}}</option>
           </select>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6 col-xl-3">
           <label class="form-label" for="email-sex">{{'admin.email.sex.title'|translate}}</label>
           <select id="email-sex" class="form-control" formControlName="sex">
             <option *ngFor="let val of ['both', 'male', 'female']" [value]="val">{{'admin.email.sex.'+val|translate|titlecase}}</option>
+          </select>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <label class="form-label" for="email-school">{{'admin.email.school.title'|translate}}</label>
+          <select id="email-school" class="form-control" formControlName="school">
+            <option *ngFor="let val of ['both', 'hs', 'other']" [value]="val">{{'admin.email.school.'+val|translate|titlecase}}</option>
           </select>
         </div>
       </div>
@@ -55,14 +61,32 @@
         </div>
       </div>
     </form>
+    <!-- TODO remove, only for debugging  -->
+    <ng-container [ngTemplateOutlet]="modalMailCheck"></ng-container>
   </div>
 </div>
 
 <ng-template #modalMailCheck>
-  <div class="subject-container">
-    <span class="font-weight-bold">{{'admin.email.subject.title'|translate}}:</span>
-    {{emailForm.controls.subject.valueChanges | async}}
-  </div>
+  <div class="modal-email">
+    <div class="summary-container">
+    <span
+      [translate]="'admin.email.summary'"
+      [translateParams]="{
+        successful: (emailForm.controls.successful.value ? ('admin.email.successful.successful' | translate) : ('admin.email.successful.all' | translate)),
+        sex: ('admin.email.sex.'+emailForm.controls.sex.value|translate),
+        year: (selectedYearName$ | async),
+        type:  ('admin.email.type.'+emailForm.controls.type.value|translate),
+        school:  ('admin.email.school.'+emailForm.controls.school.value|translate)
+      }"
+    ></span>
+    </div>
 
-  <div class="body" [innerHTML]="emailForm.controls.body.valueChanges | async"></div>
+    <span class="form-label">{{'admin.email.subject.title'|translate}}</span>
+    <div class="subject-container">
+      {{emailForm.controls.subject.valueChanges | async}}
+    </div>
+
+    <span class="form-label">{{'admin.email.body'|translate}}</span>
+    <div class="body" [innerHTML]="emailForm.controls.body.valueChanges | async"></div>
+  </div>
 </ng-template>

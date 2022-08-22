@@ -15,11 +15,6 @@
     }
 
     .form {
-      .form-label {
-        margin-bottom: 0;
-        font-weight: bold;
-        font-size: 0.9rem;
-      }
 
       .body-container {
         background: $ksi-input-focus-bg;
@@ -29,5 +24,18 @@
         margin-top: $ksi-margin-small;
       }
     }
+  }
+}
+
+.modal-email {
+  display: flex;
+  flex-direction: column;
+
+  & > * {
+    margin-bottom: $ksi-margin;
+  }
+
+  .body {
+    background: $ksi-input-focus-bg;
   }
 }

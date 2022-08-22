@@ -133,4 +133,11 @@ export class YearsService {
       map((response) => response.atasks)
     );
   }
+
+  public getById(yearId: number): Observable<YearSelect | undefined> {
+    return this.all$.pipe(
+      tap((x) => console.log('years', x, x.find((year) => year.id === yearId))),
+      map((years) => years.find((year) => year.id === yearId))
+    );
+  }
 }

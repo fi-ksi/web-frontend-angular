@@ -1,5 +1,5 @@
 import { BehaviorSubject, concat, Observable, of } from 'rxjs';
-import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
+import { filter, map, mergeMap, shareReplay, take, tap } from 'rxjs/operators';
 
 export type CacheFetchFunction<K, V> = (key: K) => Observable<V>;
 
@@ -10,7 +10,7 @@ export class Cache<K, V> {
   private readonly fetchNew?: CacheFetchFunction<K, V>;
   private readonly updateSubject = new BehaviorSubject<string | null>(null);
   private readonly update$ = this.updateSubject.asObservable();
-  private readonly fetchingNow: {[internalKey: string]: {publishUpdate: boolean}} = {};
+  private readonly fetchingNow: {[internalKey: string]: {publishUpdate: boolean, result: Observable<V>}} = {};
 
   constructor(
     size: number,
@@ -71,18 +71,20 @@ export class Cache<K, V> {
       const iKey = this.getInternalKey(key);
       if (iKey in this.fetchingNow) {
         this.fetchingNow[iKey].publishUpdate = this.fetchingNow[iKey].publishUpdate || publishUpdate;
-        return this.getUpdatesFor(key);
+        return this.fetchingNow[iKey].result;
       }
-      this.fetchingNow[iKey] = {publishUpdate};
-
-      return this.fetchNew(key).pipe(
+      const result$ = this.fetchNew(key).pipe(
         take(1),
         tap((v) => {
           const { publishUpdate } = this.fetchingNow[iKey];
           delete this.fetchingNow[iKey];
           this.set(key, v, publishUpdate);
-        })
+        }),
+        shareReplay(1)
       );
+      this.fetchingNow[iKey] = {publishUpdate, result: result$};
+
+      return result$;
     } else {
       throw new Error(`Cache item '${key}' accessed, but not cached nor auto-cacheable`);
     }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BackendService, YearsService, UserService } from '../shared';
 import { combineLatest, merge, Observable, of, Subject } from 'rxjs';
 import { filter, map, mapTo, mergeMap, shareReplay, take, tap } from 'rxjs/operators';
-import { TaskWithIcon, WaveDetails } from '../../models';
+import { IWave, TaskWithIcon, WaveDetails } from '../../models';
 import { Feedback, Task, Wave } from 'src/api';
 import { Cache, Utils } from '../../util';
 import { environment } from '../../../environments/environment';
@@ -71,31 +71,7 @@ export class TasksService {
           tasks: tasks.filter((task) => task.wave === waveHead.id)
         }));
       }),
-      map((waves: WaveDetails[]) => {
-        if (!environment.mergeSimilarWaves) {
-          return waves;
-        }
-        const similarWaves: {[caption: string]: WaveDetails[]} = {};
-        waves.forEach((w) => {
-          const similarName = Object.keys(similarWaves).find((name) => w.caption.startsWith(`${name} -- `));
-          if (similarName) {
-            similarWaves[similarName].push(w);
-          } else {
-            similarWaves[w.caption] = [];
-          }
-        });
-
-        return waves
-          .filter((w) => w.caption in similarWaves)
-          .map((w) => {
-            const similar = similarWaves[w.caption];
-            w.$mergedWaveIds = new Set(similar.map((w2) => w2.id));
-            w.tasks_cnt += similar.map((w2) => w2.tasks_cnt).reduce((p, a) => p + a, 0);
-            w.sum_points += similar.map((w2) => w2.sum_points).reduce((p, a) => p + a, 0);
-            similar.forEach((w2) => w.tasks.push(...w2.tasks));
-            return w;
-          });
-      }),
+      map((waves) => this.mergeSimilarWaveDetails(waves)),
       shareReplay(1)
     );
 
@@ -105,6 +81,52 @@ export class TasksService {
         Object.keys(this.cache).forEach((key) => delete this.cache[Number(key)]);
         this.cacheRequirementsState.flush();
       });
+  }
+
+  public mergeSimilarWaves<T extends IWave>(waves: T[]): T[] {
+    if (!environment.mergeSimilarWaves) {
+      return waves;
+    }
+
+    const similarWaves: {[caption: string]: T[]} = {};
+    waves.forEach((w) => {
+      const similarName = Object.keys(similarWaves).find((name) => w.caption.startsWith(`${name} -- `));
+      if (similarName) {
+        similarWaves[similarName].push(w);
+      } else {
+        similarWaves[w.caption] = [];
+      }
+    });
+
+    return waves
+      .filter((w) => w.caption in similarWaves)
+      .map((w) => {
+        const similar = similarWaves[w.caption];
+        w.$mergedWaveIds = new Set(similar.map((w2) => w2.id));
+        w.tasks_cnt += similar.map((w2) => w2.tasks_cnt).reduce((p, a) => p + a, 0);
+        w.sum_points += similar.map((w2) => w2.sum_points).reduce((p, a) => p + a, 0);
+        return w;
+      });
+  }
+
+  public mergeSimilarWaveDetails(waves: WaveDetails[]): WaveDetails[] {
+    const mergedWaveIDs = new Set<number>();
+
+    return this.mergeSimilarWaves(waves)
+      .map((wave) => {
+        if (wave.$mergedWaveIds !== undefined) {
+          wave.$mergedWaveIds.forEach((waveId) => {
+            mergedWaveIDs.add(waveId);
+            const similarWave = waves.find((x) => x.id == waveId);
+            if (similarWave === undefined) {
+              return;
+            }
+            wave.tasks.push(...similarWave.tasks);
+          });
+        }
+
+        return wave;
+      }).filter((wave) => !mergedWaveIDs.has(wave.id));
   }
 
   /**

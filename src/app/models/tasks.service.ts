@@ -4,8 +4,11 @@ export interface TaskWithIcon extends Task {
   icon: string;
 }
 
-export interface WaveDetails extends Wave {
+export interface IWave extends Wave {
   $mergedWaveIds?: Set<number>;
+}
+
+export interface WaveDetails extends IWave {
   tasks: TaskWithIcon[];
 }
 

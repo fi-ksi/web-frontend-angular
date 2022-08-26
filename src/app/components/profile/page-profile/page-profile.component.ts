@@ -11,7 +11,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { map, mergeMap, shareReplay, take, tap } from 'rxjs/operators';
-import {IUser, TaskIDWithScore, TaskWithIcon, UserProgress, WaveScore, IPrediction} from '../../../models';
+import { IUser, TaskIDWithScore, TaskWithIcon, UserProgress, WaveScore, IPrediction, IWave } from '../../../models';
 import { BarValue } from 'ngx-bootstrap/progressbar/progressbar-type.interface';
 import { ROUTES } from '../../../../routes/routes';
 import { ProfileResponse, User } from '../../../../api';
@@ -129,20 +129,29 @@ export class PageProfileComponent implements OnInit {
         if (!taskScores.length || !waves.length) {
           return of({});
         }
-
+        const extendedWaves = this.tasks.mergeSimilarWaves(waves) as IWave[];
+        const waveMap: {[waveId: number]: number} = {};
         const waveScore: WaveScore = {};
         const taskScoresById: {[taskId: number]: number} = {};
-        waves.forEach((wave) => waveScore[wave.id] = {title: wave.caption, max: wave.sum_points, current: 0, solved: 0});
+
+        extendedWaves.forEach((wave) => {
+          waveScore[wave.id] = {title: wave.caption, max: wave.sum_points, current: 0, solved: 0};
+          waveMap[wave.id] = wave.id;
+          if (wave.$mergedWaveIds) {
+            wave.$mergedWaveIds.forEach((waveId2) => waveMap[waveId2] = wave.id);
+          }
+        });
         taskScores.forEach((taskScore) => taskScoresById[taskScore.id] = taskScore.score || 0);
 
         return combineLatest([...taskScores.map((task) => this.tasks.getTaskOnce(task.id))]).pipe(
           map((tasks) => {
             tasks.forEach((task) => {
-              if (task.wave in waveScore) {
-                waveScore[task.wave].current += taskScoresById[task.id];
+              const scoreKey = waveMap[task.wave];
+              if (scoreKey in waveScore) {
+                waveScore[scoreKey].current += taskScoresById[task.id];
                 switch (task.state) {
                 case 'done':
-                  waveScore[task.wave].solved += 1;
+                  waveScore[scoreKey].solved += 1;
                   break;
                 }
               }

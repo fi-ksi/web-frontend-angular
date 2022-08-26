@@ -47,6 +47,14 @@
         }
       }
 
+      .diploma {
+        margin: $ksi-margin-small $ksi-margin-x-small $ksi-margin-x-small;
+
+        .btn {
+          padding: $ksi-padding-small $ksi-padding;
+        }
+      }
+
       .contact {
         @include round-corner;
         background-color: $ksi-thumbnail-bg;
@@ -113,5 +121,19 @@
         height: 2em;
       }
     }
+  }
+}
+
+.modal-diploma {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+
+  .pdf {
+    min-width: 100%;
+    max-width: 100%;
+    height: 100%;
   }
 }

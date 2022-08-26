@@ -9,9 +9,8 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { DiplomasList } from './diplomasList';
 
-export interface AchievementGrantRequest { 
-    users: Array<number>;
-    task: number | null;
-    achievement: number;
+export interface DiplomasListResponse { 
+    diplomas: Array<DiplomasList>;
 }

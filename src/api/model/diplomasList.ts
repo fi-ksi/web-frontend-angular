@@ -10,8 +10,8 @@
  * Do not edit the class manually.
  */
 
-export interface AchievementGrantRequest { 
-    users: Array<number>;
-    task: number | null;
-    achievement: number;
+export interface DiplomasList { 
+    year: number;
+    revoked: boolean;
+    url: string;
 }

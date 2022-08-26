@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef } from '@angular/core';
 import {
   BackendService,
   IconService,
@@ -6,15 +6,15 @@ import {
   UsersCacheService,
   WindowService,
   YearsService,
-  UserService, TasksService, AddressService
+  UserService, TasksService, AddressService, DiplomasService, ModalService, AchievementService
 } from '../../../services';
 import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatest, Observable, of } from 'rxjs';
-import { map, mergeMap, shareReplay, tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import { map, mergeMap, shareReplay, take, tap } from 'rxjs/operators';
 import {IUser, TaskIDWithScore, TaskWithIcon, UserProgress, WaveScore, IPrediction} from '../../../models';
 import { BarValue } from 'ngx-bootstrap/progressbar/progressbar-type.interface';
 import { ROUTES } from '../../../../routes/routes';
-import { ProfileResponse } from '../../../../api';
+import { ProfileResponse, User } from '../../../../api';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -24,6 +24,9 @@ import { TranslateService } from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PageProfileComponent implements OnInit {
+  @ViewChild('modalDiploma', { static: true })
+  modalDiploma: TemplateRef<unknown>;
+
   user$: Observable<IUser>;
 
   userSeasonsString$: Observable<string>;
@@ -34,10 +37,16 @@ export class PageProfileComponent implements OnInit {
 
   prediction$: Observable<IPrediction | null>;
 
+  hasSuccessfulTrophy$: Observable<boolean>;
+
+  private readonly diplomaURLSubject = new BehaviorSubject<string | null>(null);
+  readonly diplomaURL$ = this.diplomaURLSubject.asObservable();
+
   readonly countries = AddressService.COUNTRIES;
 
   constructor(
     public userService: UserService,
+    public diplomaService: DiplomasService,
     private backend: BackendService,
     private users: UsersCacheService,
     private route: ActivatedRoute,
@@ -47,7 +56,9 @@ export class PageProfileComponent implements OnInit {
     public window: WindowService,
     public icon: IconService,
     private tasks: TasksService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private modal: ModalService,
+    private achievement: AchievementService
   ) {
   }
 
@@ -66,7 +77,7 @@ export class PageProfileComponent implements OnInit {
         }
       }),
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      mergeMap(({userId, year}) => this.users.getUser(userId!, year)),
+      mergeMap(({userId}) => this.users.getUser(userId!)),
       tap((user) => this.title.subtitle = user.first_name),
       shareReplay(1)
     );
@@ -168,6 +179,10 @@ export class PageProfileComponent implements OnInit {
         return PageProfileComponent.generatePrediction(tasks, userProgress[0], year?.sum_points || 0);
       })
     );
+
+    this.hasSuccessfulTrophy$ = combineLatest([this.user$, this.achievement.getSpecialAchievement('successful')]).pipe(
+      map(([user, achievement]) => user.achievements.indexOf(achievement.id) > -1)
+    );
   }
 
   private static generateProgressBar(points: number, maxPoints: number, requiredPercentage = 90): BarValue[] {
@@ -214,5 +229,52 @@ export class PageProfileComponent implements OnInit {
     const percentNeeded = (maxScore > 0) ? (90 - Math.floor(100 * currentPoints / maxScore)) : 90;
 
     return {percentFromTotalNeeded: percentNeeded, doable: missedScore <= (maxScore * 0.4)};
+  }
+
+  uploadDiploma(user: User, event: Event, diplomaUploadButton: HTMLButtonElement): void {
+    const el: HTMLInputElement = event.target as HTMLInputElement;
+    if (el.files === null) {
+      return;
+    }
+
+    const file = el.files.item(0);
+    if (file === null) {
+      return;
+    }
+
+    this.modal.yesNo('profile.diploma.grant.confirmation').subscribe((answer) => {
+      if (answer) {
+        diplomaUploadButton.disabled = true;
+        this.diplomaService.uploadDiploma(user, file);
+      }
+    });
+  }
+
+  showDiploma(): void {
+    this.user$.pipe(
+      mergeMap((user) => this.diplomaService.userDiplomaURL(user)),
+      take(1)
+    ).subscribe((diplomaURL) => {
+      if (diplomaURL === undefined) {
+        return;
+      }
+
+      this.diplomaURLSubject.next(diplomaURL);
+      this.modal.showModalTemplate(this.modalDiploma, 'profile.diploma.modal.title', {class: 'modal-full-width modal-full-height'})
+        .afterClose$.subscribe(() => this.diplomaURLSubject.next(null));
+    });
+  }
+
+  grantSuccessfulTrophy(grantSuccessfulButton: HTMLButtonElement): void {
+    grantSuccessfulButton.disabled = true;
+    combineLatest([this.user$, this.achievement.getSpecialAchievement('successful')]).pipe(
+      take(1),
+      mergeMap(([user, achievement]) => combineLatest([of(user), this.backend.http.adminAchievementsGrant({
+        users: [user.id],
+        achievement: achievement.id,
+        task: null
+      })])),
+      mergeMap(([user]) => this.users.cache.refresh(user.id))
+    ).subscribe();
   }
 }

@@ -21,5 +21,6 @@ export interface IRoutes {
     _: string;
     tasks: string;
     monitor: string;
+    email: string;
   };
 }

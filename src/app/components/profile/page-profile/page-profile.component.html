@@ -23,6 +23,28 @@
         </span>
       </span>
 
+      <div class="grant-successful" *ngIf="(userService.isAdmin$ | async)  && !(hasSuccessfulTrophy$ | async) && !user.$isOrg && !user.cheat && user.successful">
+        <button
+          #grantSuccessfulButton
+          class="btn btn-ksi w-100"
+          (click)="grantSuccessfulTrophy(grantSuccessfulButton)"
+        >
+          {{'profile.grant-successful-trophy.button'|translate}}
+        </button>
+      </div>
+
+      <div class="diploma" *ngIf="!user.$isOrg">
+        <ng-container *ngIf="diplomaService.userHasDiploma(user) | async; else diplomaUpload">
+          <button class="btn btn-ksi w-100" (click)="showDiploma()">{{'profile.diploma.show'|translate}}</button>
+        </ng-container>
+        <ng-template #diplomaUpload>
+          <ng-container *ngIf="userService.isAdmin$ | async">
+            <input #diplomaFileSelector style="display: none" type="file" [multiple]="false" (change)="uploadDiploma(user, $event, diplomaUploadButton)">
+            <button #diplomaUploadButton class="btn btn-ksi w-100" (click)="diplomaFileSelector.click()">{{'profile.diploma.grant.button'|translate}}</button>
+          </ng-container>
+        </ng-template>
+      </div>
+
       <div class="contact" *ngIf="!user.$isOrg">
         <table class="contact table table-borderless">
           <tbody>
@@ -105,3 +127,10 @@
     </div>
   </ng-container>
 </div>
+
+<ng-template #modalDiploma>
+  <div class="modal-diploma" *ngIf="diplomaURL$ | async as url">
+    <a [href]="url" [download]="'diploma.pdf'">{{'profile.diploma.modal.download'|translate}}</a>
+    <pdf-viewer class="pdf" [src]="url" [render-text]="true" [original-size]="false" [zoom-scale]="'page-height'"></pdf-viewer>
+  </div>
+</ng-template>

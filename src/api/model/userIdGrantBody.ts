@@ -10,8 +10,6 @@
  * Do not edit the class manually.
  */
 
-export interface AchievementGrantRequest { 
-    users: Array<number>;
-    task: number | null;
-    achievement: number;
+export interface UserIdGrantBody { 
+    files: Blob;
 }

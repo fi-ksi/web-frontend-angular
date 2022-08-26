@@ -412,6 +412,20 @@
           "other": "V tomto ročníku se již nejspíše nemůžeš stát úspěšným řešitelem"
         }
       }
+    },
+    "diploma": {
+      "grant": {
+        "button": "Udělit diplom",
+        "confirmation": "Vážně chceš udělit diplom? Tato akce nelze vzít zpět."
+      },
+      "show": "Zobrazit diplom",
+      "modal": {
+        "title": "Diplom",
+        "download": "Stáhnout diplom"
+      }
+    },
+    "grant-successful-trophy": {
+      "button": "Udělit řád úspěšného řešitele"
     }
   },
   "achievements": {
@@ -421,7 +435,8 @@
     "navbar": {
       "title": "Admin",
       "tasks": "Úlohy",
-      "monitor": "Monitor"
+      "monitor": "Monitor",
+      "email": "E-mail"
     },
     "root": {
       "title": "Organizároské rozhraní",
@@ -432,10 +447,51 @@
       "monitor": {
         "title": "Monitorovací nástěnka",
         "description": "Sledování statistik úloh, vln a ročníků. Zpětná vazba od řešitelů."
+      },
+      "email": {
+        "title": "Poslat email",
+        "description": "Zasílání emailů řešitelům ohledně nových vln a dalších akcích."
       }
     },
     "monitor": {
       "new-window": "Otevřít v novém panelu"
+    },
+    "email": {
+      "summary": "Tento email budu posílat {{successful}} {{sex}} {{school}} účastnících se ročníku {{year}}. Tento email je {{type}}.",
+      "title": "Posílání emailů",
+      "subject": {
+        "title": "Předmět",
+        "initial": "[KSI] "
+      },
+      "school": {
+        "title": "Z daného ročníku poslat podle školy",
+        "hs": "středoškolákům",
+        "other": "NEstředoškolákům",
+        "both": "z jakékoliv školy"
+      },
+      "type": {
+        "title": "Kategorie emailu",
+        "ksi": "informace o průběhu semináře (nová vlna, ...)",
+        "event": "pozvánka na akci (KSÍlet, Poznej FI, ...)"
+      },
+      "sex": {
+        "title": "Z daného ročníku poslat podle pohlaví",
+        "both": "dívkám i chlapcům",
+        "male": "chlapcům",
+        "female": "dívkám"
+      },
+      "to": {
+        "title": "Poslat řešitelům ročníku"
+      },
+      "successful": {
+        "title": "Z daného ročníku poslat podle úspěšnosti",
+        "all": "jakkoliv úspěšným",
+        "successful": "pouze úspěšným"
+      },
+      "body": "Tělo textu",
+      "send": {
+        "check": "Přejít ke kontrole a odeslání"
+      }
     },
     "tasks": {
       "wave": {

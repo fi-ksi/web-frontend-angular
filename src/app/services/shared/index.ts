@@ -12,3 +12,4 @@ export * from './version.service';
 export * from './window.service';
 export * from './years.service';
 export * from './routes.service';
+export * from './diplomas.service';

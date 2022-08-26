@@ -2,12 +2,6 @@
 
 form > *:not(:last-child) {
   margin-bottom: $ksi-margin;
-
-  &.form-label {
-    margin-bottom: 0;
-    font-weight: bold;
-    font-size: 0.9rem;
-  }
 }
 
 p {

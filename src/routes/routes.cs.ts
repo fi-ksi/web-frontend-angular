@@ -23,6 +23,7 @@ export const ROUTES: IRoutes = {
   admin: {
     _: 'admin',
     tasks: 'ulohy',
-    monitor: 'monitor'
+    monitor: 'monitor',
+    email: 'email'
   }
 };

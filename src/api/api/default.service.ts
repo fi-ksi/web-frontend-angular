@@ -43,6 +43,7 @@ import { CorrectionResponse } from '../model/correctionResponse';
 import { CorrectionState } from '../model/correctionState';
 import { CorrectionUpdateRequest } from '../model/correctionUpdateRequest';
 import { CorrectionsAllResponse } from '../model/correctionsAllResponse';
+import { DiplomasListResponse } from '../model/diplomasListResponse';
 import { EmailSendRequest } from '../model/emailSendRequest';
 import { EmailSendResponse } from '../model/emailSendResponse';
 import { EmptyDict } from '../model/emptyDict';
@@ -393,6 +394,42 @@ export class DefaultService {
     /**
      * 
      * 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public achievementsGetSuccessful(observe?: 'body', reportProgress?: boolean): Observable<AchievementResponse>;
+    public achievementsGetSuccessful(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AchievementResponse>>;
+    public achievementsGetSuccessful(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AchievementResponse>>;
+    public achievementsGetSuccessful(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<AchievementResponse>('get',`${this.basePath}/achievements/special/successful`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
      * @param body 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -434,7 +471,7 @@ export class DefaultService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<AchievementGrantResponse>('post',`${this.basePath}/admin/achievements`,
+        return this.httpClient.request<AchievementGrantResponse>('post',`${this.basePath}/admin/achievements/grant`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,
@@ -831,6 +868,84 @@ export class DefaultService {
         return this.httpClient.request<CorrectionResponse>('put',`${this.basePath}/admin/corrections/${encodeURIComponent(String(correctionId))}`,
             {
                 body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param files 
+     * @param userId 
+     * @param year 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminDiplomaGrantForm(files: Blob, userId: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public adminDiplomaGrantForm(files: Blob, userId: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public adminDiplomaGrantForm(files: Blob, userId: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public adminDiplomaGrantForm(files: Blob, userId: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (files === null || files === undefined) {
+            throw new Error('Required parameter files was null or undefined when calling adminDiplomaGrant.');
+        }
+
+        if (userId === null || userId === undefined) {
+            throw new Error('Required parameter userId was null or undefined when calling adminDiplomaGrant.');
+        }
+
+
+        let headers = this.defaultHeaders;
+        if (year !== undefined && year !== null) {
+            headers = headers.set('year', String(year));
+        }
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'multipart/form-data'
+        ];
+
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): void; };
+        let useForm = false;
+        let convertFormParamsToString = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        }
+
+        if (files !== undefined) {
+            formParams = formParams.append('files', <any>files) as any || formParams;
+        }
+
+        return this.httpClient.request<any>('post',`${this.basePath}/admin/diploma/${encodeURIComponent(String(userId))}/grant`,
+            {
+                body: convertFormParamsToString ? formParams.toString() : formParams,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -2427,6 +2542,93 @@ export class DefaultService {
         return this.httpClient.request<InlineResponse2001>('get',`${this.basePath}/content`,
             {
                 params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param userId 
+     * @param yearId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public diplomaDownloadSingle(userId: number, yearId: number, observe?: 'body', reportProgress?: boolean): Observable<Blob>;
+    public diplomaDownloadSingle(userId: number, yearId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Blob>>;
+    public diplomaDownloadSingle(userId: number, yearId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Blob>>;
+    public diplomaDownloadSingle(userId: number, yearId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (userId === null || userId === undefined) {
+            throw new Error('Required parameter userId was null or undefined when calling diplomaDownloadSingle.');
+        }
+
+        if (yearId === null || yearId === undefined) {
+            throw new Error('Required parameter yearId was null or undefined when calling diplomaDownloadSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<Blob>('get',`${this.basePath}/diplomas/${encodeURIComponent(String(userId))}/${encodeURIComponent(String(yearId))}/show`,//@ts-ignore
+{responseType: "blob",
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param userId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public diplomasListForUserSingle(userId: number, observe?: 'body', reportProgress?: boolean): Observable<DiplomasListResponse>;
+    public diplomasListForUserSingle(userId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<DiplomasListResponse>>;
+    public diplomasListForUserSingle(userId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<DiplomasListResponse>>;
+    public diplomasListForUserSingle(userId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (userId === null || userId === undefined) {
+            throw new Error('Required parameter userId was null or undefined when calling diplomasListForUserSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<DiplomasListResponse>('get',`${this.basePath}/diplomas/${encodeURIComponent(String(userId))}`,
+            {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

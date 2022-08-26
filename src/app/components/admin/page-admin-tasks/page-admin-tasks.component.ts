@@ -10,8 +10,9 @@ import {
 } from '../../../services';
 import { AdminTask, AdminTaskDeployResponse, Wave } from '../../../../api';
 import { BehaviorSubject, combineLatest, Observable, of, timer } from 'rxjs';
-import { filter, map, mergeMap, take } from 'rxjs/operators';
+import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
 import { IAdminTask } from '../../../models';
+import { Utils } from '../../../util';
 
 interface WaveTasks {
   wave: Wave,
@@ -25,14 +26,11 @@ interface WaveTasks {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PageAdminTasksComponent implements OnInit {
-  @ViewChild('modalDeployLog', { static: true })
+  @ViewChild('modalDeployLog', {static: true})
   modalDeployLog: TemplateRef<unknown>;
 
   private readonly deployLogSubject = new BehaviorSubject<AdminTaskDeployResponse | null>(null);
   readonly deployLog$ = this.deployLogSubject.asObservable();
-
-  private readonly deployDisableSubject = new BehaviorSubject<boolean>(false);
-  readonly deployDisable$ = this.deployDisableSubject.asObservable();
 
   waveTasks$: Observable<WaveTasks[]>;
 
@@ -45,12 +43,13 @@ export class PageAdminTasksComponent implements OnInit {
     private backend: BackendService,
     private modal: ModalService,
     private adminTasks: AdminTaskService,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.waveTasks$ = this.years.adminTasks$.pipe(
       mergeMap((tasks) => {
-        const waveIdTasks: {[waveId: number]: Observable<IAdminTask>[]} = {};
+        const waveIdTasks: { [waveId: number]: Observable<IAdminTask>[] } = {};
         tasks.forEach((task) => {
           this.adminTasks.tasksCache.set(task.id, this.adminTasks.enrichTask(this.adminTasks.enrichTask(task)));
           if (!(task.wave in waveIdTasks)) {
@@ -78,9 +77,8 @@ export class PageAdminTasksComponent implements OnInit {
     this.title.subtitle = 'admin.root.tasks.title';
   }
 
-  deployTask(task: AdminTask): void {
-    this.deployDisableSubject.next(true);
-    setTimeout(() => this.deployDisableSubject.next(false), 500);
+  deployTask(task: AdminTask, event: MouseEvent): void {
+    Utils.hideButton(event.target as HTMLButtonElement, 2000);
 
     this.backend.http.adminTaskDeploySingle(task.id).pipe(take(1)).subscribe(() => {
       // Periodically listen to deploy status changes and if the deployment ends with an error, show the deployment log
@@ -112,10 +110,11 @@ export class PageAdminTasksComponent implements OnInit {
     ).afterClose$.subscribe(() => s.unsubscribe());
   }
 
-  mergeTask(task: IAdminTask): void {
+  mergeTask(task: IAdminTask, event: MouseEvent): void {
     this.modal.yesNo('admin.tasks.head.actions.merge.confirmation')
       .pipe(
         filter((r) => !!r),
+        tap(() => Utils.hideButton(event.target as HTMLButtonElement)),
         mergeMap(() => this.backend.http.adminTaskMergeSingle(task.id)),
         mergeMap(() => this.adminTasks.tasksCache.refresh(task.id))
       )

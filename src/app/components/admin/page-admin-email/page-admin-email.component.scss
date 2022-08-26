@@ -1,0 +1,41 @@
+@import "src/app/styles/vars";
+@import "src/app/styles/mixins";
+
+@include page-admin;
+
+:host {
+  .content {
+    display: flex;
+    flex-direction: column;
+
+    .title {
+      margin-top: $ksi-margin;
+      text-align: center;
+      margin-bottom: $ksi-margin;
+    }
+
+    .form {
+
+      .body-container {
+        background: $ksi-input-focus-bg;
+      }
+
+      .row {
+        margin-top: $ksi-margin-small;
+      }
+    }
+  }
+}
+
+.modal-email {
+  display: flex;
+  flex-direction: column;
+
+  & > * {
+    margin-bottom: $ksi-margin;
+  }
+
+  .body {
+    background: $ksi-input-focus-bg;
+  }
+}

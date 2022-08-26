@@ -1,8 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { KsiTitleService, RoutesService, YearsService } from "../../../services";
-import { User } from "../../../../api";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { KsiTitleService, RoutesService, YearsService } from '../../../services';
+import { User } from '../../../../api';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 interface PositionedUser extends User {
   position: string;
@@ -49,7 +49,7 @@ export class PageResultsComponent implements OnInit {
         });
 
         let previousEndingPos = 1;
-        for (let score of scores) {
+        for (const score of scores) {
           scorePositions[score] = {
             from: previousEndingPos,
             to: previousEndingPos + scoresCount[score] - 1,
@@ -63,9 +63,8 @@ export class PageResultsComponent implements OnInit {
             scorePositions[user.score].from === scorePositions[user.score].to ?
               `${scorePositions[user.score].from}.`
               : `${scorePositions[user.score].from}.-${scorePositions[user.score].to}.`,
-        }));
+        })).sort((a, b) => b.score - a.score);
       })
     );
   }
-
 }

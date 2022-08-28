@@ -2,7 +2,7 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-import { Environment } from "./model";
+import { Environment } from './model';
 
 export const environment: Environment = {
   production: true,
@@ -14,5 +14,6 @@ export const environment: Environment = {
     error: console.error,
     debug: console.debug,
     warn: console.warn
-  }
+  },
+  oldFrontendUrl: 'https://ksi-admin.ahlava.cz'
 };

@@ -10,5 +10,6 @@ export interface Environment {
   },
   disableRegistration?: boolean,
   allowTestingAccountRegistration?: boolean,
-  mergeSimilarWaves?: boolean
+  mergeSimilarWaves?: boolean,
+  oldFrontendUrl?: string;
 }

@@ -3,6 +3,7 @@ import { IconService, RoutesService, UserService, WindowService } from '../../..
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'ksi-admin-sidebar',
@@ -16,6 +17,19 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
   visible$: Observable<boolean>;
 
   private readonly hideSubject = new BehaviorSubject(true);
+
+  oldFrontendUrl = environment.oldFrontendUrl;
+
+  oldFrontendButtons = [
+    ['e-mail/', 'E-mail'],
+    ['forum/', 'Diskuze'],
+    ['achievements/', 'Trofeje'],
+    ['users/', 'Uživatelé'],
+    ['years/', 'Ročníky'],
+    ['waves/', 'Vlny'],
+    ['execs/', 'Spuštění'],
+    ['opravovani/', 'Opravování'],
+  ]
 
   constructor(
     public routes: RoutesService,
@@ -52,5 +66,10 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
     this.hideSubject.next(false);
     event.stopPropagation();
     return false;
+  }
+
+  openExternal(event: MouseEvent): void {
+    const anchor = event.target as HTMLAnchorElement;
+    window.open(anchor.href, '_blank');
   }
 }

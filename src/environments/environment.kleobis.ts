@@ -6,7 +6,7 @@ import { Environment } from './model';
 
 export const environment: Environment = {
   production: true,
-  disableRegistration: true,
+  disableRegistration: false,
   backend: 'https://rest.ksi.fi.muni.cz/',
   urlPrefix: '/',
   logger: {

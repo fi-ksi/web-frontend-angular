@@ -32,6 +32,8 @@ export class PageAdminTasksComponent implements OnInit {
   private readonly deployLogSubject = new BehaviorSubject<AdminTaskDeployResponse | null>(null);
   readonly deployLog$ = this.deployLogSubject.asObservable();
 
+  private readonly taskDeployQueue: {task: AdminTask, button: HTMLButtonElement}[] = [];
+
   waveTasks$: Observable<WaveTasks[]>;
 
   constructor(
@@ -77,23 +79,45 @@ export class PageAdminTasksComponent implements OnInit {
     this.title.subtitle = 'admin.root.tasks.title';
   }
 
-  deployTask(task: AdminTask, event: MouseEvent): void {
-    Utils.hideButton(event.target as HTMLButtonElement, 2000);
+  requestTaskDeploy(task: AdminTask, event: MouseEvent): void {
+    const button = event.target as HTMLButtonElement;
+    button.disabled = true;
 
-    this.backend.http.adminTaskDeploySingle(task.id).pipe(take(1)).subscribe(() => {
-      // Periodically listen to deploy status changes and if the deployment ends with an error, show the deployment log
-      const s = timer(100, 1500).pipe(
-        mergeMap(() => this.adminTasks.tasksCache.refresh(task.id))
-      ).subscribe((task) => {
-        if (task.$isStableDeployState) {
-          s.unsubscribe();
-        }
+    this.scheduleTaskDeploy(task, button).then();
+  }
 
-        if (task.deploy_status === 'error') {
-          this.showDeployLog(task);
-        }
+  private async scheduleTaskDeploy(task: AdminTask, button: HTMLButtonElement): Promise<void> {
+    this.taskDeployQueue.push({ task, button });
+    if (this.taskDeployQueue.length > 1) {
+      // the deployment is already running
+      return;
+    }
+
+    while (this.taskDeployQueue.length > 0) {
+      const { task, button } = this.taskDeployQueue[0];
+
+      Utils.hideButton(button, 2000);
+
+      await new Promise((resolve) => {
+        this.backend.http.adminTaskDeploySingle(task.id).pipe(take(1)).subscribe(() => {
+          // Periodically listen to deploy status changes and if the deployment ends with an error, show the deployment log
+          const s = timer(100, 1500).pipe(
+            mergeMap(() => this.adminTasks.tasksCache.refresh(task.id))
+          ).subscribe((task) => {
+            if (task.$isStableDeployState) {
+              s.unsubscribe();
+              resolve(null);
+            }
+
+            if (task.deploy_status === 'error') {
+              this.showDeployLog(task);
+            }
+          });
+        });
       });
-    });
+
+      this.taskDeployQueue.shift();
+    }
   }
 
   showDeployLog(task: AdminTask): void {

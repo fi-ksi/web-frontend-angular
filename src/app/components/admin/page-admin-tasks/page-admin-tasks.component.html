@@ -43,7 +43,7 @@
               <button
                 *ngIf="task.$canBeDeployed$ | async"
                 class="btn btn-outline-primary btn-deploy"
-                (click)="deployTask(task, $event)"
+                (click)="requestTaskDeploy(task, $event)"
               >{{'admin.tasks.head.actions.deploy'|translate}}</button>
 
               <button

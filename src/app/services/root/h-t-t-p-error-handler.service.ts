@@ -1,9 +1,9 @@
 import { Injectable, Injector } from '@angular/core';
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
-import { Router } from "@angular/router";
-import { Observable, throwError } from "rxjs";
-import { catchError } from "rxjs/operators";
-import { ModalService } from "../shared";
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { ModalService } from '../shared';
 
 @Injectable({
   providedIn: 'root'
@@ -15,19 +15,19 @@ export class HTTPErrorHandlerService implements HttpInterceptor {
     window.setTimeout(() => this.modal = this.injector.get(ModalService));
   }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(req).pipe(
       catchError((error) => {
         if (error instanceof HttpErrorResponse) {
           const position = {
             path: location.pathname,
-          }
-          if (error.status === 403 || error.status === 404) {
+          };
+          if (error.status === 404) {
             window.setTimeout(() => {
               this.router.navigate(['/', `${error.status}`], {
                 fragment: position.path
               }).then();
-            })
+            });
           } else if (error.status === 0 || Math.floor(error.status / 100) === 5) {
             this.modal.showServerErrorModal();
           }

@@ -8,7 +8,7 @@ export const environment: Environment = {
   production: true,
   disableRegistration: true,
   backend: 'https://rest.ksi.fi.muni.cz/',
-  urlPrefix: '/novy-web/',
+  urlPrefix: '/',
   logger: {
     log: console.log,
     error: console.error,

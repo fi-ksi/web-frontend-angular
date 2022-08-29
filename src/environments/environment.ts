@@ -16,7 +16,8 @@ export const environment: Environment = {
     warn: console.warn
   },
   allowTestingAccountRegistration: true,
-  mergeSimilarWaves: true
+  mergeSimilarWaves: true,
+  oldFrontendUrl: 'https://kyzikos.fi.muni.cz/'
 };
 
 /*

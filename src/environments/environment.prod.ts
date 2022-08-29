@@ -1,6 +1,6 @@
-import { Environment } from "./model";
+import { Environment } from './model';
 
-const doNothing = (..._: any[]) => {};
+const doNothing = (..._: never[]) => {};
 
 export const environment: Environment = {
   production: true,
@@ -12,5 +12,6 @@ export const environment: Environment = {
     debug: doNothing,
     warn: doNothing
   },
-  mergeSimilarWaves: true
+  mergeSimilarWaves: true,
+  oldFrontendUrl: 'https://naskoc_admin.iamroot.eu/'
 };

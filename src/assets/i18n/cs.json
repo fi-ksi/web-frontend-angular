@@ -343,7 +343,7 @@
   },
   "profile": {
     "my": {
-      "do-change-password": "Chi změnit heslo",
+      "do-change-password": "Chci změnit heslo",
       "change-password": "Změnit heslo",
       "edit-profile": "Zpět na editaci profilu",
       "password-change-failed": "Změna hesla selhala, nezadal jsi špatné heslo?",

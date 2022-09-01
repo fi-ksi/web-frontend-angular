@@ -15,5 +15,5 @@ export const environment: Environment = {
     warn: console.warn
   },
   allowTestingAccountRegistration: true,
-  oldFrontendUrl: 'https://kyzikos.fi.muni.cz/'
+  oldFrontendUrl: 'https://ksi-admin-dev.ahlava.cz/'
 };

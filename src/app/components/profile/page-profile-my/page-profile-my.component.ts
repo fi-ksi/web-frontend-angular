@@ -1,12 +1,12 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { AddressService, BackendService, IconService, RoutesService, UserService } from "../../../services";
-import { FormBuilder, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { catchError, map, mapTo, mergeMap, shareReplay } from "rxjs/operators";
-import { Observable, of, Subscription } from "rxjs";
-import { ProfileEdit } from "../../../../api";
-import { environment } from "../../../../environments/environment";
-import { HttpErrorResponse } from "@angular/common/http";
+import { AddressService, BackendService, IconService, RoutesService, UserService } from '../../../services';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { catchError, map, mapTo, mergeMap, shareReplay } from 'rxjs/operators';
+import { Observable, of, Subscription } from 'rxjs';
+import { ProfileEdit } from '../../../../api';
+import { environment } from '../../../../environments/environment';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'ksi-page-profile-my',
@@ -22,6 +22,7 @@ export class PageProfileMyComponent implements OnInit, OnDestroy {
     lastName: ['', Validators.required],
     nick: [undefined],
     sex: ['', Validators.required],
+    github: ['', Validators.required],
 
     address: ['', Validators.required],
     city: ['', Validators.required],
@@ -79,7 +80,7 @@ export class PageProfileMyComponent implements OnInit, OnDestroy {
     this.formPassword.controls.repeat.addValidators((control) => {
       return control.value === this.formPassword.controls.new.value ? null : {'not-same': 'not-same'};
     });
-    this.formPassword.controls.new.addValidators((_) => {
+    this.formPassword.controls.new.addValidators(() => {
       this.formPassword.controls.repeat.updateValueAndValidity();
       return null;
     });
@@ -115,6 +116,7 @@ export class PageProfileMyComponent implements OnInit, OnDestroy {
         schoolCountry: profile.school_country,
         schoolEnd: profile.school_finish,
         shirtSize: profile.tshirt_size,
+        github: profile.github
       });
       this.formProfile.enable();
       this.cd.markForCheck();
@@ -146,6 +148,7 @@ export class PageProfileMyComponent implements OnInit, OnDestroy {
       school_country: this.formProfile.controls.schoolCountry.value,
       school_finish: this.formProfile.controls.schoolEnd.value,
       tshirt_size: this.formProfile.controls.shirtSize.value,
+      github: this.formProfile.controls.github.value
     };
 
     (this.profileEditRequest$ = this.backend.http.profileEditMy(edit).pipe(mapTo(undefined))).subscribe(() => {
@@ -154,16 +157,16 @@ export class PageProfileMyComponent implements OnInit, OnDestroy {
     });
   }
 
-  uploadProfilePicture(event: Event) {
+  uploadProfilePicture(event: Event): void {
     const el: HTMLInputElement = event.target as HTMLInputElement;
-    if (!(el.files?.length)) {
+    const file = el.files?.item(0);
+    if (file === null || file === undefined) {
       return;
     }
 
-    const file = el.files.item(0);
     el.value = '';
 
-    (this.pictureUploadRequest$ = this.backend.http.profileUploadPictureForm(file!))
+    (this.pictureUploadRequest$ = this.backend.http.profileUploadPictureForm(file))
       .subscribe(() => {
         this.backend.refreshUser();
         this.pictureUploadRequest$ = null;
@@ -172,7 +175,7 @@ export class PageProfileMyComponent implements OnInit, OnDestroy {
     this.cd.markForCheck();
   }
 
-  changePassword() {
+  changePassword(): void {
     if (!this.formPassword.valid || this.formPassword.disabled) {
       return;
     }
@@ -183,7 +186,7 @@ export class PageProfileMyComponent implements OnInit, OnDestroy {
       new_password: this.formPassword.controls.new.value,
       new_password2: this.formPassword.controls.repeat.value,
     }).pipe(
-      map((result) => result.result === "ok"),
+      map((result) => result.result === 'ok'),
       catchError((resp) => {
         if (resp.status === 400 || resp.status === 401) {
           // Wrong current password

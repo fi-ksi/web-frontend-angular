@@ -30,6 +30,9 @@ for f in $(find . -type f -name '*.ts' -print); do
 done
 
 sed -e 's/parent: number;/parent: number | null;/' -i 'model/postsCreation.ts'
+sed -e 's/github: string;/github: string | null;/' -i 'model/profile.ts'
+sed -e 's/github: string;/github: string | null;/' -i 'model/profileEdit.ts'
+sed -e 's/github: string;/github: string | null;/' -i 'model/registrationRequest.ts'
 sed -e 's/task: number;/task: number | null;/' -i 'model/achievementGrantRequest.ts'
 sed -E 's|(\s+)public authorizeForm\(grant_type: string, username: string, password: string, refresh_token: string,|\1// @ts-ignore\n\1public  authorizeForm(grant_type: string, username: string = "", password: string = "", refresh_token: string = "",|' -i 'api/default.service.ts'
 

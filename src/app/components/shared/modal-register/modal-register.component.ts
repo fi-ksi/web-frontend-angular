@@ -1,13 +1,13 @@
 import { Component, OnInit, ChangeDetectionStrategy, TemplateRef, ViewChild, OnDestroy } from '@angular/core';
-import { ModalComponent } from "../../../models";
-import { BsModalRef } from "ngx-bootstrap/modal";
-import { AbstractControl, FormBuilder, Validators } from "@angular/forms";
-import { TranslateService } from "@ngx-translate/core";
-import { Observable, Subscription } from "rxjs";
-import { map, shareReplay } from "rxjs/operators";
-import { AddressService, BackendService, ModalService } from "../../../services";
-import { RegistrationRequest } from "../../../../api";
-import { environment } from "../../../../environments/environment";
+import { ModalComponent } from '../../../models';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { Observable, Subscription } from 'rxjs';
+import { map, shareReplay } from 'rxjs/operators';
+import { AddressService, BackendService, ModalService } from '../../../services';
+import { RegistrationRequest } from '../../../../api';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'ksi-modal-register',
@@ -84,7 +84,7 @@ export class ModalRegisterComponent implements OnInit, OnDestroy, ModalComponent
     this.form.controls.passwordRepeat.addValidators((control) => {
       return control.value === this.form.controls.password.value ? null : {'not-same': 'not-same'};
     });
-    this.form.controls.password.addValidators((_) => {
+    this.form.controls.password.addValidators(() => {
       this.form.controls.passwordRepeat.updateValueAndValidity();
       return null;
     });
@@ -103,7 +103,7 @@ export class ModalRegisterComponent implements OnInit, OnDestroy, ModalComponent
                   control2.setValue(value);
                 }
               });
-          }))
+          }));
       });
   }
 
@@ -153,7 +153,7 @@ export class ModalRegisterComponent implements OnInit, OnDestroy, ModalComponent
     return false;
   }
 
-  register() {
+  register(): void {
     if (!this.form.valid || this.form.disabled) {
       return;
     }
@@ -178,7 +178,8 @@ export class ModalRegisterComponent implements OnInit, OnDestroy, ModalComponent
       school_finish: this.form.controls.schoolEnd.value,
       tshirt_size: this.form.controls.shirtSize.value,
       password: this.form.controls.password.value,
-      referral: ''
+      referral: '',
+      github: null
     };
 
     const registration$ = this.backend.http.registerNewUser(req).pipe(shareReplay(1));

@@ -1,6 +1,7 @@
 import { Environment } from './model';
 
-const doNothing = (..._: never[]) => {};
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const doNothing = (): void => {};
 
 export const environment: Environment = {
   production: true,

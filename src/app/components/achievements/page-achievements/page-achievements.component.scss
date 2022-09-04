@@ -22,7 +22,7 @@
       .achievement {
         @include ksi-card(25ex);
         text-decoration: none;
-        color: $ksi-black;
+        color: $ksi-page-fg;
       }
     }
   }

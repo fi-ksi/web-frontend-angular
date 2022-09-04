@@ -1,3 +1,5 @@
-import { Year } from "../../api";
+import { Year } from '../../api';
 
-export type YearSelect = Pick<Year, 'year' | 'id'>;
+export type IYear = Year & {$newest?: boolean};
+
+export type YearSelect = Pick<IYear, 'year' | 'id' | '$newest'>;

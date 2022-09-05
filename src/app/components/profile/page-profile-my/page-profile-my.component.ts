@@ -22,7 +22,7 @@ export class PageProfileMyComponent implements OnInit, OnDestroy {
     lastName: ['', Validators.required],
     nick: [undefined],
     sex: ['', Validators.required],
-    github: ['', Validators.required],
+    github: [''],
 
     address: ['', Validators.required],
     city: ['', Validators.required],

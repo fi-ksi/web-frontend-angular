@@ -77,7 +77,7 @@ export class TaskBodyComponent implements OnInit {
     // parse KSI collapse
     // must be parsed first so that its content is also parsed
     rootElement.querySelectorAll('.panel.panel-ksi').forEach((el) => {
-      const title = el.querySelector('.panel-title')?.textContent || '';
+      const title = el.querySelector('.panel-title')?.querySelector('a')?.innerHTML || '';
       const body = el.querySelector('.panel-body')?.innerHTML || '';
       el.replaceWith(this.createKSIPanel(title, body, TaskCollapsibleComponent, 'ksi-collapsible', {trustedContent: this.trusted}));
     });

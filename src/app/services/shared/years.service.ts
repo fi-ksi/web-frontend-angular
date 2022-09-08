@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
-import { YearSelect, IYear } from '../../models';
+import { YearSelect, IYear, IUser } from '../../models';
 import { AdminTask, Article, Thread, User } from '../../../api';
 import { map, mergeMap, shareReplay, switchMap, take, tap } from 'rxjs/operators';
 import { BackendService } from './backend.service';
@@ -33,7 +33,7 @@ export class YearsService {
   readonly all$: Observable<IYear[]>;
 
   readonly articles$: Observable<Article[]>;
-  readonly organisators$: Observable<User[]>;
+  readonly organisators$: Observable<(User & Pick<IUser, '$hasPicture'>)[]>;
   /**
    * Observable of high school users, sorted by score
    */
@@ -110,8 +110,33 @@ export class YearsService {
         this.backend.http.usersGetAll('organisators', 'score', year?.id || undefined)
       ), map((response) => response.users.map((user) => ({
         ...user,
+        $hasPicture: !!user.profile_picture,
         profile_picture: UsersCacheService.getProfilePicture(user, true)
-      })))
+      })).sort((a, b) => {
+        if (a.$hasPicture && !b.$hasPicture) {
+          return -1;
+        }
+        if (!a.$hasPicture && b.$hasPicture) {
+          return 1;
+        }
+
+        const now = new Date();
+
+        const dayA = a.id % now.getDay();
+        const dayB = a.id % now.getDay();
+
+        if (dayA !== dayB) {
+          return dayA < dayB ? -1 :1;
+        }
+
+        const reverse = now.getDate() % 2 == 1;
+
+        if (a.id > b.id) {
+          return reverse ? -1 : 1;
+        } else {
+          return reverse ? 1 : -1;
+        }
+      }))
     );
 
     this.usersHighSchool$ = this.selected$.pipe(

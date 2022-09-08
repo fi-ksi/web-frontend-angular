@@ -37,7 +37,7 @@ export class UsersCacheService {
     }));
   }
 
-  private getIUser(user: User, year?: YearSelect | null): IUser {
+  public getIUser(user: User, year?: YearSelect | null): IUser {
     const isAdmin = user.role === 'admin';
     const isOrg = isAdmin || user.role === 'org';
     const fullName = `${user.first_name}${user.nick_name ? ' "' + user.nick_name + '"' : ''} ${user.last_name}`;
@@ -48,6 +48,7 @@ export class UsersCacheService {
       $isOrg: isOrg,
       $year: typeof year !== 'undefined' ? year : this.year.selected,
       $fullName: fullName,
+      $hasPicture: !!user.profile_picture,
       profile_picture: UsersCacheService.getProfilePicture(user, isOrg)
     };
   }

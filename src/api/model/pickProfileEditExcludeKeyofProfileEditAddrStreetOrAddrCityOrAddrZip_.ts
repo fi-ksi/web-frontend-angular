@@ -10,7 +10,10 @@
  * Do not edit the class manually.
  */
 
-export interface Profile { 
+/**
+ * From T, pick a set of properties whose keys are in the union K
+ */
+export interface PickProfileEditExcludeKeyofProfileEditAddrStreetOrAddrCityOrAddrZip_ { 
     id: number;
     author: number;
     resource: string;
@@ -23,7 +26,7 @@ export interface Profile {
     last_name: string;
     gender: string;
     short_info: string;
-    github: string | null;
+    github: string;
     addr_country: string;
     school_name: string;
     school_street: string;

@@ -122,8 +122,8 @@ export class YearsService {
 
         const now = new Date();
 
-        const dayA = a.id % now.getDay();
-        const dayB = a.id % now.getDay();
+        const dayA = ((now.getMonth() + a.id) ** 2) % now.getDay();
+        const dayB = ((now.getMonth() + b.id) ** 2) % now.getDay();
 
         if (dayA !== dayB) {
           return dayA < dayB ? -1 :1;

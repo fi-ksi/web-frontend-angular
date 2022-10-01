@@ -9,6 +9,7 @@
 
     & > * {
       flex-grow: 1;
+      z-index: 1;
       margin-top: $ksi-margin-small;
 
       &:not(:last-child) {

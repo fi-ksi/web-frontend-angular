@@ -49,7 +49,7 @@ export class PageResultsComponent implements OnInit {
         });
 
         let previousEndingPos = 1;
-        for (const score of scores) {
+        for (const score of scores.sort((a, b) => b - a)) {
           scorePositions[score] = {
             from: previousEndingPos,
             to: previousEndingPos + scoresCount[score] - 1,

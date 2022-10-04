@@ -15,8 +15,8 @@ import { RoutesService, StorageService } from "../../../../services";
 import { BackendService, IconService, ModalService } from "../../../../services";
 import { Router } from "@angular/router";
 import { UserService } from "../../../../services";
-import { map } from "rxjs/operators";
-import { combineLatest, Observable } from "rxjs";
+import { filter, map, mergeMap } from "rxjs/operators";
+import { combineLatest, concat, Observable, of } from "rxjs";
 
 @Component({
   selector: 'ksi-discussion-thread-posts',
@@ -72,6 +72,8 @@ export class DiscussionThreadPostsComponent implements OnInit {
 
   canEdit$: Observable<boolean>;
 
+  canDelete$: Observable<boolean>;
+
   @ViewChild('modalReply', {static: true})
   templateModalReply: TemplateRef<unknown>;
 
@@ -99,6 +101,10 @@ export class DiscussionThreadPostsComponent implements OnInit {
       this.user.isOrg$,
       this.backend.user$.pipe(map((user) => user?.id === this.post.author))
     ]).pipe(map(([isOrg, isAuthor]) => isOrg || isAuthor));
+
+    this.canDelete$ = combineLatest(
+      [this.canEdit$, concat(of(true), this.postsModified)]
+    ).pipe(map(([canEdit]) => canEdit && !this.post.reaction.length));
   }
 
   setExpanded(value: boolean) {
@@ -131,5 +137,14 @@ export class DiscussionThreadPostsComponent implements OnInit {
 
   propagateModified(): void {
     this.postsModified.next();
+  }
+
+  deletePost(): void {
+    this.modal.yesNo('discussion-thread.post.delete.confirmation')
+      .pipe(
+        filter((yes) => !!yes),
+        mergeMap(() => this.backend.http.postsDeleteSingle(this.postId))
+      )
+      .subscribe(() => this.postsModified.next());
   }
 }

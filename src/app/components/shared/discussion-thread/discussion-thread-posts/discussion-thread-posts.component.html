@@ -21,6 +21,14 @@
       {{'discussion-thread.post.reply.title' | translate}}
     </a>
     <a
+      *ngIf="canDelete$ | async"
+      class="delete clickable"
+      tooltip="{{'discussion-thread.post.delete.tooltip' | translate}}"
+      (click)="deletePost()"
+    >
+      {{'discussion-thread.post.delete.title' | translate}}
+    </a>
+    <a
       *ngIf="threadId !== null"
       class="link"
       [routerLink]="['/', routes.routes.discussion, threadId]"

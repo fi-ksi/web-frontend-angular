@@ -296,6 +296,11 @@
         "tooltip": "Upravit tento příspěvek",
         "title": "Upravit"
       },
+      "delete": {
+        "tooltip": "Smazat tento příspěvek",
+        "title": "Smazat",
+        "confirmation": "Opravdu chceš smazat tento příspěvek?"
+      },
       "new": "Přidat příspěvek"
     }
   },

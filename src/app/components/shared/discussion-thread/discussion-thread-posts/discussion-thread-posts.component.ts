@@ -9,14 +9,14 @@ import {
   EventEmitter,
   ChangeDetectorRef
 } from '@angular/core';
-import { PostsMap } from "../../../../models";
-import { Post } from "../../../../../api";
-import { RoutesService, StorageService } from "../../../../services";
-import { BackendService, IconService, ModalService } from "../../../../services";
-import { Router } from "@angular/router";
-import { UserService } from "../../../../services";
-import { filter, map, mergeMap } from "rxjs/operators";
-import { combineLatest, concat, Observable, of } from "rxjs";
+import { PostsMap } from '../../../../models';
+import { Post } from '../../../../../api';
+import { RoutesService, StorageService } from '../../../../services';
+import { BackendService, IconService, ModalService } from '../../../../services';
+import { Router } from '@angular/router';
+import { UserService } from '../../../../services';
+import { filter, map, mergeMap } from 'rxjs/operators';
+import { combineLatest, concat, Observable, of } from 'rxjs';
 
 @Component({
   selector: 'ksi-discussion-thread-posts',
@@ -32,7 +32,7 @@ export class DiscussionThreadPostsComponent implements OnInit {
   @Input()
   set posts(value: PostsMap) {
     this._posts = value;
-    if (typeof this.postId !== "undefined") {
+    if (typeof this.postId !== 'undefined') {
       this.post = this._posts[this.postId];
     }
     this.cd.markForCheck();
@@ -107,7 +107,7 @@ export class DiscussionThreadPostsComponent implements OnInit {
     ).pipe(map(([canEdit]) => canEdit && !this.post.reaction.length));
   }
 
-  setExpanded(value: boolean) {
+  setExpanded(value: boolean): void {
     this.expanded = value;
     this.storage.set<boolean>('expanded', value, DiscussionThreadPostsComponent.EXPANDED_DEFAULT);
   }
@@ -116,11 +116,11 @@ export class DiscussionThreadPostsComponent implements OnInit {
     this.user.afterLogin$.subscribe(() => {
       const modal = this.modal.showPostReplyModal(this.threadId!, this.post, this.posts);
       modal.afterClose$.subscribe(() => {
-          if (modal.component.instance.replied) {
-            this.postsModified.next();
-            this.router.navigate(['/', this.routes.routes.discussion, `${this.threadId}`], {fragment: `${this.post.id}`}).then();
-          }
-        });
+        if (modal.component.instance.replied) {
+          this.postsModified.next();
+          this.router.navigate(['/', this.routes.routes.discussion, `${this.threadId}`], {fragment: `${this.post.id}`}).then();
+        }
+      });
     });
   }
 

@@ -16,7 +16,7 @@ import { BackendService, IconService, ModalService } from '../../../../services'
 import { Router } from '@angular/router';
 import { UserService } from '../../../../services';
 import { filter, map, mergeMap } from 'rxjs/operators';
-import { combineLatest, concat, Observable, of } from 'rxjs';
+import { combineLatest, concat, Observable, of, Subject } from 'rxjs';
 
 @Component({
   selector: 'ksi-discussion-thread-posts',
@@ -36,6 +36,7 @@ export class DiscussionThreadPostsComponent implements OnInit {
       this.post = this._posts[this.postId];
     }
     this.cd.markForCheck();
+    this.refresh.next();
   }
 
   @Input()
@@ -79,6 +80,8 @@ export class DiscussionThreadPostsComponent implements OnInit {
 
   private storage: StorageService;
 
+  private refresh = new Subject();
+
   private static readonly EXPANDED_DEFAULT = true;
 
   constructor(
@@ -103,7 +106,11 @@ export class DiscussionThreadPostsComponent implements OnInit {
     ]).pipe(map(([isOrg, isAuthor]) => isOrg || isAuthor));
 
     this.canDelete$ = combineLatest(
-      [this.canEdit$, concat(of(true), this.postsModified)]
+      [
+        this.canEdit$,
+        concat(of(true), this.postsModified.asObservable()),
+        concat(of(true), this.refresh.asObservable())
+      ]
     ).pipe(map(([canEdit]) => canEdit && !this.post.reaction.length));
   }
 
@@ -145,6 +152,15 @@ export class DiscussionThreadPostsComponent implements OnInit {
         filter((yes) => !!yes),
         mergeMap(() => this.backend.http.postsDeleteSingle(this.postId))
       )
-      .subscribe(() => this.postsModified.next());
+      .subscribe(() => {
+        this.postsModified.next();
+        if (this.parent === null) {
+          // if this post has no parent, navigate to the up-most thread
+          this.router.navigate(
+            ['/', this.routes.routes.discussion, `${this.threadId}`],
+            {fragment: undefined}
+          ).then();
+        }
+      });
   }
 }

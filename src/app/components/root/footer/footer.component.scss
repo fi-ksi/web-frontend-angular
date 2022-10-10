@@ -2,14 +2,13 @@
 
 .footer-above {
   .links-container {
-    .links-title {
-      text-align: center;
-      color: #fff;
-    }
-
     .links-wrapper {
       display: flex;
       justify-content: center;
+
+      a {
+        margin: $ksi-margin-x-small;
+      }
 
       a:hover {
         img {
@@ -18,9 +17,8 @@
       }
 
       img {
-        width: 3.5rem;
-        height: 3.5rem;
-        margin: 0.5rem;
+        width: 3rem;
+        height: 3rem;
       }
     }
   }

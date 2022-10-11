@@ -1,5 +1,59 @@
-<a href="https://forms.gle/PYuGoKCjCwyjkvgP6" target="_blank">{{'root.footer.bug-report' | translate}}</a>
--
-<span class="version" (click)="changelogShow.emit()">{{'root.footer.version' | translate}} {{version.version$ | async}}</span>
--
-<span>{{'root.footer.license' | translate}}</span>
+<div class="footer-above">
+  <div class="links-container">
+    <div class="flex-row row row-centered links-wrapper">
+      <a href="mailto:ksi@fi.muni.cz" title="ksi@fi.muni.cz" class="footer-logo inline-footer" id="mail-logo">
+        <img src="assets/img/logos/email.svg">
+      </a>
+      <a href="https://www.facebook.com/ksi.fi.muni" title="Facebook" class="footer-logo inline-footer"
+         id="facebook-logo">
+        <img src="assets/img/logos/facebook.svg">
+      </a>
+      <a href="https://www.fi.muni.cz/" title="Fakulta Informatiky MU" class="footer-logo inline-footer" id="fi-logo">
+        <img src="assets/img/logos/fi.svg">
+      </a>
+      <a href="https://www.muni.cz/" title="Masarykova Univerzita Brno" class="footer-logo inline-footer"
+         id="mu-logo">
+        <img src="assets/img/logos/mu.svg">
+      </a>
+      <a href="https://kscuk.fi.muni.cz/" title="K-SCUK" class="footer-logo inline-footer" id="kscuk-logo">
+        <img src="assets/img/logos/kscuk.svg">
+      </a>
+      <a href="https://intersob.math.muni.cz" title="Soutěž InterSoB" class="footer-logo inline-footer" id="sob-logo">
+        <img src="assets/img/logos/intersob.svg">
+      </a>
+      <a href="https://interlos.fi.muni.cz" title="INTERnetová LOgická Soutěž" class="footer-logo inline-footer"
+         id="los-logo">
+        <img src="assets/img/logos/los.svg">
+      </a>
+      <a href="https://zverinec.fi.muni.cz" title="Spolek přátel severské zvěře" class="footer-logo inline-footer"
+         id="zverinec-logo">
+        <img src="assets/img/logos/zverinec.svg">
+      </a>
+      <a href="http://brkos.math.muni.cz" title="BRněnský KOrespondenční Seminář" class="footer-logo inline-footer"
+         id="brkos-logo">
+        <img src="assets/img/logos/brkos.svg">
+      </a>
+      <a href="http://ibis.sci.muni.cz/" title="Interaktivní BIologický Seminář" class="footer-logo inline-footer"
+         id="ibis-logo">
+        <img src="assets/img/logos/ibis.svg">
+      </a>
+      <a href="https://ksp.mff.cuni.cz" title="Korespondenční seminář z programování"
+         class="footer-logo inline-footer" id="ksp-logo">
+        <img src="assets/img/logos/ksp.svg">
+      </a>
+      <a href="https://www.youtube.com/channel/UCH0K2_tAhkJNlvfRo5NsEIg" title="YouTube"
+         class="footer-logo inline-footer" id="youtube-logo">
+        <img src="assets/img/logos/youtube.svg">
+      </a>
+      <a href="https://github.com/fi-ksi" title="KSI @ GitHub" class="footer-logo inline-footer" id="github-logo">
+        <img src="assets/img/logos/github.svg">
+      </a>
+    </div>
+  </div>
+  <a href="https://forms.gle/PYuGoKCjCwyjkvgP6" target="_blank">{{'root.footer.bug-report' | translate}}</a>
+  -
+  <span class="version"
+        (click)="changelogShow.emit()">{{'root.footer.version' | translate}} {{version.version$ | async}}</span>
+  -
+  <span>{{'root.footer.license' | translate}}</span>
+</div>

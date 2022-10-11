@@ -76,6 +76,13 @@ export class TaskBodyComponent implements OnInit {
   private applyTaskContentStyle(rootElement: HTMLElement): void {
     // parse KSI collapse
     // must be parsed first so that its content is also parsed
+    // old (legacy) format
+    rootElement.querySelectorAll('.panel.panel-ksi').forEach((el) => {
+      const title = el.querySelector('.panel-title')?.querySelector('a')?.innerHTML || '';
+      const body = el.querySelector('.panel-body')?.innerHTML || '';
+      el.replaceWith(this.createKSIPanel(title, body, TaskCollapsibleComponent, 'ksi-collapsible', {trustedContent: this.trusted}));
+    });
+    // new format
     rootElement.querySelectorAll('.ksi-custom.ksi-collapse').forEach((el) => {
       const title = el.getAttribute('title') || '';
       const body = el.innerHTML || '';

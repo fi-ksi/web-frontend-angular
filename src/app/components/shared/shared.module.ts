@@ -28,6 +28,7 @@ import { ModalFeedbackComponent } from './modal-feedback/modal-feedback.componen
 import { FeedbackComponent } from './feedback/feedback.component';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { ClickableUserNameComponent } from './clickable-user-name/clickable-user-name.component';
+import {KsiDatePipe} from '../../pipes/shared/ksi-date.pipe';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { ClickableUserNameComponent } from './clickable-user-name/clickable-user
     TranslateRolePipe,
     TranslateSkillLevelPipe,
     TranslateGenderPipe,
+    KsiDatePipe,
     DiscussionThreadComponent,
     DiscussionThreadPostsComponent,
     UsersInlineComponent,
@@ -66,6 +68,7 @@ import { ClickableUserNameComponent } from './clickable-user-name/clickable-user
     TranslateRolePipe,
     TranslateSkillLevelPipe,
     TranslateGenderPipe,
+    KsiDatePipe,
     DiscussionThreadPostsComponent,
     IconAchievementComponent,
     AutoThemeDirective,

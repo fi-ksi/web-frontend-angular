@@ -2,5 +2,5 @@
   <img [src]="article.picture" alt="">
 </a>
 <a class="title" [routerLink]="link">{{article.title}}</a>
-<span class="date">{{article.time_published | date:'short' }}</span>
+<span class="date">{{article.time_published | ksiDate }}</span>
 <p class="body" [innerText]="article.body"></p>

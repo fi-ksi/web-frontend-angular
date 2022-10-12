@@ -1,7 +1,7 @@
 <div class="post">
   <div class="head">
     <ksi-users-inline [users]="[post.author]" [showRoles]="true"></ksi-users-inline>,
-    {{post.published_at | date:'short'}}
+    {{post.published_at | ksiDate}}
   </div>
   <div class="content" [innerHTML]="post.body"></div>
   <div class="footer" *ngIf="allowActions">

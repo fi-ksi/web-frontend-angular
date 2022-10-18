@@ -43,7 +43,8 @@
     "footer": {
       "license": " Obsah tohoto webu je poskytován pod licencí CC BY-NC v4.0. Copyright © KSI 2015–2022.  Tato aktivita probíhá díky podpoře Ministerstva školství, mládeže a tělovýchovy, dotace na podporu nadaných žáků základních a středních škol v roce 2022.",
       "version": "Verze webu",
-      "bug-report": "Nahlásit chybu webu"
+      "bug-report": "Nahlásit chybu webu",
+      "privacy-policy": "Zpracování osobních údajů"
     },
     "welcome": {
       "about": {
@@ -536,5 +537,8 @@
         }
       }
     }
+  },
+  "privacy-policy": {
+    "title": "Zásady zpracování osobních údajů"
   }
 }

@@ -1,0 +1,11 @@
+@import "../../../styles/mixins";
+
+:host {
+  display: flex;
+  justify-content: center;
+
+  > article {
+    @include ksi-full-width;
+    margin: $ksi-margin;
+  }
+}

@@ -28,6 +28,7 @@ import { ModalFeedbackComponent } from './modal-feedback/modal-feedback.componen
 import { FeedbackComponent } from './feedback/feedback.component';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { ClickableUserNameComponent } from './clickable-user-name/clickable-user-name.component';
+import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { ClickableUserNameComponent } from './clickable-user-name/clickable-user
     ModalFeedbackComponent,
     FeedbackComponent,
     ClickableUserNameComponent,
+    TermsOfUseComponent,
   ],
   exports: [
     ArticlePreviewComponent,
@@ -70,7 +72,8 @@ import { ClickableUserNameComponent } from './clickable-user-name/clickable-user
     IconAchievementComponent,
     AutoThemeDirective,
     FeedbackComponent,
-    ClickableUserNameComponent
+    ClickableUserNameComponent,
+    TermsOfUseComponent
   ],
   imports: [
     CommonModule,

@@ -25,5 +25,6 @@ export const ROUTES: IRoutes = {
     tasks: 'ulohy',
     monitor: 'monitor',
     email: 'email'
-  }
+  },
+  privacyPolicy: 'zpracovani-osobnich-udaju'
 };

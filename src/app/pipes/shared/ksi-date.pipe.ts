@@ -6,7 +6,7 @@ import {DatePipe} from '@angular/common';
 })
 export class KsiDatePipe implements PipeTransform {
 
-  transform(value: string, ...args: any[]): string | null {
+  transform(value: string, ...args: never[]): string | null {
     const valueDate = new Date(value);
     const offsetInHours = - valueDate.getTimezoneOffset() / 60;
     const correctTime = valueDate.setHours(valueDate.getHours() + offsetInHours);

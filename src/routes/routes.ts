@@ -24,5 +24,6 @@ export const ROUTES: IRoutes = {
     tasks: 'tasks',
     monitor: 'monitor',
     email: 'email'
-  }
+  },
+  privacyPolicy: 'privacy'
 };

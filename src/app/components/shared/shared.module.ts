@@ -29,7 +29,7 @@ import { FeedbackComponent } from './feedback/feedback.component';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { ClickableUserNameComponent } from './clickable-user-name/clickable-user-name.component';
 import {KsiDatePipe} from '../../pipes/shared/ksi-date.pipe';
-
+import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +57,7 @@ import {KsiDatePipe} from '../../pipes/shared/ksi-date.pipe';
     ModalFeedbackComponent,
     FeedbackComponent,
     ClickableUserNameComponent,
+    TermsOfUseComponent,
   ],
   exports: [
     ArticlePreviewComponent,
@@ -73,7 +74,8 @@ import {KsiDatePipe} from '../../pipes/shared/ksi-date.pipe';
     IconAchievementComponent,
     AutoThemeDirective,
     FeedbackComponent,
-    ClickableUserNameComponent
+    ClickableUserNameComponent,
+    TermsOfUseComponent
   ],
   imports: [
     CommonModule,

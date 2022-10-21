@@ -6,7 +6,7 @@
       {{(authors.length > 1 ? 'tasks.author.multiple' : 'tasks.author.single') | translate}}:
       <ksi-users-inline class="authors" [users]="authors"></ksi-users-inline>
     </div>
-    <span class="deadline">{{'tasks.deadline' | translate}}: {{task.head.time_deadline | date}}, {{task.head.max_score | translatePoints}}</span>
+    <span class="deadline">{{'tasks.deadline' | translate}}: {{task.head.time_deadline | ksiDate}}, {{task.head.max_score | translatePoints}}</span>
   </div>
 
   <div *ngIf="(subpage$ | async) !== templateBodyAssigment" class="back" >

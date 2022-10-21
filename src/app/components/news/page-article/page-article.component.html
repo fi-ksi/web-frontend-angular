@@ -5,7 +5,7 @@
     <h2>{{articleResponse.article.title}}</h2>
   </div>
   <div class="content">
-    <span class="date">{{articleResponse.article.time_published | date}}</span>
+    <span class="date">{{articleResponse.article.time_published | ksiDate}}</span>
     <article class="text" [innerHTML]="articleResponse.article.body"></article>
   </div>
 </div>

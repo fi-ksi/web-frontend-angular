@@ -9,7 +9,7 @@ import {
   RunCodeResponse,
 } from "../../../api";
 import { concat, Observable, of, Subject } from 'rxjs';
-import { catchError, filter, map, mapTo, mergeMap, shareReplay, take } from "rxjs/operators";
+import { catchError, filter, first, map, mapTo, mergeMap, shareReplay, take } from "rxjs/operators";
 import { FileUpload, ModuleSubmitChange } from "../../models";
 import { TranslateService } from "@ngx-translate/core";
 import { environment } from "../../../environments/environment";
@@ -126,6 +126,8 @@ export class ModuleService {
    * @param body
    */
   public submit(module: KSIModule, body: ModuleSubmissionData): Observable<void> {
+    environment.logger.debug('[MODULE] Submit', module.id);
+
     const submission = this.user.afterLogin$.pipe(
       mergeMap(
         () => this.backend.http.modulesSubmitSingle(module.id, {content: body})
@@ -138,7 +140,9 @@ export class ModuleService {
               };
               return of(data);
             })
-          ))
+          )),
+      first(), // make sure that the submission occurs only once
+      shareReplay(1),
     );
 
     submission.subscribe((result) => {

@@ -62,6 +62,12 @@ export class ModalPostReplyComponent implements OnInit, ModalComponent {
     if (!this.form.valid) {
       return;
     }
+
+    if (this.form.controls.content.value.length >= 8000){
+      alert('Příspěvek je příliš velký. Pokud posíláte obrázek, prosím zkuste ho zmenšit nebo poslat zvlášť.');
+      return;
+    }
+
     this.form.disable();
 
     const reqThreadNew$ = this.backend.http.threadsCreateNew({

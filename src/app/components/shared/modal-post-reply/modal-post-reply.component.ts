@@ -34,10 +34,11 @@ export class ModalPostReplyComponent implements OnInit, ModalComponent {
   private _mode: PostReplyMode = 'reply';
 
   private static readonly THREAD_NAME_MAX_LENGTH = 100;
+  public readonly REPLY_MAX_LENGTH = 8000; // used in html template
 
   form = this.fb.group(({
     threadName: ['', []],
-    content: ['', [Validators.required]],
+    content: ['', [Validators.maxLength(this.REPLY_MAX_LENGTH), Validators.required]],
   }));
 
   @ViewChild('template', {static: true})
@@ -62,6 +63,7 @@ export class ModalPostReplyComponent implements OnInit, ModalComponent {
     if (!this.form.valid) {
       return;
     }
+
     this.form.disable();
 
     const reqThreadNew$ = this.backend.http.threadsCreateNew({

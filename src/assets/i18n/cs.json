@@ -147,6 +147,7 @@
     "post-reply": {
       "save-reply": "Uložit příspěvek",
       "thread-name": "Název nového vlákna",
+      "total-size": "Celková velikost příspěvku",
       "title": {
         "reply": "Vytvořit nový příspěvek",
         "edit": "Upravit tento příspěvek",

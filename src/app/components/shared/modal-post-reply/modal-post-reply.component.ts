@@ -34,10 +34,11 @@ export class ModalPostReplyComponent implements OnInit, ModalComponent {
   private _mode: PostReplyMode = 'reply';
 
   private static readonly THREAD_NAME_MAX_LENGTH = 100;
+  public readonly REPLY_MAX_LENGTH = 8000; // used in html template
 
   form = this.fb.group(({
     threadName: ['', []],
-    content: ['', [Validators.required]],
+    content: ['', [Validators.maxLength(this.REPLY_MAX_LENGTH), Validators.required]],
   }));
 
   @ViewChild('template', {static: true})
@@ -60,11 +61,6 @@ export class ModalPostReplyComponent implements OnInit, ModalComponent {
 
   saveReply(): void {
     if (!this.form.valid) {
-      return;
-    }
-
-    if (this.form.controls.content.value.length >= 8000){
-      alert('Příspěvek je příliš velký. Pokud posíláte obrázek, prosím zkuste ho zmenšit nebo poslat zvlášť.');
       return;
     }
 

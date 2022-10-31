@@ -37,6 +37,33 @@ Codemirror core style
   background: $ksi-code-bg;
 }
 
+.code-editor {
+  .cm-builtin {color: $ksi-code-builtin}
+  .cm-number {color: $ksi-code-number}
+  .cm-keyword {color: $ksi-code-keyword}
+  .cm-def {color: $ksi-code-def}
+  .cm-comment {color: $ksi-code-comment}
+  .cm-string {color: $ksi-code-string}
+  .cm-variable-2 {color: $ksi-code-variable-2}
+  .cm-meta {color: $ksi-code-meta}
+}
+
+.sourceCode .python .hljs {
+  .hljs-keyword {color: $ksi-code-keyword}
+  .hljs-string {color: $ksi-code-string}
+  .hljs-built_in {color: $ksi-code-builtin}
+  .hljs-comment {color: $ksi-code-comment}
+  .hljs-number {color: $ksi-code-number}
+  .hljs-meta {color: $ksi-code-meta}
+  .hljs-title {color: $ksi-code-def}
+}
+
+table {
+  th, td {
+    color: $ksi-page-fg;
+  }
+}
+
 /**
 Code highlighting
  */

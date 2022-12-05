@@ -1,5 +1,5 @@
 <accordion [isAnimated]="true" class="content-dynamic">
-  <accordion-group>
+  <accordion-group [isOpen]="data.initialOpen" [isDisabled]="!data.collapsible">
     <div accordion-heading>
       <ksi-task-body [body]="title" [trusted]="data && data.trustedContent"></ksi-task-body>
     </div>

@@ -184,3 +184,10 @@ blockquote {
   font-weight: bold;
   font-size: 0.9rem;
 }
+
+/* Make disabled collapsible panel appear non-clickable */
+accordion-group > .panel > .panel-disabled {
+  * {
+    cursor: default !important;
+  }
+}

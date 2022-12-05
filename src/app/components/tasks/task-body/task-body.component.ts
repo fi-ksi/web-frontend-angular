@@ -80,13 +80,15 @@ export class TaskBodyComponent implements OnInit {
     rootElement.querySelectorAll('.panel.panel-ksi').forEach((el) => {
       const title = el.querySelector('.panel-title')?.querySelector('a')?.innerHTML || '';
       const body = el.querySelector('.panel-body')?.innerHTML || '';
-      el.replaceWith(this.createKSIPanel(title, body, TaskCollapsibleComponent, 'ksi-collapsible', {trustedContent: this.trusted}));
+      el.replaceWith(this.createKSIPanel(title, body, TaskCollapsibleComponent, 'ksi-collapsible', {trustedContent: this.trusted, initialOpen: false, collapsible: true}));
     });
     // new format
     rootElement.querySelectorAll('.ksi-custom.ksi-collapse').forEach((el) => {
       const title = el.getAttribute('title') || '';
       const body = el.innerHTML || '';
-      el.replaceWith(this.createKSIPanel(title, body, TaskCollapsibleComponent, 'ksi-collapsible', {trustedContent: this.trusted}));
+      const isOpened = (el.getAttribute('opened') || el.getAttribute('data-opened') || 'no').toLowerCase() === 'yes';
+      const isClosable = (el.getAttribute('closable') || el.getAttribute('data-closable') || 'yes').toLowerCase() !== 'no';
+      el.replaceWith(this.createKSIPanel(title, body, TaskCollapsibleComponent, 'ksi-collapsible', {trustedContent: this.trusted, initialOpen: !isClosable || isOpened, collapsible: isClosable}));
     });
 
     // parse KSI tip

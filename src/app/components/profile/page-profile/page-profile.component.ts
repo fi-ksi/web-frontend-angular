@@ -120,7 +120,7 @@ export class PageProfileComponent implements OnInit {
         title: this.translate.instant('profile.stats.whole-year'),
         tasksSolved: user.tasks_num,
         score: user.score,
-        bars: PageProfileComponent.generateProgressBar(user.score, (year?.sum_points || 0) + (year?.point_pad || 0))
+        bars: PageProfileComponent.generateProgressBar(user.score, Math.max((year?.sum_points || 0) + (year?.point_pad || 0)))
       }))
     );
 
@@ -185,7 +185,7 @@ export class PageProfileComponent implements OnInit {
           return null;
         }
 
-        return PageProfileComponent.generatePrediction(tasks, userProgress[0], (year?.sum_points || 0) + (year?.point_pad || 0));
+        return PageProfileComponent.generatePrediction(tasks, userProgress[0], Math.max((year?.sum_points || 0) + (year?.point_pad || 0)));
       })
     );
 

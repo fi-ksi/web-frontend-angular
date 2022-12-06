@@ -57,7 +57,7 @@
 
       <div class="row">
         <div class="col-12">
-          <button type="submit" class="btn btn-ksi w-100 btn-send" [disabled]="emailForm.disabled || !emailForm.valid">{{'admin.email.send.check'|translate}}</button>
+          <button type="submit" class="btn btn-ksi w-100 btn-send" [disabled]="emailForm.disabled || !emailForm.valid" (click)="openCheckModal()">{{'admin.email.send.check'|translate}}</button>
         </div>
       </div>
 
@@ -106,25 +106,25 @@
       <pre>{{emailForm.controls.subject.value}}</pre>
     </div>
 
-    <ng-container *ngIf="emailForm.controls.advancedUsed.valueChanges | async">
+    <ng-container *ngIf="emailForm.controls.advancedUsed.value">
       <span class="form-label">{{'admin.email.reply-to.title'|translate}}</span>
       <div>
         <pre>{{emailForm.controls.replyTo.value}}</pre>
       </div>
 
-      <ng-container *ngIf="bcc.valueOuterChanges | async as list">
-        <ng-container *ngIf="list.length">
-          <span class="form-label">{{'admin.email.bcc.title'|translate}}</span>
-          <div>
-            <ul>
-              <li *ngFor="let addr of bcc.valueOuterChanges | async"><pre>{{addr}}</pre></li>
-            </ul>
-          </div>
-        </ng-container>
+      <ng-container *ngIf="bcc.valueOuter.length">
+        <span class="form-label">{{'admin.email.bcc.title'|translate}}</span>
+        <div>
+          <ul>
+            <li *ngFor="let addr of bcc.valueOuterChanges | async"><pre>{{addr}}</pre></li>
+          </ul>
+        </div>
       </ng-container>
     </ng-container>
 
     <span class="form-label">{{'admin.email.body'|translate}}</span>
-    <div class="body" [innerHTML]="emailForm.controls.body.valueChanges | async"></div>
+    <div class="body" [innerHTML]="emailForm.controls.body.value"></div>
+
+    <button type="submit" class="btn btn-ksi w-100 btn-send" [disabled]="!emailForm.valid" (click)="sendEmail()">{{'admin.email.send.send'|translate}}</button>
   </div>
 </ng-template>

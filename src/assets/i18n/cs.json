@@ -471,6 +471,9 @@
     "email": {
       "summary": "Tento email budu posílat {{successful}} {{sex}} {{school}} účastnících se ročníku {{year}}. Tento email je {{type}}. Pokročilé možnosti {{advancedUsed}} nastaveny.",
       "title": "Posílání emailů",
+      "check": {
+        "title": "Kontrola emailu před odesláním"
+      },
       "subject": {
         "title": "Předmět",
         "initial": "[KSI] "
@@ -514,7 +517,8 @@
       },
       "body": "Tělo textu",
       "send": {
-        "check": "Přejít ke kontrole a odeslání"
+        "check": "Přejít ke kontrole a odeslání",
+        "send": "Odeslat email"
       }
     },
     "tasks": {

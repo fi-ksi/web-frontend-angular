@@ -13,6 +13,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { PageAdminEmailComponent } from './page-admin-email/page-admin-email.component';
 import { QuillModule } from 'ngx-quill';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     SharedModule,
     TooltipModule,
     QuillModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AccordionModule
   ]
 })
 export class AdminModule { }

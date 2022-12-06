@@ -469,11 +469,18 @@
       "new-window": "Otevřít v novém panelu"
     },
     "email": {
-      "summary": "Tento email budu posílat {{successful}} {{sex}} {{school}} účastnících se ročníku {{year}}. Tento email je {{type}}.",
+      "summary": "Tento email budu posílat {{successful}} {{sex}} {{school}} účastnících se ročníku {{year}}. Tento email je {{type}}. Pokročilé možnosti {{advancedUsed}} nastaveny.",
       "title": "Posílání emailů",
       "subject": {
         "title": "Předmět",
         "initial": "[KSI] "
+      },
+      "reply-to": {
+        "title": "Adresa pro odpověď",
+        "initial": "ksi@fi.muni.cz"
+      },
+      "bcc": {
+        "title": "Slepé kopie (jedna adresa na řádek)"
       },
       "school": {
         "title": "Z daného ročníku poslat podle školy",
@@ -499,6 +506,11 @@
         "title": "Z daného ročníku poslat podle úspěšnosti",
         "all": "jakkoliv úspěšným",
         "successful": "pouze úspěšným"
+      },
+      "advanced": {
+        "title": "Použít pokročilé možnosti",
+        "true": "jsou",
+        "false": "NEJSOU"
       },
       "body": "Tělo textu",
       "send": {

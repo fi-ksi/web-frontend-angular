@@ -9,7 +9,8 @@ export const ROUTES: IRoutes = {
     _: 'ulohy',
     solution: 'reseni',
     discussion: 'diskuze',
-    results: 'vysledky'
+    results: 'vysledky',
+    assessment: 'hodnoceni'
   },
   discussion: 'forum',
   profile: {

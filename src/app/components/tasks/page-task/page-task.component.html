@@ -24,6 +24,22 @@
   </ng-container>
 </ng-template>
 
+<ng-template #bodyAssessment>
+  <ng-container *ngIf="(task$ | async) as task">
+    <h4>{{'tasks.assessment.comment'|translate}}</h4>
+    <ksi-discussion-thread
+      *ngIf="task.detail.taskDetails.comment !== null; else noComment"
+      [allowNewRootPosts]="false"
+      [threadId]="task.detail.taskDetails.comment"
+    ></ksi-discussion-thread>
+    <ng-template #noComment>
+      <div class="alert alert-info">
+        {{'tasks.assessment.comment-none'|translate}}
+      </div>
+    </ng-template>
+  </ng-container>
+</ng-template>
+
 <ng-template #bodyAssigment>
   <ng-container *ngIf="(task$ | async) as task">
     <article class="body">
@@ -40,6 +56,10 @@
       <div class="right-container">
         <a *ngIf="task.detail.taskDetails.solution" class="solution" routerLink="." [fragment]="routes.routes.tasks.solution">
           {{'tasks.solution' | translate}}
+        </a>
+
+        <a *ngIf="(user.isLoggedIn$ | async) && task.detail.taskDetails.comment !== null" class="assessment" routerLink="." [fragment]="routes.routes.tasks.assessment">
+          {{'tasks.assessment.title' | translate}}
         </a>
 
         <a *ngIf="task.detail.taskDetails.best_scores.length > 0" class='results' routerLink="." [fragment]="routes.routes.tasks.results">

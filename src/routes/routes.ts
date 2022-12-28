@@ -8,7 +8,8 @@ export const ROUTES: IRoutes = {
     _: 'tasks',
     solution: 'solution',
     discussion: 'discussion',
-    results: 'results'
+    results: 'results',
+    assessment: 'assessment'
   },
   discussion: 'discussion',
   profile: {

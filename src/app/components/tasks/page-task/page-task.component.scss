@@ -56,11 +56,11 @@
         }
       }
 
-      .results {
-        margin-left: $ksi-margin-x-large;
+      .results, .assessment {
+        margin-left: $ksi-margin;
       }
 
-      .results, .solution {
+      .results, .solution, .assessment {
         display: inline-block;
       }
     }

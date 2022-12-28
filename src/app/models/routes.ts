@@ -7,6 +7,7 @@ export interface IRoutes {
     solution: string;
     discussion: string;
     results: string;
+    assessment: string;
   }
   discussion: string;
   profile: {

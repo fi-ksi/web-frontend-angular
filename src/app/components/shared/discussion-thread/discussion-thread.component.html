@@ -8,7 +8,7 @@
     [maxLevel]="maxPostsDepth$ | async"
     (postsModified)="onPostsModified()"
   ></ksi-discussion-thread-posts>
-  <button *ngIf="rootPost === null"
+  <button *ngIf="rootPost === null && allowNewRootPosts"
           class="btn btn-ksi w-100 new-post"
           (click)="openNewPostModal(thread.thread.threadDetails.id)"
   >

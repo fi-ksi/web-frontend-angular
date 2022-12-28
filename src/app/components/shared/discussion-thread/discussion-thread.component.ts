@@ -24,6 +24,9 @@ export class DiscussionThreadComponent implements OnInit, OnDestroy {
   @Input()
   rootPost: number | null = null;
 
+  @Input()
+  allowNewRootPosts = true;
+
   thread$: Observable<ThreadDetailsWithPostsMap>;
 
   maxPostsDepth$: Observable<number>;

@@ -226,6 +226,11 @@
       }
     },
     "discussion": "Diskuze",
+    "assessment": {
+      "title": "Opravení",
+      "comment": "Komentář opravujícího",
+      "comment-none": "K tvému odevzdání nebyl přidán žádný komentář opravujícího"
+    },
     "deadline": "Datum ukončení",
     "feedback": {
       "send": "Odeslat zpětnou vazbu",

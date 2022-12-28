@@ -39,6 +39,9 @@ export class PageTaskComponent implements OnInit, OnDestroy {
   @ViewChild('bodyResults', {static: true})
   templateBodyResults: TemplateRef<unknown>;
 
+  @ViewChild('bodyAssessment', {static: true})
+  templateBodyAssessment: TemplateRef<unknown>;
+
   private templateRefMapper: Map<TemplateRef<unknown>, string>;
 
   public userScores$: Observable<{user: IUser, score: number}[]>;
@@ -60,7 +63,7 @@ export class PageTaskComponent implements OnInit, OnDestroy {
     private modal: ModalService,
     private router: Router,
     private tasks: TasksService,
-    private user: UserService,
+    public user: UserService,
     private module: ModuleService,
     public routes: RoutesService,
     public usersCache: UsersCacheService
@@ -130,6 +133,7 @@ export class PageTaskComponent implements OnInit, OnDestroy {
     fragmentMap[this.routes.routes.tasks.solution] = this.templateBodySolution;
     fragmentMap[this.routes.routes.tasks.discussion] = this.templateBodyDiscussion;
     fragmentMap[this.routes.routes.tasks.results] = this.templateBodyResults;
+    fragmentMap[this.routes.routes.tasks.assessment] = this.templateBodyAssessment;
 
     this.subpage$ = combineLatest([
       this.route.fragment.pipe(
@@ -224,7 +228,8 @@ export class PageTaskComponent implements OnInit, OnDestroy {
     return new Map([
       [this.templateBodyDiscussion, 'tasks.discussion'],
       [this.templateBodySolution, 'tasks.solution'],
-      [this.templateBodyResults, 'tasks.results']
+      [this.templateBodyResults, 'tasks.results'],
+      [this.templateBodyAssessment, 'tasks.assessment.title']
     ]);
   }
 }

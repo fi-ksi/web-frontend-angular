@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@angular/core';
-import { ModuleText } from "../../../../../api";
+import { ModuleText } from "../../../../../api/backend";
 import { FormControl } from "@angular/forms";
 import { ModuleService } from "../../../../services";
 import { Observable } from "rxjs";

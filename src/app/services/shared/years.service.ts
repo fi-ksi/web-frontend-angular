@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { YearSelect, IYear, IUser } from '../../models';
-import { AdminTask, Article, Thread, User } from '../../../api';
+import { AdminTask, Article, Thread, User } from '../../../api/backend';
 import { map, mergeMap, shareReplay, switchMap, take, tap } from 'rxjs/operators';
 import { BackendService } from './backend.service';
 import { Cache, Utils } from '../../util';

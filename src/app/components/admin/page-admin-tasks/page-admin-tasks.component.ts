@@ -8,7 +8,7 @@ import {
   TasksService,
   YearsService
 } from '../../../services';
-import { AdminTask, AdminTaskDeployResponse, Wave } from '../../../../api';
+import { AdminTask, AdminTaskDeployResponse, Wave } from '../../../../api/backend';
 import { BehaviorSubject, combineLatest, Observable, of, timer } from 'rxjs';
 import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
 import { IAdminTask } from '../../../models';

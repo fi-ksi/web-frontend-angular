@@ -1,4 +1,4 @@
-import { User } from '../../api';
+import { User } from '../../api/backend';
 import { YearSelect } from './years.service';
 
 export interface IUser extends User {

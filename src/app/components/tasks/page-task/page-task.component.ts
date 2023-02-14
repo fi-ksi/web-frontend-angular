@@ -14,7 +14,7 @@ import { BehaviorSubject, combineLatest, Observable, of, Subscription, throwErro
 import {IUser, OpenedTemplate, TaskFullInfo} from '../../../models';
 import { UserService } from '../../../services';
 import { environment } from '../../../../environments/environment';
-import {UserScore} from '../../../../api';
+import {UserScore} from '../../../../api/backend';
 
 @Component({
   selector: 'ksi-page-task',

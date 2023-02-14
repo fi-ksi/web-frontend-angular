@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { ModalService, ModuleService } from "../../../../services";
-import { ModuleGeneral, ModuleGeneralSubmittedFiles } from "../../../../../api";
+import { ModuleGeneral, ModuleGeneralSubmittedFiles } from "../../../../../api/backend";
 import { Observable, Subject, Subscription } from "rxjs";
 import { debounceTime, map, mergeMap } from "rxjs/operators";
 import { TranslateService } from "@ngx-translate/core";

@@ -6,7 +6,7 @@ import {
   ChangeDetectorRef,
   HostListener, ViewChild, ElementRef
 } from '@angular/core';
-import { ModuleSortable } from "../../../../../api";
+import { ModuleSortable } from "../../../../../api/backend";
 import { ModuleService, WindowService } from "../../../../services";
 import { ISortableItem } from "../../../../models";
 import { Observable } from "rxjs";

@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@angular/core';
-import { ModuleQuiz, ModuleQuizQuestions } from "../../../../../api";
+import { ModuleQuiz, ModuleQuizQuestions } from "../../../../../api/backend";
 import { ModuleService } from "../../../../services";
 import { Observable } from "rxjs";
 

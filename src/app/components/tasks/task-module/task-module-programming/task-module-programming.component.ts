@@ -8,7 +8,7 @@ import {
   OnDestroy,
   ChangeDetectorRef
 } from '@angular/core';
-import { ModuleProgramming, RunCodeResponse } from "../../../../../api";
+import { ModuleProgramming, RunCodeResponse } from "../../../../../api/backend";
 import { FormControl } from "@angular/forms";
 
 /**

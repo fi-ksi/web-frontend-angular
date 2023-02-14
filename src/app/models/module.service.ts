@@ -1,4 +1,4 @@
-import { KSIModule, ModuleSubmitResponse, SortableItem } from "../../api";
+import { KSIModule, ModuleSubmitResponse, SortableItem } from "../../api/backend";
 import { Observable } from "rxjs";
 
 export interface ModuleSubmitChange {

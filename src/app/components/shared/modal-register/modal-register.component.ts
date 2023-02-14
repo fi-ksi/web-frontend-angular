@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subscription } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AddressService, BackendService, ModalService } from '../../../services';
-import { RegistrationRequest } from '../../../../api';
+import { RegistrationRequest } from '../../../../api/backend';
 import { environment } from '../../../../environments/environment';
 
 @Component({

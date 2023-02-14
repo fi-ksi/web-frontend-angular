@@ -3,7 +3,7 @@ import { BackendService, IconService, KsiTitleService } from "../../../services"
 import { ActivatedRoute } from "@angular/router";
 import { distinctUntilChanged, filter, map, mergeMap, shareReplay, tap } from "rxjs/operators";
 import { Observable } from "rxjs";
-import { Thread } from "../../../../api";
+import { Thread } from "../../../../api/backend";
 
 @Component({
   selector: 'ksi-page-discussion-thread',

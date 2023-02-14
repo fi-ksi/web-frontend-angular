@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { combineLatest, Observable } from "rxjs";
-import { User } from "../../../../api";
+import { User } from "../../../../api/backend";
 import { RoutesService, UsersCacheService } from "../../../services";
 
 @Component({

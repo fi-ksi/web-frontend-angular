@@ -3,7 +3,7 @@ import { BackendService, YearsService, UserService } from '../shared';
 import { combineLatest, merge, Observable, of, Subject } from 'rxjs';
 import { filter, map, mapTo, mergeMap, shareReplay, take, tap } from 'rxjs/operators';
 import { IWave, TaskWithIcon, WaveDetails } from '../../models';
-import { Feedback, Task, Wave } from 'src/api';
+import { Feedback, Task, Wave } from 'src/api/backend';
 import { Cache, Utils } from '../../util';
 import { environment } from '../../../environments/environment';
 

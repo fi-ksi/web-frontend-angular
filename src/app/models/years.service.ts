@@ -1,4 +1,4 @@
-import { Year } from '../../api';
+import { Year } from '../../api/backend';
 
 export type IYear = Year & {$newest?: boolean};
 

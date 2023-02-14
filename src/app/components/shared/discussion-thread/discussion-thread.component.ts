@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
-import { ThreadDetailResponse } from "../../../../api";
+import { ThreadDetailResponse } from "../../../../api/backend";
 import { PostsMap } from "../../../models";
 import { BehaviorSubject, combineLatest, Observable, Subscription } from "rxjs";
 import { BackendService, ModalService, WindowService, UserService } from "../../../services";

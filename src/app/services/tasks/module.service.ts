@@ -7,7 +7,7 @@ import {
   ModuleSubmissionData,
   ModuleSubmitResponse,
   RunCodeResponse,
-} from "../../../api";
+} from "../../../api/backend";
 import { concat, Observable, of, Subject } from 'rxjs';
 import { catchError, filter, first, map, mapTo, mergeMap, shareReplay, take } from "rxjs/operators";
 import { FileUpload, ModuleSubmitChange } from "../../models";

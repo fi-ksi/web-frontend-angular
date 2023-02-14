@@ -1,4 +1,4 @@
-import { Post } from "../../api";
+import { Post } from "../../api/backend";
 
 export type PostsMap = {[postId: number]: Post};
 

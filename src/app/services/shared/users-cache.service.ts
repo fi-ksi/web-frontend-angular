@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BackendService } from './backend.service';
 import { Observable, of } from 'rxjs';
-import { User } from '../../../api';
+import { User } from '../../../api/backend';
 import { map, mergeMap } from 'rxjs/operators';
 import { Utils, Cache } from '../../util';
 import { environment } from '../../../environments/environment';

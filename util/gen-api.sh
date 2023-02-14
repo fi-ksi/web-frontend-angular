@@ -13,10 +13,10 @@ fi
 
 cli="java -jar swagger-codegen-cli.jar"
 
-$cli generate -l typescript-angular -i ../web-backend-swagger/src/swagger/swagger.json -o src/api -c swagger-config.json
+$cli generate -l typescript-angular -i ../web-backend-swagger/src/swagger/swagger.json -o src/api/backend -c swagger-config.json
 
 # fix some auto-generated mess
-cd src/api || fail "Cannot cd to api"
+cd src/api/backend || fail "Cannot cd to api"
 
 echo "Fixing mess"
 for f in $(find . -type f -name '*.ts' -print); do

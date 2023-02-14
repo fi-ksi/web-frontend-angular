@@ -14,7 +14,7 @@ import { map, mergeMap, shareReplay, take, tap } from 'rxjs/operators';
 import { IUser, TaskIDWithScore, TaskWithIcon, UserProgress, WaveScore, IPrediction, IWave } from '../../../models';
 import { BarValue } from 'ngx-bootstrap/progressbar/progressbar-type.interface';
 import { ROUTES } from '../../../../routes/routes';
-import { ProfileResponse, User } from '../../../../api';
+import { ProfileResponse, User } from '../../../../api/backend';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({

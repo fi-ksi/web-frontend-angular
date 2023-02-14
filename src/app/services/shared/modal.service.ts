@@ -13,7 +13,7 @@ import { filter, map, mapTo, take } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { ModalOptions } from 'ngx-bootstrap/modal';
 import { ModalPostReplyComponent } from '../../components/shared/modal-post-reply/modal-post-reply.component';
-import { Post } from '../../../api';
+import { Post } from '../../../api/backend';
 import { ModalServerErrorComponent } from '../../components/shared/modal-server-error/modal-server-error.component';
 import { ModalRegisterComponent } from '../../components/shared/modal-register/modal-register.component';
 import { ModalTermsOfUseComponent } from '../../components/shared/modal-terms-of-use/modal-terms-of-use.component';

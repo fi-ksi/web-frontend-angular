@@ -3,7 +3,7 @@ import { KsiTitleService, ModalService, TasksService, WindowService, StorageServ
 import { WaveDetails, WaveView } from '../../../models';
 import { combineLatest, concat, Observable, of } from 'rxjs';
 import { map, shareReplay, tap } from 'rxjs/operators';
-import { Wave } from '../../../../api';
+import { Wave } from '../../../../api/backend';
 import { FormControl } from '@angular/forms';
 
 interface WaveOpened extends WaveDetails {

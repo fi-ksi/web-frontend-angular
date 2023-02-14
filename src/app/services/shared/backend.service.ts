@@ -4,7 +4,7 @@ import {
   BasicProfileResponseBasicProfile,
   Configuration,
   DefaultService
-} from '../../../api';
+} from '../../../api/backend';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from "../../../environments/environment";
 import { BehaviorSubject, combineLatest, Observable, of, Subject } from "rxjs";

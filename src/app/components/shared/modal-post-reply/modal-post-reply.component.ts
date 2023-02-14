@@ -3,7 +3,7 @@ import { ModalComponent, PostReplyMode, PostsMap } from "../../../models";
 import { BsModalRef } from "ngx-bootstrap/modal";
 import { FormBuilder, Validators } from "@angular/forms";
 import { BackendService, YearsService } from "../../../services";
-import { Post } from "../../../../api";
+import { Post } from "../../../../api/backend";
 import { Observable, of } from "rxjs";
 import { mergeMap, tap } from "rxjs/operators";
 

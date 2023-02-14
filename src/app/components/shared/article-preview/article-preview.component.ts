@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, HostBinding, HostListener } from '@angular/core';
-import { Article } from "../../../../api";
+import { Article } from "../../../../api/backend";
 import { TranslateService } from "@ngx-translate/core";
 import { Router } from "@angular/router";
 import { ROUTES } from "../../../../routes/routes";

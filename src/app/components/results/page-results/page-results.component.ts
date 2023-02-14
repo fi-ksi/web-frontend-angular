@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { KsiTitleService, RoutesService, YearsService } from '../../../services';
-import { User } from '../../../../api';
+import { User } from '../../../../api/backend';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

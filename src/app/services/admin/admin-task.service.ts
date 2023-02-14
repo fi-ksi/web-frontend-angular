@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Cache } from '../../util';
-import { AdminTask } from '../../../api';
+import { AdminTask } from '../../../api/backend';
 import { BackendService, UserService } from '../shared';
 import { map, mergeMap } from 'rxjs/operators';
 import { IAdminTask } from '../../models';

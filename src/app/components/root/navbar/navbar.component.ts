@@ -10,7 +10,7 @@ import {
 import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
 import { filter, map, mapTo, tap } from 'rxjs/operators';
 import { YearSelect } from '../../../models';
-import { BasicProfileResponseBasicProfile } from '../../../../api';
+import { BasicProfileResponseBasicProfile } from '../../../../api/backend';
 import { RouteConfigLoadEnd, RouteConfigLoadStart, Router } from '@angular/router';
 
 @Component({

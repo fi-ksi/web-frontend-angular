@@ -10,7 +10,7 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 import { PostsMap } from '../../../../models';
-import { Post } from '../../../../../api';
+import { Post } from '../../../../../api/backend';
 import { RoutesService, StorageService } from '../../../../services';
 import { BackendService, IconService, ModalService } from '../../../../services';
 import { Router } from '@angular/router';

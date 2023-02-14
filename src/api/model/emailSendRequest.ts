@@ -12,5 +12,5 @@
 import { EmailSend } from './emailSend';
 
 export interface EmailSendRequest { 
-    e_mail: EmailSend;
+    "e-mail": EmailSend;
 }

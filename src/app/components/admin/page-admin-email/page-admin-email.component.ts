@@ -109,7 +109,7 @@ export class PageAdminEmailComponent extends SubscribedComponent implements OnIn
   sendEmail(): void {
     environment.logger.debug('[MAIL] sending', this.emailForm.value);
 
-    this.backend.http.adminEmailSend({e_mail: {
+    this.backend.http.adminEmailSend({'e-mail': {
       Subject: this.emailForm.controls.subject.value,
       Body: this.emailForm.controls.body.value,
       Reply_To: this.emailForm.controls.advancedUsed.value ? this.emailForm.controls.replyTo.value : undefined,

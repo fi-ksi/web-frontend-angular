@@ -34,6 +34,7 @@ sed -e 's/github: string;/github: string | null;/' -i 'model/profile.ts'
 sed -e 's/github: string;/github: string | null;/' -i 'model/profileEdit.ts'
 sed -e 's/github: string;/github: string | null;/' -i 'model/registrationRequest.ts'
 sed -e 's/task: number;/task: number | null;/' -i 'model/achievementGrantRequest.ts'
+sed -e 's/e_mail/"e-mail"/' -i 'model/emailSendRequest.ts'
 sed -E 's|(\s+)public authorizeForm\(grant_type: string, username: string, password: string, refresh_token: string,|\1// @ts-ignore\n\1public  authorizeForm(grant_type: string, username: string = "", password: string = "", refresh_token: string = "",|' -i 'api/default.service.ts'
 
 # next two lines are setting correct Blob response type for requests with Blob return type

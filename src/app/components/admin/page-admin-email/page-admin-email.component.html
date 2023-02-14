@@ -80,8 +80,6 @@
         </div>
       </div>
     </form>
-    <!-- TODO remove, only for debugging  -->
-    <ng-container [ngTemplateOutlet]="modalMailCheck"></ng-container>
   </div>
 </div>
 
@@ -112,11 +110,11 @@
         <pre>{{emailForm.controls.replyTo.value}}</pre>
       </div>
 
-      <ng-container *ngIf="bcc.valueOuter.length">
+      <ng-container *ngIf="bcc.valueOuter.length > 0">
         <span class="form-label">{{'admin.email.bcc.title'|translate}}</span>
         <div>
           <ul>
-            <li *ngFor="let addr of bcc.valueOuterChanges | async"><pre>{{addr}}</pre></li>
+            <li *ngFor="let addr of bcc.valueOuter"><pre>{{addr}}</pre></li>
           </ul>
         </div>
       </ng-container>
@@ -125,6 +123,6 @@
     <span class="form-label">{{'admin.email.body'|translate}}</span>
     <div class="body" [innerHTML]="emailForm.controls.body.value"></div>
 
-    <button type="submit" class="btn btn-ksi w-100 btn-send" [disabled]="!emailForm.valid" (click)="sendEmail()">{{'admin.email.send.send'|translate}}</button>
+    <button type="submit" class="btn btn-ksi w-100 btn-send" (click)="sendEmail()">{{'admin.email.send.send'|translate}}</button>
   </div>
 </ng-template>

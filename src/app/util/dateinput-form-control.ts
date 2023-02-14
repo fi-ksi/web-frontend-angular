@@ -1,5 +1,5 @@
-import { MappedFormControl } from "./mapped-form-control";
-import { ValidatorFn } from "@angular/forms";
+import { MappedFormControl } from './mapped-form-control';
+import { ValidatorFn } from '@angular/forms';
 
 export class DateInputFormControl extends MappedFormControl<Date | null, string | null> {
   constructor(value?: Date, validators?: ValidatorFn[]) {

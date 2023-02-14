@@ -10,7 +10,7 @@ describe('ProfileOrgTaskThumbnailComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ ProfileTaskThumbnailComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

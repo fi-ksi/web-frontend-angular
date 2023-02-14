@@ -1,4 +1,4 @@
-import { Environment } from "./model";
+import { Environment } from './model';
 
 const doNothing = (..._: any[]) => {};
 

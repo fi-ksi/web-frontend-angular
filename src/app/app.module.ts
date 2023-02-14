@@ -16,13 +16,13 @@ import {
 } from './services';
 import { WindowService } from './services';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { KsiTitleService } from "./services";
+import { KsiTitleService } from './services';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BsModalService } from "ngx-bootstrap/modal";
-import { RootModule } from "./components/root/root.module";
-import { QuillModule } from "ngx-quill";
-import { HTTPErrorHandlerService, StorageService } from "./services";
-import { environment } from "../environments/environment";
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { RootModule } from './components/root/root.module';
+import { QuillModule } from 'ngx-quill';
+import { HTTPErrorHandlerService, StorageService } from './services';
+import { environment } from '../environments/environment';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {

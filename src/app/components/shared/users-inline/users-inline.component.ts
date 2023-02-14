@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
-import { combineLatest, Observable } from "rxjs";
-import { User } from "../../../../api/backend";
-import { RoutesService, UsersCacheService } from "../../../services";
+import { combineLatest, Observable } from 'rxjs';
+import { User } from '../../../../api/backend';
+import { RoutesService, UsersCacheService } from '../../../services';
 
 @Component({
   selector: 'ksi-users-inline',

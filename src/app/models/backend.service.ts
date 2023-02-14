@@ -1,4 +1,4 @@
-import { AuthResponse } from "../../api/backend";
+import { AuthResponse } from '../../api/backend';
 
 export interface AuthMessage {
   source: string;

@@ -1,11 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy, TemplateRef, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { ModalComponent, PostReplyMode, PostsMap } from "../../../models";
-import { BsModalRef } from "ngx-bootstrap/modal";
-import { FormBuilder, Validators } from "@angular/forms";
-import { BackendService, YearsService } from "../../../services";
-import { Post } from "../../../../api/backend";
-import { Observable, of } from "rxjs";
-import { mergeMap, tap } from "rxjs/operators";
+import { ModalComponent, PostReplyMode, PostsMap } from '../../../models';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import { FormBuilder, Validators } from '@angular/forms';
+import { BackendService, YearsService } from '../../../services';
+import { Post } from '../../../../api/backend';
+import { Observable, of } from 'rxjs';
+import { mergeMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'ksi-modal-post-reply',
@@ -93,7 +93,7 @@ export class ModalPostReplyComponent implements OnInit, ModalComponent {
       },
     }, this.post!.id);
 
-    reqPre$.pipe(mergeMap(() => this._mode !== "edit" ? reqNew() : reqEdit()))
+    reqPre$.pipe(mergeMap(() => this._mode !== 'edit' ? reqNew() : reqEdit()))
       .subscribe(() => {
         this.replied = true;
         this.modal.hide();

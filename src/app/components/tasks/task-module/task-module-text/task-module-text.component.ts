@@ -1,8 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@angular/core';
-import { ModuleText } from "../../../../../api/backend";
-import { FormControl } from "@angular/forms";
-import { ModuleService } from "../../../../services";
-import { Observable } from "rxjs";
+import { ModuleText } from '../../../../../api/backend';
+import { FormControl } from '@angular/forms';
+import { ModuleService } from '../../../../services';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'ksi-task-module-text',

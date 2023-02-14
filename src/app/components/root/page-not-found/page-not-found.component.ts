@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { KsiTitleService } from "../../../services";
-import { ActivatedRoute } from "@angular/router";
-import { Observable, of, Subscription } from "rxjs";
-import { UserService } from "../../../services/shared/user.service";
-import { filter, mergeMap, take, tap } from "rxjs/operators";
+import { KsiTitleService } from '../../../services';
+import { ActivatedRoute } from '@angular/router';
+import { Observable, of, Subscription } from 'rxjs';
+import { UserService } from '../../../services/shared/user.service';
+import { filter, mergeMap, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'ksi-page-not-found',

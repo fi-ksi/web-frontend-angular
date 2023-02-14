@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef } from '@angular/core';
-import { FormBuilder, Validators } from "@angular/forms";
-import { BehaviorSubject } from "rxjs";
-import { BsModalRef } from "ngx-bootstrap/modal";
-import { BackendService } from "../../../services";
-import { ModalComponent } from "../../../models";
+import { FormBuilder, Validators } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import { BackendService } from '../../../services';
+import { ModalComponent } from '../../../models';
 
 @Component({
   selector: 'ksi-modal-reset-password',

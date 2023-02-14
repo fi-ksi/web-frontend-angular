@@ -10,7 +10,7 @@ describe('PageAchievementsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ PageAchievementsComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

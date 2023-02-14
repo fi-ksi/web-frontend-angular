@@ -1,4 +1,4 @@
-import { BarValue } from "ngx-bootstrap/progressbar/progressbar-type.interface";
+import { BarValue } from 'ngx-bootstrap/progressbar/progressbar-type.interface';
 
 export interface UserProgress {
   title: string;

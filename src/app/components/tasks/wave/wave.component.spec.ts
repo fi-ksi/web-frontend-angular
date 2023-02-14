@@ -10,7 +10,7 @@ describe('WaveComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ WaveComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

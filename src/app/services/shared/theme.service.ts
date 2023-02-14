@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { StorageService } from "./storage.service";
-import { BehaviorSubject, Observable, Subject } from "rxjs";
-import { distinctUntilChanged } from "rxjs/operators";
+import { StorageService } from './storage.service';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 export type Theme = 'dark' | 'light';
 

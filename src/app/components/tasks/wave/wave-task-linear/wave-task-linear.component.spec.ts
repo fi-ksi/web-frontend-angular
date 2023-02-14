@@ -10,7 +10,7 @@ describe('WaveTaskLinearComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ WaveTaskLinearComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

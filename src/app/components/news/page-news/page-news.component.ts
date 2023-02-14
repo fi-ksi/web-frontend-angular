@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { KsiTitleService, YearsService } from "../../../services";
+import { KsiTitleService, YearsService } from '../../../services';
 
 @Component({
   selector: 'ksi-page-news',

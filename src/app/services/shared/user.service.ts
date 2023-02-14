@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BackendService } from "./backend.service";
-import { combineLatest, Observable, of } from "rxjs";
-import { UserRole } from "../../../api/backend";
-import { filter, map, mergeMap, shareReplay, take, tap } from "rxjs/operators";
-import { ModalService } from "./modal.service";
-import { Router } from "@angular/router";
-import { environment } from "../../../environments/environment";
+import { BackendService } from './backend.service';
+import { combineLatest, Observable, of } from 'rxjs';
+import { UserRole } from '../../../api/backend';
+import { filter, map, mergeMap, shareReplay, take, tap } from 'rxjs/operators';
+import { ModalService } from './modal.service';
+import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'

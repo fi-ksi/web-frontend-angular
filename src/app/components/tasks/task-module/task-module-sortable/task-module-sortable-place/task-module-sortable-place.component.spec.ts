@@ -10,7 +10,7 @@ describe('TaskModuleSortablePlaceComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ TaskModuleSortablePlaceComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

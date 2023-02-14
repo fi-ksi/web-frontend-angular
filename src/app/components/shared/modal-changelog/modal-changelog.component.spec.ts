@@ -10,7 +10,7 @@ describe('ModalChangelogComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ ModalChangelogComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -10,7 +10,7 @@ describe('AdminSidebarComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ AdminSidebarComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

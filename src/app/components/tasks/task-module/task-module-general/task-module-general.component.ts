@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { ModalService, ModuleService } from "../../../../services";
-import { ModuleGeneral, ModuleGeneralSubmittedFiles } from "../../../../../api/backend";
-import { Observable, Subject, Subscription } from "rxjs";
-import { debounceTime, map, mergeMap } from "rxjs/operators";
-import { TranslateService } from "@ngx-translate/core";
+import { ModalService, ModuleService } from '../../../../services';
+import { ModuleGeneral, ModuleGeneralSubmittedFiles } from '../../../../../api/backend';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { debounceTime, map, mergeMap } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'ksi-task-module-general',
@@ -50,7 +50,7 @@ export class TaskModuleGeneralComponent implements OnInit, OnDestroy {
           this.submittedFiles = submittedFiles;
           this.checkUploadAllowed();
           this.cd.markForCheck();
-      })
+        })
     );
   }
 
@@ -121,7 +121,7 @@ export class TaskModuleGeneralComponent implements OnInit, OnDestroy {
       return;
     }
 
-    for (let file of this.filesToUpload) {
+    for (const file of this.filesToUpload) {
       if (file.size >= TaskModuleGeneralComponent.MAX_UPLOAD_SIZE_MB * 1024 * 1024) {
         this.error$ = this.translate
           .get('tasks.module.general.size-to-large', {size: TaskModuleGeneralComponent.MAX_UPLOAD_SIZE_MB});

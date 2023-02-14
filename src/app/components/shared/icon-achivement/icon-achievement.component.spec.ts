@@ -10,7 +10,7 @@ describe('IconAchivementComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ IconAchievementComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

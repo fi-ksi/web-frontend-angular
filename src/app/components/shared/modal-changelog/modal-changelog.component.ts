@@ -7,11 +7,11 @@ import {
   ChangeDetectorRef,
   OnDestroy
 } from '@angular/core';
-import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
-import { VersionService, StorageService, UserService } from "../../../services";
-import { combineLatest, concat, of, Subscription } from "rxjs";
-import { DateInputFormControl } from "../../../util";
-import { filter, skip, take } from "rxjs/operators";
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { VersionService, StorageService, UserService } from '../../../services';
+import { combineLatest, concat, of, Subscription } from 'rxjs';
+import { DateInputFormControl } from '../../../util';
+import { filter, skip, take } from 'rxjs/operators';
 
 @Component({
   selector: 'ksi-modal-changelog',
@@ -73,32 +73,32 @@ export class ModalChangelogComponent implements OnInit, OnDestroy {
 
       changelog
         .forEach((change) => {
-            const {subject} = change;
-            // filter out non fix/feat changes
-            const reResult = reCommitMessage.exec(subject);
-            if (!reResult) {
-              return;
-            }
-
-            // filter out too old changes
-            const date = new Date(change.author.date);
-            if (date < since!) {
-              return;
-            }
-
-            // sort changes by category
-            const type = reResult[1] as 'fix' | 'feat' | 'patch';
-            const category = reResult[2] || '';
-            const caption = reResult[3];
-
-            if (!(category in this.changes)) {
-              this.changes[category] = [];
-            }
-
-            this.changes[category].push({
-              date, type, caption
-            })
+          const {subject} = change;
+          // filter out non fix/feat changes
+          const reResult = reCommitMessage.exec(subject);
+          if (!reResult) {
+            return;
           }
+
+          // filter out too old changes
+          const date = new Date(change.author.date);
+          if (date < since!) {
+            return;
+          }
+
+          // sort changes by category
+          const type = reResult[1] as 'fix' | 'feat' | 'patch';
+          const category = reResult[2] || '';
+          const caption = reResult[3];
+
+          if (!(category in this.changes)) {
+            this.changes[category] = [];
+          }
+
+          this.changes[category].push({
+            date, type, caption
+          });
+        }
         );
 
       this.changeCategories = Object.keys(this.changes).sort();

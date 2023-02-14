@@ -1,8 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
-import { TaskWithIcon, WaveDetails, WaveView } from "../../../models";
-import { RoutesService, TasksService } from "../../../services";
-import { Observable } from "rxjs";
-import { UserService } from "../../../services";
+import { TaskWithIcon, WaveDetails, WaveView } from '../../../models';
+import { RoutesService, TasksService } from '../../../services';
+import { Observable } from 'rxjs';
+import { UserService } from '../../../services';
 
 @Component({
   selector: 'ksi-wave',

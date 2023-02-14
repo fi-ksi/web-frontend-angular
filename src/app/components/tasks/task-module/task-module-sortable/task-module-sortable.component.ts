@@ -6,10 +6,10 @@ import {
   ChangeDetectorRef,
   HostListener, ViewChild, ElementRef
 } from '@angular/core';
-import { ModuleSortable } from "../../../../../api/backend";
-import { ModuleService, WindowService } from "../../../../services";
-import { ISortableItem } from "../../../../models";
-import { Observable } from "rxjs";
+import { ModuleSortable } from '../../../../../api/backend';
+import { ModuleService, WindowService } from '../../../../services';
+import { ISortableItem } from '../../../../models';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'ksi-task-module-sortable',
@@ -125,7 +125,7 @@ export class TaskModuleSortableComponent implements OnInit {
       offset = Math.max(0, offset + item.offset);
     });
 
-    for (let item of this.listRight) {
+    for (const item of this.listRight) {
       item.$absOffset = 0;
       item.$placement = 'right';
       item.$itemAfter = undefined;

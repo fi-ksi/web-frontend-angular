@@ -10,7 +10,7 @@ describe('ModalServerErrorComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ ModalServerErrorComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

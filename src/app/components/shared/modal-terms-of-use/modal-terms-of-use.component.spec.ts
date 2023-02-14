@@ -10,7 +10,7 @@ describe('ModalTermsOfUseComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ ModalTermsOfUseComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

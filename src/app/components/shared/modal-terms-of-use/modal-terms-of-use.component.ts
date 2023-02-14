@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, TemplateRef, ViewChild } from '@angular/core';
-import { ModalComponent } from "../../../models";
-import { BsModalRef } from "ngx-bootstrap/modal";
+import { ModalComponent } from '../../../models';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'ksi-modal-terms-of-use',

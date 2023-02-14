@@ -10,7 +10,7 @@ describe('PageAdminMonitorComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ PageAdminMonitorComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -10,7 +10,7 @@ describe('TermsOfUseComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ TermsOfUseComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

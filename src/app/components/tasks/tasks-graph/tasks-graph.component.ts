@@ -7,11 +7,11 @@ import {
   ElementRef,
   OnDestroy, ChangeDetectorRef
 } from '@angular/core';
-import { TaskWithIcon } from "../../../models";
-import { Utils } from "../../../util";
-import { TasksService, WindowService } from "../../../services";
-import { Subscription } from "rxjs";
-import { debounceTime } from "rxjs/operators";
+import { TaskWithIcon } from '../../../models';
+import { Utils } from '../../../util';
+import { TasksService, WindowService } from '../../../services';
+import { Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'ksi-tasks-graph',
@@ -28,7 +28,7 @@ export class TasksGraphComponent implements OnInit, OnDestroy {
     this.tasksGraphed = TasksService.splitToLevels(value, this.taskMap);
     this.watchArrowsDraw();
     this.cd.markForCheck();
-  };
+  }
 
   get tasks(): TaskWithIcon[] {
     return this._tasks;
@@ -103,7 +103,7 @@ export class TasksGraphComponent implements OnInit, OnDestroy {
         const animationDelay = drawTimeout !== null ? drawTimeout + (index * 50) : 0;
 
         elArrows.innerHTML += `<line x1="${lineFromX}" y1="${lineFromY}" x2="${lineToX}" y2="${lineToY}" class="${drawTimeout === null ? '' : 'animated'}" style="animation-delay: ${animationDelay}ms; opacity: ${animationDelay > 0 ? 0 : 1}" />`;
-      })
+      });
     });
   }
 
@@ -112,14 +112,14 @@ export class TasksGraphComponent implements OnInit, OnDestroy {
    * If it has, paints them again and continues to watch
    * @private
    */
-  private watchArrowsDraw(drawTimeout: number = 50): void {
+  private watchArrowsDraw(drawTimeout = 50): void {
     this.watchDrawActive = true;
     /**
      * Gets all sorted tasks and maps the to their positions
      */
     const getTasksPositions = (): Pick<DOMRect, 'left' | 'top'>[] => {
-      return this.getTaskElementsSorted().map((el) => el.getBoundingClientRect())
-    }
+      return this.getTaskElementsSorted().map((el) => el.getBoundingClientRect());
+    };
 
     const elPositions = getTasksPositions();
 
@@ -139,15 +139,15 @@ export class TasksGraphComponent implements OnInit, OnDestroy {
       const currPos = getTasksPositions();
       return elPositions.length !== currPos.length || !!currPos.find(
         (pos, index) => pos.left !== elPositions[index].left
-      )
-    }
+      );
+    };
 
     /**
      * Checks if any of the elements has changed after up to maxTimeout and if so, redraws
      * @param timeout how long to wait until next test if nothing has changed
      * @param maxTimeout what is the max wait time until nothing is going to be changed again
      */
-    const checkAndDraw = (timeout: number = 0, maxTimeout = 2000): void => {
+    const checkAndDraw = (timeout = 0, maxTimeout = 2000): void => {
       if (timeout > maxTimeout) {
         this.watchDrawActive = false;
         return;
@@ -160,7 +160,7 @@ export class TasksGraphComponent implements OnInit, OnDestroy {
           checkAndDraw(newTimeout);
         }
       }, timeout);
-    }
+    };
 
     checkAndDraw();
   }
@@ -172,12 +172,12 @@ export class TasksGraphComponent implements OnInit, OnDestroy {
 
   private getTaskElementsSorted(): HTMLElement[] {
     const r = this.getTaskElements();
-    r.sort((a, b) => a.id === b.id ? 0 : a.id > b.id ? 1 : -1)
+    r.sort((a, b) => a.id === b.id ? 0 : a.id > b.id ? 1 : -1);
     return r;
   }
 
   private getTaskElement(taskId: number): HTMLElement | null {
-    return this.elGraph.querySelector(`:scope > .row > #ksi-task-${taskId}.task`)
+    return this.elGraph.querySelector(`:scope > .row > #ksi-task-${taskId}.task`);
   }
 
   ngOnDestroy(): void {

@@ -1,10 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { BackendService, KsiTitleService } from "../../../services";
-import { ActivatedRoute } from "@angular/router";
+import { BackendService, KsiTitleService } from '../../../services';
+import { ActivatedRoute } from '@angular/router';
 import { map, mergeMap, tap } from 'rxjs/operators';
-import { ArticleResponse } from "../../../../api/backend";
-import { Observable } from "rxjs";
-import { Utils } from "../../../util";
+import { ArticleResponse } from '../../../../api/backend';
+import { Observable } from 'rxjs';
+import { Utils } from '../../../util';
 
 @Component({
   selector: 'ksi-page-article',

@@ -1,15 +1,15 @@
 var _paq = window._paq = window._paq || [];
 /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-_paq.push(["setDomains", ["*.ksi.fi.muni.cz"]]);
-_paq.push(["setDoNotTrack", true]);
-_paq.push(["disableCookies"]);
-_paq.push(["setExcludedQueryParams", ["fbclid"]]);
+_paq.push(['setDomains', ['*.ksi.fi.muni.cz']]);
+_paq.push(['setDoNotTrack', true]);
+_paq.push(['disableCookies']);
+_paq.push(['setExcludedQueryParams', ['fbclid']]);
 
 _paq.push(['trackPageView']);
 
 _paq.push(['enableLinkTracking']);
 (function() {
-  var u="https://fadmin.fi.muni.cz/piwik/";
+  var u='https://fadmin.fi.muni.cz/piwik/';
   _paq.push(['setTrackerUrl', u+'matomo.php']);
   _paq.push(['setSiteId', '46']);
   var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];

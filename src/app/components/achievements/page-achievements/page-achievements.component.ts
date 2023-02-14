@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
-import { AchievementService, KsiTitleService, RoutesService, YearsService } from "../../../services";
-import { combineLatest, Observable } from "rxjs";
-import { Achievement } from "../../../../api/backend";
-import { map, mergeMap, shareReplay } from "rxjs/operators";
+import { ActivatedRoute } from '@angular/router';
+import { AchievementService, KsiTitleService, RoutesService, YearsService } from '../../../services';
+import { combineLatest, Observable } from 'rxjs';
+import { Achievement } from '../../../../api/backend';
+import { map, mergeMap, shareReplay } from 'rxjs/operators';
 
 @Component({
   selector: 'ksi-page-achievements',
@@ -35,6 +35,6 @@ export class PageAchievementsComponent implements OnInit {
         }
       }),
       shareReplay(1)
-    )
+    );
   }
 }

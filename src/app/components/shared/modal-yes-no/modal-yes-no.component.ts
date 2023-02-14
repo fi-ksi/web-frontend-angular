@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef, ChangeDetectorRef } from '@angular/core';
-import { ModalComponent } from "../../../models";
-import { BsModalRef } from "ngx-bootstrap/modal";
+import { ModalComponent } from '../../../models';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'ksi-modal-yes-no',
@@ -15,8 +15,8 @@ export class ModalYesNoComponent implements OnInit, ModalComponent {
   title = 'modal.yes-no.title';
 
   question: string;
-  optionYes: string = 'modal.yes-no.yes';
-  optionNo: string = 'modal.yes-no.no';
+  optionYes = 'modal.yes-no.yes';
+  optionNo = 'modal.yes-no.no';
 
   modalRef: BsModalRef;
 

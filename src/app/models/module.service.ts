@@ -1,5 +1,5 @@
-import { KSIModule, ModuleSubmitResponse, SortableItem } from "../../api/backend";
-import { Observable } from "rxjs";
+import { KSIModule, ModuleSubmitResponse, SortableItem } from '../../api/backend';
+import { Observable } from 'rxjs';
 
 export interface ModuleSubmitChange {
   module: KSIModule,

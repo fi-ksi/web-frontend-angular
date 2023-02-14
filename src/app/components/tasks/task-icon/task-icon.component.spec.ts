@@ -10,7 +10,7 @@ describe('TaskIconComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ TaskIconComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

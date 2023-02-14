@@ -10,7 +10,7 @@ describe('TaskModuleComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ TaskModuleComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

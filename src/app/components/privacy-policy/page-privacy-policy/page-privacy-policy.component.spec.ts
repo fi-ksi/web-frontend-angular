@@ -10,7 +10,7 @@ describe('PagePrivacyPolicyComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ PagePrivacyPolicyComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

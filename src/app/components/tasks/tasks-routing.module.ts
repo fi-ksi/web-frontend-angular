@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PageTasksComponent } from "./page-tasks/page-tasks.component";
-import { PageTaskComponent } from "./page-task/page-task.component";
+import { PageTasksComponent } from './page-tasks/page-tasks.component';
+import { PageTaskComponent } from './page-task/page-task.component';
 
 const routes: Routes = [
   {path: ':id', component: PageTaskComponent},

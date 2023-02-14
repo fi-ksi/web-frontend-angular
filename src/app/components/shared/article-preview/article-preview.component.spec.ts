@@ -10,7 +10,7 @@ describe('ArticlePreviewComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ ArticlePreviewComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

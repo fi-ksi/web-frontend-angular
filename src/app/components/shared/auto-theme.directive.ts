@@ -1,6 +1,6 @@
 import { Directive, ElementRef, OnDestroy, OnInit } from '@angular/core';
-import { ThemeService, Theme } from "../../services";
-import { Subscription } from "rxjs";
+import { ThemeService, Theme } from '../../services';
+import { Subscription } from 'rxjs';
 
 @Directive({
   selector: 'table[ksiTheme]'
@@ -25,7 +25,7 @@ export class AutoThemeDirective implements OnDestroy, OnInit {
 
       // apply classes for this theme
       AutoThemeDirective.THEME_CLASSES.get(theme)?.forEach((cls) => classList.add(cls));
-    }))
+    }));
   }
 
 

@@ -202,7 +202,10 @@
         "upload": "Nahrát z disku",
         "reset": "Obnovit výchozí kód",
         "reset-confirm": "Tato akce smaže všechny tvoje úpravy. Vážně ji chceš provést?",
-        "lint": "Analyzovat"
+        "lint": {
+          "text": "Zkontrolovat kvalitu kódu pomocí EduLintu",
+          "tooltip": "Dojde k přesměřování na externí službu EduLint"
+        }
       },
       "general": {
         "submitted-files": "Nahrané soubory",

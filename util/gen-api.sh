@@ -1,4 +1,5 @@
 #!/bin/bash
+set -exuo pipefail
 
 function fail() {
     echo "ERR: $1"
@@ -7,13 +8,17 @@ function fail() {
 
 cd "$(dirname "$(realpath "$0")")/../" || fail "Cannot cd here"
 
+# Download swagger
+
 if [ ! -f 'swagger-codegen-cli.jar' ]; then
   wget 'https://repo1.maven.org/maven2/io/swagger/codegen/v3/swagger-codegen-cli/3.0.34/swagger-codegen-cli-3.0.34.jar' -O swagger-codegen-cli.jar || fail "Swagger download failed"
 fi
 
+DIR_PROJECT_ROOT="$(realpath .)"
 cli="java -jar swagger-codegen-cli.jar"
 
-$cli generate -l typescript-angular -i ../web-backend-swagger/src/swagger/swagger.json -o src/api/backend -c swagger-config.json
+# Generate backend API
+$cli generate -l typescript-angular -i ../web-backend-swagger/src/swagger/swagger.json -o src/api/backend -c "$DIR_PROJECT_ROOT/swagger-config.json"
 
 # fix some auto-generated mess
 cd src/api/backend || fail "Cannot cd to api"
@@ -40,3 +45,14 @@ sed -E 's|(\s+)public authorizeForm\(grant_type: string, username: string, passw
 # next two lines are setting correct Blob response type for requests with Blob return type
 sed -E 's|(.*this.httpClient.request<Blob>.*)|\1//@ts-ignore|' -i 'api/default.service.ts'
 sed -E '/.*this.httpClient.request<Blob>.*/{n;s/.*/\{responseType: "blob",/}' -i 'api/default.service.ts'
+
+# Generate EduLint API
+cd "$DIR_PROJECT_ROOT"
+URL_EDULINT="https://edulint.com/api/openapi.yaml"
+FILE_EDULINT="src/api/edulint.yaml"
+
+if [ ! -f "$FILE_EDULINT" ]; then
+    wget --output-document="$FILE_EDULINT" "$URL_EDULINT"
+fi
+
+$cli generate -l typescript-angular -i "$FILE_EDULINT" -o src/api/edulint -c "$DIR_PROJECT_ROOT/swagger-config.json"

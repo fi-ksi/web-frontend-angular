@@ -1,0 +1,234 @@
+openapi: 3.0.2
+info:
+  title: EduLint web API
+  # description: "This is a sample Pet Store Server based on the OpenAPI 3.0 specification.\
+  #   \  You can find out more about\nSwagger at [http://swagger.io](http://swagger.io).\
+  #   \ In the third iteration of the pet store, we've switched to the design first\
+  #   \ approach!\nYou can now help us improve the API whether it's by making changes\
+  #   \ to the definition itself or to the code.\nThat way, with time, we can improve\
+  #   \ the API in general, and expose some of the new features in OAS3.\n\nSome useful\
+  #   \ links:\n- [The Pet Store repository](https://github.com/swagger-api/swagger-petstore)\n\
+  #   - [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)"
+  # termsOfService: http://swagger.io/terms/
+  contact:
+    email: contact@edulint.com
+  # license:
+  #   name: Apache 2.0
+  #   url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+# externalDocs:
+#   description: Find out more about Swagger
+#   url: http://swagger.io
+servers:
+  - url: ""
+tags:
+  - name: API
+    description: ""
+    # externalDocs:
+    #   description: Find out more
+    #   url: http://swagger.io
+  - name: Web
+    description: ""
+    # externalDocs:
+    #   description: Find out more about our store
+    #   url: http://swagger.io
+paths:
+  /api/code:
+    post:
+      tags:
+        - API
+      summary: Uploads some code
+      # description: Update an existing pet by Id
+      # operationId: updatePet
+      requestBody:
+        description: the code to upload
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Code"
+          # application/xml:
+          #   schema:
+          #     $ref: "#/components/schemas/Pet"
+          # application/x-www-form-urlencoded:
+          #   schema:
+          #     $ref: "#/components/schemas/Pet"
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            # application/xml:
+            #   schema:
+            #     $ref: "#/components/schemas/Pet"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Hash"
+      # security:
+      # - petstore_auth:
+      #   - write:pets
+      #   - read:pets
+  /api/code/{hash}:
+    get:
+      tags:
+        - API
+      summary: Retrieves the code with the given hash
+      parameters:
+        - name: hash
+          in: path
+          description: hash of the code to return
+          required: true
+          schema:
+            $ref: "#/components/schemas/HashStr"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            # application/xml:
+            #   schema:
+            #     $ref: '#/components/schemas/Pet'
+            # application/json:
+            #   schema:
+            #     $ref: '#/components/schemas/Pet'
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/CodeFile"
+        "400":
+          description: Invalid hash supplied
+        "404":
+          description: Code not found
+  /api/{version}/analyze/{hash}:
+    get:
+      tags:
+        - API
+      summary: Analyzes the code with the given hash with the given version of EduLint
+      operationId: analyzeUploaded
+      parameters:
+        - name: version
+          in: path
+          description: the version of EduLint to use
+          required: true
+          schema:
+            type: string
+            example: 2.0.0
+        - name: hash
+          in: path
+          description: the hash of the code to analyze
+          required: true
+          schema:
+            $ref: "#/components/schemas/HashStr"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Problems"
+        "400":
+          description: Invalid hash supplied
+        "404":
+          description: Code or version not found
+  /api/{version}/analyze:
+    post:
+      tags:
+        - API
+      summary: Uploads some code and returns its analysis
+      description: This endpoint combines the /code and /api/{version}/analyze/{hash} endpoints.
+      parameters:
+        - name: version
+          in: path
+          description: the version of EduLint to use
+          required: true
+          schema:
+            type: string
+            example: 2.0.0
+      requestBody:
+        description: the code to upload and analyze
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Code"
+        required: true
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Problems"
+        "400":
+          description: Invalid hash supplied
+        "404":
+          description: Code or version not found
+  /editor/{hash}:
+    get:
+      tags:
+        - Web
+      summary: Displays the UI with prefilled code
+      parameters:
+        - name: hash
+          in: path
+          description: the hash of the code to display
+          required: true
+          schema:
+            $ref: "#/components/schemas/HashStr"
+      responses:
+        "200":
+          description: successful operation, HTML with JS for user
+
+components:
+  schemas:
+    Code:
+      type: object
+      properties:
+        code:
+          type: string
+          example: print('Hello world')
+    CodeFile:
+      type: string
+      format: binary
+      example: print('Hello world')
+    HashStr:
+      type: string
+      example: c4bc51f7d34f9340c33e0b3b9dcfd12aa8917fe5a11faa5f6385f5bb41be9fcf
+    Hash:
+      type: object
+      properties:
+        hash:
+          $ref: "#/components/schemas/HashStr"
+    Problem:
+      type: object
+      properties:
+        path:
+          type: string
+          example: codes/c4bc51f7d34f9340c33e0b3b9dcfd12aa8917fe5a11faa5f6385f5bb41be9fcf.py
+        source:
+          type: string
+          example: pylint
+        code:
+          type: string
+          example: R6201
+        symbol:
+          type: string
+          nullable: true
+          example: simplifiable-if-return
+        text:
+          type: string
+          example: The if statement can be replaced with 'return ch == 'a' or ch == 'A''
+        line:
+          type: integer
+          example: 4
+        end_line:
+          type: integer
+          nullable: true
+          example: 7
+        column:
+          type: integer
+          example: 4
+        end_column:
+          type: integer
+          nullable: true
+          example: 20
+    Problems:
+      type: array
+      items:
+        $ref: "#/components/schemas/Problem"

@@ -1,6 +1,7 @@
 export interface Environment {
   production: boolean,
   backend: string,
+  edulint: string;
   urlPrefix: string,
   logger: {
     log: (...data: unknown[]) => void,

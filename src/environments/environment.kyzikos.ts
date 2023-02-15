@@ -7,6 +7,7 @@ import { Environment } from './model';
 export const environment: Environment = {
   production: true,
   backend: 'https://kyzikos.fi.muni.cz:3000/',
+  edulint: 'https://edulint.rechtackova.cz/',
   urlPrefix: '/',
   logger: {
     log: console.log,

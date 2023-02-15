@@ -8,6 +8,7 @@ export const environment: Environment = {
   production: false,
   disableRegistration: false,
   backend: 'http://localhost:3030/',
+  edulint: 'https://edulint.rechtackova.cz/',
   urlPrefix: '',
   logger: {
     log: console.log,

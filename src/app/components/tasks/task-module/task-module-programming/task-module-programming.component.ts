@@ -17,8 +17,8 @@ import { FormControl } from '@angular/forms';
 // @ts-ignore
 import * as CodeMirror from '../../../../../../node_modules/codemirror/lib/codemirror';
 import '../../../../../../node_modules/codemirror/mode/python/python';
-import { Observable, Subscription } from 'rxjs';
-import { ModalService, ModuleService, UserService } from '../../../../services';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { EdulintService, ModalService, ModuleService, UserService } from '../../../../services';
 import { mapTo, tap } from 'rxjs/operators';
 
 @Component({
@@ -47,9 +47,12 @@ export class TaskModuleProgrammingComponent implements OnInit, OnDestroy {
   submission$: Observable<void> | null = null;
   codeRun$: Observable<void> | null = null;
 
+  private readonly lintingSubject = new BehaviorSubject<boolean>(false);
+  readonly linting$ = this.lintingSubject.asObservable();
+
   private subs: Subscription[] = [];
 
-  constructor(private moduleService: ModuleService, public user: UserService, private cd: ChangeDetectorRef, private modal: ModalService) { }
+  constructor(private moduleService: ModuleService, public user: UserService, private cd: ChangeDetectorRef, private modal: ModalService, private lint: EdulintService) { }
 
   ngOnDestroy(): void {
     this.subs.forEach((sub) => sub.unsubscribe());
@@ -177,5 +180,13 @@ export class TaskModuleProgrammingComponent implements OnInit, OnDestroy {
         editor.doc.setValue(value);
       }
     }));
+  }
+
+  lintCode(): void {
+    this.lintingSubject.next(true);
+    this.lint.getCodeEditorUrl(this.code.value).subscribe((url) => {
+      this.lintingSubject.next(false);
+      window.open(url, '_blank');
+    });
   }
 }

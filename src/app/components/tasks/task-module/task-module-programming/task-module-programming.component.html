@@ -2,6 +2,7 @@
 <div class="buttons">
   <button [disabled]="codeRun$" class="btn btn-ksi run" (click)="runCode()">{{'tasks.module.programming.run'|translate}}</button>
   <button [disabled]="submission$" class="btn btn-ksi submit" (click)="submit()">{{'tasks.module.submit'|translate}}</button>
+  <button [disabled]="linting$ | async" class="btn btn-ksi" (click)="lintCode()">{{'tasks.module.programming.lint'|translate}}</button>
   <button class="btn btn-ksi download" (click)="download()">{{'tasks.module.programming.download'|translate}}</button>
   <button class="btn btn-ksi upload" (click)="upload()">{{'tasks.module.programming.upload'|translate}}</button>
   <button class="btn btn-ksi reset" (click)="reset()">{{'tasks.module.programming.reset'|translate}}</button>

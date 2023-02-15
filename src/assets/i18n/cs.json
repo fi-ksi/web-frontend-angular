@@ -201,7 +201,8 @@
         "download": "Stáhnout kód",
         "upload": "Nahrát z disku",
         "reset": "Obnovit výchozí kód",
-        "reset-confirm": "Tato akce smaže všechny tvoje úpravy. Vážně ji chceš provést?"
+        "reset-confirm": "Tato akce smaže všechny tvoje úpravy. Vážně ji chceš provést?",
+        "lint": "Analyzovat"
       },
       "general": {
         "submitted-files": "Nahrané soubory",

@@ -38,7 +38,7 @@
               <ksi-clickable-user-name [userId]="task.author"></ksi-clickable-user-name>
             </td>
             <td>{{task.max_score}}</td>
-            <td>{{task.deploy_date | ksiDate}}</td>
+            <td>{{task.deploy_date | ksiDate: 'medium'}}</td>
             <td class="actions">
               <button
                 *ngIf="task.$canBeDeployed$ | async"

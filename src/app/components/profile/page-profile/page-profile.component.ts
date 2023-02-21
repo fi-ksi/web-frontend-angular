@@ -179,13 +179,13 @@ export class PageProfileComponent implements OnInit {
       map(([year, waves]) => [year, ...waves])
     );
 
-    this.prediction$ = combineLatest([this.tasks.tasks$, this.userProgress$, this.years.selectedFull$]).pipe(
-      map(([tasks, userProgress, year]) => {
+    this.prediction$ = combineLatest([this.tasks.tasks$, this.tasksWithScore$, this.userProgress$, this.years.selectedFull$]).pipe(
+      map(([tasks, scores, userProgress, year]) => {
         if (userProgress.length === 0){
           return null;
         }
 
-        return PageProfileComponent.generatePrediction(tasks, userProgress[0], Math.max((year?.sum_points || 0), (year?.point_pad || 0)));
+        return PageProfileComponent.generatePrediction(tasks, scores, userProgress[0], Math.max((year?.sum_points || 0), (year?.point_pad || 0)));
       })
     );
 
@@ -219,18 +219,21 @@ export class PageProfileComponent implements OnInit {
    * Returns prediction based on users progress for current year.
    *
    * @param tasks all available tasks
+   * @param scores the scores of all submitted tasks of this user
    * @param totalProgress users progress
    * @param maxScore max score possible
    */
-  private static generatePrediction(tasks: TaskWithIcon[], totalProgress: UserProgress, maxScore: number): IPrediction {
+  private static generatePrediction(tasks: TaskWithIcon[], scores: TaskIDWithScore[], totalProgress: UserProgress, maxScore: number): IPrediction {
     const currentPoints = totalProgress.score;
+    // all tasks that the user has submitted (== are present inside the score array) and have undefined score are unpublished
+    const unpublishedTaskIDs = new Set(scores.filter((task) => task.score === undefined).map((task) => task.id));
+    const today = new Date();
 
     let missedScore = 0;
     for (const task of tasks){
       const deadlineDate = new Date(task.time_deadline);
-      const today = new Date();
 
-      if (task.state !== 'correcting' || deadlineDate < today) {
+      if (!unpublishedTaskIDs.has(task.id) && deadlineDate < today) {
         missedScore += task.max_score;
       }
     }

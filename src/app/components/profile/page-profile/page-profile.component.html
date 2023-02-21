@@ -84,9 +84,11 @@
             <span *ngIf="!user.successful && prediction.doable">
               {{'profile.stats.prediction.normal' | translate: {percent: prediction.percentFromTotalNeeded} }}
             </span>
+<!--
             <span *ngIf="!user.successful && !prediction.doable">
               {{'profile.stats.prediction.negative' | translateGender: user}}
             </span>
+-->
           </h5>
 
           <div class="numeric">

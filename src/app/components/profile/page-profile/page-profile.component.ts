@@ -230,7 +230,7 @@ export class PageProfileComponent implements OnInit {
       const deadlineDate = new Date(task.time_deadline);
       const today = new Date();
 
-      if (deadlineDate < today) {
+      if (task.state !== 'correcting' || deadlineDate < today) {
         missedScore += task.max_score;
       }
     }

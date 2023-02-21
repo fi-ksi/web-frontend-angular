@@ -223,10 +223,15 @@ export class PageProfileComponent implements OnInit {
    * @param totalProgress users progress
    * @param maxScore max score possible
    */
-  private static generatePrediction(tasks: TaskWithIcon[], scores: TaskIDWithScore[], totalProgress: UserProgress, maxScore: number): IPrediction {
+  private static generatePrediction(tasks: TaskWithIcon[], scores: TaskIDWithScore[], totalProgress: UserProgress, maxScore: number): IPrediction | null {
+    if (scores.length === 0) {
+      // the logged-in user has no access to user's scores, cannot predict
+      return null;
+    }
+
     const currentPoints = totalProgress.score;
     // all tasks that the user has submitted (== are present inside the score array) and have undefined score are unpublished
-    const unpublishedTaskIDs = new Set(scores.filter((task) => task.score === undefined).map((task) => task.id));
+    const unpublishedTaskIDs = new Set(scores.filter((task) => task.score === undefined || task.score === null).map((task) => task.id));
     const today = new Date();
 
     let missedScore = 0;

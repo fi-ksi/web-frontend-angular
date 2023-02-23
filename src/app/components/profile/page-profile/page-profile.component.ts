@@ -245,7 +245,7 @@ export class PageProfileComponent implements OnInit {
 
     const percentNeeded = (maxScore > 0) ? (60 - Math.floor(100 * currentPoints / maxScore)) : 60;
 
-    return {percentFromTotalNeeded: percentNeeded, doable: missedScore <= (maxScore * 0.4)};
+    return {percentFromTotalNeeded: percentNeeded, doable: missedScore - currentPoints <= (maxScore * 0.4)};
   }
 
   uploadDiploma(user: User, event: Event, diplomaUploadButton: HTMLButtonElement): void {

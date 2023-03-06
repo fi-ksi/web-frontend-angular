@@ -179,13 +179,19 @@ export class PageProfileComponent implements OnInit {
       map(([year, waves]) => [year, ...waves])
     );
 
-    this.prediction$ = combineLatest([this.tasks.tasks$, this.tasksWithScore$, this.userProgress$, this.years.selectedFull$]).pipe(
-      map(([tasks, scores, userProgress, year]) => {
+    this.prediction$ = combineLatest([this.tasks.tasks$, this.tasksWithScore$, this.userProgress$, this.years.selectedFull$, this.user$]).pipe(
+      map(([tasks, scores, userProgress, year, user]) => {
         if (userProgress.length === 0){
           return null;
         }
 
-        return PageProfileComponent.generatePrediction(tasks, scores, userProgress[0], Math.max((year?.sum_points || 0), (year?.point_pad || 0)));
+        const prediction = PageProfileComponent.generatePrediction(tasks, scores, userProgress[0], Math.max((year?.sum_points || 0), (year?.point_pad || 0)));
+
+        if (prediction?.doable && user.cheat) {
+          prediction.doable = false;
+        }
+
+        return prediction;
       })
     );
 

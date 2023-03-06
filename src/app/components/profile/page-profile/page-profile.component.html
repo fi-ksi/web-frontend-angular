@@ -75,6 +75,7 @@
 
       <ng-container *ngIf="!user.$isOrg">
         <h3>{{'profile.stats.title' | translate}}</h3>
+        <div *ngIf="user.cheat" class="alert alert-danger alert-cheat">{{'profile.stats.cheat' | translate}}</div>
         <div class="stats" *ngFor="let stats of (userProgress$ | async); let first = first">
           <h4 class="title">{{stats.title}}</h4>
           <h5 class="prediction" *ngIf="first && (prediction$ | async) as prediction">

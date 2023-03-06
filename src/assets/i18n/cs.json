@@ -420,6 +420,7 @@
       "score": "Skóre",
       "solved-count": "Vyřešených úloh",
       "whole-year": "Celý ročník",
+      "cheat": "Bylo u tebe detekováno podvádění nebo jiné chování v přímém rozporu s pravidly semináře",
       "prediction": {
         "normal": "Potřebuješ získat ještě {{percent}}% z celkového počtu bodů",
         "positive": {

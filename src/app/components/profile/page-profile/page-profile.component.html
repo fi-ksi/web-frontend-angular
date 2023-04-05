@@ -33,7 +33,7 @@
         </button>
       </div>
 
-      <div class="diploma" *ngIf="!user.$isOrg">
+      <div class="diploma" *ngIf="user.successful && !user.$isOrg">
         <ng-container *ngIf="diplomaService.userHasDiploma(user) | async; else diplomaUpload">
           <button class="btn btn-ksi w-100" (click)="showDiploma()">{{'profile.diploma.show'|translate}}</button>
         </ng-container>

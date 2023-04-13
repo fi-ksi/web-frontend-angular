@@ -8,8 +8,8 @@ import {
   OnDestroy,
   ChangeDetectorRef
 } from '@angular/core';
-import { ModuleProgramming, RunCodeResponse } from "../../../../../api";
-import { FormControl } from "@angular/forms";
+import { ModuleProgramming, RunCodeResponse } from '../../../../../api/backend';
+import { FormControl } from '@angular/forms';
 
 /**
  * Import CodeMirror libraries
@@ -17,9 +17,9 @@ import { FormControl } from "@angular/forms";
 // @ts-ignore
 import * as CodeMirror from '../../../../../../node_modules/codemirror/lib/codemirror';
 import '../../../../../../node_modules/codemirror/mode/python/python';
-import { Observable, Subscription } from "rxjs";
-import { ModalService, ModuleService, UserService } from "../../../../services";
-import { mapTo, tap } from "rxjs/operators";
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { EdulintService, ModalService, ModuleService, UserService } from '../../../../services';
+import { mapTo, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'ksi-task-module-programming',
@@ -47,9 +47,12 @@ export class TaskModuleProgrammingComponent implements OnInit, OnDestroy {
   submission$: Observable<void> | null = null;
   codeRun$: Observable<void> | null = null;
 
+  private readonly lintingSubject = new BehaviorSubject<boolean>(false);
+  readonly linting$ = this.lintingSubject.asObservable();
+
   private subs: Subscription[] = [];
 
-  constructor(private moduleService: ModuleService, public user: UserService, private cd: ChangeDetectorRef, private modal: ModalService) { }
+  constructor(private moduleService: ModuleService, public user: UserService, private cd: ChangeDetectorRef, private modal: ModalService, private lint: EdulintService) { }
 
   ngOnDestroy(): void {
     this.subs.forEach((sub) => sub.unsubscribe());
@@ -84,7 +87,7 @@ export class TaskModuleProgrammingComponent implements OnInit, OnDestroy {
         // Scroll stdout into view after run completed
         window.setTimeout(() => {
           if (this.runOutput && this.runOutput.nativeElement) {
-            this.runOutput.nativeElement.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+            this.runOutput.nativeElement.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
           }
         });
       })
@@ -103,8 +106,8 @@ export class TaskModuleProgrammingComponent implements OnInit, OnDestroy {
     const date = new Date();
     // https://stackoverflow.com/questions/990904/remove-accents-diacritics-in-a-string-in-javascript#37511463
     const moduleName = this.module.name
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
       .replace(/\s/g, '-')
       .toLowerCase();
     // https://stackoverflow.com/questions/45831191/generate-and-download-file-from-js#45831280
@@ -162,9 +165,9 @@ export class TaskModuleProgrammingComponent implements OnInit, OnDestroy {
       indentUnit: 4,  // PEP-8 needs 4 spaces
     });
     // map tab key to spaces
-    editor.setOption("extraKeys", {
+    editor.setOption('extraKeys', {
       Tab: function(cm: any) {
-        const spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+        const spaces = Array(cm.getOption('indentUnit') + 1).join(' ');
         cm.replaceSelection(spaces);
       }
     });
@@ -177,5 +180,13 @@ export class TaskModuleProgrammingComponent implements OnInit, OnDestroy {
         editor.doc.setValue(value);
       }
     }));
+  }
+
+  lintCode(): void {
+    this.lintingSubject.next(true);
+    this.lint.getCodeEditorUrl(this.code.value).subscribe((url) => {
+      this.lintingSubject.next(false);
+      window.open(url, '_blank');
+    });
   }
 }

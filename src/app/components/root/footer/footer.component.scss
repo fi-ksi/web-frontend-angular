@@ -1,5 +1,29 @@
 @import "src/app/styles/vars";
 
+.footer-above {
+  .links-container {
+    .links-wrapper {
+      display: flex;
+      justify-content: center;
+
+      a {
+        margin: $ksi-margin-x-small;
+      }
+
+      a:hover {
+        img {
+          transform: scale(1.1);
+        }
+      }
+
+      img {
+        width: 3rem;
+        height: 3rem;
+      }
+    }
+  }
+}
+
 :host {
   padding: $ksi-padding-small $ksi-padding-small;
   background: $ksi-page-welcome-banner-bg;

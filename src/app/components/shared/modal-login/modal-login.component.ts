@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef } from '@angular/core';
-import { ModalComponent } from "../../../models";
-import { FormBuilder, Validators } from "@angular/forms";
-import { BackendService, ModalService } from "../../../services";
-import { Observable } from "rxjs";
-import { map, shareReplay, take, tap } from "rxjs/operators";
+import { ModalComponent } from '../../../models';
+import { FormBuilder, Validators } from '@angular/forms';
+import { BackendService, ModalService } from '../../../services';
+import { Observable } from 'rxjs';
+import { map, shareReplay, take, tap } from 'rxjs/operators';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({

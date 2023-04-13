@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BackendService, UserService } from "../shared";
+import { BackendService, UserService } from '../shared';
 import {
   KSIModule,
   ModuleGeneral, ModuleGeneralSubmittedFiles,
@@ -7,13 +7,13 @@ import {
   ModuleSubmissionData,
   ModuleSubmitResponse,
   RunCodeResponse,
-} from "../../../api";
+} from '../../../api/backend';
 import { concat, Observable, of, Subject } from 'rxjs';
-import { catchError, filter, map, mapTo, mergeMap, shareReplay, take } from "rxjs/operators";
-import { FileUpload, ModuleSubmitChange } from "../../models";
-import { TranslateService } from "@ngx-translate/core";
-import { environment } from "../../../environments/environment";
-import { HttpEventType, HttpResponse } from "@angular/common/http";
+import { catchError, filter, first, map, mapTo, mergeMap, shareReplay, take } from 'rxjs/operators';
+import { FileUpload, ModuleSubmitChange } from '../../models';
+import { TranslateService } from '@ngx-translate/core';
+import { environment } from '../../../environments/environment';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -53,17 +53,17 @@ export class ModuleService {
    */
   public uploadFile(module: ModuleGeneral, file: File): FileUpload {
     const upload$ = this.user.afterLogin$.pipe(
-      mergeMap(() => this.backend.http.modulesSubmitFilesForm(file, module.id, "events", true)),
+      mergeMap(() => this.backend.http.modulesSubmitFilesForm(file, module.id, 'events', true)),
       shareReplay(1)
     );
     const progress$: Observable<number> = concat(of(0), upload$.pipe(
       filter((event) => event.type === HttpEventType.UploadProgress || event.type === HttpEventType.Sent),
       map((event) => {
         switch (event.type) {
-          case HttpEventType.UploadProgress:
-            return 100 * event.loaded / event.total!;
-          case HttpEventType.Sent:
-            return 100;
+        case HttpEventType.UploadProgress:
+          return 100 * event.loaded / event.total!;
+        case HttpEventType.Sent:
+          return 100;
         }
         return -1;
       })));
@@ -126,6 +126,8 @@ export class ModuleService {
    * @param body
    */
   public submit(module: KSIModule, body: ModuleSubmissionData): Observable<void> {
+    environment.logger.debug('[MODULE] Submit', module.id);
+
     const submission = this.user.afterLogin$.pipe(
       mergeMap(
         () => this.backend.http.modulesSubmitSingle(module.id, {content: body})
@@ -138,12 +140,14 @@ export class ModuleService {
               };
               return of(data);
             })
-          ))
+          )),
+      first(), // make sure that the submission occurs only once
+      shareReplay(1),
     );
 
     submission.subscribe((result) => {
       if (!result.message) {
-        result.message = this.translate.instant(`tasks.module.result.${result.result}`)
+        result.message = this.translate.instant(`tasks.module.result.${result.result}`);
       }
 
       this.moduleResultSubject.next({module, result});

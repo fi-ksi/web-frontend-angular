@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { AchievementsRoutingModule } from './achievements-routing.module';
 import { PageAchievementsComponent } from './page-achievements/page-achievements.component';
-import { TranslateModule } from "@ngx-translate/core";
-import { SharedModule } from "../shared/shared.module";
+import { TranslateModule } from '@ngx-translate/core';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({

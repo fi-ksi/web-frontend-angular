@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PageAchievementsComponent } from "./page-achievements/page-achievements.component";
+import { PageAchievementsComponent } from './page-achievements/page-achievements.component';
 
 const routes: Routes = [
   {path: '', component: PageAchievementsComponent},

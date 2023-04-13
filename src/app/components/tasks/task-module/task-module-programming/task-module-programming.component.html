@@ -5,6 +5,7 @@
   <button class="btn btn-ksi download" (click)="download()">{{'tasks.module.programming.download'|translate}}</button>
   <button class="btn btn-ksi upload" (click)="upload()">{{'tasks.module.programming.upload'|translate}}</button>
   <button class="btn btn-ksi reset" (click)="reset()">{{'tasks.module.programming.reset'|translate}}</button>
+  <button [disabled]="linting$ | async" class="btn btn-ksi" [tooltip]="'tasks.module.programming.lint.tooltip'|translate" (click)="lintCode()">{{'tasks.module.programming.lint.text'|translate}}</button>
 </div>
 
 <input #uploadFile type="file" style="display: none" (change)="replaceCode($event)">

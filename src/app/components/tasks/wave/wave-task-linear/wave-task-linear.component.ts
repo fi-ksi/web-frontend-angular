@@ -1,8 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
-import { TaskWithIcon } from "../../../../models";
-import { merge, Observable } from "rxjs";
-import { RoutesService, TasksService, UserService } from "../../../../services";
-import { mapTo, mergeMap } from "rxjs/operators";
+import { TaskWithIcon } from '../../../../models';
+import { merge, Observable } from 'rxjs';
+import { RoutesService, TasksService, UserService } from '../../../../services';
+import { mapTo, mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'ksi-wave-task-linear',

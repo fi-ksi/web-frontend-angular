@@ -57,12 +57,29 @@
 
       <div class="row">
         <div class="col-12">
-          <button type="submit" class="btn btn-ksi w-100 btn-send" [disabled]="emailForm.disabled || !emailForm.valid">{{'admin.email.send.check'|translate}}</button>
+          <button type="submit" class="btn btn-ksi w-100 btn-send" [disabled]="emailForm.disabled || !emailForm.valid" (click)="openCheckModal()">{{'admin.email.send.check'|translate}}</button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <accordion>
+            <accordion-group heading="{{'admin.email.advanced.title'|translate}}" (isOpenChange)="advancedSettingsOpened($event)">
+              <div class="row">
+                <div class="col-12">
+                  <label class="form-label" for="email-reply-to">{{'admin.email.reply-to.title'|translate}}</label>
+                  <input class="form-control" id="email-reply-to" formControlName="replyTo">
+                </div>
+                <div class="col-12">
+                  <label class="form-label" for="email-bcc">{{'admin.email.bcc.title'|translate}}</label>
+                  <textarea class="form-control" id="email-bcc" formControlName="bcc"></textarea>
+                </div>
+              </div>
+            </accordion-group>
+          </accordion>
         </div>
       </div>
     </form>
-    <!-- TODO remove, only for debugging  -->
-    <ng-container [ngTemplateOutlet]="modalMailCheck"></ng-container>
   </div>
 </div>
 
@@ -76,17 +93,36 @@
         sex: ('admin.email.sex.'+emailForm.controls.sex.value|translate),
         year: (selectedYearName$ | async),
         type:  ('admin.email.type.'+emailForm.controls.type.value|translate),
-        school:  ('admin.email.school.'+emailForm.controls.school.value|translate)
+        school:  ('admin.email.school.'+emailForm.controls.school.value|translate),
+        advancedUsed: ('admin.email.advanced.'+emailForm.controls.advancedUsed.value|translate)
       }"
     ></span>
     </div>
 
     <span class="form-label">{{'admin.email.subject.title'|translate}}</span>
-    <div class="subject-container">
-      {{emailForm.controls.subject.valueChanges | async}}
+    <div>
+      <pre>{{emailForm.controls.subject.value}}</pre>
     </div>
 
+    <ng-container *ngIf="emailForm.controls.advancedUsed.value">
+      <span class="form-label">{{'admin.email.reply-to.title'|translate}}</span>
+      <div>
+        <pre>{{emailForm.controls.replyTo.value}}</pre>
+      </div>
+
+      <ng-container *ngIf="bcc.valueOuter.length > 0">
+        <span class="form-label">{{'admin.email.bcc.title'|translate}}</span>
+        <div>
+          <ul>
+            <li *ngFor="let addr of bcc.valueOuter"><pre>{{addr}}</pre></li>
+          </ul>
+        </div>
+      </ng-container>
+    </ng-container>
+
     <span class="form-label">{{'admin.email.body'|translate}}</span>
-    <div class="body" [innerHTML]="emailForm.controls.body.valueChanges | async"></div>
+    <div class="body" [innerHTML]="emailForm.controls.body.value"></div>
+
+    <button type="submit" class="btn btn-ksi w-100 btn-send" (click)="sendEmail()">{{'admin.email.send.send'|translate}}</button>
   </div>
 </ng-template>

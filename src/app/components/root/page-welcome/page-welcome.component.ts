@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef } from '@angular/core';
-import { BackendService, KsiTitleService, RoutesService, WindowService, YearsService } from "../../../services";
+import { BackendService, KsiTitleService, RoutesService, WindowService, YearsService } from '../../../services';
 
 @Component({
   selector: 'ksi-page-welcome',
@@ -43,7 +43,7 @@ export class PageWelcomeComponent implements OnInit {
         return;
       }
       if (!WindowService.isElementVisible(carousel, 50)) {
-        carousel.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+        carousel.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
       }
     });
   }
@@ -57,6 +57,6 @@ export class PageWelcomeComponent implements OnInit {
   }
 
   openKScuk(): void {
-    location.href = "https://kscuk.fi.muni.cz/"
+    location.href = 'https://kscuk.fi.muni.cz/';
   }
 }

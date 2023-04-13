@@ -10,7 +10,7 @@ describe('TaskCollapsibleComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ TaskCollapsibleComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

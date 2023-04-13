@@ -10,6 +10,9 @@
       [allowExpansion]="false"
     ></ksi-discussion-thread-posts>
     <quill-editor class="reply-editor" formControlName="content"></quill-editor>
+    <div class="post-size d-flex justify-content-end"
+      [class]="{'text-danger': form.controls.content.value?.length > REPLY_MAX_LENGTH}"
+    ><span>{{'modal.post-reply.total-size' | translate}}: {{form.controls.content.value?.length ?? 0}} / 8000</span></div>
     <button
       type="submit"
       class="btn-ksi btn save-reply w-100"

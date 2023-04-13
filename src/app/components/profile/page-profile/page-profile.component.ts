@@ -14,7 +14,7 @@ import { map, mergeMap, shareReplay, take, tap } from 'rxjs/operators';
 import { IUser, TaskIDWithScore, TaskWithIcon, UserProgress, WaveScore, IPrediction, IWave } from '../../../models';
 import { BarValue } from 'ngx-bootstrap/progressbar/progressbar-type.interface';
 import { ROUTES } from '../../../../routes/routes';
-import { ProfileResponse, User } from '../../../../api';
+import { ProfileResponse, User } from '../../../../api/backend';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -120,7 +120,7 @@ export class PageProfileComponent implements OnInit {
         title: this.translate.instant('profile.stats.whole-year'),
         tasksSolved: user.tasks_num,
         score: user.score,
-        bars: PageProfileComponent.generateProgressBar(user.score, year?.sum_points || 0)
+        bars: PageProfileComponent.generateProgressBar(user.score, Math.max((year?.sum_points || 0), (year?.point_pad || 0)))
       }))
     );
 
@@ -179,13 +179,19 @@ export class PageProfileComponent implements OnInit {
       map(([year, waves]) => [year, ...waves])
     );
 
-    this.prediction$ = combineLatest([this.tasks.tasks$, this.userProgress$, this.years.selectedFull$]).pipe(
-      map(([tasks, userProgress, year]) => {
+    this.prediction$ = combineLatest([this.tasks.tasks$, this.tasksWithScore$, this.userProgress$, this.years.selectedFull$, this.user$]).pipe(
+      map(([tasks, scores, userProgress, year, user]) => {
         if (userProgress.length === 0){
           return null;
         }
 
-        return PageProfileComponent.generatePrediction(tasks, userProgress[0], year?.sum_points || 0);
+        const prediction = PageProfileComponent.generatePrediction(tasks, scores, userProgress[0], Math.max((year?.sum_points || 0), (year?.point_pad || 0)));
+
+        if (prediction?.doable && user.cheat) {
+          prediction.doable = false;
+        }
+
+        return prediction;
       })
     );
 
@@ -195,7 +201,7 @@ export class PageProfileComponent implements OnInit {
   }
 
   private static generateProgressBar(points: number, maxPoints: number, requiredPercentage = 90): BarValue[] {
-    const currentPercentage = Math.round(100 * points / maxPoints);
+    const currentPercentage = Math.floor(100 * points / maxPoints);
     const leftRequiredPercentage = Math.max(0, requiredPercentage - currentPercentage);
     const currentUserPercentageFloored = Math.floor(currentPercentage);
 
@@ -219,25 +225,33 @@ export class PageProfileComponent implements OnInit {
    * Returns prediction based on users progress for current year.
    *
    * @param tasks all available tasks
+   * @param scores the scores of all submitted tasks of this user
    * @param totalProgress users progress
    * @param maxScore max score possible
    */
-  private static generatePrediction(tasks: TaskWithIcon[], totalProgress: UserProgress, maxScore: number): IPrediction {
+  private static generatePrediction(tasks: TaskWithIcon[], scores: TaskIDWithScore[], totalProgress: UserProgress, maxScore: number): IPrediction | null {
+    if (scores.length === 0) {
+      // the logged-in user has no access to user's scores, cannot predict
+      return null;
+    }
+
     const currentPoints = totalProgress.score;
+    // all tasks that the user has submitted (== are present inside the score array) and have undefined score are unpublished
+    const unpublishedTaskIDs = new Set(scores.filter((task) => task.score === undefined || task.score === null).map((task) => task.id));
+    const today = new Date();
 
     let missedScore = 0;
     for (const task of tasks){
       const deadlineDate = new Date(task.time_deadline);
-      const today = new Date();
 
-      if (deadlineDate < today) {
+      if (!unpublishedTaskIDs.has(task.id) && deadlineDate < today) {
         missedScore += task.max_score;
       }
     }
 
     const percentNeeded = (maxScore > 0) ? (90 - Math.floor(100 * currentPoints / maxScore)) : 90;
 
-    return {percentFromTotalNeeded: percentNeeded, doable: missedScore <= (maxScore * 0.4)};
+    return {percentFromTotalNeeded: percentNeeded, doable: missedScore - currentPoints <= (maxScore * 0.4)};
   }
 
   uploadDiploma(user: User, event: Event, diplomaUploadButton: HTMLButtonElement): void {

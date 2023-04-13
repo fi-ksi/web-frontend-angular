@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BackendService } from './backend.service';
-import { Achievement } from '../../../api';
+import { Achievement } from '../../../api/backend';
 import { Observable } from 'rxjs';
 import { map, mergeMap, tap } from 'rxjs/operators';
 import { YearsService } from './years.service';

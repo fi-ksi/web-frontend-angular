@@ -10,7 +10,7 @@ describe('PageAdminEmailComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ PageAdminEmailComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

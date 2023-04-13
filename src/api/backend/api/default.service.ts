@@ -998,7 +998,7 @@ export class DefaultService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<EmailSendResponse>('post',`${this.basePath}/admin/email`,
+        return this.httpClient.request<EmailSendResponse>('post',`${this.basePath}/admin/e-mail`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,

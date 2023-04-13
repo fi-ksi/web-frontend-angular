@@ -10,7 +10,7 @@ describe('TasksGraphComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ TasksGraphComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

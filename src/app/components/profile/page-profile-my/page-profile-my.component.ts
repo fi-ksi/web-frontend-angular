@@ -4,7 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, map, mapTo, mergeMap, shareReplay } from 'rxjs/operators';
 import { Observable, of, Subscription } from 'rxjs';
-import { ProfileEdit } from '../../../../api';
+import { ProfileEdit } from '../../../../api/backend';
 import { environment } from '../../../../environments/environment';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -22,7 +22,7 @@ export class PageProfileMyComponent implements OnInit, OnDestroy {
     lastName: ['', Validators.required],
     nick: [undefined],
     sex: ['', Validators.required],
-    github: ['', Validators.required],
+    github: [''],
 
     address: ['', Validators.required],
     city: ['', Validators.required],

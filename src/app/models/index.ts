@@ -1,5 +1,5 @@
-export { WindowSize } from './window.service';
-export {YearSelect} from './years.service';
+export * from './window.service';
+export * from './years.service';
 export * from './changelog.service';
 export * from './modal.service';
 export * from './tasks.service';

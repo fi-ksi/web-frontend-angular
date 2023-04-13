@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { KsiTitleService } from "../../../services";
+import { KsiTitleService } from '../../../services';
+import {ROUTES} from '../../../../routes/routes';
 
 @Component({
   selector: 'ksi-page-about',
@@ -8,6 +9,8 @@ import { KsiTitleService } from "../../../services";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PageAboutComponent implements OnInit {
+
+  public routes = ROUTES;
 
   constructor(private title: KsiTitleService) { }
 

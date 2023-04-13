@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, HostBinding } from '@angular/core';
-import { ISortableItem } from "../../../../../models";
+import { ISortableItem } from '../../../../../models';
 
 @Component({
   selector: 'ksi-task-module-sortable-item',

@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Observable, of } from "rxjs";
-import { ActivatedRoute } from "@angular/router";
-import { KsiTitleService } from "../../../services";
+import { Observable, of } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { KsiTitleService } from '../../../services';
 
 @Component({
   selector: 'ksi-page-forbidden',

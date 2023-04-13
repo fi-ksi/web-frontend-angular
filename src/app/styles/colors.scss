@@ -87,3 +87,23 @@ $ksi-red-100: var(--danger);
 $ksi-green-100: var(--success);
 $boostrap-primary: var(--primary);
 $boostrap-warning: var(--warning);
+
+// used in classic light mode
+$ksi-code-builtin-dark: #30a;
+$ksi-code-keyword-dark: #708;
+$ksi-code-number-dark: #164;
+$ksi-code-def-dark: #00f;
+$ksi-code-comment-dark: #a50;;
+$ksi-code-string-dark: #a11;;
+$ksi-code-variable-2-dark: #05a;
+$ksi-code-meta-dark: #555;
+
+// used in dark mode
+$ksi-code-builtin-light: #9573ff;
+$ksi-code-keyword-light: #ed6dff;
+$ksi-code-number-light: #70ffae;
+$ksi-code-def-light: #46b4ff;
+$ksi-code-comment-light: #ffaa55;
+$ksi-code-string-light: #ee5a5a;
+$ksi-code-variable-2-light: #66baff;
+$ksi-code-meta-light: #b2aca2;

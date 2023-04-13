@@ -1,8 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, HostBinding, HostListener } from '@angular/core';
-import { Article } from "../../../../api";
-import { TranslateService } from "@ngx-translate/core";
-import { Router } from "@angular/router";
-import { ROUTES } from "../../../../routes/routes";
+import { Article } from '../../../../api/backend';
+import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
+import { ROUTES } from '../../../../routes/routes';
 
 @Component({
   selector: 'ksi-article-preview',
@@ -34,6 +34,6 @@ export class ArticlePreviewComponent implements OnInit {
   constructor(public translate: TranslateService, private router: Router) { }
 
   ngOnInit(): void {
-    this.link = `/${ROUTES.news}/${this.article.id}`
+    this.link = `/${ROUTES.news}/${this.article.id}`;
   }
 }

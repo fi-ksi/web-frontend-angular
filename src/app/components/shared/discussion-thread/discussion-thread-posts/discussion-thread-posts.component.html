@@ -1,7 +1,7 @@
 <div class="post">
   <div class="head">
     <ksi-users-inline [users]="[post.author]" [showRoles]="true"></ksi-users-inline>,
-    {{post.published_at | date:'short'}}
+    {{post.published_at | ksiDate:'short'}}
   </div>
   <div class="content" [innerHTML]="post.body"></div>
   <div class="footer" *ngIf="allowActions">
@@ -19,6 +19,14 @@
       (click)="openReplyModal()"
     >
       {{'discussion-thread.post.reply.title' | translate}}
+    </a>
+    <a
+      *ngIf="canDelete$ | async"
+      class="delete clickable"
+      tooltip="{{'discussion-thread.post.delete.tooltip' | translate}}"
+      (click)="deletePost()"
+    >
+      {{'discussion-thread.post.delete.title' | translate}}
     </a>
     <a
       *ngIf="threadId !== null"

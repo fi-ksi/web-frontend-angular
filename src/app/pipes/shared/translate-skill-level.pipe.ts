@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { TranslateService } from "@ngx-translate/core";
-import { User } from "../../../api";
+import { TranslateService } from '@ngx-translate/core';
+import { User } from '../../../api/backend';
 
 @Pipe({
   name: 'translateSkillLevel'

@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, HostBinding } from '@angular/core';
-import { KSIModule, ModuleSubmitResponse } from '../../../../api';
+import { KSIModule, ModuleSubmitResponse } from '../../../../api/backend';
 import { BehaviorSubject, merge, Observable, Subject } from 'rxjs';
 import { IconService, ModuleService, UserService } from '../../../services';
 import { map, shareReplay, tap } from 'rxjs/operators';

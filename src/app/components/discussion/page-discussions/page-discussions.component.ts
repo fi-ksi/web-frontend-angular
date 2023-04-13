@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { KsiTitleService, ModalService, UserService, YearsService } from "../../../services";
-import { ActivatedRoute, Router } from "@angular/router";
+import { KsiTitleService, ModalService, UserService, YearsService } from '../../../services';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'ksi-page-discussions',

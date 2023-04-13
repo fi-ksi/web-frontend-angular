@@ -10,7 +10,7 @@ describe('PageTaskComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ PageTaskComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

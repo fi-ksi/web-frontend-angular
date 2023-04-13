@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef, OnDestroy } from '@angular/core';
-import { ModalComponent } from "../../../models";
-import { FormBuilder, Validators } from "@angular/forms";
-import { BehaviorSubject, Subscription } from "rxjs";
-import { BsModalRef } from "ngx-bootstrap/modal";
-import { BackendService } from "../../../services";
+import { ModalComponent } from '../../../models';
+import { FormBuilder, Validators } from '@angular/forms';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import { BackendService } from '../../../services';
 
 @Component({
   selector: 'ksi-modal-feedback',

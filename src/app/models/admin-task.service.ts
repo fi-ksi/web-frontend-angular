@@ -1,4 +1,4 @@
-import { AdminTask } from '../../api';
+import { AdminTask } from '../../api/backend';
 import { Observable } from 'rxjs';
 
 export interface IAdminTask extends AdminTask {

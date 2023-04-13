@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PageResultsComponent } from "./page-results/page-results.component";
+import { PageResultsComponent } from './page-results/page-results.component';
 
 const routes: Routes = [
   {path: '', component: PageResultsComponent, pathMatch: 'full'}

@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class StorageService {
-  private static PREFIX = "KSI";
+  private static PREFIX = 'KSI';
   private scope: string;
 
   /**
@@ -16,7 +16,7 @@ export class StorageService {
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i)!;
       if (key.startsWith(prefix)) {
-        r.push(key.substring(prefix.length))
+        r.push(key.substring(prefix.length));
       }
     }
     return r;
@@ -62,7 +62,7 @@ export class StorageService {
    * @param defaultValue if set, then if this value matches set value, the value is deleted instead
    */
   public set<T>(key: string, value: T, defaultValue?: T): void {
-    if (typeof defaultValue !== "undefined" && value === defaultValue) {
+    if (typeof defaultValue !== 'undefined' && value === defaultValue) {
       this.delete(key);
     } else {
       localStorage.setItem(this.keyPath(key), JSON.stringify(value));
@@ -86,6 +86,6 @@ export class StorageService {
   }
 
   private keyPath(key: string): string {
-    return `${StorageService.PREFIX}/${this.scope}/${key}`
+    return `${StorageService.PREFIX}/${this.scope}/${key}`;
   }
 }

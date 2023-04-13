@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BackendService } from './backend.service';
 import { Cache } from '../../util';
-import { DiplomasList, User } from '../../../api';
+import { DiplomasList, User } from '../../../api/backend';
 import { map } from 'rxjs/operators';
 import { YearsService } from './years.service';
 import { combineLatest, Observable } from 'rxjs';

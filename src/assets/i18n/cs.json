@@ -43,7 +43,8 @@
     "footer": {
       "license": "Naskoč na FI je akcí <a href='https://zverinec.fi.muni.cz/' target='_blank'>Spolku přátel severské zvěře</a>. Zaujalo tě to? Přidej se do našeho týmu!",
       "version": "Verze webu",
-      "bug-report": "Nahlásit chybu webu"
+      "bug-report": "Nahlásit chybu webu",
+      "privacy-policy": "Zpracování osobních údajů"
     },
     "welcome": {
       "about": {
@@ -148,6 +149,7 @@
     "post-reply": {
       "save-reply": "Uložit příspěvek",
       "thread-name": "Název nového vlákna",
+      "total-size": "Celková velikost příspěvku",
       "title": {
         "reply": "Vytvořit nový příspěvek",
         "edit": "Upravit tento příspěvek",
@@ -201,7 +203,11 @@
         "download": "Stáhnout kód",
         "upload": "Nahrát z disku",
         "reset": "Obnovit výchozí kód",
-        "reset-confirm": "Tato akce smaže všechny tvoje úpravy. Vážně ji chceš provést?"
+        "reset-confirm": "Tato akce smaže všechny tvoje úpravy. Vážně ji chceš provést?",
+        "lint": {
+          "text": "Zkontrolovat kvalitu kódu pomocí EduLintu",
+          "tooltip": "Dojde k přesměřování na externí službu EduLint"
+        }
       },
       "general": {
         "submitted-files": "Nahrané soubory",
@@ -226,6 +232,11 @@
       }
     },
     "discussion": "Diskuze",
+    "assessment": {
+      "title": "Opravení",
+      "comment": "Komentář opravujícího",
+      "comment-none": "K tvému odevzdání nebyl přidán žádný komentář opravujícího"
+    },
     "deadline": "Datum ukončení",
     "feedback": {
       "send": "Odeslat zpětnou vazbu",
@@ -278,6 +289,11 @@
       "edit": {
         "tooltip": "Upravit tento příspěvek",
         "title": "Upravit"
+      },
+      "delete": {
+        "tooltip": "Smazat tento příspěvek",
+        "title": "Smazat",
+        "confirmation": "Opravdu chceš smazat tento příspěvek?"
       },
       "new": "Přidat příspěvek"
     }
@@ -400,6 +416,7 @@
       "score": "Skóre",
       "solved-count": "Vyřešených úloh",
       "whole-year": "Celý ročník",
+      "cheat": "Bylo u tebe detekováno podvádění nebo jiné chování v přímém rozporu s pravidly semináře",
       "prediction": {
         "normal": "Potřebuješ získat ještě {{percent}}% z celkového počtu bodů",
         "positive": {
@@ -458,11 +475,21 @@
       "new-window": "Otevřít v novém panelu"
     },
     "email": {
-      "summary": "Tento email budu posílat {{successful}} {{sex}} {{school}} účastnících se ročníku {{year}}. Tento email je {{type}}.",
+      "summary": "Tento email budu posílat {{successful}} {{sex}} {{school}} účastnících se ročníku {{year}}. Tento email je {{type}}. Pokročilé možnosti {{advancedUsed}} nastaveny.",
       "title": "Posílání emailů",
+      "check": {
+        "title": "Kontrola emailu před odesláním"
+      },
       "subject": {
         "title": "Předmět",
         "initial": "[KSI] "
+      },
+      "reply-to": {
+        "title": "Adresa pro odpověď",
+        "initial": "ksi@fi.muni.cz"
+      },
+      "bcc": {
+        "title": "Slepé kopie (jedna adresa na řádek)"
       },
       "school": {
         "title": "Z daného ročníku poslat podle školy",
@@ -489,9 +516,15 @@
         "all": "jakkoliv úspěšným",
         "successful": "pouze úspěšným"
       },
+      "advanced": {
+        "title": "Použít pokročilé možnosti",
+        "true": "jsou",
+        "false": "NEJSOU"
+      },
       "body": "Tělo textu",
       "send": {
-        "check": "Přejít ke kontrole a odeslání"
+        "check": "Přejít ke kontrole a odeslání",
+        "send": "Odeslat email"
       }
     },
     "tasks": {
@@ -527,5 +560,8 @@
         }
       }
     }
+  },
+  "privacy-policy": {
+    "title": "Zásady zpracování osobních údajů"
   }
 }

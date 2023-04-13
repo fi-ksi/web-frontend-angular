@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@angular/core';
-import { ModuleQuiz, ModuleQuizQuestions } from "../../../../../api";
-import { ModuleService } from "../../../../services";
-import { Observable } from "rxjs";
+import { ModuleQuiz, ModuleQuizQuestions } from '../../../../../api/backend';
+import { ModuleService } from '../../../../services';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'ksi-task-module-quiz',
@@ -45,7 +45,7 @@ export class TaskModuleQuizComponent implements OnInit {
   }
 
   setChecked(event: Event, type: ModuleQuizQuestions.TypeEnum, questionGroup: number, optionIndex: number) {
-    if (type === "radio") {
+    if (type === 'radio') {
       // if the question is radio button, uncheck everything within given group
       this.inputs[questionGroup] = this.inputs[questionGroup].map(() => false);
     }

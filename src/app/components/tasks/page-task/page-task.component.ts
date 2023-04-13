@@ -7,14 +7,14 @@ import {
   TasksService,
   WindowService,
   UsersCacheService
-} from "../../../services";
-import { ActivatedRoute, Router } from "@angular/router";
-import { catchError, distinctUntilChanged, filter, map, mergeMap, shareReplay, tap } from "rxjs/operators";
-import { BehaviorSubject, combineLatest, Observable, of, Subscription, throwError } from "rxjs";
+} from '../../../services';
+import { ActivatedRoute, Router } from '@angular/router';
+import { catchError, distinctUntilChanged, filter, map, mergeMap, shareReplay, tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, of, Subscription, throwError } from 'rxjs';
 import {IUser, OpenedTemplate, TaskFullInfo} from '../../../models';
-import { UserService } from "../../../services";
-import { environment } from "../../../../environments/environment";
-import {UserScore} from '../../../../api';
+import { UserService } from '../../../services';
+import { environment } from '../../../../environments/environment';
+import {UserScore} from '../../../../api/backend';
 
 @Component({
   selector: 'ksi-page-task',
@@ -39,6 +39,9 @@ export class PageTaskComponent implements OnInit, OnDestroy {
   @ViewChild('bodyResults', {static: true})
   templateBodyResults: TemplateRef<unknown>;
 
+  @ViewChild('bodyAssessment', {static: true})
+  templateBodyAssessment: TemplateRef<unknown>;
+
   private templateRefMapper: Map<TemplateRef<unknown>, string>;
 
   public userScores$: Observable<{user: IUser, score: number}[]>;
@@ -60,7 +63,7 @@ export class PageTaskComponent implements OnInit, OnDestroy {
     private modal: ModalService,
     private router: Router,
     private tasks: TasksService,
-    private user: UserService,
+    public user: UserService,
     private module: ModuleService,
     public routes: RoutesService,
     public usersCache: UsersCacheService
@@ -75,7 +78,7 @@ export class PageTaskComponent implements OnInit, OnDestroy {
       mergeMap((taskId: number) => this.tasks.getTaskOnce(taskId)),
       tap(() => this.unsubscribeModuleChanges()),
       mergeMap((task) => {
-        if (task.state !== "locked") {
+        if (task.state !== 'locked') {
           return of(task);
         }
         // Force login if the task is locked
@@ -84,7 +87,7 @@ export class PageTaskComponent implements OnInit, OnDestroy {
             return throwError(PageTaskComponent.ERR_LOGIN_DENIED);
           }
           return this.tasks.getTaskOnce(task.id, true);
-        }))
+        }));
       }),
       mergeMap((task) => combineLatest([
         of(task),
@@ -97,13 +100,13 @@ export class PageTaskComponent implements OnInit, OnDestroy {
         this.title.subtitle = task.head.title;
 
         // Watch for module completions and navigate to the solution if user completes this task for the first time
-        if (task.head.state !== "done") {
+        if (task.head.state !== 'done') {
           environment.logger.debug(`[TASK] this task is not done yet (${task.head.state})`);
           this.moduleChangeSubs.push(...task.detail.modules
-            .map((module) => this.module.statusChanges(module).pipe(filter((change) => change?.result === "ok")).subscribe(() => {
+            .map((module) => this.module.statusChanges(module).pipe(filter((change) => change?.result === 'ok')).subscribe(() => {
               this.tasks.getTaskOnce(task.head.id, true, false).subscribe((newTask) => {
                 environment.logger.debug(`[TASK] got an update of current status change, now ${newTask.state}`);
-                if (newTask.state === "done") {
+                if (newTask.state === 'done') {
                   environment.logger.debug('[TASK] this task was just solved!');
                   this.refreshTaskDetailsSubject.next();
                   this.tasks.updateTask(newTask, true);
@@ -130,6 +133,7 @@ export class PageTaskComponent implements OnInit, OnDestroy {
     fragmentMap[this.routes.routes.tasks.solution] = this.templateBodySolution;
     fragmentMap[this.routes.routes.tasks.discussion] = this.templateBodyDiscussion;
     fragmentMap[this.routes.routes.tasks.results] = this.templateBodyResults;
+    fragmentMap[this.routes.routes.tasks.assessment] = this.templateBodyAssessment;
 
     this.subpage$ = combineLatest([
       this.route.fragment.pipe(
@@ -224,7 +228,8 @@ export class PageTaskComponent implements OnInit, OnDestroy {
     return new Map([
       [this.templateBodyDiscussion, 'tasks.discussion'],
       [this.templateBodySolution, 'tasks.solution'],
-      [this.templateBodyResults, 'tasks.results']
+      [this.templateBodyResults, 'tasks.results'],
+      [this.templateBodyAssessment, 'tasks.assessment.title']
     ]);
   }
 }

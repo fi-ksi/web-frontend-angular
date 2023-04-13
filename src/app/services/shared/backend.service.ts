@@ -4,16 +4,16 @@ import {
   BasicProfileResponseBasicProfile,
   Configuration,
   DefaultService
-} from '../../../api';
+} from '../../../api/backend';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { environment } from "../../../environments/environment";
-import { BehaviorSubject, combineLatest, Observable, of, Subject } from "rxjs";
-import { catchError, distinctUntilChanged, map, mapTo, mergeMap, shareReplay, tap } from "rxjs/operators";
-import { Router } from "@angular/router";
-import { StorageService } from "./storage.service";
-import { UsersCacheService } from "./users-cache.service";
+import { environment } from '../../../environments/environment';
+import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
+import { catchError, distinctUntilChanged, map, mapTo, mergeMap, shareReplay, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { StorageService } from './storage.service';
+import { UsersCacheService } from './users-cache.service';
 import { v4 as uuidv4 } from 'uuid';
-import { AuthMessage, AuthMessageAction } from "../../models";
+import { AuthMessage, AuthMessageAction } from '../../models';
 
 @Injectable({
   providedIn: 'root'
@@ -62,16 +62,16 @@ export class BackendService {
           return;
         }
         switch (message.data.action) {
-          case "delete":
-            environment.logger.debug('[auth] got message to delete session');
-            this.logout();
-            break;
-          case "refresh":
-            environment.logger.debug('[auth] got message to refresh session');
-            this.applySession(message.data.session!);
-            break;
+        case 'delete':
+          environment.logger.debug('[auth] got message to delete session');
+          this.logout();
+          break;
+        case 'refresh':
+          environment.logger.debug('[auth] got message to refresh session');
+          this.applySession(message.data.session!);
+          break;
         }
-      }
+      };
     });
   }
 
@@ -125,7 +125,7 @@ export class BackendService {
       ...sessionAbsolute,
       // convert absolutely saved date back to the relative one
       expires_in: Math.floor((sessionAbsolute.expires_in - Date.now()) / 1000)
-    }
+    };
     if (session.expires_in > 0) {
       // not for renewal yet
       this.applySession(session);
@@ -222,7 +222,7 @@ export class BackendService {
       source: BackendService.instanceId,
       action,
       session
-    }
+    };
     this.loginBroadcastChannel.postMessage(message);
   }
 }

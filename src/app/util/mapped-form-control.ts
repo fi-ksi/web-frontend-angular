@@ -1,6 +1,6 @@
-import { FormControl, ValidatorFn } from "@angular/forms";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { FormControl, ValidatorFn } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 type MappingFunction<A, B> = (value: A) => B;
 type WriteValueOptions = { onlySelf?: boolean | undefined; emitEvent?: boolean | undefined; emitModelToViewChange?: boolean | undefined; emitViewToModelChange?: boolean | undefined; } | undefined;
@@ -21,7 +21,7 @@ export class MappedFormControl<Outer, Inner> extends FormControl {
   }
 
   public get valueOuter(): Outer {
-    return this._mappingFunctionBackward(super.value);
+    return this._mappingFunctionBackward(this.value);
   }
 
   constructor(

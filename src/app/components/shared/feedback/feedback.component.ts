@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { BackendService, TasksService } from '../../../services';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Feedback } from '../../../../api';
+import { Feedback } from '../../../../api/backend';
 import { map, mergeMap } from 'rxjs/operators';
 
 @Component({

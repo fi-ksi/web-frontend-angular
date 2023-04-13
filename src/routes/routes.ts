@@ -8,7 +8,8 @@ export const ROUTES: IRoutes = {
     _: 'tasks',
     solution: 'solution',
     discussion: 'discussion',
-    results: 'results'
+    results: 'results',
+    assessment: 'assessment'
   },
   discussion: 'discussion',
   profile: {
@@ -24,5 +25,6 @@ export const ROUTES: IRoutes = {
     tasks: 'tasks',
     monitor: 'monitor',
     email: 'email'
-  }
+  },
+  privacyPolicy: 'privacy'
 };

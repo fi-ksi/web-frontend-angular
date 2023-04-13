@@ -10,7 +10,7 @@ describe('PageAdminRootComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ PageAdminRootComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

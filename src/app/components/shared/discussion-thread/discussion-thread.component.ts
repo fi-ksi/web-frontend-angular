@@ -1,10 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
-import { ThreadDetailResponse } from "../../../../api";
-import { PostsMap } from "../../../models";
-import { BehaviorSubject, combineLatest, Observable, Subscription } from "rxjs";
-import { BackendService, ModalService, WindowService, UserService } from "../../../services";
-import { filter, map, mergeMap, shareReplay, take } from "rxjs/operators";
-import { environment } from "../../../../environments/environment";
+import { ThreadDetailResponse } from '../../../../api/backend';
+import { PostsMap } from '../../../models';
+import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { BackendService, ModalService, WindowService, UserService } from '../../../services';
+import { filter, map, mergeMap, shareReplay, take } from 'rxjs/operators';
+import { environment } from '../../../../environments/environment';
 
 interface ThreadDetailsWithPostsMap {
   thread: ThreadDetailResponse,
@@ -23,6 +23,9 @@ export class DiscussionThreadComponent implements OnInit, OnDestroy {
 
   @Input()
   rootPost: number | null = null;
+
+  @Input()
+  allowNewRootPosts = true;
 
   thread$: Observable<ThreadDetailsWithPostsMap>;
 
@@ -50,7 +53,7 @@ export class DiscussionThreadComponent implements OnInit, OnDestroy {
         return {
           thread,
           posts
-        }
+        };
       }),
       shareReplay(1)
     );
@@ -98,7 +101,7 @@ export class DiscussionThreadComponent implements OnInit, OnDestroy {
           environment.logger.debug('new post created');
           this.refreshSubject.next(null);
         }
-      })
+      });
     });
   }
 }

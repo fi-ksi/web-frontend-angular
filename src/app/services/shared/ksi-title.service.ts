@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { TranslateService } from "@ngx-translate/core";
-import { Title } from "@angular/platform-browser";
-import { BehaviorSubject, combineLatest, Subject } from "rxjs";
+import { TranslateService } from '@ngx-translate/core';
+import { Title } from '@angular/platform-browser';
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PageAboutComponent } from "./page-about/page-about.component";
+import { PageAboutComponent } from './page-about/page-about.component';
 
 const routes: Routes = [
   {path: '', component: PageAboutComponent, pathMatch: 'full'}

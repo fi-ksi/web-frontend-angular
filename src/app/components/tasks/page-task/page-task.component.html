@@ -6,7 +6,7 @@
       {{(authors.length > 1 ? 'tasks.author.multiple' : 'tasks.author.single') | translate}}:
       <ksi-users-inline class="authors" [users]="authors"></ksi-users-inline>
     </div>
-    <span class="deadline">{{'tasks.deadline' | translate}}: {{task.head.time_deadline | date}}, {{task.head.max_score | translatePoints}}</span>
+    <span class="deadline">{{'tasks.deadline' | translate}}: {{task.head.time_deadline | ksiDate}} 23:59, {{task.head.max_score | translatePoints}}</span>
   </div>
 
   <div *ngIf="(subpage$ | async) !== templateBodyAssigment" class="back" >
@@ -21,6 +21,22 @@
 <ng-template #bodyDiscussion>
   <ng-container *ngIf="(task$ | async) as task">
     <ksi-discussion-thread [threadId]="task.detail.taskDetails.thread"></ksi-discussion-thread>
+  </ng-container>
+</ng-template>
+
+<ng-template #bodyAssessment>
+  <ng-container *ngIf="(task$ | async) as task">
+    <h4>{{'tasks.assessment.comment'|translate}}</h4>
+    <ksi-discussion-thread
+      *ngIf="task.detail.taskDetails.comment !== null; else noComment"
+      [allowNewRootPosts]="false"
+      [threadId]="task.detail.taskDetails.comment"
+    ></ksi-discussion-thread>
+    <ng-template #noComment>
+      <div class="alert alert-info">
+        {{'tasks.assessment.comment-none'|translate}}
+      </div>
+    </ng-template>
   </ng-container>
 </ng-template>
 
@@ -40,6 +56,10 @@
       <div class="right-container">
         <a *ngIf="task.detail.taskDetails.solution" class="solution" routerLink="." [fragment]="routes.routes.tasks.solution">
           {{'tasks.solution' | translate}}
+        </a>
+
+        <a *ngIf="(user.isLoggedIn$ | async) && task.detail.taskDetails.comment !== null" class="assessment" routerLink="." [fragment]="routes.routes.tasks.assessment">
+          {{'tasks.assessment.title' | translate}}
         </a>
 
         <a *ngIf="task.detail.taskDetails.best_scores.length > 0" class='results' routerLink="." [fragment]="routes.routes.tasks.results">

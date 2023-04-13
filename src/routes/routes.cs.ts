@@ -9,7 +9,8 @@ export const ROUTES: IRoutes = {
     _: 'ulohy',
     solution: 'reseni',
     discussion: 'diskuze',
-    results: 'vysledky'
+    results: 'vysledky',
+    assessment: 'hodnoceni'
   },
   discussion: 'forum',
   profile: {
@@ -25,5 +26,6 @@ export const ROUTES: IRoutes = {
     tasks: 'ulohy',
     monitor: 'monitor',
     email: 'email'
-  }
+  },
+  privacyPolicy: 'zpracovani-osobnich-udaju'
 };

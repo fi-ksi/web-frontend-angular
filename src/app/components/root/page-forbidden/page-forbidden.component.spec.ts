@@ -10,7 +10,7 @@ describe('PageForbiddenComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ PageForbiddenComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

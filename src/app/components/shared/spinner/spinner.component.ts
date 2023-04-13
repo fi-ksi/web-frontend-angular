@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
-import { concat, interval, Observable, of } from "rxjs";
-import { mapTo } from "rxjs/operators";
+import { concat, interval, Observable, of } from 'rxjs';
+import { mapTo } from 'rxjs/operators';
 
 @Component({
   selector: 'ksi-spinner',

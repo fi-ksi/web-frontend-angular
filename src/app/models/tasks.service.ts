@@ -1,4 +1,4 @@
-import { Wave, Task, TaskDetailResponse } from 'src/api';
+import { Wave, Task, TaskDetailResponse } from 'src/api/backend';
 
 export interface TaskWithIcon extends Task {
   icon: string;

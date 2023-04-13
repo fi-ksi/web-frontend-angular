@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, HostListener } from '@angular/core';
-import { ISortableItem } from "../../../../../models";
-import { BehaviorSubject, Subject } from "rxjs";
+import { ISortableItem } from '../../../../../models';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Component({
   selector: 'ksi-task-module-sortable-place',

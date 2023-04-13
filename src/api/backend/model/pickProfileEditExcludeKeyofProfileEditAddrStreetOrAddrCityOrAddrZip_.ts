@@ -10,17 +10,23 @@
  * Do not edit the class manually.
  */
 
-export interface Profile { 
+/**
+ * From T, pick a set of properties whose keys are in the union K
+ */
+export interface PickProfileEditExcludeKeyofProfileEditAddrStreetOrAddrCityOrAddrZip_ { 
+    id: number;
+    author: number;
+    resource: string;
+    addr_street?: string;
+    addr_city?: string;
+    addr_zip?: string;
     email: string;
     nick_name?: string;
     first_name: string;
     last_name: string;
     gender: string;
     short_info: string;
-    github: string | null;
-    addr_street: string;
-    addr_city: string;
-    addr_zip: string;
+    github: string;
     addr_country: string;
     school_name: string;
     school_street: string;
@@ -33,7 +39,4 @@ export interface Profile {
     notify_response?: boolean;
     notify_ksi?: boolean;
     notify_events?: boolean;
-    id: number;
-    author: number;
-    resource: string;
 }

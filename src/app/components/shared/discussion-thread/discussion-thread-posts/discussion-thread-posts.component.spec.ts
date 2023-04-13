@@ -10,7 +10,7 @@ describe('DiscussionThreadPostsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ DiscussionThreadPostsComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

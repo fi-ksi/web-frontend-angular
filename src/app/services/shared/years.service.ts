@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
-import { YearSelect } from '../../models';
-import { AdminTask, Article, Thread, User, Year } from '../../../api';
-import { map, mergeMap, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { YearSelect, IYear, IUser } from '../../models';
+import { AdminTask, Article, Thread, User } from '../../../api/backend';
+import { map, mergeMap, shareReplay, switchMap, take, tap } from 'rxjs/operators';
 import { BackendService } from './backend.service';
-import { Utils } from '../../util';
+import { Cache, Utils } from '../../util';
 import { StorageService } from './storage.service';
 import { UsersCacheService } from './users-cache.service';
 
@@ -28,18 +28,18 @@ export class YearsService {
   }
 
   readonly selected$: Observable<YearSelect | null>;
-  readonly selectedFull$: Observable<Year | null>;
+  readonly selectedFull$: Observable<IYear | null>;
 
-  readonly all$: Observable<Year[]>;
+  readonly all$: Observable<IYear[]>;
 
   readonly articles$: Observable<Article[]>;
-  readonly organisators$: Observable<User[]>;
+  readonly organisators$: Observable<(User & Pick<IUser, '$hasPicture'>)[]>;
   /**
    * Observable of high school users, sorted by score
    */
   readonly usersHighSchool$: Observable<User[]>;
   /**
-   * Observable of non high school users, sorted by score
+   * Observable of non-high school users, sorted by score
    */
   readonly usersOther$: Observable<User[]>;
 
@@ -50,7 +50,19 @@ export class YearsService {
   private selectedSubject: Subject<YearSelect | null>;
   private _selected: YearSelect | null;
   private readonly storage = this.storageRoot.open('years');
-  private fullYearCache: {[id: number]: Year} = {};
+  private fullYearCache = new Cache<number, IYear>(
+    1000,
+    (yearId) => this.all$.pipe(
+      take(1),
+      map((years) => years.find((year) => year.id === yearId)),
+      map((year) => {
+        if (year !== undefined) {
+          return year;
+        }
+        throw new Error('unknown year');
+      })
+    )
+  );
 
   constructor(private backend: BackendService, private storageRoot: StorageService) {
     const savedYearValue: YearSelect | null = this.storage.get<YearSelect>('selected');
@@ -58,31 +70,28 @@ export class YearsService {
     this._selected = savedYearValue;
 
     this.selected$ = this.selectedSubject.asObservable();
-    this.selectedFull$ = this.selected$.pipe(switchMap((select) => {
-      if (!select) {
-        return of(null);
-      }
-      if (select.id in this.fullYearCache) {
-        return of(this.fullYearCache[select.id]);
-      }
-      return this.backend.http.yearsGetSingle(select.id).pipe(
-        map((response) => response.year),
-        tap((year) => {
-          this.fullYearCache[select.id] = year;
-        })
-      );
-    }));
+    this.selectedFull$ = this.selected$.pipe(
+      switchMap((select) => select ? this.fullYearCache.get(select.id) : of(null))
+    );
 
     this.all$ = this.backend.http.yearsGetAll().pipe(
-      shareReplay(1),
       // sort years by index DESC
       map((resp) => resp.years.sort((a, b) => b.id - a.id)),
+      map((years) => years.map((year, index) => ({...year, $newest: index === 0}))),
       tap((years) => {
+        years.forEach((year) => this.fullYearCache.set(year.id, year));
+
+        // refresh the selected year with the newest value (e.g. when a point-pad changes)
+        if (this.selected) {
+          this.selected = years.find((year) => this.selected?.id === year.id) || null;
+        }
+
         // if no year is selected, select the one with the highest index
         if (years && !this.selected) {
           this.selected = years[0];
         }
-      })
+      }),
+      shareReplay(1),
     );
 
     this.articles$ = this.selected$.pipe(switchMap((year) => {
@@ -101,8 +110,33 @@ export class YearsService {
         this.backend.http.usersGetAll('organisators', 'score', year?.id || undefined)
       ), map((response) => response.users.map((user) => ({
         ...user,
+        $hasPicture: !!user.profile_picture,
         profile_picture: UsersCacheService.getProfilePicture(user, true)
-      })))
+      })).sort((a, b) => {
+        if (a.$hasPicture && !b.$hasPicture) {
+          return -1;
+        }
+        if (!a.$hasPicture && b.$hasPicture) {
+          return 1;
+        }
+
+        const now = new Date();
+
+        const dayA = ((now.getMonth() + a.id) ** 2) % now.getDay();
+        const dayB = ((now.getMonth() + b.id) ** 2) % now.getDay();
+
+        if (dayA !== dayB) {
+          return dayA < dayB ? -1 :1;
+        }
+
+        const reverse = now.getDate() % 2 == 1;
+
+        if (a.id > b.id) {
+          return reverse ? -1 : 1;
+        } else {
+          return reverse ? 1 : -1;
+        }
+      }))
     );
 
     this.usersHighSchool$ = this.selected$.pipe(
@@ -132,6 +166,13 @@ export class YearsService {
       ),
       map((response) => response.atasks)
     );
+
+    // auto select new year when published
+    this.all$.pipe(take(1)).subscribe((years) => {
+      if (savedYearValue && savedYearValue.$newest && years[0].id !== savedYearValue.id) {
+        this.selected = years[0];
+      }
+    });
   }
 
   public getById(yearId: number): Observable<YearSelect | undefined> {

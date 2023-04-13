@@ -10,7 +10,7 @@ describe('AdminSectionCardComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ AdminSectionCardComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

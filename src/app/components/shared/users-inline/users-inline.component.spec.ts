@@ -10,7 +10,7 @@ describe('UsersInlineComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ UsersInlineComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

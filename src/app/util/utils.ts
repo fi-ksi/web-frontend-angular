@@ -1,4 +1,4 @@
-import { Task } from '../../api';
+import { Task } from '../../api/backend';
 import { environment } from '../../environments/environment';
 
 type RecursiveArray<T> = Array<T | RecursiveArray<T>>;

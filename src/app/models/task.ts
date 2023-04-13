@@ -14,4 +14,6 @@ export interface TaskTipData {
 
 export interface TaskCollapsibleData {
   trustedContent: boolean;
+  initialOpen: boolean;
+  collapsible: boolean;
 }

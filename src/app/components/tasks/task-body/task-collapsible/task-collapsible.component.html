@@ -1,12 +1,15 @@
 <accordion [isAnimated]="true" class="content-dynamic">
-  <accordion-group [heading]="title">
+  <accordion-group [isOpen]="data.initialOpen" [isDisabled]="!data.collapsible">
+    <div accordion-heading>
+      <ksi-task-body [body]="title" [trusted]="data && data.trustedContent"></ksi-task-body>
+    </div>
     <ksi-task-body [body]="content" [trusted]="data && data.trustedContent"></ksi-task-body>
   </accordion-group>
 </accordion>
 
 <div class="content-static">
   <div class="head">
-    {{title}}
+    <ksi-task-body [body]="title" [trusted]="data && data.trustedContent"></ksi-task-body>
   </div>
   <div class="content">
     <ksi-task-body [body]="content" [trusted]="data && data.trustedContent"></ksi-task-body>

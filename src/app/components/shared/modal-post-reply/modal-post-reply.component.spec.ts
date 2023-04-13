@@ -10,7 +10,7 @@ describe('ModalPostReplyComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ ModalPostReplyComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

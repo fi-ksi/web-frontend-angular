@@ -10,7 +10,7 @@ describe('TaskTipComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ TaskTipComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

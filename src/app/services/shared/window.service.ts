@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { WindowSize } from '../../models';
-import { PageScroll } from "../../models/window.service";
-import { distinctUntilChanged, map } from "rxjs/operators";
+import { PageScroll } from '../../models/window.service';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -65,8 +65,8 @@ export class WindowService {
         const now = (event.target as HTMLElement).scrollTop;
         const before = this._pageScroll.depth;
         this.pageScroll = {depth: now, change: now - before};
-      })
-    })
+      });
+    });
   }
 
   /**
@@ -96,7 +96,7 @@ export class WindowService {
   public static getAppContent(): HTMLElement {
     const appContent = document.getElementById('ksi-app-page-content');
     if (!appContent) {
-      throw new Error("Cannot find app content");
+      throw new Error('Cannot find app content');
     }
     return appContent;
   }

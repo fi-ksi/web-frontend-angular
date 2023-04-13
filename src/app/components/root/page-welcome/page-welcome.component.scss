@@ -232,12 +232,14 @@
       .frame-organisator {
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: center; 
+        align-items: center;
         margin: $ksi-margin;
         cursor: pointer;
 
         .pic {
           height: 15em;
+          width: min(100%,15em); 
           border-radius: 50%;
         }
 

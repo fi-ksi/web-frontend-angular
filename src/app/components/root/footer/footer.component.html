@@ -2,4 +2,6 @@
 -
 <span class="version" (click)="changelogShow.emit()">{{'root.footer.version' | translate}} {{version.version$ | async}}</span>
 -
+<a [routerLink]="['/', routes.privacyPolicy]">{{'privacy-policy.title' | translate}}</a>
+-
 <span [innerHTML]="'root.footer.license' | translate"></span>

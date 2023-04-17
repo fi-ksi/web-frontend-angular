@@ -238,6 +238,7 @@
       "comment-none": "K tvému odevzdání nebyl přidán žádný komentář opravujícího"
     },
     "deadline": "Datum ukončení",
+    "deadline-passed": "Termín odevzdání úlohy již uplynul, úloha nepříjmá nové odpovědi",
     "feedback": {
       "send": "Odeslat zpětnou vazbu",
       "sent": "Máme to, díky!",

@@ -9,6 +9,10 @@
     <span class="deadline">{{'tasks.deadline' | translate}}: {{task.head.time_deadline | ksiDate}} 23:59, {{task.head.max_score | translatePoints}}</span>
   </div>
 
+  <div *ngIf="deadlinePassed$ | async" class="alert alert-warning">
+    {{'tasks.deadline-passed'|translate}}
+  </div>
+
   <div *ngIf="(subpage$ | async) !== templateBodyAssigment" class="back" >
     <a routerLink="." [fragment]="undefined">
       {{icon.BACK}} {{'tasks.back-to-assigment' | translate}}
@@ -63,12 +67,15 @@
         </a>
 
         <a *ngIf="task.detail.taskDetails.best_scores.length > 0" class='results' routerLink="." [fragment]="routes.routes.tasks.results">
-          {{'tasks.results' | translate}} ({{task.detail.userScores.length}})
+          {{'tasks.results' | translate}} ({{task.detail.userScores.length + (task.detail.userScores.length >= 100 ? '+' : '')}})
         </a>
       </div>
     </div>
 
     <div class="modules">
+      <div *ngIf="deadlinePassed$ | async" class="alert alert-warning">
+        {{'tasks.deadline-passed'|translate}}
+      </div>
       <ksi-task-module class="module" *ngFor="let module of task.detail.modules" [module]="module">
       </ksi-task-module>
     </div>
@@ -87,6 +94,7 @@
 
 <ng-template #bodyResults>
   <ng-container *ngIf="(task$ | async) as task">
+    <ksi-spinner [source]="userScores$"></ksi-spinner>
     <table class="table table-striped results-table table-responsive-md" ksiTheme>
       <thead>
       <tr>

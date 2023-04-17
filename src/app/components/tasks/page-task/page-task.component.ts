@@ -24,6 +24,7 @@ import {UserScore} from '../../../../api/backend';
 })
 export class PageTaskComponent implements OnInit, OnDestroy {
   task$: Observable<TaskFullInfo | null>;
+  deadlinePassed$: Observable<boolean>;
   authors$: Observable<number[]>;
   subpage$: Observable<TemplateRef<unknown>>;
 
@@ -189,6 +190,8 @@ export class PageTaskComponent implements OnInit, OnDestroy {
         return userScores;
       })
     );
+
+    this.deadlinePassed$ = this.task$.pipe(map((task) => task?.head && new Date(task.head.time_deadline) < new Date() || false));
   }
 
   ngOnDestroy(): void {

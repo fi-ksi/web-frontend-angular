@@ -41,11 +41,12 @@ export class PageResultsComponent implements OnInit {
         const scorePositions: {[score: number]: {from: number, to: number}} = {};
 
         users.forEach((u) => {
-          if (!(u.score in scoresCount)) {
-            scores.push(u.score);
-            scoresCount[u.score] = 0;
+          const key = PageResultsComponent.getScoreKey(u);
+          if (!(key in scoresCount)) {
+            scores.push(key);
+            scoresCount[key] = 0;
           }
-          scoresCount[u.score] = scoresCount[u.score] + 1;
+          scoresCount[key] = scoresCount[key] + 1;
         });
 
         let previousEndingPos = 1;
@@ -57,14 +58,21 @@ export class PageResultsComponent implements OnInit {
           previousEndingPos = scorePositions[score].to + 1;
         }
 
-        return users.map((user) => ({
-          ...user,
-          position:
-            scorePositions[user.score].from === scorePositions[user.score].to ?
-              `${scorePositions[user.score].from}.`
-              : `${scorePositions[user.score].from}.-${scorePositions[user.score].to}.`,
-        })).sort((a, b) => b.score - a.score);
+        return users.map((user) => {
+          const key = PageResultsComponent.getScoreKey(user);
+          return {
+            ...user,
+            position:
+              scorePositions[key].from === scorePositions[key].to ?
+                `${scorePositions[key].from}.`
+                : `${scorePositions[key].from}.-${scorePositions[key].to}.`,
+          };
+        }).sort((a, b) =>  PageResultsComponent.getScoreKey(b) -  PageResultsComponent.getScoreKey(a));
       })
     );
+  }
+
+  private static getScoreKey(user: User): number {
+    return !user.cheat ? user.score : -1000;
   }
 }

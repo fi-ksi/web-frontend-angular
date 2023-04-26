@@ -191,7 +191,15 @@ export class PageTaskComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.deadlinePassed$ = this.task$.pipe(map((task) => task?.head && new Date(task.head.time_deadline) < new Date() || false));
+    this.deadlinePassed$ = this.task$.pipe(map((task) => {
+      if (task?.head === undefined) {
+        return false;
+      }
+
+      const deadline = new Date(task.head.time_deadline);
+      deadline.setDate(deadline.getDate() + 1);
+      return deadline < new Date();
+    }));
   }
 
   ngOnDestroy(): void {

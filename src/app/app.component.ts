@@ -14,11 +14,18 @@ export class AppComponent implements OnInit {
     this.modal.container = this.container;
 
     /*
+    Initialize PDF-JS config before first usage, according to
+    https://github.com/VadimDez/ng2-pdf-viewer/blob/HEAD/README.md#set-custom-path-to-the-worker
+     */
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    (window as any).pdfWorkerSrc = '/assets/scripts/pdf.worker.min.js';
+
+    /*
     Initialize MathJax config before first usage, according to
     https://docs.mathjax.org/en/latest/web/configuration.html#using-a-local-file-for-configuration
      */
-    // @ts-ignore
-    window.MathJax = {
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    (window as any).MathJax = {
       svg: {
         fontCache: 'global'
       }

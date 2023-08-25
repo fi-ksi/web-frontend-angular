@@ -19,4 +19,12 @@
   .report-heading {
     margin-top: $ksi-margin;
   }
+
+  .lint-result {
+    text-align: center;
+
+    .problems {
+      padding-bottom: $ksi-margin-small;
+    }
+  }
 }

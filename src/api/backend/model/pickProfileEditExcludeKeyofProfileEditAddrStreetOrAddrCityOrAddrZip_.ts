@@ -27,6 +27,7 @@ export interface PickProfileEditExcludeKeyofProfileEditAddrStreetOrAddrCityOrAdd
     gender: string;
     short_info: string;
     github: string;
+    discord: string;
     addr_country: string;
     school_name: string;
     school_street: string;

@@ -18,6 +18,7 @@ export interface ProfileEdit {
     gender: string;
     short_info: string;
     github: string | null;
+    discord: string | null;
     addr_street: string;
     addr_city: string;
     addr_zip: string;

@@ -11,7 +11,7 @@ export const environment: Environment = {
   edulint: {
     url: 'https://edulint.com',
     version: '2.10.2',
-    config: 'default'
+    config: 'https://ksi.fi.muni.cz/assets/edulint/ksi.toml'
   },
   urlPrefix: '',
   logger: {

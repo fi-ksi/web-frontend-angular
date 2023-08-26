@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { APIService, Configuration, WebService } from '../../../api/edulint';
 import { environment } from '../../../environments/environment';
 import { combineLatest, Observable, of } from 'rxjs';
-import { filter, map, mergeMap } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap } from 'rxjs/operators';
 import { EdulintReport } from '../../models';
 
 @Injectable({
@@ -18,9 +18,7 @@ export class EdulintService {
 
   constructor(private httpClient: HttpClient) {
     const config = environment.edulint;
-    if (config === undefined) {
-      throw new Error('EduLint environment is undefined');
-    }
+
     this.version = config.version;
     this.url = config.url;
     this.config = config.config;
@@ -33,6 +31,10 @@ export class EdulintService {
     code += `\n# edulint: config=${this.config}\n`;
 
     return this.linter.apiCodePost({code}).pipe(
+      catchError((e) => {
+        environment.logger.error('[EduLint] Code post error', e);
+        return of({hash: undefined});
+      }),
       filter((response) => response.hash !== undefined),
       map(response => `${response.hash}`),
       mergeMap((hash) => combineLatest([this.linter.analyzeUploaded(this.version, hash), of(hash)])),

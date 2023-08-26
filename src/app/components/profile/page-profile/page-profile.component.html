@@ -45,21 +45,27 @@
         </ng-template>
       </div>
 
-      <div class="contact" *ngIf="!user.$isOrg">
+      <div class="contact">
         <table class="contact table table-borderless">
           <tbody>
           <tr *ngIf="user.email">
             <th scope="col">{{icon.EMAIL}}</th>
             <td><a [href]="'mailto:' + user.email">{{user.email}}</a></td>
           </tr>
-          <tr>
-            <th scope="col">{{icon.SCHOOL}}</th>
-            <td>{{user.school_name}}</td>
+          <tr *ngIf="user.discord">
+            <th scope="col">{{icon.DISCORD}}</th>
+            <td>{{user.discord}}</td>
           </tr>
-          <tr>
-            <th scope="col">{{icon.LOCATION}}</th>
-            <td>{{countries[user.addr_country!] || countries[user.addr_country!.toUpperCase()] || user.addr_country}}</td>
-          </tr>
+          <ng-container *ngIf="!user.$isOrg">
+            <tr>
+              <th scope="col">{{icon.SCHOOL}}</th>
+              <td>{{user.school_name}}</td>
+            </tr>
+            <tr *ngIf="user.addr_country">
+              <th scope="col">{{icon.LOCATION}}</th>
+              <td>{{countries[user.addr_country] || countries[user.addr_country.toUpperCase()] || user.addr_country}}</td>
+            </tr>
+          </ng-container>
           </tbody>
         </table>
       </div>

@@ -5,7 +5,6 @@
   <button class="btn btn-ksi download" (click)="download()">{{'tasks.module.programming.download'|translate}}</button>
   <button class="btn btn-ksi upload" (click)="upload()">{{'tasks.module.programming.upload'|translate}}</button>
   <button class="btn btn-ksi reset" (click)="reset()">{{'tasks.module.programming.reset'|translate}}</button>
-  <button [disabled]="linting$ | async" class="btn btn-ksi" [tooltip]="'tasks.module.programming.lint.tooltip'|translate" (click)="lintCode()">{{'tasks.module.programming.lint.text'|translate}}</button>
 </div>
 
 <input #uploadFile type="file" style="display: none" (change)="replaceCode($event)">
@@ -17,6 +16,32 @@
 
   <h6 class="report-heading">{{'tasks.module.programming.run-result'|translate}}</h6>
   <textarea #runOutput class="area-code-output" [value]="result.stdout || ''" [readOnly]="true"></textarea>
+
+  <ng-container *ngIf="linting$ !== null">
+    <ksi-spinner [source]="linting$"></ksi-spinner>
+  </ng-container>
+  <ng-container *ngIf="(linting$ | async) as lintReport">
+    <div *ngIf="!lintReport.problems.length; else lintProblems" class="alert alert-success lint-result">
+      {{'tasks.module.programming.lint.no-problems-found'|translate}}
+    </div>
+    <ng-template #lintProblems>
+      <div class="alert alert-warning lint-result">
+        <div class="problems">
+          {{'tasks.module.programming.lint.problems-found'|translate:{count: lintReport.problems.length} }}
+        </div>
+        <div>
+          <a
+            class="btn btn-ksi w-100"
+            [href]="lintReport.editorUrl"
+            target="_blank"
+            [tooltip]="'tasks.module.programming.lint.tooltip'|translate"
+          >
+            {{'tasks.module.programming.lint.text'|translate}}
+          </a>
+        </div>
+      </div>
+    </ng-template>
+  </ng-container>
 
   <ng-container *ngIf="user.isOrg$ | async">
     <h6 class="report-heading">{{'tasks.module.report'|translate}}</h6>

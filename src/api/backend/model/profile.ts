@@ -24,6 +24,7 @@ export interface Profile {
     gender: string;
     short_info: string;
     github: string | null;
+    discord: string | null;
     addr_country: string;
     school_name: string;
     school_street: string;

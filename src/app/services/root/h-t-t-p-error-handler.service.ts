@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ModalService } from '../shared';
+import { environment } from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,8 @@ export class HTTPErrorHandlerService implements HttpInterceptor {
   intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(req).pipe(
       catchError((error) => {
-        if (error instanceof HttpErrorResponse) {
+        // ignore EduLint-related errors
+        if (error instanceof HttpErrorResponse && !req.url.startsWith(environment.edulint.url)) {
           const position = {
             path: location.pathname,
           };

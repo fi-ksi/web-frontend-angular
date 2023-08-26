@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   Component,
   OnInit,
@@ -17,10 +18,12 @@ import { FormControl } from '@angular/forms';
 // @ts-ignore
 import * as CodeMirror from '../../../../../../node_modules/codemirror/lib/codemirror';
 import '../../../../../../node_modules/codemirror/mode/python/python';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { EdulintService, ModalService, ModuleService, UserService } from '../../../../services';
-import { mapTo, tap } from 'rxjs/operators';
+import { distinct, mapTo, shareReplay, tap } from 'rxjs/operators';
+import { EdulintReport } from '../../../../models';
 
+// noinspection JSUnresolvedReference
 @Component({
   selector: 'ksi-task-module-programming',
   templateUrl: './task-module-programming.component.html',
@@ -46,9 +49,7 @@ export class TaskModuleProgrammingComponent implements OnInit, OnDestroy {
 
   submission$: Observable<void> | null = null;
   codeRun$: Observable<void> | null = null;
-
-  private readonly lintingSubject = new BehaviorSubject<boolean>(false);
-  readonly linting$ = this.lintingSubject.asObservable();
+  linting$: Observable<EdulintReport> | null = null;
 
   private subs: Subscription[] = [];
 
@@ -83,13 +84,18 @@ export class TaskModuleProgrammingComponent implements OnInit, OnDestroy {
 
     this.moduleService.hideSubmit(this.module);
     this.codeRunResult$ = this.moduleService.runCode(this.module, this.code.value).pipe(
-      tap(() => {
+      shareReplay(1),
+      tap((result) => {
         // Scroll stdout into view after run completed
         window.setTimeout(() => {
           if (this.runOutput && this.runOutput.nativeElement) {
             this.runOutput.nativeElement.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
           }
         });
+
+        if (result.result === 'ok') {
+          this.lintCode();
+        }
       })
     );
     (this.codeRun$ = this.codeRunResult$.pipe(mapTo(undefined))).subscribe(() => {
@@ -166,6 +172,7 @@ export class TaskModuleProgrammingComponent implements OnInit, OnDestroy {
     });
     // map tab key to spaces
     editor.setOption('extraKeys', {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       Tab: function(cm: any) {
         const spaces = Array(cm.getOption('indentUnit') + 1).join(' ');
         cm.replaceSelection(spaces);
@@ -183,10 +190,8 @@ export class TaskModuleProgrammingComponent implements OnInit, OnDestroy {
   }
 
   lintCode(): void {
-    this.lintingSubject.next(true);
-    this.lint.getCodeEditorUrl(this.code.value).subscribe((url) => {
-      this.lintingSubject.next(false);
-      window.open(url, '_blank');
-    });
+    this.linting$ = null;
+    this.linting$ = this.lint.analyzeCode(this.code.value).pipe(distinct());
+    this.linting$.subscribe();
   }
 }

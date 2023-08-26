@@ -23,6 +23,7 @@ export class PageProfileMyComponent implements OnInit, OnDestroy {
     nick: [undefined],
     sex: ['', Validators.required],
     github: [''],
+    discord: [''],
 
     address: ['', Validators.required],
     city: ['', Validators.required],
@@ -116,7 +117,8 @@ export class PageProfileMyComponent implements OnInit, OnDestroy {
         schoolCountry: profile.school_country,
         schoolEnd: profile.school_finish,
         shirtSize: profile.tshirt_size,
-        github: profile.github
+        github: profile.github,
+        discord: profile.discord
       });
       this.formProfile.enable();
       this.cd.markForCheck();
@@ -148,7 +150,8 @@ export class PageProfileMyComponent implements OnInit, OnDestroy {
       school_country: this.formProfile.controls.schoolCountry.value,
       school_finish: this.formProfile.controls.schoolEnd.value,
       tshirt_size: this.formProfile.controls.shirtSize.value,
-      github: this.formProfile.controls.github.value
+      github: this.formProfile.controls.github.value,
+      discord: this.formProfile.controls.discord.value
     };
 
     (this.profileEditRequest$ = this.backend.http.profileEditMy(edit).pipe(mapTo(undefined))).subscribe(() => {

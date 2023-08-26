@@ -156,7 +156,8 @@ export class ModalRegisterComponent implements OnInit, ModalComponent {
       tshirt_size: this.form.controls.shirtSize.value,
       password: this.form.controls.password.value,
       referral: '',
-      github: null
+      github: null,
+      discord: null
     };
 
     const registration$ = this.backend.http.registerNewUser(req).pipe(shareReplay(1));

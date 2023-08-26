@@ -18,6 +18,7 @@ export interface User {
     profile_picture: string;
     gender: string;
     email?: string;
+    discord?: string;
     role: UserRole;
     score: number;
     tasks_num: number;

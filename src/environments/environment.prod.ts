@@ -6,7 +6,11 @@ const doNothing = (): void => {};
 export const environment: Environment = {
   production: true,
   backend: 'https://rest.naskoc.fi.muni.cz/',
-  edulint: 'https://edulint.rechtackova.cz/',
+  edulint: {
+    url: 'https://edulint.com',
+    version: '2.10.2',
+    config: 'https://ksi.fi.muni.cz/assets/edulint/ksi.toml'
+  },
   urlPrefix: '',
   logger: {
     log: doNothing,

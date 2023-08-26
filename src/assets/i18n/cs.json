@@ -206,7 +206,9 @@
         "reset-confirm": "Tato akce smaže všechny tvoje úpravy. Vážně ji chceš provést?",
         "lint": {
           "text": "Zkontrolovat kvalitu kódu pomocí EduLintu",
-          "tooltip": "Dojde k přesměřování na externí službu EduLint"
+          "tooltip": "Dojde k přesměřování na externí službu EduLint",
+          "problems-found": "Tvůj kód vypadá, že by se dal ještě vylepšit. EduLint našel {{count}} zlepšení.",
+          "no-problems-found": "Skvělá práce! EduLint nenašel v tvém kódu žádná další zlepšení."
         }
       },
       "general": {
@@ -365,6 +367,7 @@
         "nickname": "Přezdívka",
         "last-name": "Příjmení",
         "github": "GitHub uživatelské jméno",
+        "discord": "Discord uživatelské jméno",
         "sex": {
           "title": "Pohlaví",
           "male": "Muž",

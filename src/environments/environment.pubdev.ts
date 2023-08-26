@@ -7,7 +7,11 @@ import { Environment } from './model';
 export const environment: Environment = {
   production: false,
   backend: 'https://ksi.ahlava.cz/api',
-  edulint: 'https://edulint.rechtackova.cz/',
+  edulint: {
+    url: 'https://edulint.com',
+    version: '2.10.2',
+    config: 'default'
+  },
   urlPrefix: '',
   logger: {
     log: console.log,

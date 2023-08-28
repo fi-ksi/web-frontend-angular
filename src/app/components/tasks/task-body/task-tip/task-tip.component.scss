@@ -27,7 +27,7 @@
     flex-grow: 1;
 
     ::ng-deep {
-      &:first-child {
+      & p:first-child {
         /*
         In case of a multiline tip, show first paragraph right after title
          */

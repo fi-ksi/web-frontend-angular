@@ -154,7 +154,10 @@ export class PageProfileMyComponent implements OnInit, OnDestroy {
       discord: this.formProfile.controls.discord.value
     };
 
-    (this.profileEditRequest$ = this.backend.http.profileEditMy(edit).pipe(mapTo(undefined))).subscribe(() => {
+    (this.profileEditRequest$ = this.backend.http.profileEditMy(edit).pipe(
+      shareReplay(1),
+      mapTo(undefined))
+    ).subscribe(() => {
       this.formProfile.enable();
       this.backend.refreshUser();
     });

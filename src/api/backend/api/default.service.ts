@@ -4566,6 +4566,60 @@ export class DefaultService {
     /**
      * 
      * 
+     * @param usersId 
+     * @param year 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public usersGetSingleDiscordInvite(usersId: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<string>;
+    public usersGetSingleDiscordInvite(usersId: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
+    public usersGetSingleDiscordInvite(usersId: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
+    public usersGetSingleDiscordInvite(usersId: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (usersId === null || usersId === undefined) {
+            throw new Error('Required parameter usersId was null or undefined when calling usersGetSingleDiscordInvite.');
+        }
+
+
+        let headers = this.defaultHeaders;
+        if (year !== undefined && year !== null) {
+            headers = headers.set('year', String(year));
+        }
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<string>('get',`${this.basePath}/users/${encodeURIComponent(String(usersId))}/discord`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
      * @param body 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.

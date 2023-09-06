@@ -121,13 +121,18 @@
              [placeholder]="'profile.my.about-me.github'|translate"
       >
 
-      <label class="form-label">{{'profile.my.about-me.discord'|translate}}</label>
+      <label class="form-label">
+        {{'profile.my.about-me.discord'|translate}}
+        <ng-container *ngIf="discordInviteLink$ | async as link">
+          -
+          <a [href]="link" target="_blank">{{'profile.my.discord-join'|translate}}</a>
+        </ng-container>
+      </label>
       <input type="text"
              class="form-control"
              formControlName="discord"
              [placeholder]="'profile.my.about-me.discord'|translate"
       >
-
 
       <!-- Address -->
       <h2>{{'profile.my.address.title'|translate}}</h2>

@@ -1,8 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { AddressService, BackendService, IconService, RoutesService, UserService } from '../../../services';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, map, mapTo, mergeMap, shareReplay } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
+import { catchError, debounceTime, map, mapTo, mergeMap, shareReplay } from 'rxjs/operators';
 import { Observable, of, Subscription } from 'rxjs';
 import { ProfileEdit } from '../../../../api/backend';
 import { environment } from '../../../../environments/environment';
@@ -55,6 +55,7 @@ export class PageProfileMyComponent implements OnInit, OnDestroy {
   countries = AddressService.COUNTRIES;
 
   profilePicture$: Observable<string | null>;
+  discordInviteLink$: Observable<string | null>;
 
   private _subs: Subscription[] = [];
 
@@ -62,7 +63,6 @@ export class PageProfileMyComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     public backend: BackendService,
     private user: UserService,
-    private router: Router,
     private cd: ChangeDetectorRef,
     public icon: IconService,
     public routes: RoutesService,
@@ -75,6 +75,14 @@ export class PageProfileMyComponent implements OnInit, OnDestroy {
       mergeMap(() => this.backend.user$),
       // add timestamp to the image URL so that every time upon new image upload a fresh profile picture is loaded
       map((user) => user ? `${user.profile_picture}?${Date.now()}` : user)
+    );
+
+    this.discordInviteLink$ = this.user.isLoggedIn$.pipe(
+      mergeMap(() => this.backend.user$),
+      debounceTime(200),
+      shareReplay(1),
+      mergeMap((user) => user ? this.backend.http.usersGetSingleDiscordInvite(user.id) : of(null)),
+      shareReplay(1)
     );
 
     // add passwords same validator
@@ -154,7 +162,10 @@ export class PageProfileMyComponent implements OnInit, OnDestroy {
       discord: this.formProfile.controls.discord.value
     };
 
-    (this.profileEditRequest$ = this.backend.http.profileEditMy(edit).pipe(mapTo(undefined))).subscribe(() => {
+    (this.profileEditRequest$ = this.backend.http.profileEditMy(edit).pipe(
+      shareReplay(1),
+      mapTo(undefined))
+    ).subscribe(() => {
       this.formProfile.enable();
       this.backend.refreshUser();
     });

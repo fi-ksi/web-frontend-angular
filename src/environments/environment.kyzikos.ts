@@ -9,7 +9,7 @@ export const environment: Environment = {
   backend: 'https://kyzikos.fi.muni.cz:3000/',
   edulint: {
     url: 'https://edulint.com',
-    version: '2.10.2',
+    version: 'latest',
     config: 'default'
   },
   urlPrefix: '/',

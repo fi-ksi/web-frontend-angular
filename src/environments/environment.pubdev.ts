@@ -9,7 +9,7 @@ export const environment: Environment = {
   backend: 'https://ksi.ahlava.cz/api',
   edulint: {
     url: 'https://edulint.com',
-    version: '2.10.2',
+    version: 'latest',
     config: 'default'
   },
   urlPrefix: '',

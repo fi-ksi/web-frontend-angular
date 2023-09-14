@@ -10,7 +10,7 @@ export const environment: Environment = {
   backend: 'http://localhost:3030/',
   edulint: {
     url: 'https://edulint.com',
-    version: '2.10.2',
+    version: 'latest',
     config: 'https://ksi.fi.muni.cz/assets/edulint/ksi.toml'
   },
   urlPrefix: '',

@@ -8,7 +8,7 @@ export const environment: Environment = {
   backend: 'https://rest.naskoc.fi.muni.cz/',
   edulint: {
     url: 'https://edulint.com',
-    version: '2.10.2',
+    version: 'latest',
     config: 'https://ksi.fi.muni.cz/assets/edulint/ksi.toml'
   },
   urlPrefix: '',

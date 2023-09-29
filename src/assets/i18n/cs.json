@@ -240,7 +240,7 @@
       "comment-none": "K tvému odevzdání nebyl přidán žádný komentář opravujícího"
     },
     "deadline": "Datum ukončení",
-    "deadline-passed": "Termín odevzdání úlohy již uplynul, úloha nepříjmá nové odpovědi",
+    "deadline-passed": "Termín odevzdání úlohy již uplynul, úloha nepříjmá nové odpovědi. Stále si ji ale můžeš prohlédnout, včetně řešení.",
     "feedback": {
       "send": "Odeslat zpětnou vazbu",
       "sent": "Máme to, díky!",
@@ -363,7 +363,7 @@
       "change-picture": "Nahrát nový profilový obrázek",
       "discord-join": "přidat se na Discord server FI MU",
       "about-me": {
-        "title": "O mě",
+        "title": "O mně",
         "first-name": "Křestní jméno",
         "nickname": "Přezdívka",
         "last-name": "Příjmení",

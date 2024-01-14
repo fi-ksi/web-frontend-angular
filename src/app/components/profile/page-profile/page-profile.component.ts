@@ -16,6 +16,7 @@ import { BarValue } from 'ngx-bootstrap/progressbar/progressbar-type.interface';
 import { ROUTES } from '../../../../routes/routes';
 import { ProfileResponse, User } from '../../../../api/backend';
 import { TranslateService } from '@ngx-translate/core';
+import { SubscribedComponent } from '../../../util';
 
 @Component({
   selector: 'ksi-page-profile',
@@ -23,7 +24,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./page-profile.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PageProfileComponent implements OnInit {
+export class PageProfileComponent extends SubscribedComponent implements OnInit {
   @ViewChild('modalDiploma', { static: true })
   modalDiploma: TemplateRef<unknown>;
 
@@ -60,6 +61,7 @@ export class PageProfileComponent implements OnInit {
     private modal: ModalService,
     private achievement: AchievementService
   ) {
+    super();
   }
 
   ngOnInit(): void {
@@ -274,10 +276,10 @@ export class PageProfileComponent implements OnInit {
   }
 
   showDiploma(): void {
-    this.user$.pipe(
+    this.subscribe(this.user$.pipe(
       mergeMap((user) => this.diplomaService.userDiplomaURL(user)),
-      take(1)
-    ).subscribe((diplomaURL) => {
+      take(1)),
+    (diplomaURL) => {
       if (diplomaURL === undefined) {
         return;
       }
@@ -290,7 +292,7 @@ export class PageProfileComponent implements OnInit {
 
   grantSuccessfulTrophy(grantSuccessfulButton: HTMLButtonElement): void {
     grantSuccessfulButton.disabled = true;
-    combineLatest([this.user$, this.achievement.getSpecialAchievement('successful')]).pipe(
+    this.subscribe(combineLatest([this.user$, this.achievement.getSpecialAchievement('successful')]).pipe(
       take(1),
       mergeMap(([user, achievement]) => combineLatest([of(user), this.backend.http.adminAchievementsGrant({
         users: [user.id],
@@ -298,6 +300,6 @@ export class PageProfileComponent implements OnInit {
         task: null
       })])),
       mergeMap(([user]) => this.users.cache.refresh(user.id))
-    ).subscribe();
+    ));
   }
 }

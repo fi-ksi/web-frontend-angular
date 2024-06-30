@@ -96,7 +96,8 @@ export class TaskModuleProgrammingComponent implements OnInit, OnDestroy {
         if (result.result === 'ok') {
           this.lintCode();
         }
-      })
+      }),
+      shareReplay(1),
     );
     (this.codeRun$ = this.codeRunResult$.pipe(mapTo(undefined))).subscribe(() => {
       this.codeRun$ = null;

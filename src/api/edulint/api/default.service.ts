@@ -17,14 +17,13 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
-import { HashStr } from '../model/hashStr';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 
 
 @Injectable()
-export class WebService {
+export class DefaultService {
 
     protected basePath = 'https://edulint.com';
     public defaultHeaders = new HttpHeaders();
@@ -56,20 +55,15 @@ export class WebService {
 
 
     /**
-     * Displays the UI with prefilled code
+     * This API documentation.
      * 
-     * @param hash the hash of the code to display
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public editorHashGet(hash: HashStr, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public editorHashGet(hash: HashStr, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public editorHashGet(hash: HashStr, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public editorHashGet(hash: HashStr, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        if (hash === null || hash === undefined) {
-            throw new Error('Required parameter hash was null or undefined when calling editorHashGet.');
-        }
+    public apiGet(observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public apiGet(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public apiGet(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public apiGet(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
 
@@ -85,7 +79,43 @@ export class WebService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<any>('get',`${this.basePath}/editor/${encodeURIComponent(String(hash))}`,
+        return this.httpClient.request<any>('get',`${this.basePath}/api/`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * List of currently supported Edulint versions.
+     * 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiVersionsGet(observe?: 'body', reportProgress?: boolean): Observable<Array<string>>;
+    public apiVersionsGet(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<string>>>;
+    public apiVersionsGet(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<string>>>;
+    public apiVersionsGet(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<Array<string>>('get',`${this.basePath}/api/versions`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

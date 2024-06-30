@@ -15,12 +15,13 @@ info:
   # license:
   #   name: Apache 2.0
   #   url: http://www.apache.org/licenses/LICENSE-2.0.html
-  version: 1.0.0
+  version: 1.0.1
 # externalDocs:
 #   description: Find out more about Swagger
 #   url: http://swagger.io
 servers:
-  - url: ""
+  - url: "https://edulint.com"
+  - url: "https://dev.edulint.com"
 tags:
   - name: API
     description: ""
@@ -33,6 +34,26 @@ tags:
     #   description: Find out more about our store
     #   url: http://swagger.io
 paths:
+  /api/:
+    get:
+      summary: This API documentation.
+      responses:
+        "200":
+          description: ""
+  /api/versions:
+    get:
+      summary: List of currently supported Edulint versions.
+      responses:
+        "200":
+          description: The versions are sorted -- the newest version is listed first.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                example: ["2.10.2", "2.9.2"]
+
   /api/code:
     post:
       tags:
@@ -41,11 +62,11 @@ paths:
       # description: Update an existing pet by Id
       # operationId: updatePet
       requestBody:
-        description: the code to upload
+        description: information on the code to upload
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Code"
+              $ref: "#/components/schemas/CodeRequest"
           # application/xml:
           #   schema:
           #     $ref: "#/components/schemas/Pet"
@@ -63,6 +84,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Hash"
+        "400":
+          description: Missing parameter with uploaded code
       # security:
       # - petstore_auth:
       #   - write:pets
@@ -105,24 +128,36 @@ paths:
       parameters:
         - name: version
           in: path
-          description: the version of EduLint to use
+          description: The version of EduLint to use. You can use either a specific version (e.g. 2.0.0) or "latest".
           required: true
           schema:
             type: string
-            example: 2.0.0
+            example: latest
         - name: hash
           in: path
           description: the hash of the code to analyze
           required: true
           schema:
             $ref: "#/components/schemas/HashStr"
+        - name: config
+          in: query
+          description: extra configuration to use (equivalent to command line configuration described in [EduLint's documentation](https://edulint.rtfd.io#configuration)).
+          required: false
+          schema:
+            $ref: "#/components/schemas/QueryConfig"
+        - name: use-cached-result
+          in: query
+          description: enables/disables using cached linting results
+          required: false
+          schema:
+            $ref: "#/components/schemas/TrueBoolean"
       responses:
         "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Problems"
+                $ref: "#/components/schemas/AnalyzeResponse"
         "400":
           description: Invalid hash supplied
         "404":
@@ -136,17 +171,29 @@ paths:
       parameters:
         - name: version
           in: path
-          description: the version of EduLint to use
+          description: The version of EduLint to use. You can use either a specific version (e.g. 2.0.0) or "latest".
           required: true
           schema:
             type: string
-            example: 2.0.0
+            example: latest
+        - name: config
+          in: query
+          description: extra configuration to use (equivalent to command line configuration described in [EduLint's documentation](https://edulint.rtfd.io#configuration)).
+          required: false
+          schema:
+            $ref: "#/components/schemas/QueryConfig"
+        - name: use-cached-result
+          in: query
+          description: enables/disables using cached linting results
+          required: false
+          schema:
+            $ref: "#/components/schemas/TrueBoolean"
       requestBody:
         description: the code to upload and analyze
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Code"
+              $ref: "#/components/schemas/CodeRequest"
         required: true
       responses:
         "200":
@@ -154,7 +201,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Problems"
+                $ref: "#/components/schemas/AnalyzeResponse"
         "400":
           description: Invalid hash supplied
         "404":
@@ -177,19 +224,23 @@ paths:
 
 components:
   schemas:
-    Code:
+    CodeRequest:
       type: object
       properties:
         code:
           type: string
           example: print('Hello world')
+        source_id:
+          type: string
+          example: ksi:task_99:user_aa554ae56217f
+      required: [code]
     CodeFile:
       type: string
       format: binary
       example: print('Hello world')
     HashStr:
       type: string
-      example: c4bc51f7d34f9340c33e0b3b9dcfd12aa8917fe5a11faa5f6385f5bb41be9fcf
+      example: a10b77b1feed3225cceb4b765068965ea482abfc618eee849259f7d1401cd09d
     Hash:
       type: object
       properties:
@@ -200,7 +251,7 @@ components:
       properties:
         path:
           type: string
-          example: codes/c4bc51f7d34f9340c33e0b3b9dcfd12aa8917fe5a11faa5f6385f5bb41be9fcf.py
+          example: codes/a10b77b1feed3225cceb4b765068965ea482abfc618eee849259f7d1401cd09d.py
         source:
           type: string
           example: pylint
@@ -232,3 +283,24 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/Problem"
+    ConfigError:
+      type: string
+      example: unrecognized option foo
+    AnalyzeResponse:
+      type: object
+      properties:
+        problems:
+          $ref: "#/components/schemas/Problems"
+        config_errors:
+          type: array
+          items:
+            $ref: "#/components/schemas/ConfigError"
+        hash:
+          $ref: "#/components/schemas/HashStr"
+    QueryConfig:
+      type: string
+      example: config-file=cs0
+    TrueBoolean:
+      type: boolean
+      enum: [true, false]
+      default: true

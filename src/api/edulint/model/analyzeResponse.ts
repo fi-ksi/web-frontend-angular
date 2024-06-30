@@ -9,8 +9,12 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { ConfigError } from './configError';
 import { HashStr } from './hashStr';
+import { Problems } from './problems';
 
-export interface Hash { 
+export interface AnalyzeResponse { 
+    problems?: Problems;
+    config_errors?: Array<ConfigError>;
     hash?: HashStr;
 }

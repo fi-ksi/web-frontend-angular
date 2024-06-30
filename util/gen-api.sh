@@ -53,9 +53,6 @@ sed -E '/.*this.httpClient.request<Blob>.*/{n;s/.*/\{responseType: "blob",/}' -i
 cd "$DIR_PROJECT_ROOT"
 URL_EDULINT="https://edulint.com/api/openapi.yaml"
 FILE_EDULINT="src/api/edulint.yaml"
-
-if [ ! -f "$FILE_EDULINT" ]; then
-    wget --output-document="$FILE_EDULINT" "$URL_EDULINT"
-fi
+wget --output-document="$FILE_EDULINT" "$URL_EDULINT"
 
 $cli generate -l typescript-angular -i "$FILE_EDULINT" -o src/api/edulint -c "$DIR_PROJECT_ROOT/swagger-config.json"

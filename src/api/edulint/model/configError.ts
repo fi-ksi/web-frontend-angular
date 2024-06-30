@@ -9,8 +9,5 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { HashStr } from './hashStr';
 
-export interface Hash { 
-    hash?: HashStr;
-}
+export type ConfigError = string;

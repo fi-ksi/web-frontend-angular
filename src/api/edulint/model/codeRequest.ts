@@ -9,8 +9,8 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { HashStr } from './hashStr';
 
-export interface Hash { 
-    hash?: HashStr;
+export interface CodeRequest { 
+    code: string;
+    source_id?: string;
 }

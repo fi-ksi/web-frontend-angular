@@ -42,8 +42,8 @@ export class EdulintService {
       mergeMap((hash) => combineLatest([this.linter.analyzeUploaded(this.version, hash), of(hash)])),
       take(1),
       shareReplay(1),
-      map(([problems, hash]) => ({
-        problems,
+      map(([analyzed, hash]) => ({
+        problems: analyzed.problems || [],
         editorUrl:  `${this.url}/editor/${hash}`
       }))
     );

@@ -464,13 +464,18 @@
       "tasks": "Úlohy",
       "monitor": "Monitor",
       "email": "E-mail",
-      "discussion": "Diskuze"
+      "discussion": "Diskuze",
+      "achievement": "Trofeje"
     },
     "root": {
       "title": "Organizároské rozhraní",
       "tasks": {
         "title": "Správa úloh",
         "description": "Přidávání nových úloh. Vypouštění nových verzí úloh. Merge do masteru."
+      },
+      "achievements": {
+        "title": "Správa trofejí",
+        "description": "Přidávání, úprava a přidělování trofejí řešitelům."
       },
       "discussion": {
         "title": "Diskuze u úloh",
@@ -544,6 +549,25 @@
     },
     "discussion": {
       "title": "Diskuze u úloh"
+    },
+    "achievements": {
+      "title": "Trofeje",
+      "new": "Přidat novou trofej",
+      "picture": "Obr.",
+      "name": "Název",
+      "actions": "Akce",
+      "yearly": "Pro tento ročník",
+      "persistent": "Trvalé",
+      "give": {
+        "btn": "Udělit"
+      },
+      "edit": {
+        "btn": "Změnit"
+      },
+      "delete": {
+        "btn": "Smazat",
+        "message": "Opravdu chceš smazat tuto trofej?"
+      }
     },
     "tasks": {
       "wave-selection": {

@@ -10,5 +10,9 @@
  * Do not edit the class manually.
  */
 
-export interface AchievementCreation { 
+export interface AchievementBase { 
+    title: string;
+    picture: string;
+    description: string;
+    persistent: boolean;
 }

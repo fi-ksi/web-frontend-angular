@@ -1,4 +1,5 @@
 export * from './achievement';
+export * from './achievementBase';
 export * from './achievementCreation';
 export * from './achievementCreationRequest';
 export * from './achievementGrantRequest';

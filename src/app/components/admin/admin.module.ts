@@ -16,6 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { PageAdminDiscussionComponent } from './page-admin-discussion/page-admin-discussion.component';
 import { AdminWaveSelectorComponent } from './shared/admin-wave-selector/admin-wave-selector.component';
+import { PageAdminAchievementsComponent } from './page-admin-achievements/page-admin-achievements.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { AdminWaveSelectorComponent } from './shared/admin-wave-selector/admin-w
     PageAdminMonitorComponent,
     PageAdminEmailComponent,
     PageAdminDiscussionComponent,
-    AdminWaveSelectorComponent
+    AdminWaveSelectorComponent,
+    PageAdminAchievementsComponent
   ],
   imports: [
     CommonModule,

@@ -24,6 +24,7 @@ export interface IRoutes {
     monitor: string;
     email: string;
     discussion: string;
+    achievements: string;
   };
   privacyPolicy: string;
 }

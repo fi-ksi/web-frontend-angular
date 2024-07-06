@@ -71,7 +71,7 @@ export class ModalService {
         filter((visible) => visible),
         take(1)
       ).subscribe(() => {
-        environment.logger.debug('sending modal ref', template.instance.modalRef);
+        environment.logger.debug('[MODAL] Sending modal ref', template.instance.modalRef);
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         component.instance.onModalOpened(template.instance.modalRef!);
       });

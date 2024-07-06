@@ -15,6 +15,9 @@
       <a class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.discussion]" routerLinkActive="active" (click)="hideFullMenu($event)">
         {{'admin.navbar.discussion' | translate}}
       </a>
+      <a class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.achievements]" routerLinkActive="active" (click)="hideFullMenu($event)">
+        {{'admin.navbar.achievement' | translate}}
+      </a>
       <ng-container *ngIf="oldFrontendUrl">
         <a *ngFor="let oldLink of oldFrontendButtons"
            class="nav-btn"

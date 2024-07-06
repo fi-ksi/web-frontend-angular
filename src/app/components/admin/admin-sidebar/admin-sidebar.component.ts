@@ -21,7 +21,6 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
   oldFrontendUrl = environment.oldFrontendUrl;
 
   oldFrontendButtons = [
-    ['achievements/', 'Trofeje'],
     ['users/', 'Uživatelé'],
     ['years/', 'Ročníky'],
     ['waves/', 'Vlny'],

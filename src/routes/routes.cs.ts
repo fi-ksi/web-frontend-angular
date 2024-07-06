@@ -26,7 +26,8 @@ export const ROUTES: IRoutes = {
     tasks: 'ulohy',
     monitor: 'monitor',
     email: 'email',
-    discussion: 'forum'
+    discussion: 'forum',
+    achievements: 'trofeje'
   },
   privacyPolicy: 'zpracovani-osobnich-udaju'
 };

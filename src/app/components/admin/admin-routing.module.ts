@@ -6,6 +6,7 @@ import { PageAdminTasksComponent } from './page-admin-tasks/page-admin-tasks.com
 import { PageAdminMonitorComponent } from './page-admin-monitor/page-admin-monitor.component';
 import { PageAdminEmailComponent } from './page-admin-email/page-admin-email.component';
 import {PageAdminDiscussionComponent} from './page-admin-discussion/page-admin-discussion.component';
+import {PageAdminAchievementsComponent} from './page-admin-achievements/page-admin-achievements.component';
 
 const routes: Routes = [
   {path: '', component: PageAdminRootComponent},
@@ -13,6 +14,7 @@ const routes: Routes = [
   {path: ROUTES.admin.monitor, component: PageAdminMonitorComponent},
   {path: ROUTES.admin.email, component: PageAdminEmailComponent},
   {path: ROUTES.admin.discussion, component: PageAdminDiscussionComponent},
+  {path: ROUTES.admin.achievements, component: PageAdminAchievementsComponent},
 ];
 
 @NgModule({

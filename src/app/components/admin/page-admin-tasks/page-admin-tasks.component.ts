@@ -13,7 +13,6 @@ import {BehaviorSubject, combineLatest, Observable, of, Subject, timer} from 'rx
 import {distinctUntilChanged, filter, map, mergeMap, shareReplay, take, tap} from 'rxjs/operators';
 import { IAdminTask } from '../../../models';
 import {SubscribedComponent, Utils} from '../../../util';
-import {ActivatedRoute, Router} from '@angular/router';
 
 interface WaveTasks {
   shown: boolean,
@@ -38,8 +37,9 @@ export class PageAdminTasksComponent extends SubscribedComponent implements OnIn
 
   waveTasks$: Observable<WaveTasks[]>;
   waveTasksShown$: Observable<WaveTasks[]>;
-  waveFilter: Subject<number | null> = new BehaviorSubject<number | null>(null);
-  readonly waveFilter$: Observable<number | null> = this.waveFilter.asObservable();
+
+  waveFilterSubj: Subject<number | null> = new BehaviorSubject<number | null>(null);
+  readonly waveFilter$: Observable<number | null> = this.waveFilterSubj.asObservable();
 
   constructor(
     private years: YearsService,
@@ -49,20 +49,12 @@ export class PageAdminTasksComponent extends SubscribedComponent implements OnIn
     public routes: RoutesService,
     private backend: BackendService,
     private modal: ModalService,
-    private adminTasks: AdminTaskService,
-    private router: Router,
-    private route: ActivatedRoute
+    private adminTasks: AdminTaskService
   ) {
     super();
   }
 
   ngOnInit(): void {
-    this.subscribe(this.route.queryParams.pipe(
-      map(params => params['wave']),
-      map((waveId) => isNaN(+waveId) ? null : +waveId),
-      distinctUntilChanged(),
-      tap((waveId) => this.waveFilter.next(waveId))
-    ));
 
     const allWaveTasks$ = this.years.adminTasks$.pipe(
       mergeMap((tasks) => {
@@ -94,6 +86,7 @@ export class PageAdminTasksComponent extends SubscribedComponent implements OnIn
     );
 
     this.waveTasks$ = combineLatest([allWaveTasks$, this.waveFilter$]).pipe(
+      distinctUntilChanged(),
       map(([waveTasks, waveFilter]) => {
         return waveTasks.map((waveTask) => {
           return {
@@ -176,15 +169,5 @@ export class PageAdminTasksComponent extends SubscribedComponent implements OnIn
         mergeMap(() => this.adminTasks.tasksCache.refresh(task.id))
       )
       .subscribe();
-  }
-
-  filterWave(event: Event): Promise<boolean> {
-    const waveId = +(event.target as HTMLSelectElement).value;
-
-    return this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: { wave: waveId === -1 ? null : waveId },
-      queryParamsHandling: 'merge' // Merge with existing query params
-    });
   }
 }

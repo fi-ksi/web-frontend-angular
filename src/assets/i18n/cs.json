@@ -463,13 +463,18 @@
       "title": "Admin",
       "tasks": "Úlohy",
       "monitor": "Monitor",
-      "email": "E-mail"
+      "email": "E-mail",
+      "discussion": "Diskuze"
     },
     "root": {
       "title": "Organizároské rozhraní",
       "tasks": {
         "title": "Správa úloh",
         "description": "Přidávání nových úloh. Vypouštění nových verzí úloh. Merge do masteru."
+      },
+      "discussion": {
+        "title": "Diskuze u úloh",
+        "description": "Zobrazení všech příspěvků k úlohám z vlny, včetně počtu nepřečtených."
       },
       "monitor": {
         "title": "Monitorovací nástěnka",
@@ -536,6 +541,9 @@
         "check": "Přejít ke kontrole a odeslání",
         "send": "Odeslat email"
       }
+    },
+    "discussion": {
+      "title": "Diskuze u úloh"
     },
     "tasks": {
       "wave-selection": {

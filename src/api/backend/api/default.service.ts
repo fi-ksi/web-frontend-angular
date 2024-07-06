@@ -4246,21 +4246,21 @@ export class DefaultService {
     /**
      * 
      * 
-     * @param _wave 
+     * @param wave 
      * @param year 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public threadsGetAll(_wave?: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<ThreadsResponse>;
-    public threadsGetAll(_wave?: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ThreadsResponse>>;
-    public threadsGetAll(_wave?: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ThreadsResponse>>;
-    public threadsGetAll(_wave?: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public threadsGetAll(wave?: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<ThreadsResponse>;
+    public threadsGetAll(wave?: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ThreadsResponse>>;
+    public threadsGetAll(wave?: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ThreadsResponse>>;
+    public threadsGetAll(wave?: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (_wave !== undefined && _wave !== null) {
-            queryParameters = queryParameters.set('_wave', <any>_wave);
+        if (wave !== undefined && wave !== null) {
+            queryParameters = queryParameters.set('wave', <any>wave);
         }
 
         let headers = this.defaultHeaders;

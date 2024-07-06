@@ -5,12 +5,14 @@ import { ROUTES } from '../../../routes/routes';
 import { PageAdminTasksComponent } from './page-admin-tasks/page-admin-tasks.component';
 import { PageAdminMonitorComponent } from './page-admin-monitor/page-admin-monitor.component';
 import { PageAdminEmailComponent } from './page-admin-email/page-admin-email.component';
+import {PageAdminDiscussionComponent} from './page-admin-discussion/page-admin-discussion.component';
 
 const routes: Routes = [
   {path: '', component: PageAdminRootComponent},
   {path: ROUTES.admin.tasks, component: PageAdminTasksComponent},
   {path: ROUTES.admin.monitor, component: PageAdminMonitorComponent},
   {path: ROUTES.admin.email, component: PageAdminEmailComponent},
+  {path: ROUTES.admin.discussion, component: PageAdminDiscussionComponent},
 ];
 
 @NgModule({

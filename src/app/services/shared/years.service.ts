@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { YearSelect, IYear, IUser } from '../../models';
 import { AdminTask, Article, Thread, User } from '../../../api/backend';
-import { map, mergeMap, shareReplay, switchMap, take, tap } from 'rxjs/operators';
+import {distinctUntilChanged, map, mergeMap, shareReplay, switchMap, take, tap} from 'rxjs/operators';
 import { BackendService } from './backend.service';
 import { Cache, Utils } from '../../util';
 import { StorageService } from './storage.service';
@@ -161,9 +161,11 @@ export class YearsService {
     );
 
     this.adminTasks$ = this.selected$.pipe(
+      distinctUntilChanged(),
       mergeMap(
         (year) => this.backend.http.adminTasksGetAll(undefined, year?.id)
       ),
+      shareReplay(1),
       map((response) => response.atasks)
     );
 

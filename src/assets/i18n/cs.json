@@ -486,6 +486,7 @@
     "email": {
       "summary": "Tento email budu posílat {{successful}} {{sex}} {{school}} účastnících se ročníku {{year}}. Tento email je {{type}}. Pokročilé možnosti {{advancedUsed}} nastaveny.",
       "title": "Posílání emailů",
+      "success": "Tvůj email se poslal {{count}} účastníkům.",
       "check": {
         "title": "Kontrola emailu před odesláním"
       },

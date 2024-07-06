@@ -59,6 +59,16 @@
         <div class="col-12">
           <button type="submit" class="btn btn-ksi w-100 btn-send" [disabled]="emailForm.disabled || !emailForm.valid" (click)="openCheckModal()">{{'admin.email.send.check'|translate}}</button>
         </div>
+        <div class="col-12">
+          <ng-container *ngIf="modalSendResult$ | async as result">
+            <div class="alert alert-danger" *ngIf="result.error">
+              {{result.error}}
+            </div>
+            <div class="alert alert-success" *ngIf="result.success">
+              {{'admin.email.success'|translate : {count: result.count} }}
+            </div>
+          </ng-container>
+        </div>
       </div>
 
       <div class="row">

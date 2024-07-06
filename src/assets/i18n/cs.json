@@ -538,6 +538,10 @@
       }
     },
     "tasks": {
+      "wave-selection": {
+        "caption": "Výběr zobrazených vln",
+        "all": "Všechny vlny"
+      },
       "wave": {
         "tasks": "úloh"
       },

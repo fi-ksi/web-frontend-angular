@@ -9,12 +9,14 @@ import {
   YearsService
 } from '../../../services';
 import { AdminTask, AdminTaskDeployResponse, Wave } from '../../../../api/backend';
-import { BehaviorSubject, combineLatest, Observable, of, timer } from 'rxjs';
-import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
+import {BehaviorSubject, combineLatest, Observable, of, Subject, timer} from 'rxjs';
+import {distinctUntilChanged, filter, map, mergeMap, shareReplay, take, tap} from 'rxjs/operators';
 import { IAdminTask } from '../../../models';
-import { Utils } from '../../../util';
+import {SubscribedComponent, Utils} from '../../../util';
+import {ActivatedRoute, Router} from '@angular/router';
 
 interface WaveTasks {
+  shown: boolean,
   wave: Wave,
   tasks: Observable<IAdminTask>[]
 }
@@ -25,7 +27,7 @@ interface WaveTasks {
   styleUrls: ['./page-admin-tasks.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PageAdminTasksComponent implements OnInit {
+export class PageAdminTasksComponent extends SubscribedComponent implements OnInit {
   @ViewChild('modalDeployLog', {static: true})
   modalDeployLog: TemplateRef<unknown>;
 
@@ -35,6 +37,9 @@ export class PageAdminTasksComponent implements OnInit {
   private readonly taskDeployQueue: {task: AdminTask, button: HTMLButtonElement}[] = [];
 
   waveTasks$: Observable<WaveTasks[]>;
+  waveTasksShown$: Observable<WaveTasks[]>;
+  waveFilter: Subject<number | null> = new BehaviorSubject<number | null>(null);
+  readonly waveFilter$: Observable<number | null> = this.waveFilter.asObservable();
 
   constructor(
     private years: YearsService,
@@ -45,11 +50,21 @@ export class PageAdminTasksComponent implements OnInit {
     private backend: BackendService,
     private modal: ModalService,
     private adminTasks: AdminTaskService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
+    super();
   }
 
   ngOnInit(): void {
-    this.waveTasks$ = this.years.adminTasks$.pipe(
+    this.subscribe(this.route.queryParams.pipe(
+      map(params => params['wave']),
+      map((waveId) => isNaN(+waveId) ? null : +waveId),
+      distinctUntilChanged(),
+      tap((waveId) => this.waveFilter.next(waveId))
+    ));
+
+    const allWaveTasks$ = this.years.adminTasks$.pipe(
       mergeMap((tasks) => {
         const waveIdTasks: { [waveId: number]: Observable<IAdminTask>[] } = {};
         tasks.forEach((task) => {
@@ -74,7 +89,25 @@ export class PageAdminTasksComponent implements OnInit {
       }),
       map((waveTasks) => {
         return waveTasks.sort((a, b) => b.wave.id - a.wave.id);
-      })
+      }),
+      shareReplay(1)
+    );
+
+    this.waveTasks$ = combineLatest([allWaveTasks$, this.waveFilter$]).pipe(
+      map(([waveTasks, waveFilter]) => {
+        return waveTasks.map((waveTask) => {
+          return {
+            shown: waveFilter === null || waveTask.wave.id === waveFilter,
+            wave: waveTask.wave,
+            tasks: waveTask.tasks
+          };
+        });
+      }),
+      shareReplay(1)
+    );
+
+    this.waveTasksShown$ = this.waveTasks$.pipe(
+      map((waveTasks) => waveTasks.filter((waveTask) => waveTask.shown))
     );
     this.title.subtitle = 'admin.root.tasks.title';
   }
@@ -143,5 +176,15 @@ export class PageAdminTasksComponent implements OnInit {
         mergeMap(() => this.adminTasks.tasksCache.refresh(task.id))
       )
       .subscribe();
+  }
+
+  filterWave(event: Event): Promise<boolean> {
+    const waveId = +(event.target as HTMLSelectElement).value;
+
+    return this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { wave: waveId === -1 ? null : waveId },
+      queryParamsHandling: 'merge' // Merge with existing query params
+    });
   }
 }

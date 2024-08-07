@@ -202,7 +202,7 @@ export class PageProfileComponent extends SubscribedComponent implements OnInit 
     );
   }
 
-  private static generateProgressBar(points: number, maxPoints: number, requiredPercentage = 60): BarValue[] {
+  private static generateProgressBar(points: number, maxPoints: number, requiredPercentage = 90): BarValue[] {
     const currentPercentage = Math.floor(100 * points / maxPoints);
     const leftRequiredPercentage = Math.max(0, requiredPercentage - currentPercentage);
     const currentUserPercentageFloored = Math.floor(currentPercentage);
@@ -251,7 +251,7 @@ export class PageProfileComponent extends SubscribedComponent implements OnInit 
       }
     }
 
-    const percentNeeded = (maxScore > 0) ? (60 - Math.floor(100 * currentPoints / maxScore)) : 60;
+    const percentNeeded = (maxScore > 0) ? (90 - Math.floor(100 * currentPoints / maxScore)) : 90;
 
     return {percentFromTotalNeeded: percentNeeded, doable: missedScore - currentPoints <= (maxScore * 0.4)};
   }

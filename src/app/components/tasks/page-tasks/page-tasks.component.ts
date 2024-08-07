@@ -28,8 +28,8 @@ export class PageTasksComponent implements OnInit {
 
   splitWavesControl = new FormControl();
 
-  private static readonly WAVE_OPENED_DEFAULT = true;
-  private static readonly WAVE_GRAPH_SPLIT_DEFAULT = false;
+  private static readonly WAVE_OPENED_DEFAULT = false;
+  private static readonly WAVE_GRAPH_SPLIT_DEFAULT = true;
 
   constructor(
     public tasks: TasksService,
@@ -68,8 +68,9 @@ export class PageTasksComponent implements OnInit {
         .filter((wave) => wave.tasks.length > 0)
         .map((wave) => ({
           ...wave,
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          opened: this.waveStorage(wave).get<boolean>('opened', PageTasksComponent.WAVE_OPENED_DEFAULT)!
+          opened: this.waveStorage(wave).get<boolean>(
+            'opened', PageTasksComponent.WAVE_OPENED_DEFAULT || wave.index === 0
+          )!
         }))
       )
     );
@@ -80,7 +81,7 @@ export class PageTasksComponent implements OnInit {
       return;
     }
     wave.opened = opened;
-    if (opened === PageTasksComponent.WAVE_OPENED_DEFAULT) {
+    if (opened === PageTasksComponent.WAVE_OPENED_DEFAULT && wave.index !== 0) {
       this.waveStorage(wave).delete('opened');
     } else {
       this.waveStorage(wave).set<boolean>('opened', opened);

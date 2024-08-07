@@ -1,9 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy, TemplateRef, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, TemplateRef, ViewChild } from '@angular/core';
 import { ModalComponent } from '../../../models';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AddressService, BackendService, ModalService } from '../../../services';
 import { RegistrationRequest } from '../../../../api/backend';
@@ -15,7 +15,7 @@ import { environment } from '../../../../environments/environment';
   styleUrls: ['./modal-register.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ModalRegisterComponent implements OnInit, OnDestroy, ModalComponent {
+export class ModalRegisterComponent implements OnInit, ModalComponent {
   @ViewChild('template', { static: true })
   templateBody: TemplateRef<unknown>;
 
@@ -29,9 +29,9 @@ export class ModalRegisterComponent implements OnInit, OnDestroy, ModalComponent
     nick: [undefined],
     sex: ['', Validators.required],
 
-    address: ['', Validators.required],
-    city: ['', Validators.required],
-    postalCode: ['', Validators.required],
+    address: ['N/A', Validators.required],
+    city: ['N/A', Validators.required],
+    postalCode: ['N/A', Validators.required],
     country: [null, Validators.required],
 
     schoolName: ['', Validators.required],
@@ -61,8 +61,6 @@ export class ModalRegisterComponent implements OnInit, OnDestroy, ModalComponent
 
   registrationSuccessful = false;
 
-  private _subs: Subscription[] = [];
-
   private modalRef: BsModalRef<unknown>;
 
   constructor(
@@ -84,35 +82,14 @@ export class ModalRegisterComponent implements OnInit, OnDestroy, ModalComponent
     this.form.controls.passwordRepeat.addValidators((control) => {
       return control.value === this.form.controls.password.value ? null : {'not-same': 'not-same'};
     });
-    this.form.controls.password.addValidators(() => {
+    this.form.controls.password.addValidators((_) => {
       this.form.controls.passwordRepeat.updateValueAndValidity();
       return null;
     });
-
-    // sync countries when first selected
-    const countryControls: AbstractControl[] = ['country', 'schoolCountry']
-      .map((controlName) => this.form.controls[controlName]);
-    countryControls
-      .forEach((control) => {
-        this._subs.push(control.valueChanges
-          .subscribe((value) => {
-            countryControls
-              .filter((control2) => control2 !== control)
-              .forEach((control2) => {
-                if (control2.value !== value && control2.untouched) {
-                  control2.setValue(value);
-                }
-              });
-          }));
-      });
   }
 
   onModalOpened(ref: BsModalRef<unknown>): void {
     this.modalRef = ref;
-  }
-
-  ngOnDestroy(): void {
-    this._subs.forEach((s) => s.unsubscribe());
   }
 
   registerTestingAccount(): void {
@@ -194,6 +171,16 @@ export class ModalRegisterComponent implements OnInit, OnDestroy, ModalComponent
       } else {
         this.form.enable();
       }
+    });
+  }
+
+  fillFIMU(): void {
+    this.form.patchValue({
+      schoolName: 'Fakulta informatiky Masarykovy univerzity',
+      schoolAddress: 'Botanická 68a',
+      schoolCity: 'Brno',
+      schoolPostalCode: '602 00',
+      schoolCountry: 'cz',
     });
   }
 }

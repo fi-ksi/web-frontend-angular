@@ -119,13 +119,13 @@
 
   > .navbar-separator {
     height: 4px;
-    background: $ksi-page-welcome-banner-bg;
+    background: $ksi-navbar-fg;
     padding: 0;
     margin: 0;
     transition: background 0.5s;
 
     &.loading {
-      background: repeating-linear-gradient(45deg, $ksi-page-welcome-banner-bg, $ksi-navbar-bg);
+      background: repeating-linear-gradient(45deg, $ksi-navbar-fg, $ksi-navbar-bg);
       background-size: 200%;
       animation: 1.5s loading-progress infinite linear;
     }

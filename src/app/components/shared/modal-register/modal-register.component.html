@@ -6,44 +6,44 @@
         <h2>{{'modal.register.about-me.title'|translate}}</h2>
       </div>
       <div class="row">
-        <div class="col-sm-6 col-md-4">
+        <div class="col-sm-6">
           <input type="text"
                  class="form-control"
                  formControlName="firstName"
                  [placeholder]="'modal.register.about-me.first-name'|translate"
           >
         </div>
-        <div class="col-sm-6 col-md-4">
+        <div class="col-sm-6">
           <input type="text"
                  class="form-control"
                  formControlName="lastName"
                  [placeholder]="'modal.register.about-me.last-name'|translate"
           >
         </div>
-        <div class="col-sm-12 col-md-4">
-          <select class="form-control" formControlName="sex">
-            <option>{{'modal.register.about-me.sex.title'|translate}}</option>
-            <option value="male">{{'modal.register.about-me.sex.male'|translate}}</option>
-            <option value="female">{{'modal.register.about-me.sex.female'|translate}}</option>
-          </select>
-        </div>
       </div>
       <div class="row">
-        <div class="col-sm-12 col-md-6">
-          <input type="text"
+        <div class="col-sm-12 col-md-6 col-lg-4">
+          <select class="form-control" formControlName="sex">
+            <option hidden>{{'modal.register.about-me.sex.title'|translate}}</option>
+            <option value="male">{{'modal.register.about-me.sex.male'|translate}}</option>
+            <option value="female">{{'modal.register.about-me.sex.female'|translate}}</option>
+            <option value="other">{{'modal.register.about-me.sex.other'|translate}}</option>
+          </select>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-4">
+          <input type="number"
                  class="form-control"
-                 formControlName="nick"
-                 [placeholder]="(optional$|async) + ('modal.register.about-me.nickname'|translate)"
+                 formControlName="schoolEnd"
+                 [placeholder]="'modal.register.school.end'|translate"
           >
         </div>
-        <div class="col-sm-12 col-md-6">
-          <select class="form-control" formControlName="shirtSize">
-            <option value="NA">{{(optional$|async) + ('modal.register.about-me.shirt-size'|translate)}}</option>
-            <option value="XS">XS</option>
-            <option value="S">S</option>
-            <option value="M">M</option>
-            <option value="L">L</option>
-            <option value="XL">XL</option>
+        <div class="col-sm-12 col-md-12 col-lg-4">
+          <select class="form-control" formControlName="country">
+            <option [value]="null">{{'modal.register.address.country'|translate}}</option>
+            <option
+              *ngFor="let country of countries_keys"
+              [value]="country"
+            >{{countries[country]}}</option>
           </select>
         </div>
       </div>
@@ -76,61 +76,20 @@
         </div>
       </div>
 
-      <!-- Address -->
-      <div class="row">
-        <h2>{{'modal.register.address.title'|translate}}</h2>
-      </div>
-      <div class="row">
-        <div class="col-sm-12 col-md-6 col-lg-3">
-          <input type="text"
-                 class="form-control"
-                 formControlName="address"
-                 [placeholder]="'modal.register.address.street'|translate"
-          >
-      </div>
-        <div class="col-sm-12 col-md-6 col-lg-3">
-          <input type="text"
-                 class="form-control"
-                 formControlName="city"
-                 [placeholder]="'modal.register.address.city'|translate"
-          >
-        </div>
-        <div class="col-sm-12 col-md-6 col-lg-3">
-          <input type="text"
-                 class="form-control"
-                 formControlName="postalCode"
-                 [placeholder]="'modal.register.address.postal-code'|translate"
-          >
-        </div>
-        <div class="col-sm-12 col-md-6 col-lg-3">
-          <select class="form-control" formControlName="country">
-            <option [value]="null">{{'modal.register.address.country'|translate}}</option>
-            <option
-              *ngFor="let country of countries_keys"
-              [value]="country"
-            >{{countries[country]}}</option>
-          </select>
-        </div>
-      </div>
-
       <!-- School -->
       <div class="row">
         <h2>{{'modal.register.school.title'|translate}}</h2>
       </div>
       <div class="row">
-        <div class="col-sm-12 col-md-6">
+        <div class="col-sm-12 col-md-9">
           <input type="text"
                  class="form-control"
                  formControlName="schoolName"
                  [placeholder]="'modal.register.school.name'|translate"
           >
         </div>
-        <div class="col-sm-12 col-md-6">
-          <input type="number"
-                 class="form-control"
-                 formControlName="schoolEnd"
-                 [placeholder]="'modal.register.school.end'|translate"
-          >
+        <div class="col-sm-12 col-md-3">
+          <button class="btn btn-outline-primary w-100" (click)="fillFIMU()">{{'modal.register.school.fi-mu' | translate}}</button>
         </div>
       </div>
       <div class="row">

@@ -20,13 +20,13 @@
         "dark": "Světlý řežim"
       },
       "title": {
-        "long": "Korespondenční seminář z informatiky",
-        "short": "KSI"
+        "long": "Naskoč na FI",
+        "short": "Naskoč"
       },
       "category": {
         "tasks": "Úlohy",
         "results": "Výsledky",
-        "about": "O KSI",
+        "about": "O Naskoč",
         "news": "Novinky",
         "discussion": "Diskuze",
         "admin": "Admin"
@@ -41,7 +41,7 @@
       }
     },
     "footer": {
-      "license": " Obsah tohoto webu je poskytován pod licencí CC BY-NC v4.0. Copyright © KSI 2015–2023.  Tato aktivita probíhá díky podpoře Ministerstva školství, mládeže a tělovýchovy, dotace na podporu nadaných žáků základních a středních škol v roce 2023.",
+      "license": "Naskoč na FI je akcí <a href='https://zverinec.fi.muni.cz/' target='_blank'>Spolku přátel severské zvěře</a>. Zaujalo tě to? Přidej se do našeho týmu! Obsah tohoto webu je poskytován pod licencí CC BY-NC v4.0. Copyright © Naskoč na FI 2022–2024.",
       "version": "Verze webu",
       "bug-report": "Nahlásit chybu webu",
       "privacy-policy": "Zpracování osobních údajů"
@@ -49,18 +49,18 @@
     "welcome": {
       "about": {
         "seminar": {
-          "title": "Pochop informatiku",
-          "text": "KSI, neboli Korespondenční Seminář z Informatiky, je celoroční soutěž pro středoškoláky z České i Slovenské republiky organizovaná studenty Fakulty informatiky Masarykovy univerzity. Cílem semináře je seznámit řešitele se zajímavými oblastmi informatiky a procvičit programátorské, matematické a logické myšlení. Seminář je uzpůsoben jak pro úplné začátečníky, kteří si na jednoduchých příkladech procvičí danou problematiku, tak pro zkušenější řešitele, kteří se pokusí pokořit hlavní soutěžní úlohy."
+          "title": "Připrav se",
+          "text": "Naskoč na FI je soubor úloh, které tě připraví na tvoje začátky na Fakultě informatiky Masarykovy univerzity. V Naskoč na FI tě provedeme takovými oblastmi, které se ti budou na FI hodit téměř každodenně."
         },
         "kscuk": {
-          "title":  "Zúčastni se soustřední a KSÍletů",
-          "text": "Při řešení našeho semináře nemusíš jen sedět doma za počítačem. Během roku pro všechny řešitele pravidelně pořádáme výlety (Ksílety), na kterých se můžeš seznámit s ostatními řešiteli, osobně poznat organizátory a zahrát si kupu zajímavých her. V září se mohou úspěšní řešitelé těšit na týdenní soustředění K-SCUK, které je společné pro KSI a  biologický seminář IBIS. Náplní soustředění je jak odborný program, díky kterému se opět naučíš něco nového z informatiky, tak bohatý doprovodný program."
+          "title":  "Zorientuj se na vysoké",
+          "text": "Víš jak dlouhý je semestr? Co je to ten kredit? Jak se máš přihlásit na zkoušky a projekty? Na střední tyhle pojmy moc neměly smysl, ale na vysoké se ti bude hodit je ovládat jako lusknutím prstu."
         },
         "achievements": {
-          "title": "Získej všechny trofeje",
-          "text": "Za každou vyřešenou úlohu dostáváš body. Pokud budeš mít na konci roku alespoň 60 % z celkového možného počtu bodů, staneš se úspěšným řešitelem. V průběhu řešení semináře můžeš navíc za překonávání milníků, odevzdávání zajímavých řešení nebo třeba za účast na KSI akcích obdržet nejrůznější odznáčky. Podaří se ti jich získat co nejvíc? Ulovíš i ty nejvzácnější? Soutěž s ostatními řešiteli a posbírej je všechny! "
+          "title": "Získej náskok",
+          "text": "Vyřeš všechny naše úlohy a přijď na FI se znalostmi, které ne všichni tvoji spolužáci budou mít. Díky tomu, že se nebudeš muset učit přihlásit se na fakultních počítačích, budeš moct využít získaný čas navíc na cokoliv, co si budeš přát!"
         },
-        "begin":  "Začni řešit",
+        "begin":  "Chci naskočit",
         "lets-start": "Jdu na to",
         "more-info": "Zjisti více"
       },
@@ -68,7 +68,7 @@
         "title": "Novinky"
       },
       "organisators": {
-        "title": "Organizátoři KSI"
+        "title": "Organizátoři Naskoč na FI"
       }
     }
   },
@@ -76,7 +76,7 @@
     "title": "Novinky"
   },
   "about": {
-    "title": "O KSI"
+    "title": "O Naskoč na FI"
   },
   "results": {
     "title": "Výsledky",
@@ -94,7 +94,7 @@
   },
   "modal": {
     "login": {
-      "title": "Přihlaš se do KSI",
+      "title": "Přihlaš se do Naskoč na FI",
       "email": "e-mail",
       "password": "heslo",
       "login": "Přihlásit se",
@@ -103,7 +103,7 @@
       "forgotten-password": "Neznám svoje heslo"
     },
     "register": {
-      "title": "Registruj se do KSI",
+      "title": "Registruj se do Naskoč na FI",
       "register": "Zaregistrovat se!",
       "fill-testing": "[DEV] Rychlá registrace",
       "optional": "Nepovinné - ",
@@ -116,7 +116,8 @@
         "sex": {
           "title": "Pohlaví",
           "male": "Muž",
-          "female": "Žena"
+          "female": "Žena",
+          "other": "Jiné"
         },
         "shirt-size": "velikost trička"
       },
@@ -136,11 +137,12 @@
       "school": {
         "title": "Moje škola",
         "name": "Jméno mé školy",
-        "end": "Rok maturity (předpokládaný)"
+        "end": "Rok maturity",
+        "fi-mu": "Nastupuji na FI MU"
       },
       "tos": {
         "title": "Souhlasy",
-        "agreed": "Souhlasím s pravidly KSI a ",
+        "agreed": "Souhlasím s pravidly Naskoč na FI a ",
         "text": "zpracováním svých osobních údajů"
       }
     },
@@ -175,7 +177,7 @@
     "feedback": {
       "email": "Tvůj e-mail - vyplň, pokud si přeješ, abychom tě mohli kontaktovat",
       "title": "Zaslání zpětné vazby organizátorům semináře",
-      "text": "Máš nějaký tip nebo nápad, co a jak zlepšit? Vyskočila na tebe nějaká chyba? Dej nám vědět, ať s tím můžeme něco dělat. Prosíme, <strong>nepoužívej</strong> tento formulář na dotazy k úlohám, či k průběhu semináře. Na tyto dotazy slouží diskuze nebo e-mail ksi@fi.muni.cz. Děkujeme.",
+      "text": "Máš nějaký tip nebo nápad, co a jak zlepšit? Vyskočila na tebe nějaká chyba? Dej nám vědět, ať s tím můžeme něco dělat. Prosíme, <strong>nepoužívej</strong> tento formulář na dotazy k úlohám, či k průběhu semináře. Na tyto dotazy slouží diskuze nebo e-mail naskoc@fi.muni.cz. Děkujeme.",
       "submit": "Odeslat moji zpětnou vazbu",
       "content": "Co nám chceš sdělit?",
       "done": "A je to! Tvoje zpráva k nám úspěšně dorazila"
@@ -254,29 +256,10 @@
       "task": "Úloha {{ name }}"
     },
     "settings": {
-      "open-button": "Vysvětlení grafu a nastavení",
-      "title": "Nastavení zobrazení úloh",
-      "split-waves": "Rozdělit graf podle vln",
-      "explanation": {
-        "title": "Vysvětlení grafu",
-        "nodes": "Uzly",
-        "task": {
-          "algo": "Algoritmická úloha",
-          "programming": "Programovací úloha",
-          "special": "Speciální úloha",
-          "theoretical": "Teoretická úloha",
-          "surprise": "Úloha s překvapením",
-          "mixed": "Smíšená úloha",
-          "large": "Velká úloha",
-          "locked": "Zamčená úloha",
-          "finished": "Opravená úloha",
-          "correcting": "Neopravená úloha"
-        },
-        "edges": {
-          "title": "Hrany",
-          "text": "Pro odemčení úlohy musíte mít odemčené všechny hrany stejné barvy směrující do ní."
-        }
-      }
+      "open-button": "S čím mám začít?",
+      "title": "Nápověda se začátkem",
+      "explanation": "<p>Ze začátku vidíš všechna zveřejněná témata letošního ročníku zabalená (až na jedno úvodní). Aby se nějaké rozbalilo, stačí na něj kliknout. Obecně vzato je jedno, jakým tématem se rozhodneš začít, znalost jednoho tématu by neměla být potřeba pro pochopení jiného. Vřele ti doporučujeme začít s první sekcí, ve které se dozvíš více o tom, jak Naskoč funguje. Pokud tě ale nejvíce zajímá konkrétní část z letošních témat, neboj se do nich pustit jako prvních!</p><p>Témata také budou v průběhu ročníku přibývat, o každé takové změně se dozvíš v rámci <a href=novinky>Novinek</a> nebo emailem. Navíc, některá témata se navzájem na sebe odkazují, pokud je tedy projdeš všechny, získáš vhled hned z několika stran. Nezapomeň ale, že úloha se ti otevře až poté, co vyřešíš všechny předchozí úlohy z tématu.</p><p>Tyto témata jsou v tuto chvíli zveřejněná:</p>",
+      "empty": "<p>V tuto chvíli pro tebe v tomto ročníku ještě nemáme žádné úlohy. Pokud se ale zaregistruješ, tak ti přijde informační email hned, jakmile nějaká témata zveřejníme.</p>"
     },
     "solution": "Řešení",
     "results": "Výsledky"
@@ -322,41 +305,50 @@
     "role": {
       "admin": {
         "male": "organizátor",
-        "female": "organizátorka"
+        "female": "organizátorka",
+        "other": "organizátor"
       },
       "org": {
         "male": "organizátor",
-        "female": "organizátorka"
+        "female": "organizátorka",
+        "other": "organizátor"
       },
       "tester": {
         "male": "organizátor",
-        "female": "organizátorka"
+        "female": "organizátorka",
+        "other": "organizátor"
       },
       "participant": {
         "male": "řešitel",
-        "female": "řešitelka"
+        "female": "řešitelka",
+        "other": "řešitel"
       }
     },
     "skill": {
       "none": {
         "male": "nezkušený",
-        "female": "nezkušená"
+        "female": "nezkušená",
+        "other": "nezkušený"
       },
       "novice": {
         "male": "nový",
-        "female": "nová"
+        "female": "nová",
+        "other": "nový"
       },
       "skilled": {
         "male": "zkušený",
-        "female": "zkušená"
+        "female": "zkušená",
+        "other": "zkušený"
       },
       "master": {
         "male": "mistr",
-        "female": "mistrině"
+        "female": "mistrině",
+        "other": "mistr"
       },
       "veteran": {
         "male": "veterán",
-        "female": "veteránka"
+        "female": "veteránka",
+        "other": "veterán"
       }
     }
   },
@@ -369,7 +361,7 @@
       "password-change-success": "Změna hesla proběhla úspěšně",
       "save": "Uložit změny",
       "change-picture": "Nahrát nový profilový obrázek",
-      "discord-join": "přidat se na Discord server KSI",
+      "discord-join": "přidat se na Discord server FI MU",
       "about-me": {
         "title": "O mně",
         "first-name": "Křestní jméno",
@@ -380,7 +372,8 @@
         "sex": {
           "title": "Pohlaví",
           "male": "Muž",
-          "female": "Žena"
+          "female": "Žena",
+          "other": "Jiné"
         },
         "shirt-size": "Velikost trička"
       },
@@ -407,17 +400,20 @@
     "tasks": {
       "author": {
         "male": "Autor úloh",
-        "female": "Autorka úloh"
+        "female": "Autorka úloh",
+        "other": "Autor úloh"
       },
       "participant": {
         "male": "Vyřešené úlohy",
+        "other": "Vyřešené úlohy",
         "female": "Vyřešené úlohy"
       },
       "no-yet": "V tomto ročníku nemá {{name}} zatím žádné zveřejněné úlohy"
     },
     "seasons": {
       "male": "Účastnil se ročníků",
-      "female": "Účastnila se ročníků"
+      "female": "Účastnila se ročníků",
+      "other": "Účastnil se ročníků"
     },
     "trophies": "Získané trofeje",
     "stats": {
@@ -429,9 +425,9 @@
       "prediction": {
         "normal": "Potřebuješ získat ještě {{percent}}% z celkového počtu bodů",
         "positive": {
-          "male": "Jsi úspěšným řešitelem KSI",
-          "female": "Jsi úspěšnou řešitelkou KSI",
-          "other": "Jsi úspěšným řešitelem KSI"
+          "male": "Jsi úspěšným řešitelem Naskoč na FI",
+          "female": "Jsi úspěšnou řešitelkou Naskoč na FI",
+          "other": "Jsi úspěšným řešitelem Naskoč na FI"
         },
         "negative": {
           "male": "V tomto ročníku se již nejspíše nemůžeš stát úspěšným řešitelem",

@@ -17,23 +17,15 @@
   }
 
   .settings-container {
-    position: absolute;
-    top: 0;
-    right: calc(#{$ksi-margin} + 2em);
-    height: 100%;
-    overflow: visible;
-    width: 0;
-  }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: $ksi-margin;
+    @include ksi-full-width;
 
-  .settings {
-    position: sticky;
-    top: $ksi-margin;
-    right: 0;
-    border-radius: 50%;
-    line-height: 1;
-    text-align: center;
-    width: 2em;
-    height: 2em;
+    .btn {
+      width: 90%;
+    }
   }
 }
 
@@ -41,36 +33,5 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  text-align: center;
-
-  h5 {
-    margin: $ksi-margin-small;
-  }
-
-  .head-explanation {
-    margin-top: $ksi-margin;
-  }
-
-  .nodes {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-
-    .node {
-      display: flex;
-      flex-direction: column;
-      padding: $ksi-padding-small;
-      min-width: 22ex;
-      margin: $ksi-margin-small;
-
-      @include round-corner;
-      border: 1px solid $ksi-page-welcome-banner-bg;
-
-      .node-info {
-        display: inline-block;
-        height: 2em;
-        margin-bottom: $ksi-margin-small;
-      }
-    }
-  }
+  text-align: justify-all;
 }

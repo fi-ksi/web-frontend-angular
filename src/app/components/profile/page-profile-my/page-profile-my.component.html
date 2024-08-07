@@ -100,9 +100,10 @@
       >
       <label class="form-label">{{'profile.my.about-me.sex.title'|translate}}</label>
       <select class="form-control" formControlName="sex">
-        <option>{{'profile.my.about-me.sex.title'|translate}}</option>
+        <option hidden>{{'profile.my.about-me.sex.title'|translate}}</option>
         <option value="male">{{'profile.my.about-me.sex.male'|translate}}</option>
         <option value="female">{{'profile.my.about-me.sex.female'|translate}}</option>
+        <option value="other">{{'profile.my.about-me.sex.other'|translate}}</option>
       </select>
 
 
@@ -112,15 +113,6 @@
              formControlName="nick"
              [placeholder]="'profile.my.about-me.nickname'|translate"
       >
-      <label class="form-label">{{'profile.my.about-me.shirt-size'|translate}}</label>
-      <select class="form-control" formControlName="shirtSize">
-        <option value="NA">{{'profile.my.about-me.shirt-size'|translate}}</option>
-        <option value="XS">XS</option>
-        <option value="S">S</option>
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-      </select>
 
       <label class="form-label">{{'profile.my.about-me.github'|translate}}</label>
       <input type="text"
@@ -144,24 +136,6 @@
 
       <!-- Address -->
       <h2>{{'profile.my.address.title'|translate}}</h2>
-      <label class="form-label">{{'profile.my.address.street'|translate}}</label>
-      <input type="text"
-             class="form-control"
-             formControlName="address"
-             [placeholder]="'profile.my.address.street'|translate"
-      >
-      <label class="form-label">{{'profile.my.address.city'|translate}}</label>
-      <input type="text"
-             class="form-control"
-             formControlName="city"
-             [placeholder]="'profile.my.address.city'|translate"
-      >
-      <label class="form-label">{{'profile.my.address.postal-code'|translate}}</label>
-      <input type="text"
-             class="form-control"
-             formControlName="postalCode"
-             [placeholder]="'profile.my.address.postal-code'|translate"
-      >
       <label class="form-label">{{'profile.my.address.country'|translate}}</label>
       <select class="form-control" formControlName="country">
         <option [value]="null">{{'profile.my.address.country'|translate}}</option>
@@ -170,7 +144,6 @@
           [value]="country.key"
         >{{country.value}}</option>
       </select>
-
 
       <!-- School -->
       <h2>{{'profile.my.school.title'|translate}}</h2>

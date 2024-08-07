@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { KsiTitleService, RoutesService, YearsService } from '../../../services';
 import { User } from '../../../../api/backend';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 interface PositionedUser extends User {
@@ -28,8 +28,10 @@ export class PageResultsComponent implements OnInit {
   ngOnInit(): void {
     this.title.subtitle = 'results.title';
     this.categories = [
-      {name: 'results.category.highschoolers', users$: PageResultsComponent.countPositions(this.years.usersHighSchool$)},
-      {name: 'results.category.others', users$: PageResultsComponent.countPositions(this.years.usersOther$)},
+      {name: 'results.category.highschoolers',
+        users$: PageResultsComponent.countPositions(
+          combineLatest([this.years.usersHighSchool$, this.years.usersOther$]).pipe(map(([a, b]) => [...a, ...b]))
+        )},
     ];
   }
 

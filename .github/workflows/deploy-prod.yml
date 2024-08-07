@@ -1,10 +1,10 @@
-name: deploy-kyzikos
+name: deploy-prod
 on:
   push:
     branches:
-      - 'dev-kyzikos'
+      - 'prod'
 jobs:
-  deploy-kyzikos:
+  deploy-prod:
     runs-on: ubuntu-latest
     steps:
       - run: mkdir src
@@ -19,7 +19,7 @@ jobs:
         run: |
           cd src &&
           npm install &&
-          npm run build.kyzikos &&
+          npm run build.prod &&
           cd dist/web-frontend-angular/cs/ &&
           cp -r ../cgi-bin cgi-bin &&
           tar -cvf ../../dist.tar *
@@ -48,7 +48,7 @@ jobs:
         shell: bash
         run: |
           echo "Asset URL: ${{ steps.upload_tar.outputs.browser_download_url }}"
-          status="$(curl -X POST -u '${{ secrets.KYZIKOS_DEPLOY_USER }}:${{ secrets.KYZIKOS_DEPLOY_PASSWORD }}' -d '${{ steps.upload_tar.outputs.browser_download_url }}' '${{ secrets.KYZIKOS_DEPLOY_URL }}')"
+          status="$(curl -X POST -u '${{ secrets.PROD_DEPLOY_USER }}:${{ secrets.PROD_DEPLOY_PASSWORD }}' -d '${{ steps.upload_tar.outputs.browser_download_url }}' '${{ secrets.PROD_DEPLOY_URL }}')"
           if [ "$status" = "OK" ]; then
             echo "Notified OK!"
           else

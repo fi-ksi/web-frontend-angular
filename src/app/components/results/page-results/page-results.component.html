@@ -2,7 +2,6 @@
   <h2>{{'results.title' | translate}}</h2>
 
   <div class="category" *ngFor="let category of categories">
-    <h3>{{category.name | translate}}</h3>
     <ksi-spinner [source]="category.users$"></ksi-spinner>
     <table class="table table-striped results-table table-responsive-md" ksiTheme>
       <thead>

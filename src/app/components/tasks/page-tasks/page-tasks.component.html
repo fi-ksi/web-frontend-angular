@@ -1,3 +1,12 @@
+<div class="settings-container">
+  <button *ngIf="true"
+          (click)="showSettings()"
+          class="btn btn-outline-primary"
+  >
+    {{'tasks.settings.open-button' | translate}}
+  </button>
+</div>
+
 <ksi-spinner [source]="nonEmptyWaves$"></ksi-spinner>
 <ng-container *ngIf="(viewMode$ | async) !== 'graph' ; else graph">
   <accordion class="waves" [isAnimated]="true">
@@ -15,55 +24,16 @@
   <ksi-tasks-graph class="graph" *ngIf="tasks.tasks$ | async as tasks" [tasks]="tasks"></ksi-tasks-graph>
 </ng-template>
 
-<div class="settings-container">
-  <button *ngIf="!(window.isMobile$ | async)"
-          (click)="showSettings()"
-          class="btn btn-outline-primary settings"
-          [attr.aria-label]="'tasks.settings.open-button' | translate"
-          [tooltip]="'tasks.settings.open-button' | translate"
-          placement="left"
-          container="body"
-  >
-    ?
-  </button>
-</div>
-
 <ng-template #modalSettings>
   <div class="settings-explanation">
-    <h4>{{'tasks.settings.title' | translate}}</h4>
-    <div class="custom-control custom-switch">
-      <input [formControl]="splitWavesControl" type="checkbox" class="custom-control-input"
-             id="tasks-settings-switch-view">
-      <label class="custom-control-label"
-             for="tasks-settings-switch-view">{{'tasks.settings.split-waves' | translate}}</label>
-    </div>
-    <h4 class="head-explanation">{{'tasks.settings.explanation.title' | translate}}</h4>
-    <h5>{{'tasks.settings.explanation.nodes' | translate}}</h5>
-
-    <div class="nodes">
-      <div class="node"><img alt="" src="assets/img/node-base/node-green.svg"
-                             class="node-info">{{'tasks.settings.explanation.task.algo' | translate}}</div>
-      <div class="node"><img alt="" src="assets/img/node-base/node-blue.svg"
-                             class="node-info">{{'tasks.settings.explanation.task.programming' | translate}}</div>
-      <div class="node"><img alt="" src="assets/img/node-base/node-red.svg"
-                             class="node-info">{{'tasks.settings.explanation.task.special' | translate}}</div>
-      <div class="node"><img alt="" src="assets/img/node-base/node-orange.svg"
-                             class="node-info">{{'tasks.settings.explanation.task.theoretical' | translate}}</div>
-      <div class="node"><img alt="" src="assets/img/node-base/node-bronze-unknown.svg"
-                             class="node-info">{{'tasks.settings.explanation.task.surprise' | translate}}</div>
-      <div class="node"><img alt="" src="assets/img/node-base/node-orange-blue.svg"
-                             class="node-info">{{'tasks.settings.explanation.task.mixed' | translate}}</div>
-      <div class="node"><img alt="" src="assets/img/node-base/node-big.svg"
-                             class="node-info big">{{'tasks.settings.explanation.task.large' | translate}}</div>
-      <div class="node"><img alt="" src="assets/img/node-base/node-locked.svg"
-                             class="node-info">{{'tasks.settings.explanation.task.locked' | translate}}</div>
-      <div class="node"><img alt="" src="assets/img/node-base/node-done-icon.svg"
-                             class="node-info">{{'tasks.settings.explanation.task.finished' | translate}}</div>
-      <div class="node"><img alt="" src="assets/img/node-base/node-correcting-icon.svg"
-                             class="node-info">{{'tasks.settings.explanation.task.correcting' | translate}}</div>
-    </div>
-
-    <h5>{{'tasks.settings.explanation.edges.title' | translate}}</h5>
-    <p>{{'tasks.settings.explanation.edges.text' | translate}}</p>
+    <ng-container *ngIf="(nonEmptyWaves$ | async) as waves; else noWavesYet">
+      <div [innerHTML]="'tasks.settings.explanation' | translate"></div>
+      <ul>
+        <li  *ngFor="let wave of waves">{{wave.caption}}</li>
+      </ul>
+    </ng-container>
+    <ng-template #noWavesYet>
+      <div [innerHTML]="'tasks.settings.empty' | translate"></div>
+    </ng-template>
   </div>
 </ng-template>

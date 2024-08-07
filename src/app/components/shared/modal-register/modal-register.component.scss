@@ -6,7 +6,7 @@ h2 {
   margin: $ksi-margin-small $ksi-margin $ksi-margin;
 }
 
-input, select {
+input, select, button {
   margin-bottom: $ksi-margin-small;
 
   &.ng-invalid.ng-pristine {

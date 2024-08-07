@@ -66,7 +66,8 @@
   <slide>
     <div class="content">
       <span class="text">{{'root.welcome.about.kscuk.text' | translate}}</span>
-      <button class="btn-lg btn btn-go" (click)="openKScuk()">
+      <button class="btn-lg btn btn-go"
+              [routerLink]="['/', routes.routes.tasks._]">
         {{'root.welcome.about.lets-start' | translate}}
       </button>
     </div>
@@ -75,8 +76,7 @@
     <div class="content">
       <span class="text">{{'root.welcome.about.achievements.text' | translate}}</span>
       <button class="btn-lg btn btn-go"
-              [routerLink]="['/', routes.routes.achievements]"
-      >
+              [routerLink]="['/', routes.routes.tasks._]">
         {{'root.welcome.about.lets-start' | translate}}
       </button>
     </div>

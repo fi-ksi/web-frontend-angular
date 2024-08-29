@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { IconService, RoutesService, UserService, WindowService } from '../../../services';
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import {BehaviorSubject, combineLatest, Observable, Subscription, timer} from 'rxjs';
+import {filter, map, mergeMap} from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
@@ -37,7 +37,10 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this._subs.push(this.userService.isTester$.pipe(filter((x) => !x)).subscribe(() => {
+    this._subs.push(this.userService.forceLogin$.pipe( // wait 3s to load auth status from cache
+      mergeMap(() => this.userService.isTester$),
+      filter((x) => !x)
+    ).subscribe(() => {
       // Leave admin menu when the users logs off
       this.router.navigate(['/']).then();
     }));

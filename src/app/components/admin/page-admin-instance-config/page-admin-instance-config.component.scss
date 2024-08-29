@@ -1,0 +1,15 @@
+@import "src/app/styles/vars";
+@import "src/app/styles/mixins";
+
+@include page-admin;
+
+:host {
+  .content {
+    justify-self: center;
+
+    > .title {
+      margin: $ksi-margin;
+      text-align: center;
+    }
+  }
+}

@@ -6,6 +6,8 @@ export * from './achievementGrantRequest';
 export * from './achievementGrantResponse';
 export * from './achievementResponse';
 export * from './achievementsResponse';
+export * from './adminInstanceConfig';
+export * from './adminInstanceConfigResponse';
 export * from './adminTask';
 export * from './adminTaskCreation';
 export * from './adminTaskCreationRequest';

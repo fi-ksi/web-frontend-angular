@@ -24,7 +24,10 @@ export const ROUTES: IRoutes = {
     _: 'admin',
     tasks: 'tasks',
     monitor: 'monitor',
-    email: 'email'
+    email: 'email',
+    discussion: 'discussion',
+    achievements: 'achievements',
+    instanceConfig: 'instanceConfig'
   },
   privacyPolicy: 'privacy'
 };

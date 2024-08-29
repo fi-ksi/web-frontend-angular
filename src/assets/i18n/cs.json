@@ -465,7 +465,8 @@
       "monitor": "Monitor",
       "email": "E-mail",
       "discussion": "Diskuze",
-      "achievement": "Trofeje"
+      "achievement": "Trofeje",
+      "instance-config": "Server Admin"
     },
     "root": {
       "title": "Organizároské rozhraní",
@@ -488,10 +489,23 @@
       "email": {
         "title": "Poslat email",
         "description": "Zasílání emailů řešitelům ohledně nových vln a dalších akcích."
+      },
+      "instance-config": {
+        "title": "Admin serveru",
+        "description": "Přímé nastavení základních hodnot serveru."
       }
     },
     "monitor": {
       "new-window": "Otevřít v novém panelu"
+    },
+    "instance-config": {
+      "title": "Nastavení serveru",
+      "key": "Klíč",
+      "value": "Hodnota",
+      "save": "Uložit změny",
+      "actions": "Akce",
+      "null-value": "Nulová hodnota",
+      "edit": "Upravit"
     },
     "email": {
       "summary": "Tento email budu posílat {{successful}} {{sex}} {{school}} účastnících se ročníku {{year}}. Tento email je {{type}}. Pokročilé možnosti {{advancedUsed}} nastaveny.",

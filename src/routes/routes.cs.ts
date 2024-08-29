@@ -27,7 +27,8 @@ export const ROUTES: IRoutes = {
     monitor: 'monitor',
     email: 'email',
     discussion: 'forum',
-    achievements: 'trofeje'
+    achievements: 'trofeje',
+    instanceConfig: 'nastaveni-serveru'
   },
   privacyPolicy: 'zpracovani-osobnich-udaju'
 };

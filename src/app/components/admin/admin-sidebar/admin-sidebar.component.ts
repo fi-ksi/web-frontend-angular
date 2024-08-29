@@ -30,7 +30,7 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
 
   constructor(
     public routes: RoutesService,
-    private userService: UserService,
+    public userService: UserService,
     private router: Router,
     public window: WindowService,
     public icon: IconService

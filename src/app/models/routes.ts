@@ -25,6 +25,7 @@ export interface IRoutes {
     email: string;
     discussion: string;
     achievements: string;
+    instanceConfig: string;
   };
   privacyPolicy: string;
 }

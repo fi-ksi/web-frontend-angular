@@ -5,6 +5,8 @@
 
     <ksi-admin-wave-selector [allowAll]="false" (waveFilter)="waveFilterSubj.next($event)"></ksi-admin-wave-selector>
 
+    <ksi-spinner [source]="threads$"></ksi-spinner>
+
     <table class="table table-striped table-hover table-responsive-md threads" ksiTheme>
       <thead>
       <tr>

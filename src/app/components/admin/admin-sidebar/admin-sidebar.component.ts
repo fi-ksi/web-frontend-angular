@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { IconService, RoutesService, UserService, WindowService } from '../../../services';
-import {BehaviorSubject, combineLatest, Observable, Subscription, timer} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, Subscription} from 'rxjs';
 import {filter, map, mergeMap} from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
@@ -26,6 +26,7 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
     ['waves/', 'Vlny'],
     ['execs/', 'Spuštění'],
     ['opravovani/', 'Opravování'],
+    ['achievements/', 'Trofeje'],
   ]
 
   constructor(
@@ -37,7 +38,7 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this._subs.push(this.userService.forceLogin$.pipe( // wait 3s to load auth status from cache
+    this._subs.push(this.userService.forceLogin$.pipe(
       mergeMap(() => this.userService.isTester$),
       filter((x) => !x)
     ).subscribe(() => {

@@ -27,10 +27,10 @@ export class EdulintService {
     this.editor = new WebService(this.httpClient, this.url, new Configuration());
   }
 
-  analyzeCode(code: string): Observable<EdulintReport> {
+  analyzeCode(code: string, source_id?: string): Observable<EdulintReport> {
     code += `\n# edulint: config=${this.config}\n`;
 
-    return this.linter.apiCodePost({code}).pipe(
+    return this.linter.apiCodePost({code, source_id}).pipe(
       take(1),
       shareReplay(1),
       catchError((e) => {

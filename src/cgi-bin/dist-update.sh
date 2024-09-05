@@ -82,5 +82,5 @@ function __run_main_sandboxed() {
     fi
 }
 
-__run_main_sandboxed ||
+# __run_main_sandboxed ||
 __run_main

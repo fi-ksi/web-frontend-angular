@@ -1,0 +1,38 @@
+@import "src/app/styles/vars";
+@import "src/app/styles/mixins";
+
+:host {
+  .schedule {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+    height: auto;
+    padding-top: $ksi-padding;
+    padding-bottom: $ksi-padding;
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+
+    justify-content: center;
+
+    @media screen and (max-width: $ksi-max-mobile-width) {
+      background-image: none;
+      height: auto;
+      padding-bottom: $ksi-margin;
+    }
+  }
+  .schedule h1 {
+      width: 60%;
+  }
+  .schedule p {
+      width: 60%;
+  }
+  .schedule ifram {
+      width: 60%;
+  }
+}
+  

@@ -2,6 +2,7 @@ export interface IRoutes {
   news: string;
   about: string;
   results: string;
+  schedule: string;
   tasks: {
     _: string,
     solution: string;

@@ -29,7 +29,8 @@
         "about": "O Naskoč",
         "news": "Novinky",
         "discussion": "Diskuze",
-        "admin": "Admin"
+        "admin": "Admin",
+        "schedule": "Harmonogram"
       }
     },
     "not-found": {
@@ -568,5 +569,8 @@
   },
   "privacy-policy": {
     "title": "Zásady zpracování osobních údajů"
+  },
+  "schedule": {
+    "title": "Harmonogram aktivit"
   }
 }

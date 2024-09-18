@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageWelcomeComponent } from './components/root/page-welcome/page-welcome.component';
+import { PageScheduleComponent } from './components/root/page-schedule/page-schedule.component';
 import { PageNotFoundComponent } from './components/root/page-not-found/page-not-found.component';
 import { PageForbiddenComponent } from './components/root/page-forbidden/page-forbidden.component';
 import { ROUTES } from '../routes/routes';
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: ROUTES.privacyPolicy, loadChildren: () => import('./components/privacy-policy/privacy-policy.module').then((m) => m.PrivacyPolicyModule) },
   { path: ROUTES.news, loadChildren: () => import('./components/news/news.module').then((m) => m.NewsModule)},
   { path: ROUTES.about, loadChildren: () => import('./components/about/about.module').then((m) => m.AboutModule)},
+  { path: ROUTES.schedule,  component: PageScheduleComponent, pathMatch: 'full'},
   { path: ROUTES.results, loadChildren: () => import('./components/results/results.module').then((m) => m.ResultsModule)},
   { path: ROUTES.tasks._, loadChildren: () => import('./components/tasks/tasks.module').then((m) => m.TasksModule)},
   { path: ROUTES.discussion, loadChildren: () => import('./components/discussion/discussion.module').then((m) => m.DiscussionModule)},

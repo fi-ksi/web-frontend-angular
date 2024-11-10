@@ -45,14 +45,14 @@ paths:
       summary: List of currently supported Edulint versions.
       responses:
         "200":
-          description: The versions are sorted -- the newest version is listed first.
+          description: Different EduLint versions are currently not supported. Endpoint returns only "latest".
           content:
             application/json:
               schema:
                 type: array
                 items:
                   type: string
-                example: ["2.10.2", "2.9.2"]
+                example: ["latest"]
 
   /api/code:
     post:
@@ -128,7 +128,7 @@ paths:
       parameters:
         - name: version
           in: path
-          description: The version of EduLint to use. You can use either a specific version (e.g. 2.0.0) or "latest".
+          description: The version of EduLint to use. Currently, you can only use "latest".
           required: true
           schema:
             type: string
@@ -171,7 +171,7 @@ paths:
       parameters:
         - name: version
           in: path
-          description: The version of EduLint to use. You can use either a specific version (e.g. 2.0.0) or "latest".
+          description: The version of EduLint to use. Currently, you can only use "latest".
           required: true
           schema:
             type: string

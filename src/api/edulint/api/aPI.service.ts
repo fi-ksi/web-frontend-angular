@@ -64,7 +64,7 @@ export class APIService {
     /**
      * Analyzes the code with the given hash with the given version of EduLint
      * 
-     * @param version The version of EduLint to use. You can use either a specific version (e.g. 2.0.0) or \&quot;latest\&quot;.
+     * @param version The version of EduLint to use. Currently, you can only use \&quot;latest\&quot;.
      * @param hash the hash of the code to analyze
      * @param config extra configuration to use (equivalent to command line configuration described in [EduLint&#x27;s documentation](https://edulint.rtfd.io#configuration)).
      * @param use_cached_result enables/disables using cached linting results
@@ -212,7 +212,7 @@ export class APIService {
      * Uploads some code and returns its analysis
      * This endpoint combines the /code and /api/{version}/analyze/{hash} endpoints.
      * @param body the code to upload and analyze
-     * @param version The version of EduLint to use. You can use either a specific version (e.g. 2.0.0) or \&quot;latest\&quot;.
+     * @param version The version of EduLint to use. Currently, you can only use \&quot;latest\&quot;.
      * @param config extra configuration to use (equivalent to command line configuration described in [EduLint&#x27;s documentation](https://edulint.rtfd.io#configuration)).
      * @param use_cached_result enables/disables using cached linting results
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.

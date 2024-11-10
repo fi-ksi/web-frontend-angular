@@ -51,7 +51,10 @@ export class TasksService {
       shareReplay(1)
     );
 
-    this.waves$ = year.selected$.pipe(
+    this.waves$ = merge(
+      backend.user$.pipe(map(() => this.year.selected)),
+      year.selected$
+    ).pipe(
       mergeMap((year) => this.backend.http.wavesGetAll(year?.id)),
       map((response) => {
         const {waves} = response;

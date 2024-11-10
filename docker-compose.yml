@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  ksi-fe-dev-local:
+    container_name: ksi-fe-dev
+    image: esoadamo/ksi-fe-local
+    build: .
+    ports:
+      - "4201:80"

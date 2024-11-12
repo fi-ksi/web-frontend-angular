@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { YearSelect, IYear, IUser } from '../../models';
-import { AdminTask, Article, Thread, User } from '../../../api/backend';
-import { map, mergeMap, shareReplay, switchMap, take, tap } from 'rxjs/operators';
+import {Achievement, AdminTask, Article, Thread, User} from '../../../api/backend';
+import {distinctUntilChanged, map, mergeMap, shareReplay, switchMap, take, tap} from 'rxjs/operators';
 import { BackendService } from './backend.service';
 import { Cache, Utils } from '../../util';
 import { StorageService } from './storage.service';
@@ -46,6 +46,8 @@ export class YearsService {
   readonly discussionThreads$: Observable<Thread[]>;
 
   readonly adminTasks$: Observable<AdminTask[]>;
+
+  readonly achievements$: Observable<Achievement[]>;
 
   private selectedSubject: Subject<YearSelect | null>;
   private _selected: YearSelect | null;
@@ -161,10 +163,21 @@ export class YearsService {
     );
 
     this.adminTasks$ = this.selected$.pipe(
+      distinctUntilChanged(),
       mergeMap(
         (year) => this.backend.http.adminTasksGetAll(undefined, year?.id)
       ),
+      shareReplay(1),
       map((response) => response.atasks)
+    );
+
+    this.achievements$ = this.selected$.pipe(
+      distinctUntilChanged(),
+      mergeMap(
+        (year) => this.backend.http.achievementsGetAll(year?.id)
+      ),
+      shareReplay(1),
+      map((response) => response.achievements)
     );
 
     // auto select new year when published

@@ -1,0 +1,7 @@
+<div class="wave-selection">
+  <span class="form-label">{{'admin.tasks.wave-selection.caption'|translate}}</span>
+  <select class="form-control" (change)="filterWave($event)">
+    <option *ngFor="let wave of waves$ | async" [value]="wave.id" [selected]="(waveFilter$ | async) === wave.id">{{wave.caption}}</option>
+    <option *ngIf="allowAll" value="-1" [selected]="!(waveFilter$ | async)">{{'admin.tasks.wave-selection.all'|translate}}</option>
+  </select>
+</div>

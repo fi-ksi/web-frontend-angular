@@ -5,7 +5,10 @@
     <div class="cards">
       <ksi-admin-section-card name="tasks"></ksi-admin-section-card>
       <ksi-admin-section-card name="monitor"></ksi-admin-section-card>
-<!--      <ksi-admin-section-card name="email"></ksi-admin-section-card>-->
+      <ksi-admin-section-card name="email"></ksi-admin-section-card>
+      <ksi-admin-section-card name="discussion"></ksi-admin-section-card>
+<!--      <ksi-admin-section-card name="achievements"></ksi-admin-section-card>-->
+      <ksi-admin-section-card name="instance-config" *ngIf="userService.isAdmin$ | async"></ksi-admin-section-card>
     </div>
   </div>
 </div>

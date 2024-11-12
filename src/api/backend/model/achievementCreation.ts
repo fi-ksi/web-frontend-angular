@@ -11,8 +11,4 @@
  */
 
 export interface AchievementCreation { 
-    title: string;
-    picture: string;
-    description: string;
-    persistent: boolean;
 }

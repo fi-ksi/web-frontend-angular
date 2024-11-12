@@ -30,6 +30,15 @@
           {{'tasks.module.programming.lint.problems-found'|translate:{count: lintReport.problems.length} }}
         </div>
         <div>
+          <ul>
+            <li *ngFor="let problem of lintReport.problems">
+              <div class="problem">
+                line {{problem.line}}: {{problem.text}}
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div>
           <a
             class="btn btn-ksi w-100"
             [href]="lintReport.editorUrl"

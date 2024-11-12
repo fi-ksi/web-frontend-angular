@@ -18,8 +18,13 @@ export class AdminSectionCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    this.relativeUrl = ROUTES.admin[this.name];
+    this.relativeUrl = ROUTES.admin[this.toCamelCase(this.name)];
+  }
+
+  private toCamelCase(str: string): string {
+    return str.replace(/-./g, match => match.charAt(1).toUpperCase());
   }
 }

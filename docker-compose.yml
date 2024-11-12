@@ -3,7 +3,7 @@ version: '3.8'
 services:
   ksi-fe-dev-local:
     container_name: naskoc-fe-local
-    image: fi-ksi/naskoc-fe-local
+    image: fi0ksi/naskoc-fe-local
     build: .
     ports:
       - "4201:80"

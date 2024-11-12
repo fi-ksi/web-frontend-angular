@@ -209,14 +209,14 @@ export class TaskModuleProgrammingComponent implements OnInit, OnDestroy {
       doc: this.module.code || this.module.default_code,
       parent: this.codeEditorContainer.nativeElement,
       extensions: [
-        basicSetup,
-        indentUnit.of("    "), 
-        keymap.of([indentWithTab]),
+        basicSetup, // default extensions
+        indentUnit.of("    "), // PEP-8 needs 4 spaces
+        keymap.of([indentWithTab]), // tab keymap
         EditorView.updateListener.of((v: ViewUpdate) => {
           this.code.setValue(v.state.doc.toString());
         }),
-        syntaxHighlighting(highlightStyle),
-        python(),
+        syntaxHighlighting(highlightStyle), // own colors for highlighting
+        python(), // support for python
       ]
     })
   }

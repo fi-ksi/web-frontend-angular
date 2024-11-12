@@ -31,31 +31,29 @@ Quill.js core style
 /**
 Codemirror core style
  */
-@import "~codemirror/lib/codemirror.css";
-.CodeMirror, .CodeMirror-gutters {
-  color: $ksi-code-fg;
-  background: $ksi-code-bg;
+.code-editor .cm-editor.cm-focused {
+  outline: none;
 }
 
-.code-editor {
-  .cm-builtin {color: $ksi-code-builtin}
-  .cm-number {color: $ksi-code-number}
-  .cm-keyword {color: $ksi-code-keyword}
-  .cm-def {color: $ksi-code-def}
-  .cm-comment {color: $ksi-code-comment}
-  .cm-string {color: $ksi-code-string}
-  .cm-variable-2 {color: $ksi-code-variable-2}
-  .cm-meta {color: $ksi-code-meta}
-}
 
-.sourceCode .python .hljs {
-  .hljs-keyword {color: $ksi-code-keyword}
-  .hljs-string {color: $ksi-code-string}
-  .hljs-built_in {color: $ksi-code-builtin}
-  .hljs-comment {color: $ksi-code-comment}
-  .hljs-number {color: $ksi-code-number}
-  .hljs-meta {color: $ksi-code-meta}
-  .hljs-title {color: $ksi-code-def}
+.code-editor .cm-editor {
+  .cm-gutters {
+    color: $ksi-code-fg;
+    background-color: $ksi-code-bg;
+  }
+  .cm-content {
+    background-color: $ksi-code-bg;
+  }
+  .cm-selectionBackground,
+  .cm-content ::selection {
+    background-color: $ksi-code-selection !important;
+  }
+  .cm-activeLineGutter {
+    background-color: $ksi-code-bg;
+  }
+  .cm-gutterElement {
+    color: #999;
+  }
 }
 
 table {

@@ -3,9 +3,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { map, mergeMap, shareReplay, take, tap } from 'rxjs/operators';
 import { BackendService, ModalService, YearsService } from '../../../services';
-import { Observable } from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import { MappedFormControl, SubscribedComponent } from '../../../util';
-import { OpenedTemplate } from '../../../models';
+import {EmailResult, OpenedTemplate} from '../../../models';
 import { environment } from '../../../../environments/environment';
 
 @Component({
@@ -37,6 +37,9 @@ export class PageAdminEmailComponent extends SubscribedComponent implements OnIn
   @ViewChild('modalMailCheck', {static: true})
   modalCheckTemplate: TemplateRef<unknown>;
   modalCheck?: OpenedTemplate;
+
+  readonly modalSendResult: Subject<EmailResult | null> = new BehaviorSubject<EmailResult | null>(null);
+  readonly modalSendResult$: Observable<EmailResult | null> = this.modalSendResult.asObservable();
 
   constructor(
     private translate: TranslateService,
@@ -108,6 +111,7 @@ export class PageAdminEmailComponent extends SubscribedComponent implements OnIn
 
   sendEmail(): void {
     environment.logger.debug('[MAIL] sending', this.emailForm.value);
+    this.modalSendResult.next(null);
 
     this.backend.http.adminEmailSend({'e-mail': {
       Subject: this.emailForm.controls.subject.value,
@@ -122,8 +126,10 @@ export class PageAdminEmailComponent extends SubscribedComponent implements OnIn
       Type: this.emailForm.controls.type.value,
       Successful: this.emailForm.controls.successful.value,
     }}).subscribe((response) => {
-      // TODO: show success toast
       this.modalCheck?.template.instance.close();
+
+      const result: EmailResult = 'error' in response ? { success: false, count: 0, error: response.error } : { success: true, count: response.count };
+      this.modalSendResult.next(result);
     });
   }
 }

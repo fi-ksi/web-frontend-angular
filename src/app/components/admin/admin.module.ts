@@ -12,8 +12,12 @@ import { SharedModule } from '../shared/shared.module';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { PageAdminEmailComponent } from './page-admin-email/page-admin-email.component';
 import { QuillModule } from 'ngx-quill';
-import { ReactiveFormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { PageAdminDiscussionComponent } from './page-admin-discussion/page-admin-discussion.component';
+import { AdminWaveSelectorComponent } from './shared/admin-wave-selector/admin-wave-selector.component';
+import { PageAdminAchievementsComponent } from './page-admin-achievements/page-admin-achievements.component';
+import { PageAdminInstanceConfigComponent } from './page-admin-instance-config/page-admin-instance-config.component';
 
 
 @NgModule({
@@ -23,7 +27,11 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
     PageAdminTasksComponent,
     AdminSectionCardComponent,
     PageAdminMonitorComponent,
-    PageAdminEmailComponent
+    PageAdminEmailComponent,
+    PageAdminDiscussionComponent,
+    AdminWaveSelectorComponent,
+    PageAdminAchievementsComponent,
+    PageAdminInstanceConfigComponent
   ],
   imports: [
     CommonModule,
@@ -33,7 +41,8 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
     TooltipModule,
     QuillModule,
     ReactiveFormsModule,
-    AccordionModule
+    AccordionModule,
+    FormsModule
   ]
 })
 export class AdminModule { }

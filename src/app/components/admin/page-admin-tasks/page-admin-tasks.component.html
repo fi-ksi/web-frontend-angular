@@ -2,6 +2,9 @@
 <div class="content-container">
   <div class="content">
     <h2 class="title">{{'admin.root.tasks.title'|translate}}</h2>
+
+    <ksi-admin-wave-selector (waveFilter)="waveFilterSubj.next($event)"></ksi-admin-wave-selector>
+
     <table class="table table-striped table-responsive-md tasks-table" ksiTheme>
       <thead>
       <tr class="table-head-row">
@@ -15,7 +18,7 @@
       </tr>
       </thead>
       <tbody>
-      <ng-container *ngFor="let waveTasks of (waveTasks$ | async)">
+      <ng-container *ngFor="let waveTasks of (waveTasksShown$ | async)">
         <tr class="wave">
           <td colspan="7">
             <div class="info">

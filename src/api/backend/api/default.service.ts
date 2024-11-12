@@ -22,6 +22,8 @@ import { AchievementGrantRequest } from '../model/achievementGrantRequest';
 import { AchievementGrantResponse } from '../model/achievementGrantResponse';
 import { AchievementResponse } from '../model/achievementResponse';
 import { AchievementsResponse } from '../model/achievementsResponse';
+import { AdminInstanceConfig } from '../model/adminInstanceConfig';
+import { AdminInstanceConfigResponse } from '../model/adminInstanceConfigResponse';
 import { AdminTaskCreationRequest } from '../model/adminTaskCreationRequest';
 import { AdminTaskDeployResponse } from '../model/adminTaskDeployResponse';
 import { AdminTaskMergeResponse } from '../model/adminTaskMergeResponse';
@@ -2972,6 +2974,105 @@ export class DefaultService {
     /**
      * 
      * 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public instanceConfigGetAll(observe?: 'body', reportProgress?: boolean): Observable<AdminInstanceConfigResponse>;
+    public instanceConfigGetAll(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AdminInstanceConfigResponse>>;
+    public instanceConfigGetAll(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AdminInstanceConfigResponse>>;
+    public instanceConfigGetAll(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<AdminInstanceConfigResponse>('get',`${this.basePath}/admin/instanceConfig`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public instanceConfigSetSingle(body: AdminInstanceConfig, observe?: 'body', reportProgress?: boolean): Observable<string>;
+    public instanceConfigSetSingle(body: AdminInstanceConfig, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
+    public instanceConfigSetSingle(body: AdminInstanceConfig, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
+    public instanceConfigSetSingle(body: AdminInstanceConfig, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling instanceConfigSetSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<string>('post',`${this.basePath}/admin/instanceConfig`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
      * @param modulesId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -4246,21 +4347,21 @@ export class DefaultService {
     /**
      * 
      * 
-     * @param _wave 
+     * @param wave 
      * @param year 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public threadsGetAll(_wave?: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<ThreadsResponse>;
-    public threadsGetAll(_wave?: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ThreadsResponse>>;
-    public threadsGetAll(_wave?: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ThreadsResponse>>;
-    public threadsGetAll(_wave?: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public threadsGetAll(wave?: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<ThreadsResponse>;
+    public threadsGetAll(wave?: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ThreadsResponse>>;
+    public threadsGetAll(wave?: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ThreadsResponse>>;
+    public threadsGetAll(wave?: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (_wave !== undefined && _wave !== null) {
-            queryParameters = queryParameters.set('_wave', <any>_wave);
+        if (wave !== undefined && wave !== null) {
+            queryParameters = queryParameters.set('wave', <any>wave);
         }
 
         let headers = this.defaultHeaders;
@@ -4739,6 +4840,14 @@ export class DefaultService {
             headers = headers.set('year', String(year));
         }
 
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
             'application/json'
@@ -4779,6 +4888,14 @@ export class DefaultService {
         }
 
         let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [

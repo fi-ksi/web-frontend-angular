@@ -22,6 +22,7 @@ export interface ModuleProgramming {
     score: number;
     code: string;
     default_code: string;
+    edulint_source_id: string;
     last_time?: string;
     last_origin?: string;
 }

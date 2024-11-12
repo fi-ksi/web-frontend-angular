@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { APIService, Configuration, WebService } from '../../../api/edulint';
 import { environment } from '../../../environments/environment';
 import { combineLatest, Observable, of } from 'rxjs';
-import { catchError, filter, map, mergeMap } from 'rxjs/operators';
+import {catchError, filter, map, mergeMap, shareReplay, take} from 'rxjs/operators';
 import { EdulintReport } from '../../models';
 
 @Injectable({
@@ -27,10 +27,12 @@ export class EdulintService {
     this.editor = new WebService(this.httpClient, this.url, new Configuration());
   }
 
-  analyzeCode(code: string): Observable<EdulintReport> {
+  analyzeCode(code: string, source_id?: string): Observable<EdulintReport> {
     code += `\n# edulint: config=${this.config}\n`;
 
-    return this.linter.apiCodePost({code}).pipe(
+    return this.linter.apiCodePost({code, source_id}).pipe(
+      take(1),
+      shareReplay(1),
       catchError((e) => {
         environment.logger.error('[EduLint] Code post error', e);
         return of({hash: undefined});
@@ -38,8 +40,10 @@ export class EdulintService {
       filter((response) => response.hash !== undefined),
       map(response => `${response.hash}`),
       mergeMap((hash) => combineLatest([this.linter.analyzeUploaded(this.version, hash), of(hash)])),
-      map(([problems, hash]) => ({
-        problems,
+      take(1),
+      shareReplay(1),
+      map(([analyzed, hash]) => ({
+        problems: analyzed.problems || [],
         editorUrl:  `${this.url}/editor/${hash}`
       }))
     );

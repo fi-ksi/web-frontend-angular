@@ -96,7 +96,8 @@ export class TaskModuleProgrammingComponent implements OnInit, OnDestroy {
         if (result.result === 'ok') {
           this.lintCode();
         }
-      })
+      }),
+      shareReplay(1),
     );
     (this.codeRun$ = this.codeRunResult$.pipe(mapTo(undefined))).subscribe(() => {
       this.codeRun$ = null;
@@ -191,7 +192,7 @@ export class TaskModuleProgrammingComponent implements OnInit, OnDestroy {
 
   lintCode(): void {
     this.linting$ = null;
-    this.linting$ = this.lint.analyzeCode(this.code.value).pipe(distinct());
+    this.linting$ = this.lint.analyzeCode(this.code.value, this.module.edulint_source_id).pipe(distinct());
     this.linting$.subscribe();
   }
 }

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 
 import { APIService } from './api/aPI.service';
+import { DefaultService } from './api/default.service';
 import { WebService } from './api/web.service';
 
 @NgModule({
@@ -12,6 +13,7 @@ import { WebService } from './api/web.service';
   exports:      [],
   providers: [
     APIService,
+    DefaultService,
     WebService ]
 })
 export class ApiModule {

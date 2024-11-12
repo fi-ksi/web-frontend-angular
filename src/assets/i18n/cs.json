@@ -460,13 +460,24 @@
       "title": "Admin",
       "tasks": "Úlohy",
       "monitor": "Monitor",
-      "email": "E-mail"
+      "email": "E-mail",
+      "discussion": "Diskuze",
+      "achievement": "Trofeje",
+      "instance-config": "Server Admin"
     },
     "root": {
       "title": "Organizároské rozhraní",
       "tasks": {
         "title": "Správa úloh",
         "description": "Přidávání nových úloh. Vypouštění nových verzí úloh. Merge do masteru."
+      },
+      "achievements": {
+        "title": "Správa trofejí",
+        "description": "Přidávání, úprava a přidělování trofejí řešitelům."
+      },
+      "discussion": {
+        "title": "Diskuze u úloh",
+        "description": "Zobrazení všech příspěvků k úlohám z vlny, včetně počtu nepřečtených."
       },
       "monitor": {
         "title": "Monitorovací nástěnka",
@@ -475,14 +486,28 @@
       "email": {
         "title": "Poslat email",
         "description": "Zasílání emailů řešitelům ohledně nových vln a dalších akcích."
+      },
+      "instance-config": {
+        "title": "Admin serveru",
+        "description": "Přímé nastavení základních hodnot serveru."
       }
     },
     "monitor": {
       "new-window": "Otevřít v novém panelu"
     },
+    "instance-config": {
+      "title": "Nastavení serveru",
+      "key": "Klíč",
+      "value": "Hodnota",
+      "save": "Uložit změny",
+      "actions": "Akce",
+      "null-value": "Nulová hodnota",
+      "edit": "Upravit"
+    },
     "email": {
       "summary": "Tento email budu posílat {{successful}} {{sex}} {{school}} účastnících se ročníku {{year}}. Tento email je {{type}}. Pokročilé možnosti {{advancedUsed}} nastaveny.",
       "title": "Posílání emailů",
+      "success": "Tvůj email se poslal {{count}} účastníkům.",
       "check": {
         "title": "Kontrola emailu před odesláním"
       },
@@ -533,7 +558,33 @@
         "send": "Odeslat email"
       }
     },
+    "discussion": {
+      "title": "Diskuze u úloh"
+    },
+    "achievements": {
+      "title": "Trofeje",
+      "new": "Přidat novou trofej",
+      "picture": "Obr.",
+      "name": "Název",
+      "actions": "Akce",
+      "yearly": "Pro tento ročník",
+      "persistent": "Trvalé",
+      "give": {
+        "btn": "Udělit"
+      },
+      "edit": {
+        "btn": "Změnit"
+      },
+      "delete": {
+        "btn": "Smazat",
+        "message": "Opravdu chceš smazat tuto trofej?"
+      }
+    },
     "tasks": {
+      "wave-selection": {
+        "caption": "Výběr zobrazených vln",
+        "all": "Všechny vlny"
+      },
       "wave": {
         "tasks": "úloh"
       },

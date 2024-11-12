@@ -44,6 +44,9 @@ Codemirror core style
   .cm-content {
     background-color: $ksi-code-bg;
   }
+  .cm-tooltip {
+    background-color: $ksi-code-bg;
+  }
   .cm-selectionBackground,
   .cm-content ::selection {
     background-color: $ksi-code-selection !important;

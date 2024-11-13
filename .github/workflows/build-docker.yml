@@ -16,6 +16,10 @@ jobs:
           submodules: recursive
           path: web
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "14.18.3"
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 

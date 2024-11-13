@@ -15,9 +15,13 @@ import { FormControl } from '@angular/forms';
 /**
  * Import CodeMirror libraries
  */
-// @ts-ignore
-import * as CodeMirror from '../../../../../../node_modules/codemirror/lib/codemirror';
-import '../../../../../../node_modules/codemirror/mode/python/python';
+import { basicSetup } from 'codemirror';
+import { EditorView, ViewUpdate, keymap } from '@codemirror/view';
+import { indentUnit, HighlightStyle, syntaxHighlighting } from "@codemirror/language";
+import { indentWithTab } from '@codemirror/commands';
+import { python } from '@codemirror/lang-python';
+import { tags } from "@lezer/highlight";
+
 import { Observable, Subscription } from 'rxjs';
 import { EdulintService, ModalService, ModuleService, UserService } from '../../../../services';
 import { distinct, mapTo, shareReplay, tap } from 'rxjs/operators';
@@ -166,28 +170,55 @@ export class TaskModuleProgrammingComponent implements OnInit, OnDestroy {
    * @private
    */
   private initCodeEditor(): void {
-    // @ts-ignore
-    const editor = CodeMirror(this.codeEditorContainer.nativeElement, {
-      lineNumbers: true,
-      indentUnit: 4,  // PEP-8 needs 4 spaces
-    });
-    // map tab key to spaces
-    editor.setOption('extraKeys', {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      Tab: function(cm: any) {
-        const spaces = Array(cm.getOption('indentUnit') + 1).join(' ');
-        cm.replaceSelection(spaces);
+    const highlightStyle = HighlightStyle.define([
+      {
+        tag: tags.number,
+        color: "var(--ksi-code-number)"
+      },
+      {
+        tag: tags.keyword,
+        color: "var(--ksi-code-keyword)"
+      },
+      {
+        tag: tags.bool,
+        color: "var(--ksi-code-keyword)"
+      },
+      {
+        tag: tags.function(tags.definition(tags.variableName)), // function definition
+        color: "var(--ksi-code-def)"
+      },
+      {
+        tag: tags.definition(tags.className), // class definition
+        color: "var(--ksi-code-def)"
+      },
+      {
+        tag: tags.comment,
+        color: "var(--ksi-code-comment)"
+      },
+      {
+        tag: tags.string,
+        color: "var(--ksi-code-string)"
+      },
+      {
+        tag: tags.meta,
+        color: "var(--ksi-code-meta)"
       }
-    });
-    // @ts-ignore
-    editor.on('change', (event) => this.code.setValue(event.doc.getValue()));
-    this.subs.push(this.code.valueChanges.subscribe((value: string) => {
-      // replace all tabs with spaces
-      value = value.replace(/\t/g, '    ');
-      if (editor.doc.getValue() !== value) {
-        editor.doc.setValue(value);
-      }
-    }));
+    ])
+
+    new EditorView({
+      doc: this.module.code || this.module.default_code,
+      parent: this.codeEditorContainer.nativeElement,
+      extensions: [
+        basicSetup, // default extensions
+        indentUnit.of("    "), // PEP-8 needs 4 spaces
+        keymap.of([indentWithTab]), // tab keymap
+        EditorView.updateListener.of((v: ViewUpdate) => {
+          this.code.setValue(v.state.doc.toString());
+        }),
+        syntaxHighlighting(highlightStyle), // own colors for highlighting
+        python(), // support for python
+      ]
+    })
   }
 
   lintCode(): void {

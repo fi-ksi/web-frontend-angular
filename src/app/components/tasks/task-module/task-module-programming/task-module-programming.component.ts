@@ -205,20 +205,37 @@ export class TaskModuleProgrammingComponent implements OnInit, OnDestroy {
       }
     ])
 
-    new EditorView({
+    const editor = new EditorView({
       doc: this.module.code || this.module.default_code,
       parent: this.codeEditorContainer.nativeElement,
       extensions: [
         basicSetup, // default extensions
-        indentUnit.of("    "), // PEP-8 needs 4 spaces
+        indentUnit.of('    '), // PEP-8 needs 4 spaces
         keymap.of([indentWithTab]), // tab keymap
         EditorView.updateListener.of((v: ViewUpdate) => {
-          this.code.setValue(v.state.doc.toString());
+          this.code.setValue(v.state.doc.toString(), {
+            emitEvent: false,
+          });
         }),
         syntaxHighlighting(highlightStyle), // own colors for highlighting
         python(), // support for python
-      ]
-    })
+      ],
+    });
+
+    this.subs.push(
+      this.code.valueChanges.subscribe((value: string) => {
+        // replace all tabs with spaces
+        value = value.replace(/\t/g, '    ');
+
+        editor.dispatch({
+          changes: {
+            from: 0,
+            to: editor.state.doc.length,
+            insert: value,
+          },
+        });
+      })
+    );
   }
 
   lintCode(): void {

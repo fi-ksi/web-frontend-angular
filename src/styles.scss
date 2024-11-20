@@ -59,6 +59,25 @@ Codemirror core style
   }
 }
 
+pre.numberLines {
+  counter-reset: line;
+}
+
+pre.numberLines code {
+  display: block;
+}
+
+pre.numberLines code div::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  text-align: right;
+  color: #999;
+  border-right: 1px solid #ddd;
+  padding: 0 0.5em 0 0.1em;
+  margin-right: 6px;
+}
+
 table {
   th, td {
     color: $ksi-page-fg;

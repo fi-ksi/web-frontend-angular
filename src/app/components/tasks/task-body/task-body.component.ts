@@ -16,6 +16,31 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { TaskTipComponent } from './task-tip/task-tip.component';
 import { TaskPanel, TaskTipData } from '../../../models';
 
+// https://stackoverflow.com/questions/64280814/how-can-i-correctly-highlight-a-line-by-line-code-using-highlight-js-react
+highlight.addPlugin({
+  'after:highlight': (params: { value: string }) => {
+    const openTags: string[] = [];
+
+    params.value = params.value
+      .split('\n')
+      .map((line) => {
+        line = line.replace(/(<span [^>]+>)|(<\/span>)/g, (match) => {
+          if (match === '</span>') {
+            openTags.pop();
+          } else {
+            openTags.push(match);
+          }
+          return match;
+        });
+
+        return `<div>${openTags.join('')}${line}${'</span>'.repeat(
+          openTags.length
+        )}</div>`;
+      })
+      .join('');
+  },
+});
+
 @Component({
   selector: 'ksi-task-body',
   templateUrl: './task-body.component.html',

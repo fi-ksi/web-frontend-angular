@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { BackendService, YearsService, UserService } from '../shared';
 import { combineLatest, merge, Observable, of, Subject } from 'rxjs';
 import { filter, map, mapTo, mergeMap, shareReplay, take, tap } from 'rxjs/operators';
@@ -38,13 +39,20 @@ export class TasksService {
   private readonly taskUpdatesSubject: Subject<TaskWithIcon> = new Subject<TaskWithIcon>();
   private readonly taskUpdates$ = this.taskUpdatesSubject.asObservable();
 
-  constructor(private backend: BackendService, private year: YearsService, private userService: UserService) {
+  constructor(
+    private backend: BackendService,
+    private year: YearsService,
+    private userService: UserService,
+    private sanitizer: DomSanitizer,
+  ) {
     this.tasks$ = merge(
       backend.user$.pipe(map(() => this.year.selected)),
-      year.selected$
+      year.selected$,
     ).pipe(
       mergeMap((year) => this.backend.http.tasksGetAll(year?.id)),
-      map((response) => response.tasks.map((task) => TasksService.taskAddIcon(task))),
+      mergeMap((response) =>
+        combineLatest(response.tasks.map((task) => this.taskAddIcon(task))),
+      ),
       tap((tasks) => {
         tasks.forEach((task) => this.updateTask(task));
       }),
@@ -156,7 +164,8 @@ export class TasksService {
     }
 
     return this.backend.http.tasksGetSingle(taskId).pipe(
-      map((response) => TasksService.taskAddIcon(response.task)),
+      map((response) => this.taskAddIcon(response.task)),
+      mergeMap((taskWithIcon$) => taskWithIcon$),
       tap((task) => this.updateTask(task, publishUpdate)),
       take(1),
     );
@@ -168,26 +177,32 @@ export class TasksService {
    * @param publishUpdate if set to false then no task update subscribers are notified upon update
    */
   public updateTask(task: Task, publishUpdate = true): void {
-    environment.logger.debug(`[TASK] updating task cache for task ${task.id}, publish update: ${publishUpdate}`);
-    const taskWithIcon = TasksService.taskAddIcon(task);
+    environment.logger.debug(
+      `[TASK] updating task cache for task ${task.id}, publish update: ${publishUpdate}`,
+    );
 
-    /*
-      Empty space in the cache
-     */
-    const cachedKeys = Object.keys(this.cache);
-    let firstKey;
-    while (cachedKeys.length >= TasksService.CACHE_MAX_SIZE && (firstKey = cachedKeys.shift())) {
-      const key = Number(firstKey);
-      delete this.cache[key];
-    }
+    this.taskAddIcon(task).subscribe((taskWithIcon) => {
+      /*
+        Empty space in the cache
+      */
+      const cachedKeys = Object.keys(this.cache);
+      let firstKey;
+      while (
+        cachedKeys.length >= TasksService.CACHE_MAX_SIZE &&
+        (firstKey = cachedKeys.shift())
+      ) {
+        const key = Number(firstKey);
+        delete this.cache[key];
+      }
 
-    /*
-      Save the task into cache
-    */
-    this.cache[taskWithIcon.id] = taskWithIcon;
-    if (publishUpdate) {
-      this.taskUpdatesSubject.next(taskWithIcon);
-    }
+      /*
+        Save the task into cache
+      */
+      this.cache[taskWithIcon.id] = taskWithIcon;
+      if (publishUpdate) {
+        this.taskUpdatesSubject.next(taskWithIcon);
+      }
+    });
   }
 
   /**
@@ -235,6 +250,7 @@ export class TasksService {
       }),
       mapTo(true));
   }
+
 
   public static sortTasks(tasks: TaskWithIcon[], lockedLast: boolean): TaskWithIcon[] {
     const flatLevels = Utils.flatArray(TasksService.splitToLevels(tasks));
@@ -302,10 +318,24 @@ export class TasksService {
     return r;
   }
 
-  private static taskAddIcon(task: Task): TaskWithIcon {
-    return {
-      ...task,
-      icon: Utils.getTaskIconURL(task),
-    };
+
+  private taskAddIcon(task: Task): Observable<TaskWithIcon> {
+    return this.backend.http
+      .taskContent2GetSingle(
+        `icon/${task.state}${task.picture_suffix}`,
+        task.id.toString(),
+      )
+      .pipe(
+        mergeMap((icon) => {
+          const url = URL.createObjectURL(icon);
+          // icon is safe
+          const safeUrl = this.sanitizer.bypassSecurityTrustUrl(url);
+
+          return of({
+            ...task,
+            icon: safeUrl as string,
+          });
+        }),
+      );
   }
 }

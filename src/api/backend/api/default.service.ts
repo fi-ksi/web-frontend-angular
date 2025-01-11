@@ -112,6 +112,8 @@ export class DefaultService {
             this.configuration = configuration;
             this.basePath = basePath || configuration.basePath || this.basePath;
         }
+        
+        this.basePath = this.basePath.replace(/\/+$/, ''); // remove trailing slash
     }
 
     /**

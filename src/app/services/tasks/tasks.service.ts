@@ -47,7 +47,7 @@ export class TasksService {
   ) {
     this.tasks$ = merge(
       backend.user$.pipe(map(() => this.year.selected)),
-      year.selected$,
+      year.selected$
     ).pipe(
       mergeMap((year) => this.backend.http.tasksGetAll(year?.id)),
       mergeMap((response) =>

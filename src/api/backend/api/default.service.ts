@@ -10,3989 +10,3989 @@
  * Do not edit the class manually.
  *//* tslint:disable:no-unused-variable member-ordering */
 
- import { Inject, Injectable, Optional }                      from '@angular/core';
- import { HttpClient, HttpHeaders, HttpParams,
-          HttpResponse, HttpEvent }                           from '@angular/common/http';
- import { CustomHttpUrlEncodingCodec }                        from '../encoder';
- 
- import { Observable }                                        from 'rxjs';
- 
- import { AchievementCreationRequest } from '../model/achievementCreationRequest';
- import { AchievementGrantRequest } from '../model/achievementGrantRequest';
- import { AchievementGrantResponse } from '../model/achievementGrantResponse';
- import { AchievementResponse } from '../model/achievementResponse';
- import { AchievementsResponse } from '../model/achievementsResponse';
- import { AdminInstanceConfig } from '../model/adminInstanceConfig';
- import { AdminInstanceConfigResponse } from '../model/adminInstanceConfigResponse';
- import { AdminTaskCreationRequest } from '../model/adminTaskCreationRequest';
- import { AdminTaskDeployResponse } from '../model/adminTaskDeployResponse';
- import { AdminTaskMergeResponse } from '../model/adminTaskMergeResponse';
- import { AdminTaskResponse } from '../model/adminTaskResponse';
- import { AdminTaskUpdateRequest } from '../model/adminTaskUpdateRequest';
- import { AdminTasksResponse } from '../model/adminTasksResponse';
- import { ArticleCreationRequest } from '../model/articleCreationRequest';
- import { ArticleResponse } from '../model/articleResponse';
- import { ArticlesResponse } from '../model/articlesResponse';
- import { AuthResponse } from '../model/authResponse';
- import { BasicProfileResponse } from '../model/basicProfileResponse';
- import { ChangePasswordRequest } from '../model/changePasswordRequest';
- import { ChangePasswordResult } from '../model/changePasswordResult';
- import { CodeEvaluationResponse } from '../model/codeEvaluationResponse';
- import { CorrectionEvaluation } from '../model/correctionEvaluation';
- import { CorrectionInfoResponse } from '../model/correctionInfoResponse';
- import { CorrectionInfosAllResponse } from '../model/correctionInfosAllResponse';
- import { CorrectionResponse } from '../model/correctionResponse';
- import { CorrectionState } from '../model/correctionState';
- import { CorrectionUpdateRequest } from '../model/correctionUpdateRequest';
- import { CorrectionsAllResponse } from '../model/correctionsAllResponse';
- import { DiplomasListResponse } from '../model/diplomasListResponse';
- import { EmailSendRequest } from '../model/emailSendRequest';
- import { EmailSendResponse } from '../model/emailSendResponse';
- import { EmptyDict } from '../model/emptyDict';
- import { Execution } from '../model/execution';
- import { ExecutionResult } from '../model/executionResult';
- import { ExecutionsResponse } from '../model/executionsResponse';
- import { FeedbackCreationRequest } from '../model/feedbackCreationRequest';
- import { FeedbackRequest } from '../model/feedbackRequest';
- import { FeedbackResponse } from '../model/feedbackResponse';
- import { FeedbackUpdateRequest } from '../model/feedbackUpdateRequest';
- import { FeedbacksResponse } from '../model/feedbacksResponse';
- import { ForgottenPasswordRequest } from '../model/forgottenPasswordRequest';
- import { ForgottenPasswordResult } from '../model/forgottenPasswordResult';
- import { InlineResponse200 } from '../model/inlineResponse200';
- import { InlineResponse2001 } from '../model/inlineResponse2001';
- import { ModuleResponse } from '../model/moduleResponse';
- import { ModuleSubmissionRequest } from '../model/moduleSubmissionRequest';
- import { ModuleSubmitResponse } from '../model/moduleSubmitResponse';
- import { MonitoringDashboardURLResponse } from '../model/monitoringDashboardURLResponse';
- import { PossibleErrorDict } from '../model/possibleErrorDict';
- import { PostResponse } from '../model/postResponse';
- import { PostsCreationRequest } from '../model/postsCreationRequest';
- import { PostsEditRequest } from '../model/postsEditRequest';
- import { ProfileEdit } from '../model/profileEdit';
- import { ProfileResponse } from '../model/profileResponse';
- import { RegistrationRequest } from '../model/registrationRequest';
- import { RunCodeRequest } from '../model/runCodeRequest';
- import { RunCodeResponse } from '../model/runCodeResponse';
- import { TaskDetailResponse } from '../model/taskDetailResponse';
- import { TaskResponse } from '../model/taskResponse';
- import { TasksResponse } from '../model/tasksResponse';
- import { ThreadDetailResponse } from '../model/threadDetailResponse';
- import { ThreadResponse } from '../model/threadResponse';
- import { ThreadsCreationRequest } from '../model/threadsCreationRequest';
- import { ThreadsResponse } from '../model/threadsResponse';
- import { Uint8Array } from '../model/uint8Array';
- import { UserResponse } from '../model/userResponse';
- import { UsersResponse } from '../model/usersResponse';
- import { WaveCreationRequest } from '../model/waveCreationRequest';
- import { WaveResponse } from '../model/waveResponse';
- import { WaveUpdateRequest } from '../model/waveUpdateRequest';
- import { Waves } from '../model/waves';
- import { YearCreationRequest } from '../model/yearCreationRequest';
- import { YearResponse } from '../model/yearResponse';
- import { YearUpdateRequest } from '../model/yearUpdateRequest';
- import { Years } from '../model/years';
- 
- import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
- import { Configuration }                                     from '../configuration';
- 
- 
- @Injectable()
- export class DefaultService {
- 
-     protected basePath = '/';
-     public defaultHeaders = new HttpHeaders();
-     public configuration = new Configuration();
- 
-     constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
-         if (basePath) {
-             this.basePath = basePath;
-         }
-         if (configuration) {
-             this.configuration = configuration;
-             this.basePath = basePath || configuration.basePath || this.basePath;
-         }
-     }
- 
-     /**
-      * @param consumes string[] mime-types
-      * @return true: consumes contains 'multipart/form-data', false: otherwise
-      */
-     private canConsumeForm(consumes: string[]): boolean {
-         const form = 'multipart/form-data';
-         for (const consume of consumes) {
-             if (form === consume) {
-                 return true;
-             }
-         }
-         return false;
-     }
- 
- 
-     /**
-      * 
-      * 
-      * @param body 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public achievementsCreateNew(body: AchievementCreationRequest, observe?: 'body', reportProgress?: boolean): Observable<AchievementCreationRequest>;
-     public achievementsCreateNew(body: AchievementCreationRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AchievementCreationRequest>>;
-     public achievementsCreateNew(body: AchievementCreationRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AchievementCreationRequest>>;
-     public achievementsCreateNew(body: AchievementCreationRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (body === null || body === undefined) {
-             throw new Error('Required parameter body was null or undefined when calling achievementsCreateNew.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'application/json'
-         ];
-         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-         if (httpContentTypeSelected != undefined) {
-             headers = headers.set('Content-Type', httpContentTypeSelected);
-         }
- 
-         return this.httpClient.request<AchievementCreationRequest>('post',`${this.basePath}/achievements`,
-             {
-                 body: body,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param achievementId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public achievementsDeleteSingle(achievementId: number, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
-     public achievementsDeleteSingle(achievementId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
-     public achievementsDeleteSingle(achievementId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
-     public achievementsDeleteSingle(achievementId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (achievementId === null || achievementId === undefined) {
-             throw new Error('Required parameter achievementId was null or undefined when calling achievementsDeleteSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<EmptyDict>('delete',`${this.basePath}/achievements/${encodeURIComponent(String(achievementId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param body 
-      * @param achievementId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public achievementsEditSingle(body: AchievementCreationRequest, achievementId: number, observe?: 'body', reportProgress?: boolean): Observable<AchievementResponse>;
-     public achievementsEditSingle(body: AchievementCreationRequest, achievementId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AchievementResponse>>;
-     public achievementsEditSingle(body: AchievementCreationRequest, achievementId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AchievementResponse>>;
-     public achievementsEditSingle(body: AchievementCreationRequest, achievementId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (body === null || body === undefined) {
-             throw new Error('Required parameter body was null or undefined when calling achievementsEditSingle.');
-         }
- 
-         if (achievementId === null || achievementId === undefined) {
-             throw new Error('Required parameter achievementId was null or undefined when calling achievementsEditSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'application/json'
-         ];
-         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-         if (httpContentTypeSelected != undefined) {
-             headers = headers.set('Content-Type', httpContentTypeSelected);
-         }
- 
-         return this.httpClient.request<AchievementResponse>('put',`${this.basePath}/achievements/${encodeURIComponent(String(achievementId))}`,
-             {
-                 body: body,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param _limit 
-      * @param _start 
-      * @param achievement 
-      * @param year 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public achievementsGetAll(_limit?: number, _start?: number, achievement?: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<AchievementsResponse>;
-     public achievementsGetAll(_limit?: number, _start?: number, achievement?: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AchievementsResponse>>;
-     public achievementsGetAll(_limit?: number, _start?: number, achievement?: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AchievementsResponse>>;
-     public achievementsGetAll(_limit?: number, _start?: number, achievement?: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
- 
- 
- 
- 
-         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-         if (_limit !== undefined && _limit !== null) {
-             queryParameters = queryParameters.set('_limit', <any>_limit);
-         }
-         if (_start !== undefined && _start !== null) {
-             queryParameters = queryParameters.set('_start', <any>_start);
-         }
- 
-         let headers = this.defaultHeaders;
-         if (achievement !== undefined && achievement !== null) {
-             headers = headers.set('achievement', String(achievement));
-         }
-         if (year !== undefined && year !== null) {
-             headers = headers.set('year', String(year));
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<AchievementsResponse>('get',`${this.basePath}/achievements`,
-             {
-                 params: queryParameters,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param achievementId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public achievementsGetSingle(achievementId: number, observe?: 'body', reportProgress?: boolean): Observable<AchievementResponse>;
-     public achievementsGetSingle(achievementId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AchievementResponse>>;
-     public achievementsGetSingle(achievementId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AchievementResponse>>;
-     public achievementsGetSingle(achievementId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (achievementId === null || achievementId === undefined) {
-             throw new Error('Required parameter achievementId was null or undefined when calling achievementsGetSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<AchievementResponse>('get',`${this.basePath}/achievements/${encodeURIComponent(String(achievementId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public achievementsGetSuccessful(observe?: 'body', reportProgress?: boolean): Observable<AchievementResponse>;
-     public achievementsGetSuccessful(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AchievementResponse>>;
-     public achievementsGetSuccessful(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AchievementResponse>>;
-     public achievementsGetSuccessful(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         let headers = this.defaultHeaders;
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<AchievementResponse>('get',`${this.basePath}/achievements/special/successful`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param body 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public adminAchievementsGrant(body: AchievementGrantRequest, observe?: 'body', reportProgress?: boolean): Observable<AchievementGrantResponse>;
-     public adminAchievementsGrant(body: AchievementGrantRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AchievementGrantResponse>>;
-     public adminAchievementsGrant(body: AchievementGrantRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AchievementGrantResponse>>;
-     public adminAchievementsGrant(body: AchievementGrantRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (body === null || body === undefined) {
-             throw new Error('Required parameter body was null or undefined when calling adminAchievementsGrant.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'application/json'
-         ];
-         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-         if (httpContentTypeSelected != undefined) {
-             headers = headers.set('Content-Type', httpContentTypeSelected);
-         }
- 
-         return this.httpClient.request<AchievementGrantResponse>('post',`${this.basePath}/admin/achievements/grant`,
-             {
-                 body: body,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param year 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public adminCorrectionInfosGetAll(year?: number, observe?: 'body', reportProgress?: boolean): Observable<CorrectionInfosAllResponse>;
-     public adminCorrectionInfosGetAll(year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<CorrectionInfosAllResponse>>;
-     public adminCorrectionInfosGetAll(year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<CorrectionInfosAllResponse>>;
-     public adminCorrectionInfosGetAll(year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
- 
-         let headers = this.defaultHeaders;
-         if (year !== undefined && year !== null) {
-             headers = headers.set('year', String(year));
-         }
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<CorrectionInfosAllResponse>('get',`${this.basePath}/admin/correctionInfos`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param taskId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public adminCorrectionInfosGetSingle(taskId: number, observe?: 'body', reportProgress?: boolean): Observable<CorrectionInfoResponse>;
-     public adminCorrectionInfosGetSingle(taskId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<CorrectionInfoResponse>>;
-     public adminCorrectionInfosGetSingle(taskId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<CorrectionInfoResponse>>;
-     public adminCorrectionInfosGetSingle(taskId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (taskId === null || taskId === undefined) {
-             throw new Error('Required parameter taskId was null or undefined when calling adminCorrectionInfosGetSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<CorrectionInfoResponse>('get',`${this.basePath}/admin/correctionInfos/${encodeURIComponent(String(taskId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param taskId 
-      * @param _public 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public adminCorrectionsEmail(taskId: number, _public: number, observe?: 'body', reportProgress?: boolean): Observable<EmailSendResponse>;
-     public adminCorrectionsEmail(taskId: number, _public: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmailSendResponse>>;
-     public adminCorrectionsEmail(taskId: number, _public: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmailSendResponse>>;
-     public adminCorrectionsEmail(taskId: number, _public: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (taskId === null || taskId === undefined) {
-             throw new Error('Required parameter taskId was null or undefined when calling adminCorrectionsEmail.');
-         }
- 
-         if (_public === null || _public === undefined) {
-             throw new Error('Required parameter _public was null or undefined when calling adminCorrectionsEmail.');
-         }
- 
-         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-         if (_public !== undefined && _public !== null) {
-             queryParameters = queryParameters.set('public', <any>_public);
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<EmailSendResponse>('put',`${this.basePath}/admin/correctionsEmail/${encodeURIComponent(String(taskId))}`,
-             {
-                 params: queryParameters,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param task 
-      * @param participant 
-      * @param state 
-      * @param year 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public adminCorrectionsGetAll(task?: number, participant?: number, state?: CorrectionState, year?: number, observe?: 'body', reportProgress?: boolean): Observable<CorrectionsAllResponse>;
-     public adminCorrectionsGetAll(task?: number, participant?: number, state?: CorrectionState, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<CorrectionsAllResponse>>;
-     public adminCorrectionsGetAll(task?: number, participant?: number, state?: CorrectionState, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<CorrectionsAllResponse>>;
-     public adminCorrectionsGetAll(task?: number, participant?: number, state?: CorrectionState, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
- 
- 
- 
- 
-         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-         if (task !== undefined && task !== null) {
-             queryParameters = queryParameters.set('task', <any>task);
-         }
-         if (participant !== undefined && participant !== null) {
-             queryParameters = queryParameters.set('participant', <any>participant);
-         }
-         if (state !== undefined && state !== null) {
-             queryParameters = queryParameters.set('state', <any>state);
-         }
- 
-         let headers = this.defaultHeaders;
-         if (year !== undefined && year !== null) {
-             headers = headers.set('year', String(year));
-         }
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<CorrectionsAllResponse>('get',`${this.basePath}/admin/corrections`,
-             {
-                 params: queryParameters,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param correctionId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public adminCorrectionsGetSingle(correctionId: number, observe?: 'body', reportProgress?: boolean): Observable<CorrectionResponse>;
-     public adminCorrectionsGetSingle(correctionId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<CorrectionResponse>>;
-     public adminCorrectionsGetSingle(correctionId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<CorrectionResponse>>;
-     public adminCorrectionsGetSingle(correctionId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (correctionId === null || correctionId === undefined) {
-             throw new Error('Required parameter correctionId was null or undefined when calling adminCorrectionsGetSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<CorrectionResponse>('get',`${this.basePath}/admin/corrections/${encodeURIComponent(String(correctionId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param correctionId 
-      * @param _public 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public adminCorrectionsPublish(correctionId: number, _public: number, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
-     public adminCorrectionsPublish(correctionId: number, _public: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
-     public adminCorrectionsPublish(correctionId: number, _public: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
-     public adminCorrectionsPublish(correctionId: number, _public: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (correctionId === null || correctionId === undefined) {
-             throw new Error('Required parameter correctionId was null or undefined when calling adminCorrectionsPublish.');
-         }
- 
-         if (_public === null || _public === undefined) {
-             throw new Error('Required parameter _public was null or undefined when calling adminCorrectionsPublish.');
-         }
- 
-         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-         if (_public !== undefined && _public !== null) {
-             queryParameters = queryParameters.set('public', <any>_public);
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<EmptyDict>('get',`${this.basePath}/admin/corrections/${encodeURIComponent(String(correctionId))}/publish`,
-             {
-                 params: queryParameters,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param body 
-      * @param correctionId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public adminCorrectionsUpdateSingle(body: CorrectionUpdateRequest, correctionId: number, observe?: 'body', reportProgress?: boolean): Observable<CorrectionResponse>;
-     public adminCorrectionsUpdateSingle(body: CorrectionUpdateRequest, correctionId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<CorrectionResponse>>;
-     public adminCorrectionsUpdateSingle(body: CorrectionUpdateRequest, correctionId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<CorrectionResponse>>;
-     public adminCorrectionsUpdateSingle(body: CorrectionUpdateRequest, correctionId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (body === null || body === undefined) {
-             throw new Error('Required parameter body was null or undefined when calling adminCorrectionsUpdateSingle.');
-         }
- 
-         if (correctionId === null || correctionId === undefined) {
-             throw new Error('Required parameter correctionId was null or undefined when calling adminCorrectionsUpdateSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'application/json'
-         ];
-         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-         if (httpContentTypeSelected != undefined) {
-             headers = headers.set('Content-Type', httpContentTypeSelected);
-         }
- 
-         return this.httpClient.request<CorrectionResponse>('put',`${this.basePath}/admin/corrections/${encodeURIComponent(String(correctionId))}`,
-             {
-                 body: body,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param files 
-      * @param userId 
-      * @param year 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public adminDiplomaGrantForm(files: Blob, userId: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-     public adminDiplomaGrantForm(files: Blob, userId: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-     public adminDiplomaGrantForm(files: Blob, userId: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-     public adminDiplomaGrantForm(files: Blob, userId: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (files === null || files === undefined) {
-             throw new Error('Required parameter files was null or undefined when calling adminDiplomaGrant.');
-         }
- 
-         if (userId === null || userId === undefined) {
-             throw new Error('Required parameter userId was null or undefined when calling adminDiplomaGrant.');
-         }
- 
- 
-         let headers = this.defaultHeaders;
-         if (year !== undefined && year !== null) {
-             headers = headers.set('year', String(year));
-         }
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'multipart/form-data'
-         ];
- 
-         const canConsumeForm = this.canConsumeForm(consumes);
- 
-         let formParams: { append(param: string, value: any): void; };
-         let useForm = false;
-         let convertFormParamsToString = false;
-         // use FormData to transmit files using content-type "multipart/form-data"
-         // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
-         useForm = canConsumeForm;
-         if (useForm) {
-             formParams = new FormData();
-         } else {
-             formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-         }
- 
-         if (files !== undefined) {
-             formParams = formParams.append('files', <any>files) as any || formParams;
-         }
- 
-         return this.httpClient.request<any>('post',`${this.basePath}/admin/diploma/${encodeURIComponent(String(userId))}/grant`,
-             {
-                 body: convertFormParamsToString ? formParams.toString() : formParams,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param body 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public adminEmailSend(body: EmailSendRequest, observe?: 'body', reportProgress?: boolean): Observable<EmailSendResponse>;
-     public adminEmailSend(body: EmailSendRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmailSendResponse>>;
-     public adminEmailSend(body: EmailSendRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmailSendResponse>>;
-     public adminEmailSend(body: EmailSendRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (body === null || body === undefined) {
-             throw new Error('Required parameter body was null or undefined when calling adminEmailSend.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'application/json'
-         ];
-         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-         if (httpContentTypeSelected != undefined) {
-             headers = headers.set('Content-Type', httpContentTypeSelected);
-         }
- 
-         return this.httpClient.request<EmailSendResponse>('post',`${this.basePath}/admin/e-mail`,
-             {
-                 body: body,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param evaluationId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public adminEvaluationGetSingle(evaluationId: number, observe?: 'body', reportProgress?: boolean): Observable<CodeEvaluationResponse>;
-     public adminEvaluationGetSingle(evaluationId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<CodeEvaluationResponse>>;
-     public adminEvaluationGetSingle(evaluationId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<CodeEvaluationResponse>>;
-     public adminEvaluationGetSingle(evaluationId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (evaluationId === null || evaluationId === undefined) {
-             throw new Error('Required parameter evaluationId was null or undefined when calling adminEvaluationGetSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<CodeEvaluationResponse>('get',`${this.basePath}/admin/evalCodes/${encodeURIComponent(String(evaluationId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param user 
-      * @param module 
-      * @param limit 
-      * @param page 
-      * @param from 
-      * @param to 
-      * @param result 
-      * @param year 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public adminExecutionGetMultiple(user?: number, module?: number, limit?: number, page?: number, from?: string, to?: string, result?: ExecutionResult, year?: number, observe?: 'body', reportProgress?: boolean): Observable<ExecutionsResponse>;
-     public adminExecutionGetMultiple(user?: number, module?: number, limit?: number, page?: number, from?: string, to?: string, result?: ExecutionResult, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ExecutionsResponse>>;
-     public adminExecutionGetMultiple(user?: number, module?: number, limit?: number, page?: number, from?: string, to?: string, result?: ExecutionResult, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ExecutionsResponse>>;
-     public adminExecutionGetMultiple(user?: number, module?: number, limit?: number, page?: number, from?: string, to?: string, result?: ExecutionResult, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
- 
- 
- 
- 
- 
- 
- 
- 
-         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-         if (user !== undefined && user !== null) {
-             queryParameters = queryParameters.set('user', <any>user);
-         }
-         if (module !== undefined && module !== null) {
-             queryParameters = queryParameters.set('module', <any>module);
-         }
-         if (limit !== undefined && limit !== null) {
-             queryParameters = queryParameters.set('limit', <any>limit);
-         }
-         if (page !== undefined && page !== null) {
-             queryParameters = queryParameters.set('page', <any>page);
-         }
-         if (from !== undefined && from !== null) {
-             queryParameters = queryParameters.set('from', <any>from);
-         }
-         if (to !== undefined && to !== null) {
-             queryParameters = queryParameters.set('to', <any>to);
-         }
-         if (result !== undefined && result !== null) {
-             queryParameters = queryParameters.set('result', <any>result);
-         }
- 
-         let headers = this.defaultHeaders;
-         if (year !== undefined && year !== null) {
-             headers = headers.set('year', String(year));
-         }
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<ExecutionsResponse>('get',`${this.basePath}/admin/execs`,
-             {
-                 params: queryParameters,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param executionId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public adminExecutionGetSingle(executionId: number, observe?: 'body', reportProgress?: boolean): Observable<Execution>;
-     public adminExecutionGetSingle(executionId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Execution>>;
-     public adminExecutionGetSingle(executionId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Execution>>;
-     public adminExecutionGetSingle(executionId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (executionId === null || executionId === undefined) {
-             throw new Error('Required parameter executionId was null or undefined when calling adminExecutionGetSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<Execution>('get',`${this.basePath}/admin/execs/${encodeURIComponent(String(executionId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param evaluationId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public adminGetEvaluationSingle(evaluationId: number, observe?: 'body', reportProgress?: boolean): Observable<CorrectionEvaluation>;
-     public adminGetEvaluationSingle(evaluationId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<CorrectionEvaluation>>;
-     public adminGetEvaluationSingle(evaluationId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<CorrectionEvaluation>>;
-     public adminGetEvaluationSingle(evaluationId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (evaluationId === null || evaluationId === undefined) {
-             throw new Error('Required parameter evaluationId was null or undefined when calling adminGetEvaluationSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<CorrectionEvaluation>('get',`${this.basePath}/admin/evaluations/${encodeURIComponent(String(evaluationId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public adminMonitoringDashboardURL(observe?: 'body', reportProgress?: boolean): Observable<MonitoringDashboardURLResponse>;
-     public adminMonitoringDashboardURL(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<MonitoringDashboardURLResponse>>;
-     public adminMonitoringDashboardURL(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<MonitoringDashboardURLResponse>>;
-     public adminMonitoringDashboardURL(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<MonitoringDashboardURLResponse>('get',`${this.basePath}/admin/monitoring-dashboard`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param evaluationId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public adminSubmissionEvaluation(evaluationId: number, observe?: 'body', reportProgress?: boolean): Observable<Uint8Array>;
-     public adminSubmissionEvaluation(evaluationId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Uint8Array>>;
-     public adminSubmissionEvaluation(evaluationId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Uint8Array>>;
-     public adminSubmissionEvaluation(evaluationId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (evaluationId === null || evaluationId === undefined) {
-             throw new Error('Required parameter evaluationId was null or undefined when calling adminSubmissionEvaluation.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<Uint8Array>('get',`${this.basePath}/admin/subm/eval/${encodeURIComponent(String(evaluationId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param taskId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public adminSubmissionTask(taskId: number, observe?: 'body', reportProgress?: boolean): Observable<Uint8Array>;
-     public adminSubmissionTask(taskId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Uint8Array>>;
-     public adminSubmissionTask(taskId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Uint8Array>>;
-     public adminSubmissionTask(taskId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (taskId === null || taskId === undefined) {
-             throw new Error('Required parameter taskId was null or undefined when calling adminSubmissionTask.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<Uint8Array>('get',`${this.basePath}/admin/subm/task/${encodeURIComponent(String(taskId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param taskId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public adminTaskDeploySingle(taskId: number, observe?: 'body', reportProgress?: boolean): Observable<AdminTaskMergeResponse>;
-     public adminTaskDeploySingle(taskId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AdminTaskMergeResponse>>;
-     public adminTaskDeploySingle(taskId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AdminTaskMergeResponse>>;
-     public adminTaskDeploySingle(taskId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (taskId === null || taskId === undefined) {
-             throw new Error('Required parameter taskId was null or undefined when calling adminTaskDeploySingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<AdminTaskMergeResponse>('post',`${this.basePath}/admin/atasks/${encodeURIComponent(String(taskId))}/deploy`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param taskId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public adminTaskMergeSingle(taskId: number, observe?: 'body', reportProgress?: boolean): Observable<AdminTaskMergeResponse>;
-     public adminTaskMergeSingle(taskId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AdminTaskMergeResponse>>;
-     public adminTaskMergeSingle(taskId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AdminTaskMergeResponse>>;
-     public adminTaskMergeSingle(taskId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (taskId === null || taskId === undefined) {
-             throw new Error('Required parameter taskId was null or undefined when calling adminTaskMergeSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<AdminTaskMergeResponse>('post',`${this.basePath}/admin/atasks/${encodeURIComponent(String(taskId))}/merge`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param body 
-      * @param year 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public adminTasksCreateNew(body: AdminTaskCreationRequest, year?: number, observe?: 'body', reportProgress?: boolean): Observable<AdminTaskResponse>;
-     public adminTasksCreateNew(body: AdminTaskCreationRequest, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AdminTaskResponse>>;
-     public adminTasksCreateNew(body: AdminTaskCreationRequest, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AdminTaskResponse>>;
-     public adminTasksCreateNew(body: AdminTaskCreationRequest, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (body === null || body === undefined) {
-             throw new Error('Required parameter body was null or undefined when calling adminTasksCreateNew.');
-         }
- 
- 
-         let headers = this.defaultHeaders;
-         if (year !== undefined && year !== null) {
-             headers = headers.set('year', String(year));
-         }
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'application/json'
-         ];
-         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-         if (httpContentTypeSelected != undefined) {
-             headers = headers.set('Content-Type', httpContentTypeSelected);
-         }
- 
-         return this.httpClient.request<AdminTaskResponse>('post',`${this.basePath}/admin/atasks`,
-             {
-                 body: body,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param taskId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public adminTasksDeleteSingle(taskId: number, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
-     public adminTasksDeleteSingle(taskId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
-     public adminTasksDeleteSingle(taskId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
-     public adminTasksDeleteSingle(taskId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (taskId === null || taskId === undefined) {
-             throw new Error('Required parameter taskId was null or undefined when calling adminTasksDeleteSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<EmptyDict>('delete',`${this.basePath}/admin/atasks/${encodeURIComponent(String(taskId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param wave 
-      * @param year 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public adminTasksGetAll(wave?: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<AdminTasksResponse>;
-     public adminTasksGetAll(wave?: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AdminTasksResponse>>;
-     public adminTasksGetAll(wave?: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AdminTasksResponse>>;
-     public adminTasksGetAll(wave?: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
- 
- 
-         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-         if (wave !== undefined && wave !== null) {
-             queryParameters = queryParameters.set('wave', <any>wave);
-         }
- 
-         let headers = this.defaultHeaders;
-         if (year !== undefined && year !== null) {
-             headers = headers.set('year', String(year));
-         }
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<AdminTasksResponse>('get',`${this.basePath}/admin/atasks`,
-             {
-                 params: queryParameters,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param taskId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public adminTasksGetDeploySingle(taskId: number, observe?: 'body', reportProgress?: boolean): Observable<AdminTaskDeployResponse>;
-     public adminTasksGetDeploySingle(taskId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AdminTaskDeployResponse>>;
-     public adminTasksGetDeploySingle(taskId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AdminTaskDeployResponse>>;
-     public adminTasksGetDeploySingle(taskId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (taskId === null || taskId === undefined) {
-             throw new Error('Required parameter taskId was null or undefined when calling adminTasksGetDeploySingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<AdminTaskDeployResponse>('get',`${this.basePath}/admin/atasks/${encodeURIComponent(String(taskId))}/deploy`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param taskId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public adminTasksGetSingle(taskId: number, observe?: 'body', reportProgress?: boolean): Observable<AdminTaskResponse>;
-     public adminTasksGetSingle(taskId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AdminTaskResponse>>;
-     public adminTasksGetSingle(taskId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AdminTaskResponse>>;
-     public adminTasksGetSingle(taskId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (taskId === null || taskId === undefined) {
-             throw new Error('Required parameter taskId was null or undefined when calling adminTasksGetSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<AdminTaskResponse>('get',`${this.basePath}/admin/atasks/${encodeURIComponent(String(taskId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param body 
-      * @param taskId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public adminTasksUpdateSingle(body: AdminTaskUpdateRequest, taskId: number, observe?: 'body', reportProgress?: boolean): Observable<AdminTaskResponse>;
-     public adminTasksUpdateSingle(body: AdminTaskUpdateRequest, taskId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AdminTaskResponse>>;
-     public adminTasksUpdateSingle(body: AdminTaskUpdateRequest, taskId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AdminTaskResponse>>;
-     public adminTasksUpdateSingle(body: AdminTaskUpdateRequest, taskId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (body === null || body === undefined) {
-             throw new Error('Required parameter body was null or undefined when calling adminTasksUpdateSingle.');
-         }
- 
-         if (taskId === null || taskId === undefined) {
-             throw new Error('Required parameter taskId was null or undefined when calling adminTasksUpdateSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'application/json'
-         ];
-         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-         if (httpContentTypeSelected != undefined) {
-             headers = headers.set('Content-Type', httpContentTypeSelected);
-         }
- 
-         return this.httpClient.request<AdminTaskResponse>('put',`${this.basePath}/admin/atasks/${encodeURIComponent(String(taskId))}`,
-             {
-                 body: body,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param year 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public adminUserExport(year?: number, observe?: 'body', reportProgress?: boolean): Observable<string>;
-     public adminUserExport(year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
-     public adminUserExport(year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
-     public adminUserExport(year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
- 
-         let headers = this.defaultHeaders;
-         if (year !== undefined && year !== null) {
-             headers = headers.set('year', String(year));
-         }
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<string>('get',`${this.basePath}/admin/user-export`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param waveId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public adminWavesDiff(waveId: number, observe?: 'body', reportProgress?: boolean): Observable<InlineResponse200>;
-     public adminWavesDiff(waveId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<InlineResponse200>>;
-     public adminWavesDiff(waveId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<InlineResponse200>>;
-     public adminWavesDiff(waveId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (waveId === null || waveId === undefined) {
-             throw new Error('Required parameter waveId was null or undefined when calling adminWavesDiff.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<InlineResponse200>('get',`${this.basePath}/admin/waves/${encodeURIComponent(String(waveId))}/diff`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param body 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public articlesCreateNew(body: ArticleCreationRequest, observe?: 'body', reportProgress?: boolean): Observable<ArticleCreationRequest>;
-     public articlesCreateNew(body: ArticleCreationRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ArticleCreationRequest>>;
-     public articlesCreateNew(body: ArticleCreationRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ArticleCreationRequest>>;
-     public articlesCreateNew(body: ArticleCreationRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (body === null || body === undefined) {
-             throw new Error('Required parameter body was null or undefined when calling articlesCreateNew.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'application/json'
-         ];
-         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-         if (httpContentTypeSelected != undefined) {
-             headers = headers.set('Content-Type', httpContentTypeSelected);
-         }
- 
-         return this.httpClient.request<ArticleCreationRequest>('post',`${this.basePath}/articles`,
-             {
-                 body: body,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param articleId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public articlesDeleteSingle(articleId: number, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
-     public articlesDeleteSingle(articleId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
-     public articlesDeleteSingle(articleId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
-     public articlesDeleteSingle(articleId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (articleId === null || articleId === undefined) {
-             throw new Error('Required parameter articleId was null or undefined when calling articlesDeleteSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<EmptyDict>('delete',`${this.basePath}/articles/${encodeURIComponent(String(articleId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param body 
-      * @param articleId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public articlesEditSingle(body: ArticleCreationRequest, articleId: number, observe?: 'body', reportProgress?: boolean): Observable<ArticleResponse>;
-     public articlesEditSingle(body: ArticleCreationRequest, articleId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ArticleResponse>>;
-     public articlesEditSingle(body: ArticleCreationRequest, articleId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ArticleResponse>>;
-     public articlesEditSingle(body: ArticleCreationRequest, articleId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (body === null || body === undefined) {
-             throw new Error('Required parameter body was null or undefined when calling articlesEditSingle.');
-         }
- 
-         if (articleId === null || articleId === undefined) {
-             throw new Error('Required parameter articleId was null or undefined when calling articlesEditSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'application/json'
-         ];
-         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-         if (httpContentTypeSelected != undefined) {
-             headers = headers.set('Content-Type', httpContentTypeSelected);
-         }
- 
-         return this.httpClient.request<ArticleResponse>('put',`${this.basePath}/articles/${encodeURIComponent(String(articleId))}`,
-             {
-                 body: body,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param _limit 
-      * @param _start 
-      * @param article 
-      * @param year 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public articlesGetAll(_limit?: number, _start?: number, article?: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<ArticlesResponse>;
-     public articlesGetAll(_limit?: number, _start?: number, article?: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ArticlesResponse>>;
-     public articlesGetAll(_limit?: number, _start?: number, article?: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ArticlesResponse>>;
-     public articlesGetAll(_limit?: number, _start?: number, article?: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
- 
- 
- 
- 
-         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-         if (_limit !== undefined && _limit !== null) {
-             queryParameters = queryParameters.set('_limit', <any>_limit);
-         }
-         if (_start !== undefined && _start !== null) {
-             queryParameters = queryParameters.set('_start', <any>_start);
-         }
- 
-         let headers = this.defaultHeaders;
-         if (article !== undefined && article !== null) {
-             headers = headers.set('article', String(article));
-         }
-         if (year !== undefined && year !== null) {
-             headers = headers.set('year', String(year));
-         }
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<ArticlesResponse>('get',`${this.basePath}/articles`,
-             {
-                 params: queryParameters,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param articleId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public articlesGetSingle(articleId: number, observe?: 'body', reportProgress?: boolean): Observable<ArticleResponse>;
-     public articlesGetSingle(articleId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ArticleResponse>>;
-     public articlesGetSingle(articleId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ArticleResponse>>;
-     public articlesGetSingle(articleId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (articleId === null || articleId === undefined) {
-             throw new Error('Required parameter articleId was null or undefined when calling articlesGetSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<ArticleResponse>('get',`${this.basePath}/articles/${encodeURIComponent(String(articleId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param grant_type 
-      * @param username 
-      * @param password 
-      * @param refresh_token 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     // @ts-ignore
-     public  authorizeForm(grant_type: string, username: string = "", password: string = "", refresh_token: string = "", observe?: 'body', reportProgress?: boolean): Observable<AuthResponse>;
-     // @ts-ignore
-     public  authorizeForm(grant_type: string, username: string = "", password: string = "", refresh_token: string = "", observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AuthResponse>>;
-     // @ts-ignore
-     public  authorizeForm(grant_type: string, username: string = "", password: string = "", refresh_token: string = "", observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AuthResponse>>;
-     // @ts-ignore
-     public  authorizeForm(grant_type: string, username: string = "", password: string = "", refresh_token: string = "", observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (grant_type === null || grant_type === undefined) {
-             throw new Error('Required parameter grant_type was null or undefined when calling authorize.');
-         }
- 
-         if (username === null || username === undefined) {
-             throw new Error('Required parameter username was null or undefined when calling authorize.');
-         }
- 
-         if (password === null || password === undefined) {
-             throw new Error('Required parameter password was null or undefined when calling authorize.');
-         }
- 
-         if (refresh_token === null || refresh_token === undefined) {
-             throw new Error('Required parameter refresh_token was null or undefined when calling authorize.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'multipart/form-data'
-         ];
- 
-         const canConsumeForm = this.canConsumeForm(consumes);
- 
-         let formParams: { append(param: string, value: any): void; };
-         let useForm = false;
-         let convertFormParamsToString = false;
-         if (useForm) {
-             formParams = new FormData();
-         } else {
-             formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-         }
- 
-         if (grant_type !== undefined) {
-             formParams = formParams.append('grant_type', <any>grant_type) as any || formParams;
-         }
-         if (username !== undefined) {
-             formParams = formParams.append('username', <any>username) as any || formParams;
-         }
-         if (password !== undefined) {
-             formParams = formParams.append('password', <any>password) as any || formParams;
-         }
-         if (refresh_token !== undefined) {
-             formParams = formParams.append('refresh_token', <any>refresh_token) as any || formParams;
-         }
- 
-         return this.httpClient.request<AuthResponse>('post',`${this.basePath}/auth`,
-             {
-                 body: convertFormParamsToString ? formParams.toString() : formParams,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public basicProfileGetSingle(observe?: 'body', reportProgress?: boolean): Observable<BasicProfileResponse>;
-     public basicProfileGetSingle(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<BasicProfileResponse>>;
-     public basicProfileGetSingle(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<BasicProfileResponse>>;
-     public basicProfileGetSingle(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<BasicProfileResponse>('get',`${this.basePath}/basicProfile`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param body 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public changePassword(body: ChangePasswordRequest, observe?: 'body', reportProgress?: boolean): Observable<ChangePasswordResult>;
-     public changePassword(body: ChangePasswordRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ChangePasswordResult>>;
-     public changePassword(body: ChangePasswordRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ChangePasswordResult>>;
-     public changePassword(body: ChangePasswordRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (body === null || body === undefined) {
-             throw new Error('Required parameter body was null or undefined when calling changePassword.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'application/json'
-         ];
-         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-         if (httpContentTypeSelected != undefined) {
-             headers = headers.set('Content-Type', httpContentTypeSelected);
-         }
- 
-         return this.httpClient.request<ChangePasswordResult>('post',`${this.basePath}/settings/changePassword`,
-             {
-                 body: body,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param files 
-      * @param path 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public contentsCreateNewForm(files: Array<Blob>, path?: string, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
-     public contentsCreateNewForm(files: Array<Blob>, path?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
-     public contentsCreateNewForm(files: Array<Blob>, path?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
-     public contentsCreateNewForm(files: Array<Blob>, path?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (files === null || files === undefined) {
-             throw new Error('Required parameter files was null or undefined when calling contentsCreateNew.');
-         }
- 
- 
-         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-         if (path !== undefined && path !== null) {
-             queryParameters = queryParameters.set('path', <any>path);
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'multipart/form-data'
-         ];
- 
-         const canConsumeForm = this.canConsumeForm(consumes);
- 
-         let formParams: { append(param: string, value: any): void; };
-         let useForm = false;
-         let convertFormParamsToString = false;
-         if (useForm) {
-             formParams = new FormData();
-         } else {
-             formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-         }
- 
-         if (files) {
-             files.forEach((element) => {
-                 formParams = formParams.append('files', <any>element) as any || formParams;
-             })
-         }
- 
-         return this.httpClient.request<EmptyDict>('post',`${this.basePath}/content`,
-             {
-                 body: convertFormParamsToString ? formParams.toString() : formParams,
-                 params: queryParameters,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param path 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public contentsDeleteSingle(path?: string, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
-     public contentsDeleteSingle(path?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
-     public contentsDeleteSingle(path?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
-     public contentsDeleteSingle(path?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
- 
-         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-         if (path !== undefined && path !== null) {
-             queryParameters = queryParameters.set('path', <any>path);
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<EmptyDict>('delete',`${this.basePath}/content`,
-             {
-                 params: queryParameters,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param path 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public contentsGetSingle(path?: string, observe?: 'body', reportProgress?: boolean): Observable<InlineResponse2001>;
-     public contentsGetSingle(path?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<InlineResponse2001>>;
-     public contentsGetSingle(path?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<InlineResponse2001>>;
-     public contentsGetSingle(path?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
- 
-         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-         if (path !== undefined && path !== null) {
-             queryParameters = queryParameters.set('path', <any>path);
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<InlineResponse2001>('get',`${this.basePath}/content`,
-             {
-                 params: queryParameters,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param userId 
-      * @param yearId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public diplomaDownloadSingle(userId: number, yearId: number, observe?: 'body', reportProgress?: boolean): Observable<Blob>;
-     public diplomaDownloadSingle(userId: number, yearId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Blob>>;
-     public diplomaDownloadSingle(userId: number, yearId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Blob>>;
-     public diplomaDownloadSingle(userId: number, yearId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (userId === null || userId === undefined) {
-             throw new Error('Required parameter userId was null or undefined when calling diplomaDownloadSingle.');
-         }
- 
-         if (yearId === null || yearId === undefined) {
-             throw new Error('Required parameter yearId was null or undefined when calling diplomaDownloadSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<Blob>('get',`${this.basePath}/diplomas/${encodeURIComponent(String(userId))}/${encodeURIComponent(String(yearId))}/show`,//@ts-ignore
- {responseType: "blob",
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param userId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public diplomasListForUserSingle(userId: number, observe?: 'body', reportProgress?: boolean): Observable<DiplomasListResponse>;
-     public diplomasListForUserSingle(userId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<DiplomasListResponse>>;
-     public diplomasListForUserSingle(userId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<DiplomasListResponse>>;
-     public diplomasListForUserSingle(userId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (userId === null || userId === undefined) {
-             throw new Error('Required parameter userId was null or undefined when calling diplomasListForUserSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<DiplomasListResponse>('get',`${this.basePath}/diplomas/${encodeURIComponent(String(userId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param body 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public feedbackCreateNew(body: FeedbackCreationRequest, observe?: 'body', reportProgress?: boolean): Observable<FeedbackCreationRequest>;
-     public feedbackCreateNew(body: FeedbackCreationRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<FeedbackCreationRequest>>;
-     public feedbackCreateNew(body: FeedbackCreationRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<FeedbackCreationRequest>>;
-     public feedbackCreateNew(body: FeedbackCreationRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (body === null || body === undefined) {
-             throw new Error('Required parameter body was null or undefined when calling feedbackCreateNew.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'application/json'
-         ];
-         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-         if (httpContentTypeSelected != undefined) {
-             headers = headers.set('Content-Type', httpContentTypeSelected);
-         }
- 
-         return this.httpClient.request<FeedbackCreationRequest>('post',`${this.basePath}/feedbacks`,
-             {
-                 body: body,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param feedbackId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public feedbackDeleteSingle(feedbackId: number, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
-     public feedbackDeleteSingle(feedbackId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
-     public feedbackDeleteSingle(feedbackId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
-     public feedbackDeleteSingle(feedbackId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (feedbackId === null || feedbackId === undefined) {
-             throw new Error('Required parameter feedbackId was null or undefined when calling feedbackDeleteSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<EmptyDict>('delete',`${this.basePath}/feedbacks/${encodeURIComponent(String(feedbackId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param body 
-      * @param feedbackId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public feedbackEditSingle(body: FeedbackUpdateRequest, feedbackId: number, observe?: 'body', reportProgress?: boolean): Observable<FeedbacksResponse>;
-     public feedbackEditSingle(body: FeedbackUpdateRequest, feedbackId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<FeedbacksResponse>>;
-     public feedbackEditSingle(body: FeedbackUpdateRequest, feedbackId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<FeedbacksResponse>>;
-     public feedbackEditSingle(body: FeedbackUpdateRequest, feedbackId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (body === null || body === undefined) {
-             throw new Error('Required parameter body was null or undefined when calling feedbackEditSingle.');
-         }
- 
-         if (feedbackId === null || feedbackId === undefined) {
-             throw new Error('Required parameter feedbackId was null or undefined when calling feedbackEditSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'application/json'
-         ];
-         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-         if (httpContentTypeSelected != undefined) {
-             headers = headers.set('Content-Type', httpContentTypeSelected);
-         }
- 
-         return this.httpClient.request<FeedbacksResponse>('put',`${this.basePath}/feedbacks/${encodeURIComponent(String(feedbackId))}`,
-             {
-                 body: body,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param feedbackId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public feedbackGetSingle(feedbackId: number, observe?: 'body', reportProgress?: boolean): Observable<FeedbacksResponse>;
-     public feedbackGetSingle(feedbackId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<FeedbacksResponse>>;
-     public feedbackGetSingle(feedbackId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<FeedbacksResponse>>;
-     public feedbackGetSingle(feedbackId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (feedbackId === null || feedbackId === undefined) {
-             throw new Error('Required parameter feedbackId was null or undefined when calling feedbackGetSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<FeedbacksResponse>('get',`${this.basePath}/feedbacks/${encodeURIComponent(String(feedbackId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param body 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public forgottenPasswordReset(body: ForgottenPasswordRequest, observe?: 'body', reportProgress?: boolean): Observable<ForgottenPasswordResult>;
-     public forgottenPasswordReset(body: ForgottenPasswordRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ForgottenPasswordResult>>;
-     public forgottenPasswordReset(body: ForgottenPasswordRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ForgottenPasswordResult>>;
-     public forgottenPasswordReset(body: ForgottenPasswordRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (body === null || body === undefined) {
-             throw new Error('Required parameter body was null or undefined when calling forgottenPasswordReset.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'application/json'
-         ];
-         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-         if (httpContentTypeSelected != undefined) {
-             headers = headers.set('Content-Type', httpContentTypeSelected);
-         }
- 
-         return this.httpClient.request<ForgottenPasswordResult>('post',`${this.basePath}/forgottenPassword`,
-             {
-                 body: body,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param context 
-      * @param imagesId 
-      * @param file 
-      * @param module 
-      * @param user 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public imagesGetSingle(context: string, imagesId: number, file?: string, module?: number, user?: number, observe?: 'body', reportProgress?: boolean): Observable<Uint8Array>;
-     public imagesGetSingle(context: string, imagesId: number, file?: string, module?: number, user?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Uint8Array>>;
-     public imagesGetSingle(context: string, imagesId: number, file?: string, module?: number, user?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Uint8Array>>;
-     public imagesGetSingle(context: string, imagesId: number, file?: string, module?: number, user?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (context === null || context === undefined) {
-             throw new Error('Required parameter context was null or undefined when calling imagesGetSingle.');
-         }
- 
-         if (imagesId === null || imagesId === undefined) {
-             throw new Error('Required parameter imagesId was null or undefined when calling imagesGetSingle.');
-         }
- 
- 
- 
- 
-         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-         if (file !== undefined && file !== null) {
-             queryParameters = queryParameters.set('file', <any>file);
-         }
-         if (module !== undefined && module !== null) {
-             queryParameters = queryParameters.set('module', <any>module);
-         }
-         if (user !== undefined && user !== null) {
-             queryParameters = queryParameters.set('user', <any>user);
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<Uint8Array>('get',`${this.basePath}/images/${encodeURIComponent(String(context))}/${encodeURIComponent(String(imagesId))}`,
-             {
-                 params: queryParameters,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public instanceConfigGetAll(observe?: 'body', reportProgress?: boolean): Observable<AdminInstanceConfigResponse>;
-     public instanceConfigGetAll(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AdminInstanceConfigResponse>>;
-     public instanceConfigGetAll(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AdminInstanceConfigResponse>>;
-     public instanceConfigGetAll(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<AdminInstanceConfigResponse>('get',`${this.basePath}/admin/instanceConfig`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param body 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public instanceConfigSetSingle(body: AdminInstanceConfig, observe?: 'body', reportProgress?: boolean): Observable<string>;
-     public instanceConfigSetSingle(body: AdminInstanceConfig, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
-     public instanceConfigSetSingle(body: AdminInstanceConfig, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
-     public instanceConfigSetSingle(body: AdminInstanceConfig, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (body === null || body === undefined) {
-             throw new Error('Required parameter body was null or undefined when calling instanceConfigSetSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'application/json'
-         ];
-         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-         if (httpContentTypeSelected != undefined) {
-             headers = headers.set('Content-Type', httpContentTypeSelected);
-         }
- 
-         return this.httpClient.request<string>('post',`${this.basePath}/admin/instanceConfig`,
-             {
-                 body: body,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param modulesId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public modulesGetSingle(modulesId: number, observe?: 'body', reportProgress?: boolean): Observable<ModuleResponse>;
-     public modulesGetSingle(modulesId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ModuleResponse>>;
-     public modulesGetSingle(modulesId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ModuleResponse>>;
-     public modulesGetSingle(modulesId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (modulesId === null || modulesId === undefined) {
-             throw new Error('Required parameter modulesId was null or undefined when calling modulesGetSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<ModuleResponse>('get',`${this.basePath}/modules/${encodeURIComponent(String(modulesId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param files 
-      * @param modulesId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public modulesSubmitFilesForm(files: Blob, modulesId: number, observe?: 'body', reportProgress?: boolean): Observable<ModuleSubmitResponse>;
-     public modulesSubmitFilesForm(files: Blob, modulesId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ModuleSubmitResponse>>;
-     public modulesSubmitFilesForm(files: Blob, modulesId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ModuleSubmitResponse>>;
-     public modulesSubmitFilesForm(files: Blob, modulesId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (files === null || files === undefined) {
-             throw new Error('Required parameter files was null or undefined when calling modulesSubmitFiles.');
-         }
- 
-         if (modulesId === null || modulesId === undefined) {
-             throw new Error('Required parameter modulesId was null or undefined when calling modulesSubmitFiles.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'multipart/form-data'
-         ];
- 
-         const canConsumeForm = this.canConsumeForm(consumes);
- 
-         let formParams: { append(param: string, value: any): void; };
-         let useForm = false;
-         let convertFormParamsToString = false;
-         // use FormData to transmit files using content-type "multipart/form-data"
-         // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
-         useForm = canConsumeForm;
-         if (useForm) {
-             formParams = new FormData();
-         } else {
-             formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-         }
- 
-         if (files !== undefined) {
-             formParams = formParams.append('files', <any>files) as any || formParams;
-         }
- 
-         return this.httpClient.request<ModuleSubmitResponse>('post',`${this.basePath}/modules/${encodeURIComponent(String(modulesId))}/submitFiles`,
-             {
-                 body: convertFormParamsToString ? formParams.toString() : formParams,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param modulesId 
-      * @param body 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public modulesSubmitSingle(modulesId: number, body?: ModuleSubmissionRequest, observe?: 'body', reportProgress?: boolean): Observable<ModuleSubmitResponse>;
-     public modulesSubmitSingle(modulesId: number, body?: ModuleSubmissionRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ModuleSubmitResponse>>;
-     public modulesSubmitSingle(modulesId: number, body?: ModuleSubmissionRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ModuleSubmitResponse>>;
-     public modulesSubmitSingle(modulesId: number, body?: ModuleSubmissionRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (modulesId === null || modulesId === undefined) {
-             throw new Error('Required parameter modulesId was null or undefined when calling modulesSubmitSingle.');
-         }
- 
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'application/json'
-         ];
-         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-         if (httpContentTypeSelected != undefined) {
-             headers = headers.set('Content-Type', httpContentTypeSelected);
-         }
- 
-         return this.httpClient.request<ModuleSubmitResponse>('post',`${this.basePath}/modules/${encodeURIComponent(String(modulesId))}/submit`,
-             {
-                 body: body,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param body 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public postsCreateNew(body: PostsCreationRequest, observe?: 'body', reportProgress?: boolean): Observable<PostsCreationRequest>;
-     public postsCreateNew(body: PostsCreationRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PostsCreationRequest>>;
-     public postsCreateNew(body: PostsCreationRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PostsCreationRequest>>;
-     public postsCreateNew(body: PostsCreationRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (body === null || body === undefined) {
-             throw new Error('Required parameter body was null or undefined when calling postsCreateNew.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'application/json'
-         ];
-         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-         if (httpContentTypeSelected != undefined) {
-             headers = headers.set('Content-Type', httpContentTypeSelected);
-         }
- 
-         return this.httpClient.request<PostsCreationRequest>('post',`${this.basePath}/posts`,
-             {
-                 body: body,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param postsId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public postsDeleteSingle(postsId: number, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
-     public postsDeleteSingle(postsId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
-     public postsDeleteSingle(postsId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
-     public postsDeleteSingle(postsId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (postsId === null || postsId === undefined) {
-             throw new Error('Required parameter postsId was null or undefined when calling postsDeleteSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<EmptyDict>('delete',`${this.basePath}/posts/${encodeURIComponent(String(postsId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param body 
-      * @param postsId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public postsEditSingle(body: PostsEditRequest, postsId: number, observe?: 'body', reportProgress?: boolean): Observable<PostResponse>;
-     public postsEditSingle(body: PostsEditRequest, postsId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PostResponse>>;
-     public postsEditSingle(body: PostsEditRequest, postsId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PostResponse>>;
-     public postsEditSingle(body: PostsEditRequest, postsId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (body === null || body === undefined) {
-             throw new Error('Required parameter body was null or undefined when calling postsEditSingle.');
-         }
- 
-         if (postsId === null || postsId === undefined) {
-             throw new Error('Required parameter postsId was null or undefined when calling postsEditSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'application/json'
-         ];
-         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-         if (httpContentTypeSelected != undefined) {
-             headers = headers.set('Content-Type', httpContentTypeSelected);
-         }
- 
-         return this.httpClient.request<PostResponse>('put',`${this.basePath}/posts/${encodeURIComponent(String(postsId))}`,
-             {
-                 body: body,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param postsId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public postsGetSingle(postsId: number, observe?: 'body', reportProgress?: boolean): Observable<PostResponse>;
-     public postsGetSingle(postsId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PostResponse>>;
-     public postsGetSingle(postsId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PostResponse>>;
-     public postsGetSingle(postsId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (postsId === null || postsId === undefined) {
-             throw new Error('Required parameter postsId was null or undefined when calling postsGetSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<PostResponse>('get',`${this.basePath}/posts/${encodeURIComponent(String(postsId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param body 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public profileEditMy(body: ProfileEdit, observe?: 'body', reportProgress?: boolean): Observable<ProfileResponse>;
-     public profileEditMy(body: ProfileEdit, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ProfileResponse>>;
-     public profileEditMy(body: ProfileEdit, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ProfileResponse>>;
-     public profileEditMy(body: ProfileEdit, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (body === null || body === undefined) {
-             throw new Error('Required parameter body was null or undefined when calling profileEditMy.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'application/json'
-         ];
-         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-         if (httpContentTypeSelected != undefined) {
-             headers = headers.set('Content-Type', httpContentTypeSelected);
-         }
- 
-         return this.httpClient.request<ProfileResponse>('put',`${this.basePath}/profile`,
-             {
-                 body: body,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param year 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public profileGetMy(year?: number, observe?: 'body', reportProgress?: boolean): Observable<ProfileResponse>;
-     public profileGetMy(year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ProfileResponse>>;
-     public profileGetMy(year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ProfileResponse>>;
-     public profileGetMy(year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
- 
-         let headers = this.defaultHeaders;
-         if (year !== undefined && year !== null) {
-             headers = headers.set('year', String(year));
-         }
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<ProfileResponse>('get',`${this.basePath}/profile`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param profileId 
-      * @param year 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public profileGetSingle(profileId: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<ProfileResponse>;
-     public profileGetSingle(profileId: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ProfileResponse>>;
-     public profileGetSingle(profileId: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ProfileResponse>>;
-     public profileGetSingle(profileId: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (profileId === null || profileId === undefined) {
-             throw new Error('Required parameter profileId was null or undefined when calling profileGetSingle.');
-         }
- 
- 
-         let headers = this.defaultHeaders;
-         if (year !== undefined && year !== null) {
-             headers = headers.set('year', String(year));
-         }
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<ProfileResponse>('get',`${this.basePath}/profile/${encodeURIComponent(String(profileId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param file 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public profileUploadPictureForm(file: Blob, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
-     public profileUploadPictureForm(file: Blob, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
-     public profileUploadPictureForm(file: Blob, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
-     public profileUploadPictureForm(file: Blob, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (file === null || file === undefined) {
-             throw new Error('Required parameter file was null or undefined when calling profileUploadPicture.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'multipart/form-data'
-         ];
- 
-         const canConsumeForm = this.canConsumeForm(consumes);
- 
-         let formParams: { append(param: string, value: any): void; };
-         let useForm = false;
-         let convertFormParamsToString = false;
-         // use FormData to transmit files using content-type "multipart/form-data"
-         // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
-         useForm = canConsumeForm;
-         if (useForm) {
-             formParams = new FormData();
-         } else {
-             formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-         }
- 
-         if (file !== undefined) {
-             formParams = formParams.append('file', <any>file) as any || formParams;
-         }
- 
-         return this.httpClient.request<EmptyDict>('post',`${this.basePath}/profile/picture`,
-             {
-                 body: convertFormParamsToString ? formParams.toString() : formParams,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param body 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public registerNewUser(body: RegistrationRequest, observe?: 'body', reportProgress?: boolean): Observable<PossibleErrorDict>;
-     public registerNewUser(body: RegistrationRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PossibleErrorDict>>;
-     public registerNewUser(body: RegistrationRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PossibleErrorDict>>;
-     public registerNewUser(body: RegistrationRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (body === null || body === undefined) {
-             throw new Error('Required parameter body was null or undefined when calling registerNewUser.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'application/json'
-         ];
-         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-         if (httpContentTypeSelected != undefined) {
-             headers = headers.set('Content-Type', httpContentTypeSelected);
-         }
- 
-         return this.httpClient.request<PossibleErrorDict>('post',`${this.basePath}/registration`,
-             {
-                 body: body,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param body 
-      * @param moduleId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public runCode(body: RunCodeRequest, moduleId: number, observe?: 'body', reportProgress?: boolean): Observable<RunCodeResponse>;
-     public runCode(body: RunCodeRequest, moduleId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<RunCodeResponse>>;
-     public runCode(body: RunCodeRequest, moduleId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<RunCodeResponse>>;
-     public runCode(body: RunCodeRequest, moduleId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (body === null || body === undefined) {
-             throw new Error('Required parameter body was null or undefined when calling runCode.');
-         }
- 
-         if (moduleId === null || moduleId === undefined) {
-             throw new Error('Required parameter moduleId was null or undefined when calling runCode.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'application/json'
-         ];
-         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-         if (httpContentTypeSelected != undefined) {
-             headers = headers.set('Content-Type', httpContentTypeSelected);
-         }
- 
-         return this.httpClient.request<RunCodeResponse>('post',`${this.basePath}/runCode/${encodeURIComponent(String(moduleId))}/submit`,
-             {
-                 body: body,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param body 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public sendEmailWithFeedback(body: FeedbackRequest, observe?: 'body', reportProgress?: boolean): Observable<FeedbackResponse>;
-     public sendEmailWithFeedback(body: FeedbackRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<FeedbackResponse>>;
-     public sendEmailWithFeedback(body: FeedbackRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<FeedbackResponse>>;
-     public sendEmailWithFeedback(body: FeedbackRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (body === null || body === undefined) {
-             throw new Error('Required parameter body was null or undefined when calling sendEmailWithFeedback.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'application/json'
-         ];
-         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-         if (httpContentTypeSelected != undefined) {
-             headers = headers.set('Content-Type', httpContentTypeSelected);
-         }
- 
-         return this.httpClient.request<FeedbackResponse>('post',`${this.basePath}/feedback`,
-             {
-                 body: body,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public sendEmailWithFeedback_1(observe?: 'body', reportProgress?: boolean): Observable<any>;
-     public sendEmailWithFeedback_1(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-     public sendEmailWithFeedback_1(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-     public sendEmailWithFeedback_1(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<any>('get',`${this.basePath}/logout`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param submFileId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public subFilesDeleteSingle(submFileId: number, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
-     public subFilesDeleteSingle(submFileId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
-     public subFilesDeleteSingle(submFileId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
-     public subFilesDeleteSingle(submFileId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (submFileId === null || submFileId === undefined) {
-             throw new Error('Required parameter submFileId was null or undefined when calling subFilesDeleteSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<EmptyDict>('delete',`${this.basePath}/submFiles/${encodeURIComponent(String(submFileId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param submFileId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public submFilesGetSingle(submFileId: number, observe?: 'body', reportProgress?: boolean): Observable<Blob>;
-     public submFilesGetSingle(submFileId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Blob>>;
-     public submFilesGetSingle(submFileId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Blob>>;
-     public submFilesGetSingle(submFileId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (submFileId === null || submFileId === undefined) {
-             throw new Error('Required parameter submFileId was null or undefined when calling submFilesGetSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<Blob>('get',`${this.basePath}/submFiles/${encodeURIComponent(String(submFileId))}`,//@ts-ignore
- {responseType: "blob",
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param view 
-      * @param contentId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
+import { Inject, Injectable, Optional }                      from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams,
+         HttpResponse, HttpEvent }                           from '@angular/common/http';
+import { CustomHttpUrlEncodingCodec }                        from '../encoder';
+
+import { Observable }                                        from 'rxjs';
+
+import { AchievementCreationRequest } from '../model/achievementCreationRequest';
+import { AchievementGrantRequest } from '../model/achievementGrantRequest';
+import { AchievementGrantResponse } from '../model/achievementGrantResponse';
+import { AchievementResponse } from '../model/achievementResponse';
+import { AchievementsResponse } from '../model/achievementsResponse';
+import { AdminInstanceConfig } from '../model/adminInstanceConfig';
+import { AdminInstanceConfigResponse } from '../model/adminInstanceConfigResponse';
+import { AdminTaskCreationRequest } from '../model/adminTaskCreationRequest';
+import { AdminTaskDeployResponse } from '../model/adminTaskDeployResponse';
+import { AdminTaskMergeResponse } from '../model/adminTaskMergeResponse';
+import { AdminTaskResponse } from '../model/adminTaskResponse';
+import { AdminTaskUpdateRequest } from '../model/adminTaskUpdateRequest';
+import { AdminTasksResponse } from '../model/adminTasksResponse';
+import { ArticleCreationRequest } from '../model/articleCreationRequest';
+import { ArticleResponse } from '../model/articleResponse';
+import { ArticlesResponse } from '../model/articlesResponse';
+import { AuthResponse } from '../model/authResponse';
+import { BasicProfileResponse } from '../model/basicProfileResponse';
+import { ChangePasswordRequest } from '../model/changePasswordRequest';
+import { ChangePasswordResult } from '../model/changePasswordResult';
+import { CodeEvaluationResponse } from '../model/codeEvaluationResponse';
+import { CorrectionEvaluation } from '../model/correctionEvaluation';
+import { CorrectionInfoResponse } from '../model/correctionInfoResponse';
+import { CorrectionInfosAllResponse } from '../model/correctionInfosAllResponse';
+import { CorrectionResponse } from '../model/correctionResponse';
+import { CorrectionState } from '../model/correctionState';
+import { CorrectionUpdateRequest } from '../model/correctionUpdateRequest';
+import { CorrectionsAllResponse } from '../model/correctionsAllResponse';
+import { DiplomasListResponse } from '../model/diplomasListResponse';
+import { EmailSendRequest } from '../model/emailSendRequest';
+import { EmailSendResponse } from '../model/emailSendResponse';
+import { EmptyDict } from '../model/emptyDict';
+import { Execution } from '../model/execution';
+import { ExecutionResult } from '../model/executionResult';
+import { ExecutionsResponse } from '../model/executionsResponse';
+import { FeedbackCreationRequest } from '../model/feedbackCreationRequest';
+import { FeedbackRequest } from '../model/feedbackRequest';
+import { FeedbackResponse } from '../model/feedbackResponse';
+import { FeedbackUpdateRequest } from '../model/feedbackUpdateRequest';
+import { FeedbacksResponse } from '../model/feedbacksResponse';
+import { ForgottenPasswordRequest } from '../model/forgottenPasswordRequest';
+import { ForgottenPasswordResult } from '../model/forgottenPasswordResult';
+import { InlineResponse200 } from '../model/inlineResponse200';
+import { InlineResponse2001 } from '../model/inlineResponse2001';
+import { ModuleResponse } from '../model/moduleResponse';
+import { ModuleSubmissionRequest } from '../model/moduleSubmissionRequest';
+import { ModuleSubmitResponse } from '../model/moduleSubmitResponse';
+import { MonitoringDashboardURLResponse } from '../model/monitoringDashboardURLResponse';
+import { PossibleErrorDict } from '../model/possibleErrorDict';
+import { PostResponse } from '../model/postResponse';
+import { PostsCreationRequest } from '../model/postsCreationRequest';
+import { PostsEditRequest } from '../model/postsEditRequest';
+import { ProfileEdit } from '../model/profileEdit';
+import { ProfileResponse } from '../model/profileResponse';
+import { RegistrationRequest } from '../model/registrationRequest';
+import { RunCodeRequest } from '../model/runCodeRequest';
+import { RunCodeResponse } from '../model/runCodeResponse';
+import { TaskDetailResponse } from '../model/taskDetailResponse';
+import { TaskResponse } from '../model/taskResponse';
+import { TasksResponse } from '../model/tasksResponse';
+import { ThreadDetailResponse } from '../model/threadDetailResponse';
+import { ThreadResponse } from '../model/threadResponse';
+import { ThreadsCreationRequest } from '../model/threadsCreationRequest';
+import { ThreadsResponse } from '../model/threadsResponse';
+import { Uint8Array } from '../model/uint8Array';
+import { UserResponse } from '../model/userResponse';
+import { UsersResponse } from '../model/usersResponse';
+import { WaveCreationRequest } from '../model/waveCreationRequest';
+import { WaveResponse } from '../model/waveResponse';
+import { WaveUpdateRequest } from '../model/waveUpdateRequest';
+import { Waves } from '../model/waves';
+import { YearCreationRequest } from '../model/yearCreationRequest';
+import { YearResponse } from '../model/yearResponse';
+import { YearUpdateRequest } from '../model/yearUpdateRequest';
+import { Years } from '../model/years';
+
+import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
+import { Configuration }                                     from '../configuration';
+
+
+@Injectable()
+export class DefaultService {
+
+    protected basePath = '/';
+    public defaultHeaders = new HttpHeaders();
+    public configuration = new Configuration();
+
+    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
+        if (basePath) {
+            this.basePath = basePath;
+        }
+        if (configuration) {
+            this.configuration = configuration;
+            this.basePath = basePath || configuration.basePath || this.basePath;
+        }
+    }
+
+    /**
+     * @param consumes string[] mime-types
+     * @return true: consumes contains 'multipart/form-data', false: otherwise
+     */
+    private canConsumeForm(consumes: string[]): boolean {
+        const form = 'multipart/form-data';
+        for (const consume of consumes) {
+            if (form === consume) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public achievementsCreateNew(body: AchievementCreationRequest, observe?: 'body', reportProgress?: boolean): Observable<AchievementCreationRequest>;
+    public achievementsCreateNew(body: AchievementCreationRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AchievementCreationRequest>>;
+    public achievementsCreateNew(body: AchievementCreationRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AchievementCreationRequest>>;
+    public achievementsCreateNew(body: AchievementCreationRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling achievementsCreateNew.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<AchievementCreationRequest>('post',`${this.basePath}/achievements`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param achievementId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public achievementsDeleteSingle(achievementId: number, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
+    public achievementsDeleteSingle(achievementId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
+    public achievementsDeleteSingle(achievementId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
+    public achievementsDeleteSingle(achievementId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (achievementId === null || achievementId === undefined) {
+            throw new Error('Required parameter achievementId was null or undefined when calling achievementsDeleteSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<EmptyDict>('delete',`${this.basePath}/achievements/${encodeURIComponent(String(achievementId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param achievementId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public achievementsEditSingle(body: AchievementCreationRequest, achievementId: number, observe?: 'body', reportProgress?: boolean): Observable<AchievementResponse>;
+    public achievementsEditSingle(body: AchievementCreationRequest, achievementId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AchievementResponse>>;
+    public achievementsEditSingle(body: AchievementCreationRequest, achievementId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AchievementResponse>>;
+    public achievementsEditSingle(body: AchievementCreationRequest, achievementId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling achievementsEditSingle.');
+        }
+
+        if (achievementId === null || achievementId === undefined) {
+            throw new Error('Required parameter achievementId was null or undefined when calling achievementsEditSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<AchievementResponse>('put',`${this.basePath}/achievements/${encodeURIComponent(String(achievementId))}`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param _limit 
+     * @param _start 
+     * @param achievement 
+     * @param year 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public achievementsGetAll(_limit?: number, _start?: number, achievement?: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<AchievementsResponse>;
+    public achievementsGetAll(_limit?: number, _start?: number, achievement?: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AchievementsResponse>>;
+    public achievementsGetAll(_limit?: number, _start?: number, achievement?: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AchievementsResponse>>;
+    public achievementsGetAll(_limit?: number, _start?: number, achievement?: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+
+
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (_limit !== undefined && _limit !== null) {
+            queryParameters = queryParameters.set('_limit', <any>_limit);
+        }
+        if (_start !== undefined && _start !== null) {
+            queryParameters = queryParameters.set('_start', <any>_start);
+        }
+
+        let headers = this.defaultHeaders;
+        if (achievement !== undefined && achievement !== null) {
+            headers = headers.set('achievement', String(achievement));
+        }
+        if (year !== undefined && year !== null) {
+            headers = headers.set('year', String(year));
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<AchievementsResponse>('get',`${this.basePath}/achievements`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param achievementId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public achievementsGetSingle(achievementId: number, observe?: 'body', reportProgress?: boolean): Observable<AchievementResponse>;
+    public achievementsGetSingle(achievementId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AchievementResponse>>;
+    public achievementsGetSingle(achievementId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AchievementResponse>>;
+    public achievementsGetSingle(achievementId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (achievementId === null || achievementId === undefined) {
+            throw new Error('Required parameter achievementId was null or undefined when calling achievementsGetSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<AchievementResponse>('get',`${this.basePath}/achievements/${encodeURIComponent(String(achievementId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public achievementsGetSuccessful(observe?: 'body', reportProgress?: boolean): Observable<AchievementResponse>;
+    public achievementsGetSuccessful(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AchievementResponse>>;
+    public achievementsGetSuccessful(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AchievementResponse>>;
+    public achievementsGetSuccessful(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<AchievementResponse>('get',`${this.basePath}/achievements/special/successful`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminAchievementsGrant(body: AchievementGrantRequest, observe?: 'body', reportProgress?: boolean): Observable<AchievementGrantResponse>;
+    public adminAchievementsGrant(body: AchievementGrantRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AchievementGrantResponse>>;
+    public adminAchievementsGrant(body: AchievementGrantRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AchievementGrantResponse>>;
+    public adminAchievementsGrant(body: AchievementGrantRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling adminAchievementsGrant.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<AchievementGrantResponse>('post',`${this.basePath}/admin/achievements/grant`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param year 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminCorrectionInfosGetAll(year?: number, observe?: 'body', reportProgress?: boolean): Observable<CorrectionInfosAllResponse>;
+    public adminCorrectionInfosGetAll(year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<CorrectionInfosAllResponse>>;
+    public adminCorrectionInfosGetAll(year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<CorrectionInfosAllResponse>>;
+    public adminCorrectionInfosGetAll(year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+
+        let headers = this.defaultHeaders;
+        if (year !== undefined && year !== null) {
+            headers = headers.set('year', String(year));
+        }
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<CorrectionInfosAllResponse>('get',`${this.basePath}/admin/correctionInfos`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param taskId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminCorrectionInfosGetSingle(taskId: number, observe?: 'body', reportProgress?: boolean): Observable<CorrectionInfoResponse>;
+    public adminCorrectionInfosGetSingle(taskId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<CorrectionInfoResponse>>;
+    public adminCorrectionInfosGetSingle(taskId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<CorrectionInfoResponse>>;
+    public adminCorrectionInfosGetSingle(taskId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (taskId === null || taskId === undefined) {
+            throw new Error('Required parameter taskId was null or undefined when calling adminCorrectionInfosGetSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<CorrectionInfoResponse>('get',`${this.basePath}/admin/correctionInfos/${encodeURIComponent(String(taskId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param taskId 
+     * @param _public 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminCorrectionsEmail(taskId: number, _public: number, observe?: 'body', reportProgress?: boolean): Observable<EmailSendResponse>;
+    public adminCorrectionsEmail(taskId: number, _public: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmailSendResponse>>;
+    public adminCorrectionsEmail(taskId: number, _public: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmailSendResponse>>;
+    public adminCorrectionsEmail(taskId: number, _public: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (taskId === null || taskId === undefined) {
+            throw new Error('Required parameter taskId was null or undefined when calling adminCorrectionsEmail.');
+        }
+
+        if (_public === null || _public === undefined) {
+            throw new Error('Required parameter _public was null or undefined when calling adminCorrectionsEmail.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (_public !== undefined && _public !== null) {
+            queryParameters = queryParameters.set('public', <any>_public);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<EmailSendResponse>('put',`${this.basePath}/admin/correctionsEmail/${encodeURIComponent(String(taskId))}`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param task 
+     * @param participant 
+     * @param state 
+     * @param year 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminCorrectionsGetAll(task?: number, participant?: number, state?: CorrectionState, year?: number, observe?: 'body', reportProgress?: boolean): Observable<CorrectionsAllResponse>;
+    public adminCorrectionsGetAll(task?: number, participant?: number, state?: CorrectionState, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<CorrectionsAllResponse>>;
+    public adminCorrectionsGetAll(task?: number, participant?: number, state?: CorrectionState, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<CorrectionsAllResponse>>;
+    public adminCorrectionsGetAll(task?: number, participant?: number, state?: CorrectionState, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+
+
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (task !== undefined && task !== null) {
+            queryParameters = queryParameters.set('task', <any>task);
+        }
+        if (participant !== undefined && participant !== null) {
+            queryParameters = queryParameters.set('participant', <any>participant);
+        }
+        if (state !== undefined && state !== null) {
+            queryParameters = queryParameters.set('state', <any>state);
+        }
+
+        let headers = this.defaultHeaders;
+        if (year !== undefined && year !== null) {
+            headers = headers.set('year', String(year));
+        }
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<CorrectionsAllResponse>('get',`${this.basePath}/admin/corrections`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param correctionId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminCorrectionsGetSingle(correctionId: number, observe?: 'body', reportProgress?: boolean): Observable<CorrectionResponse>;
+    public adminCorrectionsGetSingle(correctionId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<CorrectionResponse>>;
+    public adminCorrectionsGetSingle(correctionId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<CorrectionResponse>>;
+    public adminCorrectionsGetSingle(correctionId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (correctionId === null || correctionId === undefined) {
+            throw new Error('Required parameter correctionId was null or undefined when calling adminCorrectionsGetSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<CorrectionResponse>('get',`${this.basePath}/admin/corrections/${encodeURIComponent(String(correctionId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param correctionId 
+     * @param _public 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminCorrectionsPublish(correctionId: number, _public: number, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
+    public adminCorrectionsPublish(correctionId: number, _public: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
+    public adminCorrectionsPublish(correctionId: number, _public: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
+    public adminCorrectionsPublish(correctionId: number, _public: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (correctionId === null || correctionId === undefined) {
+            throw new Error('Required parameter correctionId was null or undefined when calling adminCorrectionsPublish.');
+        }
+
+        if (_public === null || _public === undefined) {
+            throw new Error('Required parameter _public was null or undefined when calling adminCorrectionsPublish.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (_public !== undefined && _public !== null) {
+            queryParameters = queryParameters.set('public', <any>_public);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<EmptyDict>('get',`${this.basePath}/admin/corrections/${encodeURIComponent(String(correctionId))}/publish`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param correctionId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminCorrectionsUpdateSingle(body: CorrectionUpdateRequest, correctionId: number, observe?: 'body', reportProgress?: boolean): Observable<CorrectionResponse>;
+    public adminCorrectionsUpdateSingle(body: CorrectionUpdateRequest, correctionId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<CorrectionResponse>>;
+    public adminCorrectionsUpdateSingle(body: CorrectionUpdateRequest, correctionId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<CorrectionResponse>>;
+    public adminCorrectionsUpdateSingle(body: CorrectionUpdateRequest, correctionId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling adminCorrectionsUpdateSingle.');
+        }
+
+        if (correctionId === null || correctionId === undefined) {
+            throw new Error('Required parameter correctionId was null or undefined when calling adminCorrectionsUpdateSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<CorrectionResponse>('put',`${this.basePath}/admin/corrections/${encodeURIComponent(String(correctionId))}`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param files 
+     * @param userId 
+     * @param year 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminDiplomaGrantForm(files: Blob, userId: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public adminDiplomaGrantForm(files: Blob, userId: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public adminDiplomaGrantForm(files: Blob, userId: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public adminDiplomaGrantForm(files: Blob, userId: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (files === null || files === undefined) {
+            throw new Error('Required parameter files was null or undefined when calling adminDiplomaGrant.');
+        }
+
+        if (userId === null || userId === undefined) {
+            throw new Error('Required parameter userId was null or undefined when calling adminDiplomaGrant.');
+        }
+
+
+        let headers = this.defaultHeaders;
+        if (year !== undefined && year !== null) {
+            headers = headers.set('year', String(year));
+        }
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'multipart/form-data'
+        ];
+
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): void; };
+        let useForm = false;
+        let convertFormParamsToString = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        }
+
+        if (files !== undefined) {
+            formParams = formParams.append('files', <any>files) as any || formParams;
+        }
+
+        return this.httpClient.request<any>('post',`${this.basePath}/admin/diploma/${encodeURIComponent(String(userId))}/grant`,
+            {
+                body: convertFormParamsToString ? formParams.toString() : formParams,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminEmailSend(body: EmailSendRequest, observe?: 'body', reportProgress?: boolean): Observable<EmailSendResponse>;
+    public adminEmailSend(body: EmailSendRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmailSendResponse>>;
+    public adminEmailSend(body: EmailSendRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmailSendResponse>>;
+    public adminEmailSend(body: EmailSendRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling adminEmailSend.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<EmailSendResponse>('post',`${this.basePath}/admin/e-mail`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param evaluationId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminEvaluationGetSingle(evaluationId: number, observe?: 'body', reportProgress?: boolean): Observable<CodeEvaluationResponse>;
+    public adminEvaluationGetSingle(evaluationId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<CodeEvaluationResponse>>;
+    public adminEvaluationGetSingle(evaluationId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<CodeEvaluationResponse>>;
+    public adminEvaluationGetSingle(evaluationId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (evaluationId === null || evaluationId === undefined) {
+            throw new Error('Required parameter evaluationId was null or undefined when calling adminEvaluationGetSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<CodeEvaluationResponse>('get',`${this.basePath}/admin/evalCodes/${encodeURIComponent(String(evaluationId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param user 
+     * @param module 
+     * @param limit 
+     * @param page 
+     * @param from 
+     * @param to 
+     * @param result 
+     * @param year 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminExecutionGetMultiple(user?: number, module?: number, limit?: number, page?: number, from?: string, to?: string, result?: ExecutionResult, year?: number, observe?: 'body', reportProgress?: boolean): Observable<ExecutionsResponse>;
+    public adminExecutionGetMultiple(user?: number, module?: number, limit?: number, page?: number, from?: string, to?: string, result?: ExecutionResult, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ExecutionsResponse>>;
+    public adminExecutionGetMultiple(user?: number, module?: number, limit?: number, page?: number, from?: string, to?: string, result?: ExecutionResult, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ExecutionsResponse>>;
+    public adminExecutionGetMultiple(user?: number, module?: number, limit?: number, page?: number, from?: string, to?: string, result?: ExecutionResult, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+
+
+
+
+
+
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (user !== undefined && user !== null) {
+            queryParameters = queryParameters.set('user', <any>user);
+        }
+        if (module !== undefined && module !== null) {
+            queryParameters = queryParameters.set('module', <any>module);
+        }
+        if (limit !== undefined && limit !== null) {
+            queryParameters = queryParameters.set('limit', <any>limit);
+        }
+        if (page !== undefined && page !== null) {
+            queryParameters = queryParameters.set('page', <any>page);
+        }
+        if (from !== undefined && from !== null) {
+            queryParameters = queryParameters.set('from', <any>from);
+        }
+        if (to !== undefined && to !== null) {
+            queryParameters = queryParameters.set('to', <any>to);
+        }
+        if (result !== undefined && result !== null) {
+            queryParameters = queryParameters.set('result', <any>result);
+        }
+
+        let headers = this.defaultHeaders;
+        if (year !== undefined && year !== null) {
+            headers = headers.set('year', String(year));
+        }
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<ExecutionsResponse>('get',`${this.basePath}/admin/execs`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param executionId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminExecutionGetSingle(executionId: number, observe?: 'body', reportProgress?: boolean): Observable<Execution>;
+    public adminExecutionGetSingle(executionId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Execution>>;
+    public adminExecutionGetSingle(executionId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Execution>>;
+    public adminExecutionGetSingle(executionId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (executionId === null || executionId === undefined) {
+            throw new Error('Required parameter executionId was null or undefined when calling adminExecutionGetSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<Execution>('get',`${this.basePath}/admin/execs/${encodeURIComponent(String(executionId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param evaluationId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminGetEvaluationSingle(evaluationId: number, observe?: 'body', reportProgress?: boolean): Observable<CorrectionEvaluation>;
+    public adminGetEvaluationSingle(evaluationId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<CorrectionEvaluation>>;
+    public adminGetEvaluationSingle(evaluationId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<CorrectionEvaluation>>;
+    public adminGetEvaluationSingle(evaluationId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (evaluationId === null || evaluationId === undefined) {
+            throw new Error('Required parameter evaluationId was null or undefined when calling adminGetEvaluationSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<CorrectionEvaluation>('get',`${this.basePath}/admin/evaluations/${encodeURIComponent(String(evaluationId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminMonitoringDashboardURL(observe?: 'body', reportProgress?: boolean): Observable<MonitoringDashboardURLResponse>;
+    public adminMonitoringDashboardURL(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<MonitoringDashboardURLResponse>>;
+    public adminMonitoringDashboardURL(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<MonitoringDashboardURLResponse>>;
+    public adminMonitoringDashboardURL(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<MonitoringDashboardURLResponse>('get',`${this.basePath}/admin/monitoring-dashboard`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param evaluationId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminSubmissionEvaluation(evaluationId: number, observe?: 'body', reportProgress?: boolean): Observable<Uint8Array>;
+    public adminSubmissionEvaluation(evaluationId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Uint8Array>>;
+    public adminSubmissionEvaluation(evaluationId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Uint8Array>>;
+    public adminSubmissionEvaluation(evaluationId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (evaluationId === null || evaluationId === undefined) {
+            throw new Error('Required parameter evaluationId was null or undefined when calling adminSubmissionEvaluation.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<Uint8Array>('get',`${this.basePath}/admin/subm/eval/${encodeURIComponent(String(evaluationId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param taskId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminSubmissionTask(taskId: number, observe?: 'body', reportProgress?: boolean): Observable<Uint8Array>;
+    public adminSubmissionTask(taskId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Uint8Array>>;
+    public adminSubmissionTask(taskId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Uint8Array>>;
+    public adminSubmissionTask(taskId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (taskId === null || taskId === undefined) {
+            throw new Error('Required parameter taskId was null or undefined when calling adminSubmissionTask.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<Uint8Array>('get',`${this.basePath}/admin/subm/task/${encodeURIComponent(String(taskId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param taskId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminTaskDeploySingle(taskId: number, observe?: 'body', reportProgress?: boolean): Observable<AdminTaskMergeResponse>;
+    public adminTaskDeploySingle(taskId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AdminTaskMergeResponse>>;
+    public adminTaskDeploySingle(taskId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AdminTaskMergeResponse>>;
+    public adminTaskDeploySingle(taskId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (taskId === null || taskId === undefined) {
+            throw new Error('Required parameter taskId was null or undefined when calling adminTaskDeploySingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<AdminTaskMergeResponse>('post',`${this.basePath}/admin/atasks/${encodeURIComponent(String(taskId))}/deploy`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param taskId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminTaskMergeSingle(taskId: number, observe?: 'body', reportProgress?: boolean): Observable<AdminTaskMergeResponse>;
+    public adminTaskMergeSingle(taskId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AdminTaskMergeResponse>>;
+    public adminTaskMergeSingle(taskId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AdminTaskMergeResponse>>;
+    public adminTaskMergeSingle(taskId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (taskId === null || taskId === undefined) {
+            throw new Error('Required parameter taskId was null or undefined when calling adminTaskMergeSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<AdminTaskMergeResponse>('post',`${this.basePath}/admin/atasks/${encodeURIComponent(String(taskId))}/merge`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param year 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminTasksCreateNew(body: AdminTaskCreationRequest, year?: number, observe?: 'body', reportProgress?: boolean): Observable<AdminTaskResponse>;
+    public adminTasksCreateNew(body: AdminTaskCreationRequest, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AdminTaskResponse>>;
+    public adminTasksCreateNew(body: AdminTaskCreationRequest, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AdminTaskResponse>>;
+    public adminTasksCreateNew(body: AdminTaskCreationRequest, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling adminTasksCreateNew.');
+        }
+
+
+        let headers = this.defaultHeaders;
+        if (year !== undefined && year !== null) {
+            headers = headers.set('year', String(year));
+        }
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<AdminTaskResponse>('post',`${this.basePath}/admin/atasks`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param taskId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminTasksDeleteSingle(taskId: number, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
+    public adminTasksDeleteSingle(taskId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
+    public adminTasksDeleteSingle(taskId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
+    public adminTasksDeleteSingle(taskId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (taskId === null || taskId === undefined) {
+            throw new Error('Required parameter taskId was null or undefined when calling adminTasksDeleteSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<EmptyDict>('delete',`${this.basePath}/admin/atasks/${encodeURIComponent(String(taskId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param wave 
+     * @param year 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminTasksGetAll(wave?: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<AdminTasksResponse>;
+    public adminTasksGetAll(wave?: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AdminTasksResponse>>;
+    public adminTasksGetAll(wave?: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AdminTasksResponse>>;
+    public adminTasksGetAll(wave?: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (wave !== undefined && wave !== null) {
+            queryParameters = queryParameters.set('wave', <any>wave);
+        }
+
+        let headers = this.defaultHeaders;
+        if (year !== undefined && year !== null) {
+            headers = headers.set('year', String(year));
+        }
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<AdminTasksResponse>('get',`${this.basePath}/admin/atasks`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param taskId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminTasksGetDeploySingle(taskId: number, observe?: 'body', reportProgress?: boolean): Observable<AdminTaskDeployResponse>;
+    public adminTasksGetDeploySingle(taskId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AdminTaskDeployResponse>>;
+    public adminTasksGetDeploySingle(taskId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AdminTaskDeployResponse>>;
+    public adminTasksGetDeploySingle(taskId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (taskId === null || taskId === undefined) {
+            throw new Error('Required parameter taskId was null or undefined when calling adminTasksGetDeploySingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<AdminTaskDeployResponse>('get',`${this.basePath}/admin/atasks/${encodeURIComponent(String(taskId))}/deploy`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param taskId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminTasksGetSingle(taskId: number, observe?: 'body', reportProgress?: boolean): Observable<AdminTaskResponse>;
+    public adminTasksGetSingle(taskId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AdminTaskResponse>>;
+    public adminTasksGetSingle(taskId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AdminTaskResponse>>;
+    public adminTasksGetSingle(taskId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (taskId === null || taskId === undefined) {
+            throw new Error('Required parameter taskId was null or undefined when calling adminTasksGetSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<AdminTaskResponse>('get',`${this.basePath}/admin/atasks/${encodeURIComponent(String(taskId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param taskId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminTasksUpdateSingle(body: AdminTaskUpdateRequest, taskId: number, observe?: 'body', reportProgress?: boolean): Observable<AdminTaskResponse>;
+    public adminTasksUpdateSingle(body: AdminTaskUpdateRequest, taskId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AdminTaskResponse>>;
+    public adminTasksUpdateSingle(body: AdminTaskUpdateRequest, taskId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AdminTaskResponse>>;
+    public adminTasksUpdateSingle(body: AdminTaskUpdateRequest, taskId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling adminTasksUpdateSingle.');
+        }
+
+        if (taskId === null || taskId === undefined) {
+            throw new Error('Required parameter taskId was null or undefined when calling adminTasksUpdateSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<AdminTaskResponse>('put',`${this.basePath}/admin/atasks/${encodeURIComponent(String(taskId))}`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param year 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminUserExport(year?: number, observe?: 'body', reportProgress?: boolean): Observable<string>;
+    public adminUserExport(year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
+    public adminUserExport(year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
+    public adminUserExport(year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+
+        let headers = this.defaultHeaders;
+        if (year !== undefined && year !== null) {
+            headers = headers.set('year', String(year));
+        }
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<string>('get',`${this.basePath}/admin/user-export`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param waveId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public adminWavesDiff(waveId: number, observe?: 'body', reportProgress?: boolean): Observable<InlineResponse200>;
+    public adminWavesDiff(waveId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<InlineResponse200>>;
+    public adminWavesDiff(waveId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<InlineResponse200>>;
+    public adminWavesDiff(waveId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (waveId === null || waveId === undefined) {
+            throw new Error('Required parameter waveId was null or undefined when calling adminWavesDiff.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<InlineResponse200>('get',`${this.basePath}/admin/waves/${encodeURIComponent(String(waveId))}/diff`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public articlesCreateNew(body: ArticleCreationRequest, observe?: 'body', reportProgress?: boolean): Observable<ArticleCreationRequest>;
+    public articlesCreateNew(body: ArticleCreationRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ArticleCreationRequest>>;
+    public articlesCreateNew(body: ArticleCreationRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ArticleCreationRequest>>;
+    public articlesCreateNew(body: ArticleCreationRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling articlesCreateNew.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<ArticleCreationRequest>('post',`${this.basePath}/articles`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param articleId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public articlesDeleteSingle(articleId: number, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
+    public articlesDeleteSingle(articleId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
+    public articlesDeleteSingle(articleId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
+    public articlesDeleteSingle(articleId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (articleId === null || articleId === undefined) {
+            throw new Error('Required parameter articleId was null or undefined when calling articlesDeleteSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<EmptyDict>('delete',`${this.basePath}/articles/${encodeURIComponent(String(articleId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param articleId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public articlesEditSingle(body: ArticleCreationRequest, articleId: number, observe?: 'body', reportProgress?: boolean): Observable<ArticleResponse>;
+    public articlesEditSingle(body: ArticleCreationRequest, articleId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ArticleResponse>>;
+    public articlesEditSingle(body: ArticleCreationRequest, articleId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ArticleResponse>>;
+    public articlesEditSingle(body: ArticleCreationRequest, articleId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling articlesEditSingle.');
+        }
+
+        if (articleId === null || articleId === undefined) {
+            throw new Error('Required parameter articleId was null or undefined when calling articlesEditSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<ArticleResponse>('put',`${this.basePath}/articles/${encodeURIComponent(String(articleId))}`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param _limit 
+     * @param _start 
+     * @param article 
+     * @param year 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public articlesGetAll(_limit?: number, _start?: number, article?: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<ArticlesResponse>;
+    public articlesGetAll(_limit?: number, _start?: number, article?: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ArticlesResponse>>;
+    public articlesGetAll(_limit?: number, _start?: number, article?: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ArticlesResponse>>;
+    public articlesGetAll(_limit?: number, _start?: number, article?: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+
+
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (_limit !== undefined && _limit !== null) {
+            queryParameters = queryParameters.set('_limit', <any>_limit);
+        }
+        if (_start !== undefined && _start !== null) {
+            queryParameters = queryParameters.set('_start', <any>_start);
+        }
+
+        let headers = this.defaultHeaders;
+        if (article !== undefined && article !== null) {
+            headers = headers.set('article', String(article));
+        }
+        if (year !== undefined && year !== null) {
+            headers = headers.set('year', String(year));
+        }
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<ArticlesResponse>('get',`${this.basePath}/articles`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param articleId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public articlesGetSingle(articleId: number, observe?: 'body', reportProgress?: boolean): Observable<ArticleResponse>;
+    public articlesGetSingle(articleId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ArticleResponse>>;
+    public articlesGetSingle(articleId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ArticleResponse>>;
+    public articlesGetSingle(articleId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (articleId === null || articleId === undefined) {
+            throw new Error('Required parameter articleId was null or undefined when calling articlesGetSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<ArticleResponse>('get',`${this.basePath}/articles/${encodeURIComponent(String(articleId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param grant_type 
+     * @param username 
+     * @param password 
+     * @param refresh_token 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    // @ts-ignore
+    public  authorizeForm(grant_type: string, username: string = "", password: string = "", refresh_token: string = "", observe?: 'body', reportProgress?: boolean): Observable<AuthResponse>;
+    // @ts-ignore
+    public  authorizeForm(grant_type: string, username: string = "", password: string = "", refresh_token: string = "", observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AuthResponse>>;
+    // @ts-ignore
+    public  authorizeForm(grant_type: string, username: string = "", password: string = "", refresh_token: string = "", observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AuthResponse>>;
+    // @ts-ignore
+    public  authorizeForm(grant_type: string, username: string = "", password: string = "", refresh_token: string = "", observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (grant_type === null || grant_type === undefined) {
+            throw new Error('Required parameter grant_type was null or undefined when calling authorize.');
+        }
+
+        if (username === null || username === undefined) {
+            throw new Error('Required parameter username was null or undefined when calling authorize.');
+        }
+
+        if (password === null || password === undefined) {
+            throw new Error('Required parameter password was null or undefined when calling authorize.');
+        }
+
+        if (refresh_token === null || refresh_token === undefined) {
+            throw new Error('Required parameter refresh_token was null or undefined when calling authorize.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'multipart/form-data'
+        ];
+
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): void; };
+        let useForm = false;
+        let convertFormParamsToString = false;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        }
+
+        if (grant_type !== undefined) {
+            formParams = formParams.append('grant_type', <any>grant_type) as any || formParams;
+        }
+        if (username !== undefined) {
+            formParams = formParams.append('username', <any>username) as any || formParams;
+        }
+        if (password !== undefined) {
+            formParams = formParams.append('password', <any>password) as any || formParams;
+        }
+        if (refresh_token !== undefined) {
+            formParams = formParams.append('refresh_token', <any>refresh_token) as any || formParams;
+        }
+
+        return this.httpClient.request<AuthResponse>('post',`${this.basePath}/auth`,
+            {
+                body: convertFormParamsToString ? formParams.toString() : formParams,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public basicProfileGetSingle(observe?: 'body', reportProgress?: boolean): Observable<BasicProfileResponse>;
+    public basicProfileGetSingle(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<BasicProfileResponse>>;
+    public basicProfileGetSingle(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<BasicProfileResponse>>;
+    public basicProfileGetSingle(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<BasicProfileResponse>('get',`${this.basePath}/basicProfile`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public changePassword(body: ChangePasswordRequest, observe?: 'body', reportProgress?: boolean): Observable<ChangePasswordResult>;
+    public changePassword(body: ChangePasswordRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ChangePasswordResult>>;
+    public changePassword(body: ChangePasswordRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ChangePasswordResult>>;
+    public changePassword(body: ChangePasswordRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling changePassword.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<ChangePasswordResult>('post',`${this.basePath}/settings/changePassword`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param files 
+     * @param path 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public contentsCreateNewForm(files: Array<Blob>, path?: string, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
+    public contentsCreateNewForm(files: Array<Blob>, path?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
+    public contentsCreateNewForm(files: Array<Blob>, path?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
+    public contentsCreateNewForm(files: Array<Blob>, path?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (files === null || files === undefined) {
+            throw new Error('Required parameter files was null or undefined when calling contentsCreateNew.');
+        }
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (path !== undefined && path !== null) {
+            queryParameters = queryParameters.set('path', <any>path);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'multipart/form-data'
+        ];
+
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): void; };
+        let useForm = false;
+        let convertFormParamsToString = false;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        }
+
+        if (files) {
+            files.forEach((element) => {
+                formParams = formParams.append('files', <any>element) as any || formParams;
+            })
+        }
+
+        return this.httpClient.request<EmptyDict>('post',`${this.basePath}/content`,
+            {
+                body: convertFormParamsToString ? formParams.toString() : formParams,
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param path 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public contentsDeleteSingle(path?: string, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
+    public contentsDeleteSingle(path?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
+    public contentsDeleteSingle(path?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
+    public contentsDeleteSingle(path?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (path !== undefined && path !== null) {
+            queryParameters = queryParameters.set('path', <any>path);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<EmptyDict>('delete',`${this.basePath}/content`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param path 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public contentsGetSingle(path?: string, observe?: 'body', reportProgress?: boolean): Observable<InlineResponse2001>;
+    public contentsGetSingle(path?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<InlineResponse2001>>;
+    public contentsGetSingle(path?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<InlineResponse2001>>;
+    public contentsGetSingle(path?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (path !== undefined && path !== null) {
+            queryParameters = queryParameters.set('path', <any>path);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<InlineResponse2001>('get',`${this.basePath}/content`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param userId 
+     * @param yearId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public diplomaDownloadSingle(userId: number, yearId: number, observe?: 'body', reportProgress?: boolean): Observable<Blob>;
+    public diplomaDownloadSingle(userId: number, yearId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Blob>>;
+    public diplomaDownloadSingle(userId: number, yearId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Blob>>;
+    public diplomaDownloadSingle(userId: number, yearId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (userId === null || userId === undefined) {
+            throw new Error('Required parameter userId was null or undefined when calling diplomaDownloadSingle.');
+        }
+
+        if (yearId === null || yearId === undefined) {
+            throw new Error('Required parameter yearId was null or undefined when calling diplomaDownloadSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<Blob>('get',`${this.basePath}/diplomas/${encodeURIComponent(String(userId))}/${encodeURIComponent(String(yearId))}/show`,//@ts-ignore
+{responseType: "blob",
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param userId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public diplomasListForUserSingle(userId: number, observe?: 'body', reportProgress?: boolean): Observable<DiplomasListResponse>;
+    public diplomasListForUserSingle(userId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<DiplomasListResponse>>;
+    public diplomasListForUserSingle(userId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<DiplomasListResponse>>;
+    public diplomasListForUserSingle(userId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (userId === null || userId === undefined) {
+            throw new Error('Required parameter userId was null or undefined when calling diplomasListForUserSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<DiplomasListResponse>('get',`${this.basePath}/diplomas/${encodeURIComponent(String(userId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public feedbackCreateNew(body: FeedbackCreationRequest, observe?: 'body', reportProgress?: boolean): Observable<FeedbackCreationRequest>;
+    public feedbackCreateNew(body: FeedbackCreationRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<FeedbackCreationRequest>>;
+    public feedbackCreateNew(body: FeedbackCreationRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<FeedbackCreationRequest>>;
+    public feedbackCreateNew(body: FeedbackCreationRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling feedbackCreateNew.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<FeedbackCreationRequest>('post',`${this.basePath}/feedbacks`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param feedbackId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public feedbackDeleteSingle(feedbackId: number, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
+    public feedbackDeleteSingle(feedbackId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
+    public feedbackDeleteSingle(feedbackId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
+    public feedbackDeleteSingle(feedbackId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (feedbackId === null || feedbackId === undefined) {
+            throw new Error('Required parameter feedbackId was null or undefined when calling feedbackDeleteSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<EmptyDict>('delete',`${this.basePath}/feedbacks/${encodeURIComponent(String(feedbackId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param feedbackId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public feedbackEditSingle(body: FeedbackUpdateRequest, feedbackId: number, observe?: 'body', reportProgress?: boolean): Observable<FeedbacksResponse>;
+    public feedbackEditSingle(body: FeedbackUpdateRequest, feedbackId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<FeedbacksResponse>>;
+    public feedbackEditSingle(body: FeedbackUpdateRequest, feedbackId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<FeedbacksResponse>>;
+    public feedbackEditSingle(body: FeedbackUpdateRequest, feedbackId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling feedbackEditSingle.');
+        }
+
+        if (feedbackId === null || feedbackId === undefined) {
+            throw new Error('Required parameter feedbackId was null or undefined when calling feedbackEditSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<FeedbacksResponse>('put',`${this.basePath}/feedbacks/${encodeURIComponent(String(feedbackId))}`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param feedbackId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public feedbackGetSingle(feedbackId: number, observe?: 'body', reportProgress?: boolean): Observable<FeedbacksResponse>;
+    public feedbackGetSingle(feedbackId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<FeedbacksResponse>>;
+    public feedbackGetSingle(feedbackId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<FeedbacksResponse>>;
+    public feedbackGetSingle(feedbackId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (feedbackId === null || feedbackId === undefined) {
+            throw new Error('Required parameter feedbackId was null or undefined when calling feedbackGetSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<FeedbacksResponse>('get',`${this.basePath}/feedbacks/${encodeURIComponent(String(feedbackId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public forgottenPasswordReset(body: ForgottenPasswordRequest, observe?: 'body', reportProgress?: boolean): Observable<ForgottenPasswordResult>;
+    public forgottenPasswordReset(body: ForgottenPasswordRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ForgottenPasswordResult>>;
+    public forgottenPasswordReset(body: ForgottenPasswordRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ForgottenPasswordResult>>;
+    public forgottenPasswordReset(body: ForgottenPasswordRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling forgottenPasswordReset.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<ForgottenPasswordResult>('post',`${this.basePath}/forgottenPassword`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param context 
+     * @param imagesId 
+     * @param file 
+     * @param module 
+     * @param user 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public imagesGetSingle(context: string, imagesId: number, file?: string, module?: number, user?: number, observe?: 'body', reportProgress?: boolean): Observable<Uint8Array>;
+    public imagesGetSingle(context: string, imagesId: number, file?: string, module?: number, user?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Uint8Array>>;
+    public imagesGetSingle(context: string, imagesId: number, file?: string, module?: number, user?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Uint8Array>>;
+    public imagesGetSingle(context: string, imagesId: number, file?: string, module?: number, user?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (context === null || context === undefined) {
+            throw new Error('Required parameter context was null or undefined when calling imagesGetSingle.');
+        }
+
+        if (imagesId === null || imagesId === undefined) {
+            throw new Error('Required parameter imagesId was null or undefined when calling imagesGetSingle.');
+        }
+
+
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (file !== undefined && file !== null) {
+            queryParameters = queryParameters.set('file', <any>file);
+        }
+        if (module !== undefined && module !== null) {
+            queryParameters = queryParameters.set('module', <any>module);
+        }
+        if (user !== undefined && user !== null) {
+            queryParameters = queryParameters.set('user', <any>user);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<Uint8Array>('get',`${this.basePath}/images/${encodeURIComponent(String(context))}/${encodeURIComponent(String(imagesId))}`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public instanceConfigGetAll(observe?: 'body', reportProgress?: boolean): Observable<AdminInstanceConfigResponse>;
+    public instanceConfigGetAll(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AdminInstanceConfigResponse>>;
+    public instanceConfigGetAll(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AdminInstanceConfigResponse>>;
+    public instanceConfigGetAll(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<AdminInstanceConfigResponse>('get',`${this.basePath}/admin/instanceConfig`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public instanceConfigSetSingle(body: AdminInstanceConfig, observe?: 'body', reportProgress?: boolean): Observable<string>;
+    public instanceConfigSetSingle(body: AdminInstanceConfig, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
+    public instanceConfigSetSingle(body: AdminInstanceConfig, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
+    public instanceConfigSetSingle(body: AdminInstanceConfig, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling instanceConfigSetSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<string>('post',`${this.basePath}/admin/instanceConfig`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param modulesId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public modulesGetSingle(modulesId: number, observe?: 'body', reportProgress?: boolean): Observable<ModuleResponse>;
+    public modulesGetSingle(modulesId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ModuleResponse>>;
+    public modulesGetSingle(modulesId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ModuleResponse>>;
+    public modulesGetSingle(modulesId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (modulesId === null || modulesId === undefined) {
+            throw new Error('Required parameter modulesId was null or undefined when calling modulesGetSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<ModuleResponse>('get',`${this.basePath}/modules/${encodeURIComponent(String(modulesId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param files 
+     * @param modulesId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public modulesSubmitFilesForm(files: Blob, modulesId: number, observe?: 'body', reportProgress?: boolean): Observable<ModuleSubmitResponse>;
+    public modulesSubmitFilesForm(files: Blob, modulesId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ModuleSubmitResponse>>;
+    public modulesSubmitFilesForm(files: Blob, modulesId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ModuleSubmitResponse>>;
+    public modulesSubmitFilesForm(files: Blob, modulesId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (files === null || files === undefined) {
+            throw new Error('Required parameter files was null or undefined when calling modulesSubmitFiles.');
+        }
+
+        if (modulesId === null || modulesId === undefined) {
+            throw new Error('Required parameter modulesId was null or undefined when calling modulesSubmitFiles.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'multipart/form-data'
+        ];
+
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): void; };
+        let useForm = false;
+        let convertFormParamsToString = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        }
+
+        if (files !== undefined) {
+            formParams = formParams.append('files', <any>files) as any || formParams;
+        }
+
+        return this.httpClient.request<ModuleSubmitResponse>('post',`${this.basePath}/modules/${encodeURIComponent(String(modulesId))}/submitFiles`,
+            {
+                body: convertFormParamsToString ? formParams.toString() : formParams,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param modulesId 
+     * @param body 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public modulesSubmitSingle(modulesId: number, body?: ModuleSubmissionRequest, observe?: 'body', reportProgress?: boolean): Observable<ModuleSubmitResponse>;
+    public modulesSubmitSingle(modulesId: number, body?: ModuleSubmissionRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ModuleSubmitResponse>>;
+    public modulesSubmitSingle(modulesId: number, body?: ModuleSubmissionRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ModuleSubmitResponse>>;
+    public modulesSubmitSingle(modulesId: number, body?: ModuleSubmissionRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (modulesId === null || modulesId === undefined) {
+            throw new Error('Required parameter modulesId was null or undefined when calling modulesSubmitSingle.');
+        }
+
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<ModuleSubmitResponse>('post',`${this.basePath}/modules/${encodeURIComponent(String(modulesId))}/submit`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public postsCreateNew(body: PostsCreationRequest, observe?: 'body', reportProgress?: boolean): Observable<PostsCreationRequest>;
+    public postsCreateNew(body: PostsCreationRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PostsCreationRequest>>;
+    public postsCreateNew(body: PostsCreationRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PostsCreationRequest>>;
+    public postsCreateNew(body: PostsCreationRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling postsCreateNew.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<PostsCreationRequest>('post',`${this.basePath}/posts`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param postsId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public postsDeleteSingle(postsId: number, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
+    public postsDeleteSingle(postsId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
+    public postsDeleteSingle(postsId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
+    public postsDeleteSingle(postsId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (postsId === null || postsId === undefined) {
+            throw new Error('Required parameter postsId was null or undefined when calling postsDeleteSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<EmptyDict>('delete',`${this.basePath}/posts/${encodeURIComponent(String(postsId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param postsId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public postsEditSingle(body: PostsEditRequest, postsId: number, observe?: 'body', reportProgress?: boolean): Observable<PostResponse>;
+    public postsEditSingle(body: PostsEditRequest, postsId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PostResponse>>;
+    public postsEditSingle(body: PostsEditRequest, postsId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PostResponse>>;
+    public postsEditSingle(body: PostsEditRequest, postsId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling postsEditSingle.');
+        }
+
+        if (postsId === null || postsId === undefined) {
+            throw new Error('Required parameter postsId was null or undefined when calling postsEditSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<PostResponse>('put',`${this.basePath}/posts/${encodeURIComponent(String(postsId))}`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param postsId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public postsGetSingle(postsId: number, observe?: 'body', reportProgress?: boolean): Observable<PostResponse>;
+    public postsGetSingle(postsId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PostResponse>>;
+    public postsGetSingle(postsId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PostResponse>>;
+    public postsGetSingle(postsId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (postsId === null || postsId === undefined) {
+            throw new Error('Required parameter postsId was null or undefined when calling postsGetSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<PostResponse>('get',`${this.basePath}/posts/${encodeURIComponent(String(postsId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public profileEditMy(body: ProfileEdit, observe?: 'body', reportProgress?: boolean): Observable<ProfileResponse>;
+    public profileEditMy(body: ProfileEdit, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ProfileResponse>>;
+    public profileEditMy(body: ProfileEdit, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ProfileResponse>>;
+    public profileEditMy(body: ProfileEdit, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling profileEditMy.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<ProfileResponse>('put',`${this.basePath}/profile`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param year 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public profileGetMy(year?: number, observe?: 'body', reportProgress?: boolean): Observable<ProfileResponse>;
+    public profileGetMy(year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ProfileResponse>>;
+    public profileGetMy(year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ProfileResponse>>;
+    public profileGetMy(year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+
+        let headers = this.defaultHeaders;
+        if (year !== undefined && year !== null) {
+            headers = headers.set('year', String(year));
+        }
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<ProfileResponse>('get',`${this.basePath}/profile`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param profileId 
+     * @param year 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public profileGetSingle(profileId: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<ProfileResponse>;
+    public profileGetSingle(profileId: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ProfileResponse>>;
+    public profileGetSingle(profileId: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ProfileResponse>>;
+    public profileGetSingle(profileId: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (profileId === null || profileId === undefined) {
+            throw new Error('Required parameter profileId was null or undefined when calling profileGetSingle.');
+        }
+
+
+        let headers = this.defaultHeaders;
+        if (year !== undefined && year !== null) {
+            headers = headers.set('year', String(year));
+        }
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<ProfileResponse>('get',`${this.basePath}/profile/${encodeURIComponent(String(profileId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param file 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public profileUploadPictureForm(file: Blob, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
+    public profileUploadPictureForm(file: Blob, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
+    public profileUploadPictureForm(file: Blob, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
+    public profileUploadPictureForm(file: Blob, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (file === null || file === undefined) {
+            throw new Error('Required parameter file was null or undefined when calling profileUploadPicture.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'multipart/form-data'
+        ];
+
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): void; };
+        let useForm = false;
+        let convertFormParamsToString = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        }
+
+        if (file !== undefined) {
+            formParams = formParams.append('file', <any>file) as any || formParams;
+        }
+
+        return this.httpClient.request<EmptyDict>('post',`${this.basePath}/profile/picture`,
+            {
+                body: convertFormParamsToString ? formParams.toString() : formParams,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public registerNewUser(body: RegistrationRequest, observe?: 'body', reportProgress?: boolean): Observable<PossibleErrorDict>;
+    public registerNewUser(body: RegistrationRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PossibleErrorDict>>;
+    public registerNewUser(body: RegistrationRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PossibleErrorDict>>;
+    public registerNewUser(body: RegistrationRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling registerNewUser.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<PossibleErrorDict>('post',`${this.basePath}/registration`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param moduleId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public runCode(body: RunCodeRequest, moduleId: number, observe?: 'body', reportProgress?: boolean): Observable<RunCodeResponse>;
+    public runCode(body: RunCodeRequest, moduleId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<RunCodeResponse>>;
+    public runCode(body: RunCodeRequest, moduleId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<RunCodeResponse>>;
+    public runCode(body: RunCodeRequest, moduleId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling runCode.');
+        }
+
+        if (moduleId === null || moduleId === undefined) {
+            throw new Error('Required parameter moduleId was null or undefined when calling runCode.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<RunCodeResponse>('post',`${this.basePath}/runCode/${encodeURIComponent(String(moduleId))}/submit`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public sendEmailWithFeedback(body: FeedbackRequest, observe?: 'body', reportProgress?: boolean): Observable<FeedbackResponse>;
+    public sendEmailWithFeedback(body: FeedbackRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<FeedbackResponse>>;
+    public sendEmailWithFeedback(body: FeedbackRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<FeedbackResponse>>;
+    public sendEmailWithFeedback(body: FeedbackRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling sendEmailWithFeedback.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<FeedbackResponse>('post',`${this.basePath}/feedback`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public sendEmailWithFeedback_1(observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public sendEmailWithFeedback_1(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public sendEmailWithFeedback_1(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public sendEmailWithFeedback_1(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<any>('get',`${this.basePath}/logout`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param submFileId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public subFilesDeleteSingle(submFileId: number, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
+    public subFilesDeleteSingle(submFileId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
+    public subFilesDeleteSingle(submFileId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
+    public subFilesDeleteSingle(submFileId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (submFileId === null || submFileId === undefined) {
+            throw new Error('Required parameter submFileId was null or undefined when calling subFilesDeleteSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<EmptyDict>('delete',`${this.basePath}/submFiles/${encodeURIComponent(String(submFileId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param submFileId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public submFilesGetSingle(submFileId: number, observe?: 'body', reportProgress?: boolean): Observable<Blob>;
+    public submFilesGetSingle(submFileId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Blob>>;
+    public submFilesGetSingle(submFileId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Blob>>;
+    public submFilesGetSingle(submFileId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (submFileId === null || submFileId === undefined) {
+            throw new Error('Required parameter submFileId was null or undefined when calling submFilesGetSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<Blob>('get',`${this.basePath}/submFiles/${encodeURIComponent(String(submFileId))}`,//@ts-ignore
+{responseType: "blob",
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param view 
+     * @param contentId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
      public taskContent2GetSingle(view: string, contentId: string, observe?: 'body', reportProgress?: boolean): Observable<Blob>;
      public taskContent2GetSingle(view: string, contentId: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Blob>>;
      public taskContent2GetSingle(view: string, contentId: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Blob>>;
@@ -4040,1187 +4040,1187 @@
              }
          );
      }
- 
-     /**
-      * 
-      * 
-      * @param view 
-      * @param contentId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public taskContentGetSingle(view: string, contentId: string, observe?: 'body', reportProgress?: boolean): Observable<Uint8Array>;
-     public taskContentGetSingle(view: string, contentId: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Uint8Array>>;
-     public taskContentGetSingle(view: string, contentId: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Uint8Array>>;
-     public taskContentGetSingle(view: string, contentId: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (view === null || view === undefined) {
-             throw new Error('Required parameter view was null or undefined when calling taskContentGetSingle.');
-         }
- 
-         if (contentId === null || contentId === undefined) {
-             throw new Error('Required parameter contentId was null or undefined when calling taskContentGetSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<Uint8Array>('get',`${this.basePath}/task-content/${encodeURIComponent(String(contentId))}/${encodeURIComponent(String(view))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param taskDetailsId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public taskDetailsGetSingle(taskDetailsId: number, observe?: 'body', reportProgress?: boolean): Observable<TaskDetailResponse>;
-     public taskDetailsGetSingle(taskDetailsId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<TaskDetailResponse>>;
-     public taskDetailsGetSingle(taskDetailsId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<TaskDetailResponse>>;
-     public taskDetailsGetSingle(taskDetailsId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (taskDetailsId === null || taskDetailsId === undefined) {
-             throw new Error('Required parameter taskDetailsId was null or undefined when calling taskDetailsGetSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<TaskDetailResponse>('get',`${this.basePath}/taskDetails/${encodeURIComponent(String(taskDetailsId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param year 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public tasksGetAll(year?: number, observe?: 'body', reportProgress?: boolean): Observable<TasksResponse>;
-     public tasksGetAll(year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<TasksResponse>>;
-     public tasksGetAll(year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<TasksResponse>>;
-     public tasksGetAll(year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
- 
-         let headers = this.defaultHeaders;
-         if (year !== undefined && year !== null) {
-             headers = headers.set('year', String(year));
-         }
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<TasksResponse>('get',`${this.basePath}/tasks`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param tasksId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public tasksGetSingle(tasksId: number, observe?: 'body', reportProgress?: boolean): Observable<TaskResponse>;
-     public tasksGetSingle(tasksId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<TaskResponse>>;
-     public tasksGetSingle(tasksId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<TaskResponse>>;
-     public tasksGetSingle(tasksId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (tasksId === null || tasksId === undefined) {
-             throw new Error('Required parameter tasksId was null or undefined when calling tasksGetSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<TaskResponse>('get',`${this.basePath}/tasks/${encodeURIComponent(String(tasksId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param threadDetailsId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public threadDetailsGetSingle(threadDetailsId: number, observe?: 'body', reportProgress?: boolean): Observable<ThreadDetailResponse>;
-     public threadDetailsGetSingle(threadDetailsId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ThreadDetailResponse>>;
-     public threadDetailsGetSingle(threadDetailsId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ThreadDetailResponse>>;
-     public threadDetailsGetSingle(threadDetailsId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (threadDetailsId === null || threadDetailsId === undefined) {
-             throw new Error('Required parameter threadDetailsId was null or undefined when calling threadDetailsGetSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<ThreadDetailResponse>('get',`${this.basePath}/threadDetails/${encodeURIComponent(String(threadDetailsId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param body 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public threadsCreateNew(body: ThreadsCreationRequest, observe?: 'body', reportProgress?: boolean): Observable<ThreadResponse>;
-     public threadsCreateNew(body: ThreadsCreationRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ThreadResponse>>;
-     public threadsCreateNew(body: ThreadsCreationRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ThreadResponse>>;
-     public threadsCreateNew(body: ThreadsCreationRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (body === null || body === undefined) {
-             throw new Error('Required parameter body was null or undefined when calling threadsCreateNew.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'application/json'
-         ];
-         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-         if (httpContentTypeSelected != undefined) {
-             headers = headers.set('Content-Type', httpContentTypeSelected);
-         }
- 
-         return this.httpClient.request<ThreadResponse>('post',`${this.basePath}/threads`,
-             {
-                 body: body,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param wave 
-      * @param year 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public threadsGetAll(wave?: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<ThreadsResponse>;
-     public threadsGetAll(wave?: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ThreadsResponse>>;
-     public threadsGetAll(wave?: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ThreadsResponse>>;
-     public threadsGetAll(wave?: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
- 
- 
-         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-         if (wave !== undefined && wave !== null) {
-             queryParameters = queryParameters.set('wave', <any>wave);
-         }
- 
-         let headers = this.defaultHeaders;
-         if (year !== undefined && year !== null) {
-             headers = headers.set('year', String(year));
-         }
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<ThreadsResponse>('get',`${this.basePath}/threads`,
-             {
-                 params: queryParameters,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param threadsId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public threadsGetSingle(threadsId: number, observe?: 'body', reportProgress?: boolean): Observable<ThreadResponse>;
-     public threadsGetSingle(threadsId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ThreadResponse>>;
-     public threadsGetSingle(threadsId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ThreadResponse>>;
-     public threadsGetSingle(threadsId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (threadsId === null || threadsId === undefined) {
-             throw new Error('Required parameter threadsId was null or undefined when calling threadsGetSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<ThreadResponse>('get',`${this.basePath}/threads/${encodeURIComponent(String(threadsId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param threadsId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public threadsMarkVisited(threadsId: number, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
-     public threadsMarkVisited(threadsId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
-     public threadsMarkVisited(threadsId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
-     public threadsMarkVisited(threadsId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (threadsId === null || threadsId === undefined) {
-             throw new Error('Required parameter threadsId was null or undefined when calling threadsMarkVisited.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<EmptyDict>('put',`${this.basePath}/threads/${encodeURIComponent(String(threadsId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param usersId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public usersDeleteSingle(usersId: number, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
-     public usersDeleteSingle(usersId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
-     public usersDeleteSingle(usersId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
-     public usersDeleteSingle(usersId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (usersId === null || usersId === undefined) {
-             throw new Error('Required parameter usersId was null or undefined when calling usersDeleteSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<EmptyDict>('delete',`${this.basePath}/users/${encodeURIComponent(String(usersId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param filter 
-      * @param sort 
-      * @param year 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public usersGetAll(filter?: string, sort?: string, year?: number, observe?: 'body', reportProgress?: boolean): Observable<UsersResponse>;
-     public usersGetAll(filter?: string, sort?: string, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UsersResponse>>;
-     public usersGetAll(filter?: string, sort?: string, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UsersResponse>>;
-     public usersGetAll(filter?: string, sort?: string, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
- 
- 
- 
-         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-         if (filter !== undefined && filter !== null) {
-             queryParameters = queryParameters.set('filter', <any>filter);
-         }
-         if (sort !== undefined && sort !== null) {
-             queryParameters = queryParameters.set('sort', <any>sort);
-         }
- 
-         let headers = this.defaultHeaders;
-         if (year !== undefined && year !== null) {
-             headers = headers.set('year', String(year));
-         }
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<UsersResponse>('get',`${this.basePath}/users`,
-             {
-                 params: queryParameters,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param usersId 
-      * @param year 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public usersGetSingle(usersId: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<UserResponse>;
-     public usersGetSingle(usersId: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UserResponse>>;
-     public usersGetSingle(usersId: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UserResponse>>;
-     public usersGetSingle(usersId: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (usersId === null || usersId === undefined) {
-             throw new Error('Required parameter usersId was null or undefined when calling usersGetSingle.');
-         }
- 
- 
-         let headers = this.defaultHeaders;
-         if (year !== undefined && year !== null) {
-             headers = headers.set('year', String(year));
-         }
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<UserResponse>('get',`${this.basePath}/users/${encodeURIComponent(String(usersId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param usersId 
-      * @param year 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public usersGetSingleDiscordInvite(usersId: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<string>;
-     public usersGetSingleDiscordInvite(usersId: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
-     public usersGetSingleDiscordInvite(usersId: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
-     public usersGetSingleDiscordInvite(usersId: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (usersId === null || usersId === undefined) {
-             throw new Error('Required parameter usersId was null or undefined when calling usersGetSingleDiscordInvite.');
-         }
- 
- 
-         let headers = this.defaultHeaders;
-         if (year !== undefined && year !== null) {
-             headers = headers.set('year', String(year));
-         }
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<string>('get',`${this.basePath}/users/${encodeURIComponent(String(usersId))}/discord`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param body 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public wavesCreateNew(body: WaveCreationRequest, observe?: 'body', reportProgress?: boolean): Observable<WaveResponse>;
-     public wavesCreateNew(body: WaveCreationRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<WaveResponse>>;
-     public wavesCreateNew(body: WaveCreationRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<WaveResponse>>;
-     public wavesCreateNew(body: WaveCreationRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (body === null || body === undefined) {
-             throw new Error('Required parameter body was null or undefined when calling wavesCreateNew.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'application/json'
-         ];
-         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-         if (httpContentTypeSelected != undefined) {
-             headers = headers.set('Content-Type', httpContentTypeSelected);
-         }
- 
-         return this.httpClient.request<WaveResponse>('post',`${this.basePath}/waves`,
-             {
-                 body: body,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param waveId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public wavesDeleteSingle(waveId: number, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
-     public wavesDeleteSingle(waveId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
-     public wavesDeleteSingle(waveId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
-     public wavesDeleteSingle(waveId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (waveId === null || waveId === undefined) {
-             throw new Error('Required parameter waveId was null or undefined when calling wavesDeleteSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<EmptyDict>('delete',`${this.basePath}/waves/${encodeURIComponent(String(waveId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param year 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public wavesGetAll(year?: number, observe?: 'body', reportProgress?: boolean): Observable<Waves>;
-     public wavesGetAll(year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Waves>>;
-     public wavesGetAll(year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Waves>>;
-     public wavesGetAll(year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
- 
-         let headers = this.defaultHeaders;
-         if (year !== undefined && year !== null) {
-             headers = headers.set('year', String(year));
-         }
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<Waves>('get',`${this.basePath}/waves`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param waveId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public wavesGetSingle(waveId: number, observe?: 'body', reportProgress?: boolean): Observable<WaveResponse>;
-     public wavesGetSingle(waveId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<WaveResponse>>;
-     public wavesGetSingle(waveId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<WaveResponse>>;
-     public wavesGetSingle(waveId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (waveId === null || waveId === undefined) {
-             throw new Error('Required parameter waveId was null or undefined when calling wavesGetSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<WaveResponse>('get',`${this.basePath}/waves/${encodeURIComponent(String(waveId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param body 
-      * @param waveId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public wavesUpdateSingle(body: WaveUpdateRequest, waveId: number, observe?: 'body', reportProgress?: boolean): Observable<WaveResponse>;
-     public wavesUpdateSingle(body: WaveUpdateRequest, waveId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<WaveResponse>>;
-     public wavesUpdateSingle(body: WaveUpdateRequest, waveId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<WaveResponse>>;
-     public wavesUpdateSingle(body: WaveUpdateRequest, waveId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (body === null || body === undefined) {
-             throw new Error('Required parameter body was null or undefined when calling wavesUpdateSingle.');
-         }
- 
-         if (waveId === null || waveId === undefined) {
-             throw new Error('Required parameter waveId was null or undefined when calling wavesUpdateSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'application/json'
-         ];
-         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-         if (httpContentTypeSelected != undefined) {
-             headers = headers.set('Content-Type', httpContentTypeSelected);
-         }
- 
-         return this.httpClient.request<WaveResponse>('put',`${this.basePath}/waves/${encodeURIComponent(String(waveId))}`,
-             {
-                 body: body,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param body 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public yearsCreateNew(body: YearCreationRequest, observe?: 'body', reportProgress?: boolean): Observable<YearResponse>;
-     public yearsCreateNew(body: YearCreationRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<YearResponse>>;
-     public yearsCreateNew(body: YearCreationRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<YearResponse>>;
-     public yearsCreateNew(body: YearCreationRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (body === null || body === undefined) {
-             throw new Error('Required parameter body was null or undefined when calling yearsCreateNew.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'application/json'
-         ];
-         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-         if (httpContentTypeSelected != undefined) {
-             headers = headers.set('Content-Type', httpContentTypeSelected);
-         }
- 
-         return this.httpClient.request<YearResponse>('post',`${this.basePath}/years`,
-             {
-                 body: body,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param yearId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public yearsDeleteSingle(yearId: number, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
-     public yearsDeleteSingle(yearId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
-     public yearsDeleteSingle(yearId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
-     public yearsDeleteSingle(yearId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (yearId === null || yearId === undefined) {
-             throw new Error('Required parameter yearId was null or undefined when calling yearsDeleteSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<EmptyDict>('delete',`${this.basePath}/years/${encodeURIComponent(String(yearId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public yearsGetAll(observe?: 'body', reportProgress?: boolean): Observable<Years>;
-     public yearsGetAll(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Years>>;
-     public yearsGetAll(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Years>>;
-     public yearsGetAll(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         let headers = this.defaultHeaders;
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<Years>('get',`${this.basePath}/years`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param yearId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public yearsGetSingle(yearId: number, observe?: 'body', reportProgress?: boolean): Observable<YearResponse>;
-     public yearsGetSingle(yearId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<YearResponse>>;
-     public yearsGetSingle(yearId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<YearResponse>>;
-     public yearsGetSingle(yearId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (yearId === null || yearId === undefined) {
-             throw new Error('Required parameter yearId was null or undefined when calling yearsGetSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<YearResponse>('get',`${this.basePath}/years/${encodeURIComponent(String(yearId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * 
-      * 
-      * @param body 
-      * @param yearId 
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public yearsUpdateSingle(body: YearUpdateRequest, yearId: number, observe?: 'body', reportProgress?: boolean): Observable<YearResponse>;
-     public yearsUpdateSingle(body: YearUpdateRequest, yearId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<YearResponse>>;
-     public yearsUpdateSingle(body: YearUpdateRequest, yearId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<YearResponse>>;
-     public yearsUpdateSingle(body: YearUpdateRequest, yearId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (body === null || body === undefined) {
-             throw new Error('Required parameter body was null or undefined when calling yearsUpdateSingle.');
-         }
- 
-         if (yearId === null || yearId === undefined) {
-             throw new Error('Required parameter yearId was null or undefined when calling yearsUpdateSingle.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (ksi) required
-         if (this.configuration.accessToken) {
-             const accessToken = typeof this.configuration.accessToken === 'function'
-                 ? this.configuration.accessToken()
-                 : this.configuration.accessToken;
-             headers = headers.set('Authorization', 'Bearer ' + accessToken);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-             'application/json'
-         ];
-         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-         if (httpContentTypeSelected != undefined) {
-             headers = headers.set('Content-Type', httpContentTypeSelected);
-         }
- 
-         return this.httpClient.request<YearResponse>('put',`${this.basePath}/years/${encodeURIComponent(String(yearId))}`,
-             {
-                 body: body,
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
- }
+
+    /**
+     * 
+     * 
+     * @param view 
+     * @param contentId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public taskContentGetSingle(view: string, contentId: string, observe?: 'body', reportProgress?: boolean): Observable<Uint8Array>;
+    public taskContentGetSingle(view: string, contentId: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Uint8Array>>;
+    public taskContentGetSingle(view: string, contentId: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Uint8Array>>;
+    public taskContentGetSingle(view: string, contentId: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (view === null || view === undefined) {
+            throw new Error('Required parameter view was null or undefined when calling taskContentGetSingle.');
+        }
+
+        if (contentId === null || contentId === undefined) {
+            throw new Error('Required parameter contentId was null or undefined when calling taskContentGetSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<Uint8Array>('get',`${this.basePath}/task-content/${encodeURIComponent(String(contentId))}/${encodeURIComponent(String(view))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param taskDetailsId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public taskDetailsGetSingle(taskDetailsId: number, observe?: 'body', reportProgress?: boolean): Observable<TaskDetailResponse>;
+    public taskDetailsGetSingle(taskDetailsId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<TaskDetailResponse>>;
+    public taskDetailsGetSingle(taskDetailsId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<TaskDetailResponse>>;
+    public taskDetailsGetSingle(taskDetailsId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (taskDetailsId === null || taskDetailsId === undefined) {
+            throw new Error('Required parameter taskDetailsId was null or undefined when calling taskDetailsGetSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<TaskDetailResponse>('get',`${this.basePath}/taskDetails/${encodeURIComponent(String(taskDetailsId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param year 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public tasksGetAll(year?: number, observe?: 'body', reportProgress?: boolean): Observable<TasksResponse>;
+    public tasksGetAll(year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<TasksResponse>>;
+    public tasksGetAll(year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<TasksResponse>>;
+    public tasksGetAll(year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+
+        let headers = this.defaultHeaders;
+        if (year !== undefined && year !== null) {
+            headers = headers.set('year', String(year));
+        }
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<TasksResponse>('get',`${this.basePath}/tasks`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param tasksId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public tasksGetSingle(tasksId: number, observe?: 'body', reportProgress?: boolean): Observable<TaskResponse>;
+    public tasksGetSingle(tasksId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<TaskResponse>>;
+    public tasksGetSingle(tasksId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<TaskResponse>>;
+    public tasksGetSingle(tasksId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (tasksId === null || tasksId === undefined) {
+            throw new Error('Required parameter tasksId was null or undefined when calling tasksGetSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<TaskResponse>('get',`${this.basePath}/tasks/${encodeURIComponent(String(tasksId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param threadDetailsId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public threadDetailsGetSingle(threadDetailsId: number, observe?: 'body', reportProgress?: boolean): Observable<ThreadDetailResponse>;
+    public threadDetailsGetSingle(threadDetailsId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ThreadDetailResponse>>;
+    public threadDetailsGetSingle(threadDetailsId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ThreadDetailResponse>>;
+    public threadDetailsGetSingle(threadDetailsId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (threadDetailsId === null || threadDetailsId === undefined) {
+            throw new Error('Required parameter threadDetailsId was null or undefined when calling threadDetailsGetSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<ThreadDetailResponse>('get',`${this.basePath}/threadDetails/${encodeURIComponent(String(threadDetailsId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public threadsCreateNew(body: ThreadsCreationRequest, observe?: 'body', reportProgress?: boolean): Observable<ThreadResponse>;
+    public threadsCreateNew(body: ThreadsCreationRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ThreadResponse>>;
+    public threadsCreateNew(body: ThreadsCreationRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ThreadResponse>>;
+    public threadsCreateNew(body: ThreadsCreationRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling threadsCreateNew.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<ThreadResponse>('post',`${this.basePath}/threads`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param wave 
+     * @param year 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public threadsGetAll(wave?: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<ThreadsResponse>;
+    public threadsGetAll(wave?: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ThreadsResponse>>;
+    public threadsGetAll(wave?: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ThreadsResponse>>;
+    public threadsGetAll(wave?: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (wave !== undefined && wave !== null) {
+            queryParameters = queryParameters.set('wave', <any>wave);
+        }
+
+        let headers = this.defaultHeaders;
+        if (year !== undefined && year !== null) {
+            headers = headers.set('year', String(year));
+        }
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<ThreadsResponse>('get',`${this.basePath}/threads`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param threadsId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public threadsGetSingle(threadsId: number, observe?: 'body', reportProgress?: boolean): Observable<ThreadResponse>;
+    public threadsGetSingle(threadsId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ThreadResponse>>;
+    public threadsGetSingle(threadsId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ThreadResponse>>;
+    public threadsGetSingle(threadsId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (threadsId === null || threadsId === undefined) {
+            throw new Error('Required parameter threadsId was null or undefined when calling threadsGetSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<ThreadResponse>('get',`${this.basePath}/threads/${encodeURIComponent(String(threadsId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param threadsId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public threadsMarkVisited(threadsId: number, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
+    public threadsMarkVisited(threadsId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
+    public threadsMarkVisited(threadsId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
+    public threadsMarkVisited(threadsId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (threadsId === null || threadsId === undefined) {
+            throw new Error('Required parameter threadsId was null or undefined when calling threadsMarkVisited.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<EmptyDict>('put',`${this.basePath}/threads/${encodeURIComponent(String(threadsId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param usersId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public usersDeleteSingle(usersId: number, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
+    public usersDeleteSingle(usersId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
+    public usersDeleteSingle(usersId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
+    public usersDeleteSingle(usersId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (usersId === null || usersId === undefined) {
+            throw new Error('Required parameter usersId was null or undefined when calling usersDeleteSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<EmptyDict>('delete',`${this.basePath}/users/${encodeURIComponent(String(usersId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param filter 
+     * @param sort 
+     * @param year 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public usersGetAll(filter?: string, sort?: string, year?: number, observe?: 'body', reportProgress?: boolean): Observable<UsersResponse>;
+    public usersGetAll(filter?: string, sort?: string, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UsersResponse>>;
+    public usersGetAll(filter?: string, sort?: string, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UsersResponse>>;
+    public usersGetAll(filter?: string, sort?: string, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (filter !== undefined && filter !== null) {
+            queryParameters = queryParameters.set('filter', <any>filter);
+        }
+        if (sort !== undefined && sort !== null) {
+            queryParameters = queryParameters.set('sort', <any>sort);
+        }
+
+        let headers = this.defaultHeaders;
+        if (year !== undefined && year !== null) {
+            headers = headers.set('year', String(year));
+        }
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<UsersResponse>('get',`${this.basePath}/users`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param usersId 
+     * @param year 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public usersGetSingle(usersId: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<UserResponse>;
+    public usersGetSingle(usersId: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UserResponse>>;
+    public usersGetSingle(usersId: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UserResponse>>;
+    public usersGetSingle(usersId: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (usersId === null || usersId === undefined) {
+            throw new Error('Required parameter usersId was null or undefined when calling usersGetSingle.');
+        }
+
+
+        let headers = this.defaultHeaders;
+        if (year !== undefined && year !== null) {
+            headers = headers.set('year', String(year));
+        }
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<UserResponse>('get',`${this.basePath}/users/${encodeURIComponent(String(usersId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param usersId 
+     * @param year 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public usersGetSingleDiscordInvite(usersId: number, year?: number, observe?: 'body', reportProgress?: boolean): Observable<string>;
+    public usersGetSingleDiscordInvite(usersId: number, year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
+    public usersGetSingleDiscordInvite(usersId: number, year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
+    public usersGetSingleDiscordInvite(usersId: number, year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (usersId === null || usersId === undefined) {
+            throw new Error('Required parameter usersId was null or undefined when calling usersGetSingleDiscordInvite.');
+        }
+
+
+        let headers = this.defaultHeaders;
+        if (year !== undefined && year !== null) {
+            headers = headers.set('year', String(year));
+        }
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<string>('get',`${this.basePath}/users/${encodeURIComponent(String(usersId))}/discord`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public wavesCreateNew(body: WaveCreationRequest, observe?: 'body', reportProgress?: boolean): Observable<WaveResponse>;
+    public wavesCreateNew(body: WaveCreationRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<WaveResponse>>;
+    public wavesCreateNew(body: WaveCreationRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<WaveResponse>>;
+    public wavesCreateNew(body: WaveCreationRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling wavesCreateNew.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<WaveResponse>('post',`${this.basePath}/waves`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param waveId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public wavesDeleteSingle(waveId: number, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
+    public wavesDeleteSingle(waveId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
+    public wavesDeleteSingle(waveId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
+    public wavesDeleteSingle(waveId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (waveId === null || waveId === undefined) {
+            throw new Error('Required parameter waveId was null or undefined when calling wavesDeleteSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<EmptyDict>('delete',`${this.basePath}/waves/${encodeURIComponent(String(waveId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param year 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public wavesGetAll(year?: number, observe?: 'body', reportProgress?: boolean): Observable<Waves>;
+    public wavesGetAll(year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Waves>>;
+    public wavesGetAll(year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Waves>>;
+    public wavesGetAll(year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+
+        let headers = this.defaultHeaders;
+        if (year !== undefined && year !== null) {
+            headers = headers.set('year', String(year));
+        }
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<Waves>('get',`${this.basePath}/waves`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param waveId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public wavesGetSingle(waveId: number, observe?: 'body', reportProgress?: boolean): Observable<WaveResponse>;
+    public wavesGetSingle(waveId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<WaveResponse>>;
+    public wavesGetSingle(waveId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<WaveResponse>>;
+    public wavesGetSingle(waveId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (waveId === null || waveId === undefined) {
+            throw new Error('Required parameter waveId was null or undefined when calling wavesGetSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<WaveResponse>('get',`${this.basePath}/waves/${encodeURIComponent(String(waveId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param waveId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public wavesUpdateSingle(body: WaveUpdateRequest, waveId: number, observe?: 'body', reportProgress?: boolean): Observable<WaveResponse>;
+    public wavesUpdateSingle(body: WaveUpdateRequest, waveId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<WaveResponse>>;
+    public wavesUpdateSingle(body: WaveUpdateRequest, waveId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<WaveResponse>>;
+    public wavesUpdateSingle(body: WaveUpdateRequest, waveId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling wavesUpdateSingle.');
+        }
+
+        if (waveId === null || waveId === undefined) {
+            throw new Error('Required parameter waveId was null or undefined when calling wavesUpdateSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<WaveResponse>('put',`${this.basePath}/waves/${encodeURIComponent(String(waveId))}`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public yearsCreateNew(body: YearCreationRequest, observe?: 'body', reportProgress?: boolean): Observable<YearResponse>;
+    public yearsCreateNew(body: YearCreationRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<YearResponse>>;
+    public yearsCreateNew(body: YearCreationRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<YearResponse>>;
+    public yearsCreateNew(body: YearCreationRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling yearsCreateNew.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<YearResponse>('post',`${this.basePath}/years`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param yearId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public yearsDeleteSingle(yearId: number, observe?: 'body', reportProgress?: boolean): Observable<EmptyDict>;
+    public yearsDeleteSingle(yearId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EmptyDict>>;
+    public yearsDeleteSingle(yearId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EmptyDict>>;
+    public yearsDeleteSingle(yearId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (yearId === null || yearId === undefined) {
+            throw new Error('Required parameter yearId was null or undefined when calling yearsDeleteSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<EmptyDict>('delete',`${this.basePath}/years/${encodeURIComponent(String(yearId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public yearsGetAll(observe?: 'body', reportProgress?: boolean): Observable<Years>;
+    public yearsGetAll(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Years>>;
+    public yearsGetAll(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Years>>;
+    public yearsGetAll(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<Years>('get',`${this.basePath}/years`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param yearId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public yearsGetSingle(yearId: number, observe?: 'body', reportProgress?: boolean): Observable<YearResponse>;
+    public yearsGetSingle(yearId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<YearResponse>>;
+    public yearsGetSingle(yearId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<YearResponse>>;
+    public yearsGetSingle(yearId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (yearId === null || yearId === undefined) {
+            throw new Error('Required parameter yearId was null or undefined when calling yearsGetSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<YearResponse>('get',`${this.basePath}/years/${encodeURIComponent(String(yearId))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param yearId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public yearsUpdateSingle(body: YearUpdateRequest, yearId: number, observe?: 'body', reportProgress?: boolean): Observable<YearResponse>;
+    public yearsUpdateSingle(body: YearUpdateRequest, yearId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<YearResponse>>;
+    public yearsUpdateSingle(body: YearUpdateRequest, yearId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<YearResponse>>;
+    public yearsUpdateSingle(body: YearUpdateRequest, yearId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling yearsUpdateSingle.');
+        }
+
+        if (yearId === null || yearId === undefined) {
+            throw new Error('Required parameter yearId was null or undefined when calling yearsUpdateSingle.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<YearResponse>('put',`${this.basePath}/years/${encodeURIComponent(String(yearId))}`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+}

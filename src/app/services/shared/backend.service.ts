@@ -207,7 +207,8 @@ export class BackendService {
         }
         // Some other error
         throw new HttpErrorResponse({error: resp});
-      })
+      }),
+      distinctUntilChanged()
     );
   }
 

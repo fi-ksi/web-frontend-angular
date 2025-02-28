@@ -16,8 +16,8 @@
       "settings": "Nastavení",
       "feedback": "Zpětná vazba",
       "theme": {
-        "light": "Tmavý řežim",
-        "dark": "Světlý řežim"
+        "light": "Tmavý režim",
+        "dark": "Světlý režim"
       },
       "title": {
         "long": "Korespondenční seminář z informatiky",
@@ -53,7 +53,7 @@
           "text": "KSI, neboli Korespondenční Seminář z Informatiky, je celoroční soutěž pro středoškoláky z České i Slovenské republiky organizovaná studenty Fakulty informatiky Masarykovy univerzity. Cílem semináře je seznámit řešitele se zajímavými oblastmi informatiky a procvičit programátorské, matematické a logické myšlení. Seminář je uzpůsoben jak pro úplné začátečníky, kteří si na jednoduchých příkladech procvičí danou problematiku, tak pro zkušenější řešitele, kteří se pokusí pokořit hlavní soutěžní úlohy."
         },
         "kscuk": {
-          "title":  "Zúčastni se soustřední a KSÍletů",
+          "title":  "Zúčastni se soustředění a KSÍletů",
           "text": "Při řešení našeho semináře nemusíš jen sedět doma za počítačem. Během roku pro všechny řešitele pravidelně pořádáme výlety (Ksílety), na kterých se můžeš seznámit s ostatními řešiteli, osobně poznat organizátory a zahrát si kupu zajímavých her. V září se mohou úspěšní řešitelé těšit na týdenní soustředění K-SCUK, které je společné pro KSI a  biologický seminář IBIS. Náplní soustředění je jak odborný program, díky kterému se opět naučíš něco nového z informatiky, tak bohatý doprovodný program."
         },
         "achievements": {
@@ -204,7 +204,7 @@
         "reset-confirm": "Tato akce smaže všechny tvoje úpravy. Vážně ji chceš provést?",
         "lint": {
           "text": "Zkontrolovat kvalitu kódu pomocí EduLintu",
-          "tooltip": "Dojde k přesměřování na externí službu EduLint",
+          "tooltip": "Dojde k přesměrování na externí službu EduLint",
           "problems-found": "Tvůj kód vypadá, že by se dal ještě vylepšit. EduLint našel {{count}} zlepšení.",
           "no-problems-found": "Skvělá práce! EduLint nenašel v tvém kódu žádná další zlepšení."
         }
@@ -238,7 +238,7 @@
       "comment-none": "K tvému odevzdání nebyl přidán žádný komentář opravujícího"
     },
     "deadline": "Datum ukončení",
-    "deadline-passed": "Termín odevzdání úlohy již uplynul, úloha nepříjmá nové odpovědi. Stále si ji ale můžeš prohlédnout, včetně řešení.",
+    "deadline-passed": "Termín odevzdání úlohy již uplynul, úloha nepřijímá nové odpovědi. Stále si ji ale můžeš prohlédnout, včetně řešení.",
     "feedback": {
       "send": "Odeslat zpětnou vazbu",
       "sent": "Máme to, díky!",
@@ -352,7 +352,7 @@
       },
       "master": {
         "male": "mistr",
-        "female": "mistrině"
+        "female": "mistryně"
       },
       "veteran": {
         "male": "veterán",
@@ -469,7 +469,7 @@
       "instance-config": "Server Admin"
     },
     "root": {
-      "title": "Organizároské rozhraní",
+      "title": "Organizátorské rozhraní",
       "tasks": {
         "title": "Správa úloh",
         "description": "Přidávání nových úloh. Vypouštění nových verzí úloh. Merge do masteru."

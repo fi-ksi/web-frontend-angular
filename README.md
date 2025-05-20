@@ -107,6 +107,8 @@ executed by `npm run gen.icons`
 
 ## 6 Deployment
 
+**TL;DR:** After merging PR to `main`, you can run following commands to start deployment on prod: `git checkout main && git pull && git checkout prod-kleobis && git rebase main && git push && git checkout main`.
+
 Automatic deploy is executed based on which branch is pushed into. To see which branch deploys where, take a look inside the `.github/workflows` directory. Most important branches are:
 
 - `prod-kleobis` that is deployed on the [ksi.fi.muni.cz](https://ksi.fi.muni.cz) production environment

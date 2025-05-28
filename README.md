@@ -127,3 +127,7 @@ Also, if the name or owner of the repository is changed, be sure to reflect this
 The source code is written in English, but the web itself is in Czech. This is possible by using `ngx-translate` package. All texts (except a few exceptions) are saved inside `src/assets/cs.json`.
 
 The routes are also translated by using `fileReplacements` inside `angular.json` file. Raw values can be found inside `src/routes/`.
+
+## 8 Logging 
+
+You can find the logs of all HTTP requests (and other events like incorrect password, cheating) including the IP address and the ID of the user making the request in `/var/log/gunicorn/naskoc-backend.log`.

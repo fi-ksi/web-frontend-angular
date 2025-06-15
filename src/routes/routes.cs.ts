@@ -5,7 +5,7 @@ export const ROUTES: IRoutes = {
   news: 'novinky',
   about: 'o-naskoc',
   results: 'vysledky',
-  schedule: 'harmonogram',
+  schedule: 'pripravny-tyden',
   tasks: {
     _: 'ulohy',
     solution: 'reseni',

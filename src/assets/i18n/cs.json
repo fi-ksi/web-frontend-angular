@@ -30,7 +30,7 @@
         "news": "Novinky",
         "discussion": "Diskuze",
         "admin": "Admin",
-        "schedule": "Harmonogram"
+        "schedule": "Přípravný týden na FI"
       }
     },
     "not-found": {
@@ -622,6 +622,6 @@
     "title": "Zásady zpracování osobních údajů"
   },
   "schedule": {
-    "title": "Harmonogram aktivit"
+    "title": "Přípravný týden na FI"
   }
 }

@@ -53,14 +53,14 @@
           "text": "KSI, neboli Korespondenční Seminář z Informatiky, je celoroční soutěž pro středoškoláky z České i Slovenské republiky organizovaná studenty Fakulty informatiky Masarykovy univerzity. Cílem semináře je seznámit řešitele se zajímavými oblastmi informatiky a procvičit programátorské, matematické a logické myšlení. Seminář je uzpůsoben jak pro úplné začátečníky, kteří si na jednoduchých příkladech procvičí danou problematiku, tak pro zkušenější řešitele, kteří se pokusí pokořit hlavní soutěžní úlohy."
         },
         "kscuk": {
-          "title":  "Zúčastni se soustředění a KSÍletů",
+          "title": "Zúčastni se soustředění a KSÍletů",
           "text": "Při řešení našeho semináře nemusíš jen sedět doma za počítačem. Během roku pro všechny řešitele pravidelně pořádáme výlety (Ksílety), na kterých se můžeš seznámit s ostatními řešiteli, osobně poznat organizátory a zahrát si kupu zajímavých her. V září se mohou úspěšní řešitelé těšit na týdenní soustředění K-SCUK, které je společné pro KSI a  biologický seminář IBIS. Náplní soustředění je jak odborný program, díky kterému se opět naučíš něco nového z informatiky, tak bohatý doprovodný program."
         },
         "achievements": {
           "title": "Získej všechny trofeje",
           "text": "Za každou vyřešenou úlohu dostáváš body. Pokud budeš mít na konci roku alespoň 60 % z celkového možného počtu bodů, staneš se úspěšným řešitelem. V průběhu řešení semináře můžeš navíc za překonávání milníků, odevzdávání zajímavých řešení nebo třeba za účast na KSI akcích obdržet nejrůznější odznáčky. Podaří se ti jich získat co nejvíc? Ulovíš i ty nejvzácnější? Soutěž s ostatními řešiteli a posbírej je všechny! "
         },
-        "begin":  "Začni řešit",
+        "begin": "Začni řešit",
         "lets-start": "Jdu na to",
         "more-info": "Zjisti více"
       },
@@ -250,7 +250,7 @@
         "much": "Moc"
       }
     },
-    "graph":  {
+    "graph": {
       "task": "Úloha {{ name }}"
     },
     "settings": {
@@ -466,7 +466,104 @@
       "email": "E-mail",
       "discussion": "Diskuze",
       "achievement": "Trofeje",
-      "instance-config": "Server Admin"
+      "instance-config": "Server Admin",
+      "waves": "Vlny",
+      "years": "Ročníky",
+      "articles": "Články"
+    },
+    "articles": {
+      "title": "Správa článků",
+      "new": "Přidat nový článek",
+      "edit": {
+        "title": "Upravit článek",
+        "save": "Uložit změny"
+      },
+      "head": {
+        "title": "Titulek",
+        "published_date": "Termín publikace",
+        "released": "Zveřejněn",
+        "actions": "Akce"
+      },
+      "delete": {
+        "btn": "Smazat článek",
+        "confirmation": "Opravdu chcete smazat tento článek?"
+      },
+      "warning": {
+        "title": "Upozornění",
+        "message": "Maximální počet bodů nezahrnuje bonusové body."
+      }
+    },
+    "waves": {
+      "title": "Správa vln",
+      "new": "Přidat novou vlnu",
+      "edit": {
+        "title": "Upravit vlnu",
+        "save": "Uložit změny"
+      },
+      "head": {
+        "wave": "Vlna",
+        "name": "Název",
+        "guarantor": "Garant",
+        "release": "Zveřejnění",
+        "max-points": "Max. bodů",
+        "task-count": "#úloh",
+        "actions": "Akce"
+      },
+      "warning": {
+        "title": "Upozornění",
+        "message": "Maximum bodů nezahrnuje bonusové body."
+      },
+      "delete": {
+        "btn": "Smazat vlnu",
+        "confirmation": "Opravdu chceš smazat tuto vlnu?"
+      },
+      "edit_page": {
+        "new": "Nová vlna",
+        "edit": "Úprava vlny"
+      },
+      "back": "Zpět na přehled",
+      "caption": "Název",
+      "caption.required": "Název je povinný.",
+      "garant": "Garant",
+      "garant.required": "Garant je povinný.",
+      "time_published": "Datum vydání",
+      "time_published.required": "Datum vydání je povinné.",
+      "index": "Index",
+      "index.required": "Index je povinný.",
+      "create": "Vytvořit",
+      "save": "Uložit"
+    },
+    "years": {
+      "title": "Správa ročníků",
+      "newYear": "Nový ročník",
+      "index": "Index",
+      "year": "Ročník",
+      "maxPoints": "Max. bodů",
+      "pointPad": "Bodová vycpávka",
+      "taskCount": "#úloh",
+      "sealed": "Zapečetěn",
+      "actions": "Akce",
+      "edit": "Upravit",
+      "delete": "Smazat",
+      "cannotDeleteSealed": "Nelze smazat zapečetěný ročník",
+      "warningTitle": "Upozornění",
+      "warningMessage": "Maximum bodů nezahrnuje bonusové body.",
+      "editPage": {
+        "newYear": "Vytvoření nového ročníku",
+        "edit": "Úprava ročníku",
+        "backToOverview": "Zpět na přehled",
+        "index": "Index",
+        "indexRequired": "Index je povinný.",
+        "year": "Rok",
+        "yearRequired": "Rok je povinný.",
+        "sealed": "Zapečetěný",
+        "pointPad": "Bodová vycpávka",
+        "pointPadInvalid": "Bodová vycpávka musí být číslo.",
+        "activeOrgs": "Aktivní organizátoři",
+        "activeOrgsRequired": "Aktivní organizátoři jsou povinní.",
+        "create": "Vytvořit",
+        "save": "Uložit"
+      }
     },
     "root": {
       "title": "Organizátorské rozhraní",

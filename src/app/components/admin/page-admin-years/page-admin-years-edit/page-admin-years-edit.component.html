@@ -1,0 +1,66 @@
+<ksi-admin-sidebar></ksi-admin-sidebar>
+
+<div class="content-container">
+    <div class="content">
+        <h2>{{ editMode === EditMode.New ? ('admin.years.editPage.newYear' | translate) : ('admin.years.editPage.edit' |
+            translate) }}</h2>
+        <a [routerLink]="['/', routes.routes.admin._, routes.routes.admin.years._]">
+            {{ 'admin.years.editPage.backToOverview' | translate }}
+        </a>
+
+        <form [formGroup]="form" (ngSubmit)="save()">
+            <div class="form-group">
+                <label for="index">{{ 'admin.years.editPage.index' | translate }}*</label>
+                <input type="number" id="index" class="form-control" formControlName="index" required>
+                <div *ngIf="form.get('index')?.invalid && form.get('index')?.touched" class="text-danger">
+                    {{ 'admin.years.editPage.indexRequired' | translate }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="year">{{ 'admin.years.editPage.year' | translate }}*</label>
+                <input type="text" id="year" class="form-control" formControlName="year" required>
+                <div *ngIf="form.get('year')?.invalid && form.get('year')?.touched" class="text-danger">
+                    {{ 'admin.years.editPage.yearRequired' | translate }}
+                </div>
+            </div>
+
+            <div class="form-group" style="position: relative; display: flex; flex-direction: row;">
+                <label class="form-check-label" for="sealed" style="margin-left: 24px;">
+                    <input type="checkbox" id="sealed" class="form-check-input" formControlName="sealed">
+                    {{ 'admin.years.editPage.sealed' | translate }}
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label for="point_pad">{{ 'admin.years.editPage.pointPad' | translate }}</label>
+                <input type="number" id="point_pad" class="form-control" formControlName="point_pad">
+                <div *ngIf="form.get('point_pad')?.invalid && form.get('point_pad')?.touched" class="text-danger">
+                    {{ 'admin.years.editPage.pointPadInvalid' | translate }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="active_orgs">{{ 'admin.years.editPage.activeOrgs' | translate }}</label>
+                <ul>
+                    <li *ngFor="let user of adminUsers$ | async">
+                        <label>
+                            <input type="checkbox" [checked]="isUserActive(user.id)"
+                                (change)="toggleUserActive(user.id)">
+                            {{ user.first_name }} {{ user.nick_name }} {{ user.last_name }} ({{ user.email }})
+                        </label>
+                    </li>
+                </ul>
+
+                <div *ngIf="form.get('active_orgs')?.invalid && form.get('active_orgs')?.touched" class="text-danger">
+                    {{ 'admin.years.editPage.activeOrgsRequired' | translate }}
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                {{ editMode === EditMode.New ? ('admin.years.editPage.create' | translate) :
+                ('admin.years.editPage.save' | translate) }}
+            </button>
+        </form>
+    </div>
+</div>

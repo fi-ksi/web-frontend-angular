@@ -1,0 +1,55 @@
+<ksi-admin-sidebar></ksi-admin-sidebar>
+
+<div class="content-container">
+    <div class="content">
+        <h2>{{ editMode === EditMode.New ? ('admin.waves.edit_page.new' | translate) : ('admin.waves.edit_page.edit' |
+            translate) }}</h2>
+        <a [routerLink]="['/', routes.routes.admin._, routes.routes.admin.waves._]"> {{ 'admin.waves.back' | translate
+            }}</a>
+
+        <form [formGroup]="form" (ngSubmit)="save()">
+
+            <div class="form-group">
+                <label for="caption">{{ 'admin.waves.caption' | translate }}*</label>
+                <input type="text" id="caption" class="form-control" formControlName="caption" required>
+                <div *ngIf="form.get('caption')?.invalid && form.get('caption')?.touched" class="text-danger">
+                    {{ 'admin.waves.caption.required' | translate }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="garant">{{ 'admin.waves.garant' | translate }}*</label>
+                <select id="garant" class="form-control" formControlName="garant" required>
+                    <option *ngFor="let user of adminUsers$ | async" [value]="user.id">
+                        {{ user.first_name }} {{ user.nick_name }} {{ user.last_name }} ( {{ user.id }} )
+                    </option>
+                </select>
+                <div *ngIf="form.get('garant')?.invalid && form.get('garant')?.touched" class="text-danger">
+                    {{ 'admin.waves.garant.required' | translate }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="time_published">{{ 'admin.waves.time_published' | translate }}*</label>
+                <input type="date" id="time_published" class="form-control" #timePublishedInput placeholder="DD.MM.YYYY"
+                    (change)="onDateInput($event)">
+                <div *ngIf="form.get('time_published')?.invalid && form.get('time_published')?.touched"
+                    class="text-danger">
+                    {{ 'admin.waves.time_published.required' | translate }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="index">{{ 'admin.waves.index' | translate }}*</label>
+                <input type="number" id="index" class="form-control" formControlName="index" required>
+                <div *ngIf="form.get('index')?.invalid && form.get('index')?.touched" class="text-danger">
+                    {{ 'admin.waves.index.required' | translate }}
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                {{ editMode === EditMode.New ? ('admin.waves.create' | translate) : ('admin.waves.save' | translate) }}
+            </button>
+        </form>
+    </div>
+</div>

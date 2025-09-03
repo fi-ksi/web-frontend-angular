@@ -47,6 +47,9 @@
     display: block;
     /* Adds some space between the images */
     margin-bottom: 1rem; /* Adjust as needed */
+    /* This will center the image horizontally */
+    margin-left: auto;
+    margin-right: auto;
   }
 }
   

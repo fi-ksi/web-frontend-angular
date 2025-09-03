@@ -33,9 +33,9 @@
   }
   .schedule-container {
     /* This ensures the container doesn't exceed the width of the viewport */
-    max-width: 100%;
+    max-width: 80%;
     /* This will help if you have a flex container parent */
-    width: 100%;
+    width: 80%;
   }
 
   .schedule-image {

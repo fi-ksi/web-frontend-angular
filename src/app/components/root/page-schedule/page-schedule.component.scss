@@ -2,54 +2,12 @@
 @import "src/app/styles/mixins";
 
 :host {
-  .schedule {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    overflow: hidden;
-    height: auto;
-    padding-top: $ksi-padding;
-    padding-bottom: $ksi-padding;
+  display: flex;
+  justify-content: center;
 
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-
-    justify-content: center;
-
-    @media screen and (max-width: $ksi-max-mobile-width) {
-      background-image: none;
-      height: auto;
-      padding-bottom: $ksi-margin;
-    }
-  }
-  .schedule h1 {
-      width: 60%;
-  }
-  .schedule p {
-      width: 60%;
-  }
-  .schedule-container {
-    /* This ensures the container doesn't exceed the width of the viewport */
-    max-width: 80%;
-    /* This will help if you have a flex container parent */
-    width: 80%;
-  }
-
-  .schedule-image {
-    /* This makes the image scale down if the container is smaller */
-    max-width: 100%;
-    /* This maintains the aspect ratio of the image */
-    height: auto;
-    /* This displays the image as a block element, which allows margin auto to work for centering if needed */
-    display: block;
-    /* Adds some space between the images */
-    margin-bottom: 1rem; /* Adjust as needed */
-    /* This will center the image horizontally */
-    margin-left: auto;
-    margin-right: auto;
+  > article {
+    @include ksi-full-width;
+    margin: $ksi-margin;
   }
 }
-  
+

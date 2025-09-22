@@ -1,32 +1,50 @@
 <ng-container *ngIf="visible$ | async; else hidden">
   <div class="content" [class.clickable]="window.isMobile$ | async" (click)="hideFullMenu($event)">
     <nav class="navigation-bar">
-      <a class="title" [routerLink]="['/', routes.routes.admin._]" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active">{{'admin.navbar.title'|translate}}</a>
+      <a class="title" [routerLink]="['/', routes.routes.admin._]" [routerLinkActiveOptions]="{exact: true}"
+        routerLinkActive="active">{{'admin.navbar.title'|translate}}</a>
 
-      <a class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.tasks]" routerLinkActive="active" (click)="hideFullMenu($event)">
+      <a class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.tasks]"
+        routerLinkActive="active" (click)="hideFullMenu($event)">
         {{'admin.navbar.tasks' | translate}}
       </a>
-      <a class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.monitor]" routerLinkActive="active" (click)="hideFullMenu($event)">
+      <a class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.monitor]"
+        routerLinkActive="active" (click)="hideFullMenu($event)">
         {{'admin.navbar.monitor' | translate}}
       </a>
-      <a class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.email]" routerLinkActive="active" (click)="hideFullMenu($event)">
+      <a class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.email]"
+        routerLinkActive="active" (click)="hideFullMenu($event)">
         {{'admin.navbar.email' | translate}}
       </a>
-      <a class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.discussion]" routerLinkActive="active" (click)="hideFullMenu($event)">
+      <a class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.discussion]"
+        routerLinkActive="active" (click)="hideFullMenu($event)">
         {{'admin.navbar.discussion' | translate}}
       </a>
-<!--      <a class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.achievements]" routerLinkActive="active" (click)="hideFullMenu($event)">-->
-<!--        {{'admin.navbar.achievement' | translate}}-->
-<!--      </a>-->
-      <a *ngIf="userService.isAdmin$ | async" class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.instanceConfig]" routerLinkActive="active" (click)="hideFullMenu($event)">
+      <a class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.waves._]"
+        routerLinkActive="active" (click)="hideFullMenu($event)">
+        {{'admin.navbar.waves' | translate}}
+      </a>
+      <a class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.years._]"
+        routerLinkActive="active" (click)="hideFullMenu($event)">
+        {{'admin.navbar.years' | translate}}
+      </a>
+      <a class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.achievements]"
+        routerLinkActive="active" (click)="hideFullMenu($event)">
+        {{'admin.navbar.achievement' | translate}}
+      </a>
+      <a class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.articles._]"
+        routerLinkActive="active" (click)="hideFullMenu($event)">
+        {{'admin.navbar.articles' | translate}}
+      </a>
+      <a *ngIf="userService.isAdmin$ | async" class="nav-btn"
+        [routerLink]="['/', routes.routes.admin._, routes.routes.admin.instanceConfig]" routerLinkActive="active"
+        (click)="hideFullMenu($event)">
         {{'admin.navbar.instance-config' | translate}}
       </a>
+      <hr style="width: 100%; border: var(--ksi-page-welcome-banner-bg) 1px solid;">
       <ng-container *ngIf="oldFrontendUrl">
-        <a *ngFor="let oldLink of oldFrontendButtons"
-           class="nav-btn"
-           [href]="oldFrontendUrl + '/admin/' + oldLink[0]"
-           (click)="openExternal($event)"
-        >
+        <a *ngFor="let oldLink of oldFrontendButtons" class="nav-btn" [href]="oldFrontendUrl + '/admin/' + oldLink[0]"
+          (click)="openExternal($event)">
           {{oldLink[1]}}
         </a>
       </ng-container>

@@ -1,0 +1,38 @@
+<ksi-admin-sidebar></ksi-admin-sidebar>
+<div class="content-container">
+    <div class="content">
+
+        <h2>Správa článků</h2>
+        <a class="btn btn-ksi"
+            [routerLink]="['/', routes.routes.admin._, routes.routes.admin.articles._, routes.routes.admin.articles.edit, '0']">
+            {{ icon.ADD }} {{ 'admin.articles.new' | translate }}</a>
+
+        <table class="table table-striped table-hover table-responsive-md threads table-dark">
+            <thead>
+                <tr style="height:45px">
+                    <th>{{ 'admin.articles.head.title' | translate}}</th>
+                    <th>{{ 'admin.articles.head.published_date' | translate}}</th>
+                    <th>{{ 'admin.articles.head.released' | translate}}</th>
+                    <th>{{ 'admin.articles.head.actions' | translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let article of articles$ | async">
+                    <td><a
+                            [routerLink]="['/', routes.routes.admin._, routes.routes.admin.articles._, routes.routes.admin.articles.edit, article.id]">{{article.title}}</a>
+                    </td>
+                    <td>{{(article.time_published | date : 'medium') || "---"}}</td>
+                    <td>{{article.published ? icon.CHECKMARK : icon.CROSS}}</td>
+                    <td>
+                        <a class="btn btn-outline-primary"
+                            [routerLink]="['/', routes.routes.admin._, routes.routes.admin.articles._, routes.routes.admin.articles.edit, article.id]">{{
+                            icon.EDIT }} </a>
+
+                        <button class="btn btn-outline-primary" (click)="notImplemented()">
+                            {{ icon.DELETE }} {{ 'admin.articles.delete.btn' | translate }} </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

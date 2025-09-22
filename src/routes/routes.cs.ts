@@ -28,7 +28,19 @@ export const ROUTES: IRoutes = {
     email: 'email',
     discussion: 'forum',
     achievements: 'trofeje',
-    instanceConfig: 'nastaveni-serveru'
+    instanceConfig: 'nastaveni-serveru',
+    waves: {
+      _: 'waves',
+      edit: 'upravit'
+    },
+    years: {
+      _: 'years',
+      edit: 'edit'
+    },
+    articles: {
+      _: 'articles',
+      edit: 'upravit'
+    }
   },
   privacyPolicy: 'zpracovani-osobnich-udaju'
 };

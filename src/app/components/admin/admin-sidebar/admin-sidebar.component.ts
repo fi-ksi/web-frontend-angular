@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { IconService, RoutesService, UserService, WindowService } from '../../../services';
-import {BehaviorSubject, combineLatest, Observable, Subscription} from 'rxjs';
-import {filter, map, mergeMap} from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { filter, map, mergeMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
@@ -23,10 +23,8 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
   oldFrontendButtons = [
     ['users/', 'Uživatelé'],
     ['years/', 'Ročníky'],
-    ['waves/', 'Vlny'],
     ['execs/', 'Spuštění'],
     ['opravovani/', 'Opravování'],
-    ['achievements/', 'Trofeje'],
   ]
 
   constructor(

@@ -28,7 +28,7 @@ import { ModalFeedbackComponent } from './modal-feedback/modal-feedback.componen
 import { FeedbackComponent } from './feedback/feedback.component';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { ClickableUserNameComponent } from './clickable-user-name/clickable-user-name.component';
-import {KsiDatePipe} from '../../pipes/shared/ksi-date.pipe';
+import { KsiDatePipe } from '../../pipes/shared/ksi-date.pipe';
 import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 
 @NgModule({

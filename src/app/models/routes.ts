@@ -26,6 +26,18 @@ export interface IRoutes {
     discussion: string;
     achievements: string;
     instanceConfig: string;
+    waves: {
+      _: string;
+      edit: string;
+    },
+    years: {
+      _: string;
+      edit: string;
+    },
+    articles: {
+      _: string;
+      edit: string;
+    }
   };
   privacyPolicy: string;
 }

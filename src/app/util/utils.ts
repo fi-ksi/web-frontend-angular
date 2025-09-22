@@ -60,10 +60,6 @@ export class Utils {
     return r;
   }
 
-  public static getTaskIconURL(task: Task): string {
-    return Utils.fixUrl(`${environment.backend}${task.picture_base}/${task.state}${task.picture_suffix}`);
-  }
-
   public static fixUrl(url: string): string {
     const replace = (x: string): string => x.replace(/([^:])\/\//g, '$1/');
     return replace(replace(url));

@@ -20,5 +20,5 @@ export const environment: Environment = {
     debug: console.debug,
     warn: console.warn
   },
-  oldFrontendUrl: 'https://ksi-admin.ahlava.cz'
+  oldFrontendUrl: 'https://ksi-admin.iamroot.eu'
 };

@@ -20,5 +20,5 @@ export const environment: Environment = {
     warn: console.warn
   },
   allowTestingAccountRegistration: true,
-  oldFrontendUrl: 'https://ksi-admin-dev.ahlava.cz/'
+  oldFrontendUrl: 'https://ksi-admin-dev.iamroot.eu/'
 };

@@ -33,7 +33,10 @@ highlight.addPlugin({
           return match;
         });
 
-        return `<div>${openTags.join('')}${line}${'</span>'.repeat(
+        // Ensure empty lines render visibly
+        const visibleLine = line.trim() === '' ? '&nbsp;' : line;
+
+        return `<div>${openTags.join('')}${visibleLine}${'</span>'.repeat(
           openTags.length
         )}</div>`;
       })

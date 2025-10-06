@@ -34,7 +34,7 @@ highlight.addPlugin({
         });
 
         // Ensure empty lines render visibly
-        const visibleLine = line.trim() === '' ? '&nbsp;' : line;
+        const visibleLine = line.trim() === '' ? '&#10;' : line;
 
         return `<div>${openTags.join('')}${visibleLine}${'</span>'.repeat(
           openTags.length

@@ -2,12 +2,11 @@ import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ChangeDetectorRe
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { shareReplay } from 'rxjs/operators';
-import { User, WaveCreationRequest } from 'src/api/backend';
-import { EditMode } from 'src/app/models/EditMode';
-import { IconService, RoutesService, YearsService } from 'src/app/services';
+import { map, shareReplay } from 'rxjs/operators';
+import { User, Wave, WaveCreationRequest } from 'src/api/backend';
+import { IconService, ModalService, RoutesService, YearsService } from 'src/app/services';
 import { AdminWavesService } from 'src/app/services/admin/admin-waves.service';
-import { NgbAlertModule, NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { AdminBaseEditComponent } from '../../base/admin-edit-base.component';
 
 @Component({
   selector: 'ksi-page-admin-waves-edit',
@@ -15,25 +14,23 @@ import { NgbAlertModule, NgbDatepickerModule, NgbDateStruct } from '@ng-bootstra
   styleUrls: ['./page-admin-waves-edit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PageAdminWavesEditComponent implements OnInit {
-  editMode: EditMode;
-  EditMode = {
-    New: 'New',
-    Edit: 'Edit'
-  };
+
+export class PageAdminWavesEditComponent extends AdminBaseEditComponent<Wave> implements OnInit {
+  form = this.fb.group({
+    index: [0, [Validators.required]],
+    caption: ["", [Validators.required]],
+    time_published: [null, [Validators.required]],
+    garant: [null, [Validators.required]],
+    year: [this.years.selected?.id]
+  });
+  date_fields_to_fix: string[] = ['time_published'];
 
   @ViewChild('timePublishedInput') timePublishedInput: ElementRef<HTMLInputElement>;
-
-  form = this.fb.group({
-    index: [7, [Validators.required]],
-    caption: ["", [Validators.required]],
-    time_published: [null, [Validators.required]], // Store as ISO string
-    garant: [null, [Validators.required]],
-    year: [this.years.selected?.id] // User won't set this - it's for better DevEx when submitting
-  });
-
   adminUsers$: Observable<User[]>;
-  waveId: number;
+
+  createFunction = () => this.adminWavesService.createWave({ wave: this.form.value as WaveCreationRequest['wave'] });
+  updateFunction = () => this.adminWavesService.updateWave({ wave: this.form.value as WaveCreationRequest['wave'] }, this.itemId);
+  loadItemFunction = (itemId: number) => this.adminWavesService.getWaveById(itemId).pipe(map(response => response?.wave!));
 
   constructor(
     public icon: IconService,
@@ -41,36 +38,27 @@ export class PageAdminWavesEditComponent implements OnInit {
     public years: YearsService,
     public router: Router,
     public fb: FormBuilder,
-    private cdRef: ChangeDetectorRef,
-    private adminWavesService: AdminWavesService
-  ) { }
+    public cdRef: ChangeDetectorRef,
+    public modal: ModalService,
+    public adminWavesService: AdminWavesService
+  ) {
+    super(router, routes, modal, cdRef);
+  }
 
   ngOnInit(): void {
-    this.waveId = Number.parseInt(this.router.url.split('/').pop() || '0', 10);
+    super.ngOnInit();
 
-    this.editMode = this.waveId == 0 ? EditMode.New : EditMode.Update;
     this.adminUsers$ = this.years.organisators$.pipe(
       shareReplay(1)
     );
 
-    if (this.editMode === EditMode.Update) {
-      const waveId = Number.parseInt(this.router.url.split('/').pop() || '', 10);
-      this.adminWavesService.getWaveById(waveId).subscribe(waveResponse => {
-        if (waveResponse) {
-          this.form.patchValue(waveResponse.wave);
-          (this.timePublishedInput.nativeElement as HTMLInputElement).value = new Date(waveResponse.wave.time_published as string).toISOString().split('T')[0];
-        } else {
-          alert('Wave not found. Redirecting to the waves list.');
-          this.router.navigate(['/', this.routes.routes.admin._, this.routes.routes.admin.waves._]);
-          return;
-        }
+    let sub = this.adminWavesService.getWaves().pipe(
+      map(res => res.waves.length + 1)
+    ).subscribe(idx => {
+      this.form.patchValue({ index: idx });
+    });
 
-      }, error => {
-        console.error('Error fetching wave data:', error);
-        alert('Failed to load wave data. Please try again.');
-      });
-    }
-
+    this.subscriptions.push(sub);
   }
 
   onDateInput(event: Event): void {
@@ -78,30 +66,4 @@ export class PageAdminWavesEditComponent implements OnInit {
     const isoDate = input.value ? new Date(input.value).toISOString() : null;
     this.form.patchValue({ time_published: isoDate });
   }
-
-  save() {
-    if (!this.form.valid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-
-    const waveData: WaveCreationRequest = { wave: this.form.value as WaveCreationRequest['wave'] };
-
-    if (this.editMode === EditMode.New) {
-      this.adminWavesService.createWave(waveData).subscribe(() => {
-        this.router.navigate(['/', this.routes.routes.admin._, this.routes.routes.admin.waves._]);
-      }, error => {
-        console.error('Error creating wave:', error);
-        alert('Failed to create wave. Please try again.');
-      });
-    } else {
-      this.adminWavesService.updateWave(waveData, this.waveId).subscribe(() => {
-        this.router.navigate(['/', this.routes.routes.admin._, this.routes.routes.admin.waves._]);
-      }, error => {
-        console.error('Error updating wave:', error);
-        alert('Failed to update wave. Please try again.');
-      });
-    }
-  }
-
 }

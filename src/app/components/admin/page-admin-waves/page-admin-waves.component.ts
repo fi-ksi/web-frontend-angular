@@ -2,8 +2,9 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@
 import { Observable } from 'rxjs';
 import { map, } from 'rxjs/operators';
 import { Wave } from 'src/api/backend';
-import { IconService, RoutesService, YearsService } from 'src/app/services';
+import { IconService, ModalService, RoutesService, YearsService } from 'src/app/services';
 import { AdminWavesService } from 'src/app/services/admin/admin-waves.service';
+import { AdminBaseComponent } from '../base/admin-base.component';
 
 @Component({
   selector: 'ksi-page-admin-waves',
@@ -11,53 +12,35 @@ import { AdminWavesService } from 'src/app/services/admin/admin-waves.service';
   styleUrls: ['./page-admin-waves.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PageAdminWavesComponent implements OnInit {
+
+export class PageAdminWavesComponent extends AdminBaseComponent<Wave> {
+  loadItemsFunction = () => this.adminWavesService.getWaves().pipe(map(response => response.waves));
+  deleteFunction = (itemId: number) => this.adminWavesService.deleteWave(itemId);
+
+  totalPoints$: Observable<number>;
+  tasksCount$: Observable<number>;
+
   constructor(
     public icon: IconService,
     public routes: RoutesService,
     public years: YearsService,
-    private cdr: ChangeDetectorRef,
-    private adminWavesService: AdminWavesService
-  ) { }
-
-  waves$: Observable<Wave[]>;
-  totalPoints$: Observable<number>;
-  tasksCount$: Observable<number>;
+    protected cdr: ChangeDetectorRef,
+    protected modal: ModalService,
+    protected adminWavesService: AdminWavesService
+  ) {
+    super(modal, cdr);
+  }
 
   ngOnInit(): void {
-    this.adminWavesService.getWaves();
-    this.reloadWaves();
+    super.ngOnInit();
 
-    this.totalPoints$ = this.waves$.pipe(
+    this.totalPoints$ = this.items.pipe(
       map(waves => waves.reduce((sum, wave) => sum + (wave.sum_points || 0), 0))
     );
 
-    this.tasksCount$ = this.waves$.pipe(
+    this.tasksCount$ = this.items.pipe(
       map(waves => waves.reduce((count, wave) => count + (wave.tasks_cnt || 0), 0))
     );
-  }
-
-  reloadWaves() {
-    console.log('Reloading waves...');
-    this.waves$ = this.adminWavesService.getWaves().pipe(map(response => response.waves));
-    this.cdr.markForCheck();
-  }
-
-  notImplemented(): void {
-    alert(`Feature is not implemented yet.`);
-  }
-
-  deleteWave(wave: Wave): void {
-    if (confirm(`Are you sure you want to delete wave "${wave.caption}"?`)) {
-      this.adminWavesService.deleteWave(wave.id).subscribe({
-        next: () => {
-          this.reloadWaves();
-        },
-        error: (err) => {
-          alert(`Error deleting wave: ${err?.message || err}`);
-        }
-      });
-    }
   }
 
   waveIsReleased(wave: Wave): boolean {
@@ -67,6 +50,4 @@ export class PageAdminWavesComponent implements OnInit {
   waveHasTasks(wave: Wave): boolean {
     return wave.tasks_cnt > 0;
   }
-
-
 }

@@ -7,7 +7,7 @@
             [routerLink]="['/', routes.routes.admin._, routes.routes.admin.articles._, routes.routes.admin.articles.edit, '0']">
             {{ icon.ADD }} {{ 'admin.articles.new' | translate }}</a>
 
-        <table class="table table-striped table-hover table-responsive-md threads table-dark">
+        <table class="table table-striped table-hover table-responsive-md threads" ksiTheme>
             <thead>
                 <tr style="height:45px">
                     <th>{{ 'admin.articles.head.title' | translate}}</th>
@@ -17,7 +17,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let article of articles$ | async">
+                <tr *ngFor="let article of items | async">
                     <td><a
                             [routerLink]="['/', routes.routes.admin._, routes.routes.admin.articles._, routes.routes.admin.articles.edit, article.id]">{{article.title}}</a>
                     </td>
@@ -25,10 +25,10 @@
                     <td>{{article.published ? icon.CHECKMARK : icon.CROSS}}</td>
                     <td>
                         <a class="btn btn-outline-primary"
-                            [routerLink]="['/', routes.routes.admin._, routes.routes.admin.articles._, routes.routes.admin.articles.edit, article.id]">{{
+                            [routerLink]="['/', routes.routes.admin._, routes.routes.admin.articles._, routes.routes.admin.articles.edit, 123]">{{
                             icon.EDIT }} </a>
 
-                        <button class="btn btn-outline-primary" (click)="notImplemented()">
+                        <button class="btn btn-outline-primary" (click)="deleteItem(article.id)">
                             {{ icon.DELETE }} {{ 'admin.articles.delete.btn' | translate }} </button>
                     </td>
                 </tr>

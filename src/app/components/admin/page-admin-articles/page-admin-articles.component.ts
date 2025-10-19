@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Article } from 'src/api/backend';
-import { IconService, RoutesService, YearsService } from 'src/app/services';
+import { IconService, ModalService, RoutesService, YearsService } from 'src/app/services';
 import { AdminArticlesService } from 'src/app/services/admin/admin-articles.service';
-import { AdminWavesService } from 'src/app/services/admin/admin-waves.service';
+import { AdminBaseComponent } from '../base/admin-base.component';
 
 @Component({
   selector: 'ksi-page-admin-articles',
@@ -11,43 +11,23 @@ import { AdminWavesService } from 'src/app/services/admin/admin-waves.service';
   styleUrls: ['./page-admin-articles.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PageAdminArticlesComponent implements OnInit {
+
+export class PageAdminArticlesComponent extends AdminBaseComponent<Article> implements OnInit {
+  loadItemsFunction = () => this.adminArticlesService.getArticles();
+  deleteFunction = (itemId: number) => this.adminArticlesService.deleteArticle(itemId);
 
   constructor(
     public icon: IconService,
     public routes: RoutesService,
     public years: YearsService,
-    private cdr: ChangeDetectorRef,
-    private adminArticlesService: AdminArticlesService
-  ) { }
-
-  articles$: Observable<Article[]>;
-
+    public cdr: ChangeDetectorRef,
+    public modal: ModalService,
+    public adminArticlesService: AdminArticlesService
+  ) { 
+    super(modal, cdr);
+  }
 
   ngOnInit(): void {
-    this.reloadArticles();
+    super.ngOnInit();
   }
-
-  reloadArticles() {
-    this.articles$ = this.adminArticlesService.getArticles();
-    this.cdr.markForCheck();
-  }
-
-  notImplemented(): void {
-    alert(`Feature is not implemented yet.`);
-  }
-
-  deleteArticle(article: Article): void {
-    if (confirm(`Are you sure you want to delete article "${article.title}"?`)) {
-      this.adminArticlesService.deleteArticle(article.id).subscribe({
-        next: () => {
-          this.reloadArticles();
-        },
-        error: (err) => {
-          alert(`Error deleting article: ${err?.message || err}`);
-        }
-      });
-    }
-  }
-
 }

@@ -17,8 +17,7 @@ export class AdminArticlesService {
   public getArticles(): Observable<Article[]> {
     return this.yearsService.selected$.pipe(
       switchMap(year => this.backend.http.articlesGetAll(undefined, undefined, undefined, year?.id).pipe(
-        map(response => response.articles || []),
-        tap(articles => console.log('Fetched articles:', articles))
+        map(response => response.articles || [])
       ))
     );
   }

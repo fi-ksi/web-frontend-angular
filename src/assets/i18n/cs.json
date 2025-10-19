@@ -459,6 +459,10 @@
     "title": "Trofeje"
   },
   "admin": {
+    "shared": {
+      "delete-confirmation": "Opravdu chceš smazat tento záznam?",
+      "not-found-redirection": "Záznam nebyl nalezen. Chceš se vrátit na přehled?"
+    },
     "navbar": {
       "title": "Admin",
       "tasks": "Úlohy",

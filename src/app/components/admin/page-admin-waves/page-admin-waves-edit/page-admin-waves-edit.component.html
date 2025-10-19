@@ -31,8 +31,7 @@
 
             <div class="form-group">
                 <label for="time_published">{{ 'admin.waves.time_published' | translate }}*</label>
-                <input type="date" id="time_published" class="form-control" #timePublishedInput placeholder="DD.MM.YYYY"
-                    (change)="onDateInput($event)">
+                <input type="date" id="time_published" class="form-control" formControlName="time_published" #timePublishedInput placeholder="DD.MM.YYYY">
                 <div *ngIf="form.get('time_published')?.invalid && form.get('time_published')?.touched"
                     class="text-danger">
                     {{ 'admin.waves.time_published.required' | translate }}

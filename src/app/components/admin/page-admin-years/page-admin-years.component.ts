@@ -1,9 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { Observable } from 'rxjs';
 import { IYear } from 'src/app/models';
-import { IconService, RoutesService, YearsService } from 'src/app/services';
-import { AdminWavesService } from 'src/app/services/admin/admin-waves.service';
+import { IconService, ModalService, RoutesService, YearsService } from 'src/app/services';
 import { AdminYearsService } from 'src/app/services/admin/admin-years.service';
+import { AdminBaseComponent } from '../base/admin-base.component';
 
 @Component({
   selector: 'ksi-page-admin-years',
@@ -11,37 +10,22 @@ import { AdminYearsService } from 'src/app/services/admin/admin-years.service';
   styleUrls: ['./page-admin-years.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PageAdminYearsComponent implements OnInit {
+
+export class PageAdminYearsComponent extends AdminBaseComponent<IYear> implements OnInit {
+  loadItemsFunction = () => this.adminYears.getYears();
+  deleteFunction = (itemId: number) => this.adminYears.deleteYear(itemId);
 
   constructor(
     public icon: IconService,
     public routes: RoutesService,
     public adminYears: AdminYearsService,
-    private cdr: ChangeDetectorRef,
-  ) { }
-
-  years$: Observable<IYear[]>;
+    public modal: ModalService,
+    public cdr: ChangeDetectorRef,
+  ) {
+    super(modal, cdr);
+  }
 
   ngOnInit(): void {
-    this.reloadYears();
+    super.ngOnInit();
   }
-
-  reloadYears() {
-    this.years$ = this.adminYears.getYears();
-    this.cdr.markForCheck();
-  }
-
-  deleteYear(yearId: number): void {
-    if (confirm(`Are you sure you want to delete this year?`)) {
-      this.adminYears.deleteYear(yearId).subscribe({
-        next: () => {
-          this.reloadYears();
-        },
-        error: (err) => {
-          alert(`Error deleting year: ${err?.message || err}`);
-        }
-      });
-    }
-  }
-
 }

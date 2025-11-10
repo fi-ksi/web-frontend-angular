@@ -1,0 +1,51 @@
+<ksi-admin-sidebar></ksi-admin-sidebar>
+<div class="content-container">
+    <div class="content">
+
+        <h2>{{ 'admin.years.title' | translate }}</h2>
+        <a class="btn btn-ksi"
+            [routerLink]="['/', routes.routes.admin._, routes.routes.admin.years._, routes.routes.admin.years.edit, '0']">
+            {{ icon.ADD }} {{ 'admin.years.newYear' | translate }}</a>
+
+        <table class="table table-striped table-hover table-responsive-md threads" ksiTheme>
+            <thead>
+                <tr style="height:45px">
+                    <th>{{ 'admin.years.index' | translate }}</th>
+                    <th>{{ 'admin.years.year' | translate }}</th>
+                    <th>{{ 'admin.years.maxPoints' | translate }}</th>
+                    <th>{{ 'admin.years.pointPad' | translate }}</th>
+                    <th>{{ 'admin.years.taskCount' | translate }}</th>
+                    <th>{{ 'admin.years.sealed' | translate }}</th>
+                    <th>{{ 'admin.years.actions' | translate }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let year of items | async">
+                    <td>{{year.id}}</td>
+                    <td><a
+                            [routerLink]="['/', routes.routes.admin._, routes.routes.admin.years._, routes.routes.admin.years.edit, year.id]">{{year.year}}</a>
+                    </td>
+                    <td>{{year.sum_points}}</td>
+                    <td>{{year.point_pad}}</td>
+                    <td>{{year.tasks_cnt}}</td>
+                    <td>{{ year.sealed ? icon.CHECKMARK : icon.CROSS }}</td>
+                    <td>
+                        <a class="btn btn-outline-primary"
+                            [routerLink]="['/', routes.routes.admin._, routes.routes.admin.years._, routes.routes.admin.years.edit, year.id]">{{
+                            icon.EDIT }} {{ 'admin.years.edit' | translate }}</a>
+
+                        <button [disabled]="year.sealed" class="btn btn-outline-primary" (click)="deleteItem(year.id)"
+                            [attr.title]="year.sealed ? ('admin.years.cannotDeleteSealed' | translate) : ('admin.years.delete' | translate)">
+                            {{ icon.DELETE }}
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="alert alert-warning">
+            <b>{{ 'admin.years.warningTitle' | translate }}</b>: {{ 'admin.years.warningMessage' | translate }}
+        </div>
+
+    </div>
+</div>

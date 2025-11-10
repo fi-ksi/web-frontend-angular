@@ -17,4 +17,7 @@ export class IconService {
   public readonly CROSS = '☓';
   public readonly WARNING = '⚠';
   public readonly DISCORD = '💬';
+  public readonly DELETE = '🗑';
+  public readonly ADD = '+';
+
 }

@@ -27,7 +27,15 @@ export const ROUTES: IRoutes = {
     email: 'email',
     discussion: 'discussion',
     achievements: 'achievements',
-    instanceConfig: 'instanceConfig'
+    instanceConfig: 'instanceConfig',
+    waves: {
+      _: 'waves',
+      edit: 'edit'
+    },
+    years: {
+      _: 'years',
+      edit: 'edit'
+    }
   },
   privacyPolicy: 'privacy'
 };

@@ -1,0 +1,70 @@
+<ksi-admin-sidebar></ksi-admin-sidebar>
+<div class="content-container">
+    <div class="content">
+
+        <h2>{{ 'admin.waves.title' | translate }}</h2>
+        <a class="btn btn-ksi"
+            [routerLink]="['/', routes.routes.admin._, routes.routes.admin.waves._, routes.routes.admin.waves.edit, '0']">
+            {{ icon.ADD }} {{ 'admin.waves.new' | translate }}</a>
+
+        <table class="table table-striped table-hover table-responsive-md threads" ksiTheme>
+            <thead>
+                <tr style="height:45px">
+                    <th>{{ 'admin.waves.head.wave' | translate }}</th>
+                    <th>{{ 'admin.waves.head.name' | translate }}</th>
+                    <th>{{ 'admin.waves.head.guarantor' | translate }}</th>
+                    <th>{{ 'admin.waves.head.release' | translate }}</th>
+                    <th>{{ 'admin.waves.head.max-points' | translate }}</th>
+                    <th>{{ 'admin.waves.head.task-count' | translate }}</th>
+                    <th>{{ 'admin.waves.head.actions' | translate }}</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr *ngFor="let wave of items | async">
+                    <td>{{wave.index}}</td>
+                    <td><a
+                            [routerLink]="['/', routes.routes.admin._, routes.routes.admin.waves._, routes.routes.admin.waves.edit, wave.id]">{{wave.caption}}</a>
+                    </td>
+                    <td>
+                        <ksi-clickable-user-name [userId]="wave.garant"></ksi-clickable-user-name>
+                    </td>
+                    <td>{{(wave.time_published | date : 'medium') || "---"}}</td>
+                    <td>{{wave.sum_points}}</td>
+                    <td>{{wave.tasks_cnt}}</td>
+                    <td>
+                        <button class="btn btn-outline-primary" (click)="notImplemented()">
+                            {{ icon.ADD }}
+                            Přidat úlohu</button>
+                        <a class="btn btn-outline-primary"
+                            [routerLink]="['/', routes.routes.admin._, routes.routes.admin.waves._, routes.routes.admin.waves.edit, wave.id]">{{
+                            icon.EDIT }} </a>
+
+                        <button [disabled]="waveIsReleased(wave) || waveHasTasks(wave)" class="btn btn-outline-primary"
+                            (click)="deleteItem(wave.id)"
+                            [attr.title]="waveIsReleased(wave) ? 'Nelze smazat zveřejněnou vlnu' : (waveHasTasks(wave) ? 'Nelze smazat vlnu s úlohami' : 'Smazat')">
+                            {{ icon.DELETE }}
+                        </button>
+                    </td>
+                </tr>
+
+
+                <tr class="selected" style="background-color: var(--ksi-dropdown-hover-bg);">
+                    <td>∑</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ totalPoints$ | async }}</td>
+                    <td>{{ tasksCount$ | async }}</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="alert alert-warning">
+            <p><b> {{ 'admin.waves.warning.title' | translate }}</b>: {{ 'admin.waves.warning.message' | translate }}
+            </p>
+        </div>
+
+    </div>
+</div>

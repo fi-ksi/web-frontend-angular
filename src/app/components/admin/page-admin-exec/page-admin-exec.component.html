@@ -1,0 +1,91 @@
+<ksi-admin-sidebar></ksi-admin-sidebar>
+<div class="content-container">
+    <div class="content">
+        <h2>{{ 'admin.exec.title' | translate }}</h2>
+
+        <form [formGroup]="form" (ngSubmit)="load_new_execs()">
+            <div class="form-group">
+                <label for="typeahead-template">{{ 'admin.exec.moduleId' | translate }}</label>
+                <input id="typeahead-template" type="number" class="form-control" formControlName="moduleId" />
+                <div *ngIf="form.get('moduleId')?.invalid && form.get('moduleId')?.touched" class="text-danger">
+                    {{ 'admin.exec.moduleId.required' | translate }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="typeahead-template">{{ 'admin.exec.userId' | translate }}</label>
+                <input id="typeahead-template" type="text" class="form-control" [ngbTypeahead]="search"
+                    formControlName="user" [inputFormatter]="user_formatter" [resultFormatter]="user_formatter" />
+                <div *ngIf="form.get('user')?.invalid && form.get('user')?.touched" class="text-danger">
+                    {{ 'admin.exec.user.required' | translate }}
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">{{ 'admin.exec.search' | translate }}</button>
+        </form>
+
+        <div style="margin-top: 20px;" class="alert alert-danger" *ngIf="data_loaded && executions.length == 0">
+            {{ 'admin.exec.noResults' | translate }}
+        </div>
+
+        <div style="margin-top: 20px;" *ngIf="data_loaded && executions.length != 0">
+            <div class="toright">
+                <button (click)="showInfo()" class="btn btn-outline-primary settings" placement="left" container="body">
+                    ?
+                </button>
+            </div>
+
+            <table class="table table-striped table-hover table-responsive-md threads" ksiTheme>
+                <thead>
+                    <tr style="height:45px">
+                        <th></th>
+                        <th>{{ 'admin.exec.head.id' | translate }}</th>
+                        <th>{{ 'admin.exec.head.time' | translate }}</th>
+                        <th>{{ 'admin.exec.head.result' | translate }}</th>
+                        <th>{{ 'admin.exec.head.module' | translate }}</th>
+                        <th>{{ 'admin.exec.head.user' | translate }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let exec of executions">
+                        <tr>
+                            <td>
+                                <button (click)="selected = selected == exec.id ? -1 : exec.id"
+                                    class="btn btn-outline-primary">
+                                    {{ selected == exec.id ? icon.CLOSED: icon.OPENED }}
+
+                                </button>
+                            </td>
+                            <td>{{exec.id}}</td>
+                            <td>{{exec.time| date : 'medium'}}</td>
+                            <td>{{exec.result}}</td>
+                            <td>{{exec.module}}</td>
+                            <td><ksi-clickable-user-name [userId]="exec.user"></ksi-clickable-user-name></td>
+                        </tr>
+                        <tr style="display: {{selected == exec.id ? 'table-row' : 'none'}}">
+                            <td colspan="7">
+                                <div class="info">
+                                    <ksi-exec-report [code]="exec.code" [report]="exec.report"></ksi-exec-report>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+
+            <div class="toright">
+                <ngb-pagination ksiTheme [collectionSize]="total_execs" [pageSize]="pageSize" [(page)]="page"
+                    (pageChange)="load_execs()" aria-label="Default pagination"></ngb-pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #modalInfo>
+    <p>Stav <i>error</i> značí, že při
+        spouštění kódu došlo k&nbsp;chybě v&nbsp;některém z&nbsp;organizátorksých skriptů. Stav <i>ok</i> značí,
+        že k&nbsp;chybě nedošlo. Při spouštění se nespouští <i>eval</i> skript, takže
+        se nekontroluje, zda-li byl řešitelův program správně. Výsledek by tedy měl
+        být v&nbsp;hotovém modulu vždy <i>ok</i>.
+    </p>
+</ng-template>

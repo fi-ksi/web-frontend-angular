@@ -25,7 +25,7 @@
                     <td>{{article.published ? icon.CHECKMARK : icon.CROSS}}</td>
                     <td>
                         <a class="btn btn-outline-primary"
-                            [routerLink]="['/', routes.routes.admin._, routes.routes.admin.articles._, routes.routes.admin.articles.edit, 123]">{{
+                            [routerLink]="['/', routes.routes.admin._, routes.routes.admin.articles._, routes.routes.admin.articles.edit, article.id]">{{
                             icon.EDIT }} </a>
 
                         <button class="btn btn-outline-primary" (click)="deleteItem(article.id)">

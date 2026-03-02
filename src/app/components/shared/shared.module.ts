@@ -75,7 +75,8 @@ import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
     AutoThemeDirective,
     FeedbackComponent,
     ClickableUserNameComponent,
-    TermsOfUseComponent
+    TermsOfUseComponent,
+    QuillModule
   ],
   imports: [
     CommonModule,

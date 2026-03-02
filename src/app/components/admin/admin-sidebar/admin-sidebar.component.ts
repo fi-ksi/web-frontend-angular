@@ -18,14 +18,6 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
 
   private readonly hideSubject = new BehaviorSubject(true);
 
-  oldFrontendUrl = environment.oldFrontendUrl;
-
-  oldFrontendButtons = [
-    ['users/', 'Uživatelé'],
-    ['years/', 'Ročníky'],
-    ['execs/', 'Spuštění'],
-    ['opravovani/', 'Opravování'],
-  ]
 
   constructor(
     public routes: RoutesService,
@@ -67,8 +59,4 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  openExternal(event: MouseEvent): void {
-    const anchor = event.target as HTMLAnchorElement;
-    window.open(anchor.href, '_blank');
-  }
 }

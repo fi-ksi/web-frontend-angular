@@ -28,7 +28,7 @@
         routerLinkActive="active" (click)="hideFullMenu($event)">
         {{'admin.navbar.years' | translate}}
       </a>
-      <a class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.achievements]"
+      <a class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.achievements._]"
         routerLinkActive="active" (click)="hideFullMenu($event)">
         {{'admin.navbar.achievement' | translate}}
       </a>
@@ -37,17 +37,20 @@
         {{'admin.navbar.articles' | translate}}
       </a>
       <a *ngIf="userService.isAdmin$ | async" class="nav-btn"
-        [routerLink]="['/', routes.routes.admin._, routes.routes.admin.instanceConfig]" routerLinkActive="active"
+        [routerLink]="['/', routes.routes.admin._, routes.routes.admin.exec]" routerLinkActive="active"
         (click)="hideFullMenu($event)">
-        {{'admin.navbar.instance-config' | translate}}
+        {{'admin.navbar.exec' | translate}}
       </a>
-      <hr style="width: 100%; border: var(--ksi-page-welcome-banner-bg) 1px solid;">
-      <ng-container *ngIf="oldFrontendUrl">
-        <a *ngFor="let oldLink of oldFrontendButtons" class="nav-btn" [href]="oldFrontendUrl + '/admin/' + oldLink[0]"
-          (click)="openExternal($event)">
-          {{oldLink[1]}}
-        </a>
-      </ng-container>
+      <a *ngIf="userService.isAdmin$ | async" class="nav-btn"
+        [routerLink]="['/', routes.routes.admin._, routes.routes.admin.users]" routerLinkActive="active"
+        (click)="hideFullMenu($event)">
+        {{'admin.navbar.users' | translate}}
+      </a>
+      <a *ngIf="userService.isAdmin$ | async" class="nav-btn"
+        [routerLink]="['/', routes.routes.admin._, routes.routes.admin.grading]" routerLinkActive="active"
+        (click)="hideFullMenu($event)">
+        {{'admin.navbar.grading' | translate}}
+      </a>
 
       <div *ngIf="window.isMobile$ | async" class="hide-button clickable">{{icon.BACK}}</div>
     </nav>

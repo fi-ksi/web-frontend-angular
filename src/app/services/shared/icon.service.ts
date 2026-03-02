@@ -9,6 +9,8 @@ export class IconService {
   public readonly BACK = '❮';
   public readonly FORWARD = '❯';
   public readonly UNPACK = 'ᐁ';
+  public readonly OPENED = '>';
+  public readonly CLOSED = 'V';
   public readonly CHECKMARK = '✓';
   public readonly EMAIL = '🖃';
   public readonly SCHOOL = '🎓';
@@ -19,5 +21,6 @@ export class IconService {
   public readonly DISCORD = '💬';
   public readonly DELETE = '🗑';
   public readonly ADD = '+';
+  public readonly LINK = '🔗';
 
 }

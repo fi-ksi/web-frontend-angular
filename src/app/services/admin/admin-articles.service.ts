@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BackendService, YearsService } from '../shared';
 import { Observable } from 'rxjs';
-import { Article, ArticleCreationRequest } from 'src/api/backend';
+import { Article, ArticleCreationRequest, InlineResponse2001 } from 'src/api/backend';
 import { map, switchMap, tap } from 'rxjs/operators';
 
 @Injectable({
@@ -43,4 +43,23 @@ export class AdminArticlesService {
       map(() => undefined)
     );
   }
+
+  public getFilesForArticle(articleId: number): Observable<InlineResponse2001> {
+    return this.backend.http.contentsGetSingle(`articles/${articleId}`).pipe(
+      map(response => response)
+    );  
+  }
+
+  public deleteFileFromArticle(articleId: number, fileId: number): Observable<void> {
+    return this.backend.http.contentsDeleteSingle(`/articles/${articleId}/${fileId}`).pipe(
+      map(() => undefined)
+    );  
+  }
+
+  public uploadFileToArticle(articleId: number, files: Array<Blob>): Observable<void> {
+    return this.backend.http.contentsCreateNewForm(files, `articles/${articleId}`).pipe(
+      map(() => undefined)
+    );
+  }
+
 }

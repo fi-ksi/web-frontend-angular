@@ -7,8 +7,12 @@
       <ksi-admin-section-card name="monitor"></ksi-admin-section-card>
       <ksi-admin-section-card name="email"></ksi-admin-section-card>
       <ksi-admin-section-card name="discussion"></ksi-admin-section-card>
-<!--      <ksi-admin-section-card name="achievements"></ksi-admin-section-card>-->
+      <!--      <ksi-admin-section-card name="achievements"></ksi-admin-section-card>-->
       <ksi-admin-section-card name="instance-config" *ngIf="userService.isAdmin$ | async"></ksi-admin-section-card>
     </div>
+    <a class="nav-btn" [href]="oldFrontendUrl +'/admin/'" (click)="openExternal($event)">
+      {{ icon.LINK }} {{'admin.root.old-frontend' | translate}}
+    </a>
+
   </div>
 </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import {KsiTitleService, UserService} from '../../../services';
+import { IconService, KsiTitleService, UserService } from '../../../services';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'ksi-page-admin-root',
@@ -9,10 +10,20 @@ import {KsiTitleService, UserService} from '../../../services';
 })
 export class PageAdminRootComponent implements OnInit {
 
-  constructor(private title: KsiTitleService, public userService: UserService) { }
+  oldFrontendUrl = environment.oldFrontendUrl;
+
+  constructor(private title: KsiTitleService, public userService: UserService,
+    public icon: IconService) {
+
+     }
 
   ngOnInit(): void {
     this.title.subtitle = 'admin.root.title';
+  }
+
+  openExternal(event: MouseEvent): void {
+    const anchor = event.target as HTMLAnchorElement;
+    window.open(anchor.href, '_blank');
   }
 
 }

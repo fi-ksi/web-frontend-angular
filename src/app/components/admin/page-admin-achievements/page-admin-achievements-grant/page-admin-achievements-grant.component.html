@@ -1,0 +1,66 @@
+<ksi-admin-sidebar></ksi-admin-sidebar>
+
+<div class="content-container">
+    <div class="content">
+        <h2>{{'admin.achievements.grant_title' | translate}}</h2>
+
+        <form [formGroup]="form" (ngSubmit)="save()">
+            <div class="form-group">
+                <label for="typeahead-template">{{ 'admin.achievements.achievementId' | translate }}</label>
+                <select id="achievement" class="form-control" formControlName="achievement" required>
+                    <option *ngFor="let achievement of achievements | async" [value]="achievement.id">
+                        {{ achievement.title }}
+                    </option>
+                </select>
+                <div *ngIf="form.get('achievement')?.invalid && form.get('achievement')?.touched" class="text-danger">
+                    {{ 'admin.achievements.achievement.required' | translate }}
+                </div>
+            </div>
+
+            <div class="users-group">
+                <div class="form-group">
+                    <label for="typeahead-template">{{ 'admin.achievements.userId' | translate }}</label>
+
+                    <div style="display: flex; gap: 8px;">
+                        <input id="typeahead-template" type="text" class="form-control" [ngbTypeahead]="search_user"
+                            [inputFormatter]="user_formatter" [resultFormatter]="user_formatter" selectedUser
+                            (selectItem)="selectedUser = $event.item;" #userInput [selectionEnd]="addUser()" />
+                        <button type="button" style="min-width: 100px;" (click)="addUser()"
+                            class="btn btn-outline-primary">Add user</button>
+                    </div>
+                    <div *ngIf="form.get('users')?.value.length == 0 && form.get('users')?.touched" class="text-danger">
+                        {{ 'admin.achievements.users.invalid' | translate }}
+                    </div>
+                </div>
+
+                <div>
+                    <ul>
+                        <li *ngFor="let userId of form.get('users')?.value">
+                            <ksi-clickable-user-name [userId]="userId"></ksi-clickable-user-name> ({{userId}})
+                            <button type="button" (click)="removeUser(userId)"
+                                class="btn btn-outline-danger">Remove</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="task">{{ 'admin.achievements.task' | translate }}</label>
+                <input id="task" type="number" class="form-control" formControlName="task" min="0">
+                <div *ngIf="form.get('task')?.invalid && form.get('task')?.touched" class="text-danger">
+                    {{ 'admin.achievements.task.invalid' | translate }}
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">{{ 'admin.achievements.save' | translate }}</button>
+        </form>
+
+        <div class="alert alert-info" style="margin-top: 16px;">
+            <p>{{ 'admin.achievements.grant.info' | translate }}</p>
+        </div>
+
+        <div *ngIf="errors.length > 0" class="alert alert-danger">
+            <p *ngFor="let error of errors">{{ error }}</p>
+        </div>
+    </div>
+</div>

@@ -25,6 +25,13 @@ import { PageAdminYearsComponent } from './page-admin-years/page-admin-years.com
 import { PageAdminYearsEditComponent } from './page-admin-years/page-admin-years-edit/page-admin-years-edit.component';
 import { PageAdminArticlesComponent } from './page-admin-articles/page-admin-articles.component';
 import { PageAdminArticleEditComponent } from './page-admin-articles/page-admin-article-edit/page-admin-article-edit.component';
+import { PageAdminUsersComponent } from './page-admin-users/page-admin-users.component';
+import { PageAdminAchievementsEditComponent } from './page-admin-achievements/page-admin-achievements-edit/page-admin-achievements-edit.component';
+import { PageAdminExecComponent } from './page-admin-exec/page-admin-exec.component';
+import { PageAdminGradingComponent } from './page-admin-grading/page-admin-grading.component';
+import { NgbTypeaheadModule, NgbPaginationModule } from "@ng-bootstrap/ng-bootstrap";
+import { ExecReportComponent } from './page-admin-exec/exec-report/exec-report.component';
+import { PageAdminAchievementsGrantComponent } from './page-admin-achievements/page-admin-achievements-grant/page-admin-achievements-grant.component';
 
 
 @NgModule({
@@ -45,6 +52,12 @@ import { PageAdminArticleEditComponent } from './page-admin-articles/page-admin-
     PageAdminYearsEditComponent,
     PageAdminArticlesComponent,
     PageAdminArticleEditComponent,
+    PageAdminUsersComponent,
+    PageAdminAchievementsEditComponent,
+    PageAdminExecComponent,
+    PageAdminGradingComponent,
+    ExecReportComponent,
+    PageAdminAchievementsGrantComponent,
   ],
   imports: [
     CommonModule,
@@ -56,7 +69,9 @@ import { PageAdminArticleEditComponent } from './page-admin-articles/page-admin-
     ReactiveFormsModule,
     AccordionModule,
     FormsModule,
-  ],
+    NgbTypeaheadModule,
+    NgbPaginationModule
+],
   providers: [
     DefaultService // Add DefaultService to the providers array
   ],

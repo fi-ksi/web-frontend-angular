@@ -29,7 +29,8 @@ export class AdminTaskService {
         (!isMerged && (user?.id === task.author  || user?.id === task.co_author))
       ));
     const canBeDeleted$ = this.user.isAdmin$;
-    const canBeMerged$ = this.user.isAdmin$.pipe(map((isAdmin) => isAdmin && !isMerged));
+    const canBeMerged$ = combineLatest([this.backend.user$, this.user.isAdmin$, this.tasks.cacheWaves.get(task.wave)]).pipe(
+      map(([user, isAdmin, wave]) => (isAdmin || user?.id === wave.garant) && !isMerged));
 
     const listeningForDeployStatusChange = task.id in this.listeningDeployStatusChanges;
 

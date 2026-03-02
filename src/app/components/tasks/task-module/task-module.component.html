@@ -29,6 +29,7 @@
   <ng-container *ngIf="statusChanges$ | async as status">
     <div
       [class]="' result alert alert-' + (status.result === 'ok' ? 'success' : 'danger')"
+      style="white-space: pre-line"
       [innerHTML]="status.error || status.message"
     ></div>
 

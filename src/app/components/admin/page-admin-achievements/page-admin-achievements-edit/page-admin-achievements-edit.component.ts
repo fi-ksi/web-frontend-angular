@@ -8,6 +8,7 @@ import { Achievement } from 'src/api/backend';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { AdminAchievementsService } from 'src/app/services/admin/admin-achievements.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'ksi-page-admin-achievements-edit',
@@ -69,7 +70,7 @@ export class PageAdminAchievementsEditComponent extends AdminBaseEditComponent<A
   }
 
   getImageUrl(filename: string): string {
-    return `http://localhost:3030/content/achievements/${filename}`;
+    return `${environment.backend}content/achievements/${filename}`;
   }
 
   uploadFile() {

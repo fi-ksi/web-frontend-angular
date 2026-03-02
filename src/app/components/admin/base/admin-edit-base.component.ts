@@ -38,6 +38,7 @@ export abstract class AdminBaseEditComponent<TItem> implements OnInit, OnDestroy
 
         this.itemId = Number.parseInt(this.router.url.split('/').pop() || '0', 10);
         this.editMode = this.itemId == 0 ? EditMode.New : EditMode.Update;
+        this.fixDateInput(); // Fix initial date input values
 
         if (this.editMode === EditMode.Update) {
             const sub = this.loadItemFunction(this.itemId).subscribe({

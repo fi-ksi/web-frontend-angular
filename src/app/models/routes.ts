@@ -24,7 +24,11 @@ export interface IRoutes {
     monitor: string;
     email: string;
     discussion: string;
-    achievements: string;
+    achievements: {
+      _: string;
+      edit: string;
+      grant: string;
+    },
     instanceConfig: string;
     waves: {
       _: string;
@@ -37,7 +41,10 @@ export interface IRoutes {
     articles: {
       _: string;
       edit: string;
-    }
+    },
+    exec: string;
+    grading: string;
+    users: string;
   };
   privacyPolicy: string;
 }

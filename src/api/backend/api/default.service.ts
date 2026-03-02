@@ -2422,7 +2422,7 @@ export class DefaultService {
         const canConsumeForm = this.canConsumeForm(consumes);
 
         let formParams: { append(param: string, value: any): void; };
-        let useForm = false;
+        let useForm = true;
         let convertFormParamsToString = false;
         if (useForm) {
             formParams = new FormData();

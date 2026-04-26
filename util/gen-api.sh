@@ -1,5 +1,5 @@
 #!/bin/bash
-set -exuo pipefail
+set -eExuo pipefail
 
 function fail() {
     echo "ERR: $1"
@@ -48,6 +48,9 @@ sed -E 's|(\s+)public authorizeForm\(grant_type: string, username: string, passw
 # next two lines are setting correct Blob response type for requests with Blob return type
 sed -E 's|(.*this.httpClient.request<Blob>.*)|\1//@ts-ignore|' -i 'api/default.service.ts'
 sed -E '/.*this.httpClient.request<Blob>.*/{n;s/.*/\{responseType: "blob",/}' -i 'api/default.service.ts'
+
+# content requires the files to be sent in form
+awk '/contentsCreateNewForm\(/ { flag=1 } flag && /let useForm = false;/ { sub(/let useForm = false;/, "let useForm = true;"); flag=0 } { print }' api/default.service.ts > tmp.js && mv tmp.js api/default.service.ts
 
 # Generate EduLint API
 cd "$DIR_PROJECT_ROOT"

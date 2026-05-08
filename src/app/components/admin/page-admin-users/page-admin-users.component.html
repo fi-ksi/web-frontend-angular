@@ -1,0 +1,63 @@
+<ksi-admin-sidebar></ksi-admin-sidebar>
+<div class="content-container">
+    <div class="content">
+        <h2>{{ 'admin.users.title' | translate }}</h2>
+
+        <form [formGroup]="form">
+            <div class="form-group">
+                <label for="text_filter">{{ 'admin.users.filter.label' | translate }}</label>
+                <input type="text" id="text_filter" class="form-control" formControlName="text_filter"
+                    placeholder="{{ 'admin.users.filter.placeholder' | translate }}" (input)="filterUsers()">
+            </div>
+
+            <div class="row">
+                <div *ngFor="let role of allRoles" class="form-group form-check" style="margin-left: 18px;">
+                    <input type="checkbox" id="include_{{role}}" class="form-check-input"
+                        (change)="setRoleFilter($event, role)" [checked]="form.value['allowed_roles'].includes(role)">
+                    <label for="include_{{role}}" class="form-check-label">{{ role | titlecase }}</label>
+                </div>
+            </div>
+        </form>
+
+        <table class="table table-striped table-hover table-responsive-md threads" ksiTheme>
+            <thead>
+                <tr style="height:45px">
+                    <!-- <th>{{ 'admin.users.table.select' | translate }}</th> -->
+                    <th>{{ 'admin.users.table.id' | translate }}</th>
+                    <th>{{ 'admin.users.table.role' | translate }}</th>
+                    <th>{{ 'admin.users.table.name' | translate }}</th>
+                    <th>{{ 'admin.users.table.email' | translate }}</th>
+                    <th>{{ 'admin.users.table.score' | translate }}</th>
+                    <th>{{ 'admin.users.table.achievements' | translate }}</th>
+                    <th>{{ 'admin.users.table.actions' | translate }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of filtered_users">
+                    <!-- <td>
+                        TODO: Implement user selection
+                        <input type="checkbox" name="TODO" id="TODO">
+                    </td> -->
+                    <td>{{user.id}}</td>
+                    <td>{{user.role | titlecase}}</td>
+                    <ksi-clickable-user-name [userId]="user.id"></ksi-clickable-user-name>
+                    <td>{{user.email}}</td>
+                    <td>{{user.score}}</td>
+                    <td>
+                        <div style="display: flex; flex-wrap: wrap; gap: 4px;">
+
+                            <ng-container *ngFor="let achievement of user.achievements; let $index = index">
+                                <ksi-icon-achievement *ngFor="let ach of user.achievements"
+                                [achievementId]="ach"></ksi-icon-achievement>
+                            </ng-container>
+                        </div>
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-primary" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.achievements._, routes.routes.admin.achievements.grant]" [queryParams]="{users: user.id}">{{ 'admin.users.table.grant_achievement' | translate }}</a>
+                        <button class="btn btn-outline-primary" (click)="deleteItem(user.id)">{{ icon.DELETE }}</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

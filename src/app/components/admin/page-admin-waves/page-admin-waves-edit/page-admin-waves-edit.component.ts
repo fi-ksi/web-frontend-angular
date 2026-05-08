@@ -60,10 +60,4 @@ export class PageAdminWavesEditComponent extends AdminBaseEditComponent<Wave> im
 
     this.subscriptions.push(sub);
   }
-
-  onDateInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const isoDate = input.value ? new Date(input.value).toISOString() : null;
-    this.form.patchValue({ time_published: isoDate });
-  }
 }

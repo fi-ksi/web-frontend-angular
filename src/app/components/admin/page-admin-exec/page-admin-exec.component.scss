@@ -2,3 +2,9 @@
 @import "src/app/styles/mixins";
 
 @include page-admin;
+
+
+.toright {
+    display: flex;
+    justify-content: flex-end;
+}

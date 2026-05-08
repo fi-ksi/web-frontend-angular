@@ -1,0 +1,26 @@
+@import "src/app/styles/vars";
+@import "src/app/styles/mixins";
+
+@include page-admin;
+
+
+.achievement-images-selection {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+
+.achievement-image-card {
+    border: 1px solid gray;
+    padding: 0.5rem;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.achievement-image-card.selected {
+    border-color: $ksi-orange-160;
+}
+
+

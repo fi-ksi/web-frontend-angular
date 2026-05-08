@@ -2,8 +2,82 @@
 
 <div class="content-container">
     <div class="content">
-        <h2>Work in progress... 🐧🔨</h2>
-        <p>Page will be implemented soon</p>
-        <a [routerLink]="['/', routes.routes.admin._, routes.routes.admin.articles._]"> Zpět na přehled</a>
+        <h2>{{ editMode === EditMode.New ? ('admin.articles.edit_page.new' | translate) :
+            ('admin.articles.edit_page.edit' |
+            translate) }}</h2>
+        <a [routerLink]="['/', routes.routes.admin._, routes.routes.admin.articles._]"> {{ 'admin.articles.back' |
+            translate
+            }}</a>
+
+        <form [formGroup]="form" (ngSubmit)="save()">
+            <div class="form-group">
+                <label for="title">{{ 'admin.articles.title' | translate }}*</label>
+                <input type="text" id="title" class="form-control" formControlName="title" required>
+                <div *ngIf="form.get('title')?.invalid && form.get('title')?.touched" class="text-danger">
+                    {{ 'admin.articles.title.required' | translate }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="body">{{ 'admin.articles.body' | translate }}*</label>
+                <quill-editor class="reply-editor" formControlName="body"></quill-editor>
+                <div *ngIf="form.get('body')?.invalid && form.get('body')?.touched" class="text-danger">
+                    {{ 'admin.articles.body.required' | translate }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" formControlName="published">
+                    {{ 'admin.articles.published' | translate }}
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label for="time_published">{{ 'admin.articles.time_published' | translate }}</label>
+                <input type="datetime-local" id="time_published" class="form-control" formControlName="time_published"
+                    #timePublishedInput>
+                <div *ngIf="form.get('time_published')?.invalid && form.get('time_published')?.touched"
+                    class="text-danger">
+                    {{ 'admin.articles.time_published.required' | translate }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="picture">{{ 'admin.articles.picture' | translate }}*</label>
+                <input type="text" id="picture" class="form-control" formControlName="picture" required>
+                <div *ngIf="form.get('picture')?.invalid && form.get('picture')?.touched" class="text-danger">
+                    {{ 'admin.articles.picture.required' | translate }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>{{ 'admin.articles.files' | translate }}</label>
+                <div *ngIf="files?.content?.files?.length > 0; else noFiles">
+                    <ul>
+                        <li *ngFor="let file of files.content.files">{{ file }}
+
+                            <button type="button" class="btn btn-sm btn-danger"
+                                (click)="deleteFile(file)">Delete</button>
+                            <button type="button" class="btn btn-sm btn-secondary" (click)="copyFileUrl(file)">Copy
+                                URL</button>
+                        </li>
+                    </ul>
+                </div>
+                <ng-template #noFiles>
+                    <p>No files</p>
+                </ng-template>
+
+                <button type="button" class="btn btn-sm btn-success" (click)="uploadFile()">Upload File</button>
+                <!-- <input type="file" #fileInput (change)="uploadFile($event)" style="display: none;"> -->
+
+            </div>
+
+            
+            <button type="submit" class="btn btn-primary" style="margin-top: 16px;">
+                {{ editMode === EditMode.New ? ('admin.articles.create' | translate) : ('admin.articles.save' |
+                translate) }}
+            </button>
+        </form>
     </div>
 </div>

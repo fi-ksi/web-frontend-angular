@@ -473,7 +473,10 @@
       "instance-config": "Server Admin",
       "waves": "Vlny",
       "years": "Ročníky",
-      "articles": "Články"
+      "articles": "Články",
+      "users": "Uživatelé",
+      "exec": "Spouštění",
+      "grading": "Opravování"
     },
     "articles": {
       "title": "Správa článků",
@@ -495,7 +498,37 @@
       "warning": {
         "title": "Upozornění",
         "message": "Maximální počet bodů nezahrnuje bonusové body."
-      }
+      },
+      "edit_page": {
+        "new": "Nový článek",
+        "edit": "Úprava článku"
+      },
+      "back": "Zpět na přehled",
+      "caption": "Název",
+      "caption.required": "Název je povinný.",
+      "time_published": "Datum a čas vydání",
+      "time_published.required": "Datum a čas vydání je povinné.",
+      "published": "Zveřejněno",
+      "picture": "Náhledový obrázek",
+      "body": "Obsah",
+      "create": "Vytvořit",
+      "save": "Uložit",
+      "files": "Soubory"
+    },
+    "exec": {
+      "moduleId": "ID modulu",
+      "userId": "Uživatel",
+      "search": "Hledat",
+      "noResults": "Nenalezen žádný výsledek.",
+      "head": {
+        "id": "ID",
+        "time": "Čas spuštění",
+        "result": "Výsledek",
+        "module": "Modul",
+        "user": "Uživatel"
+      },
+      "title": "Výsledky spuštění kódů",
+      "showInfo": "Zobrazit informace"
     },
     "waves": {
       "title": "Správa vln",
@@ -537,6 +570,24 @@
       "create": "Vytvořit",
       "save": "Uložit"
     },
+    "users": {
+      "filter": {
+        "label": "Filtr:",
+        "placeholder": "Hledat uživatele..."
+      },
+      "table": {
+        "select": "Vybrat",
+        "id": "ID",
+        "role": "Role",
+        "name": "Jméno",
+        "email": "E-mail",
+        "achievements": "Trofeje",
+        "score": "Skóre",
+        "actions": "Akce",
+        "grant_achievement": "Udělit trofej"
+      },
+      "title": "Správa uživatelů"
+    },
     "years": {
       "title": "Správa ročníků",
       "newYear": "Nový ročník",
@@ -571,6 +622,7 @@
     },
     "root": {
       "title": "Organizátorské rozhraní",
+      "old-frontend": "Staré admin rozhraní",
       "tasks": {
         "title": "Správa úloh",
         "description": "Přidávání nových úloh. Vypouštění nových verzí úloh. Merge do masteru."
@@ -666,11 +718,12 @@
       "title": "Diskuze u úloh"
     },
     "achievements": {
-      "title": "Trofeje",
+      "title": "Správa trofejí",
       "new": "Přidat novou trofej",
       "picture": "Obr.",
       "name": "Název",
       "actions": "Akce",
+      "back": "Zpět na přehled",
       "yearly": "Pro tento ročník",
       "persistent": "Trvalé",
       "give": {
@@ -682,7 +735,27 @@
       "delete": {
         "btn": "Smazat",
         "message": "Opravdu chceš smazat tuto trofej?"
-      }
+      },
+      "edit_page": {
+        "new": "Vytvořit trofej",
+        "edit": "Upravit trofej",
+        "back": "Zpět na seznam trofejí"
+      },
+      "create": "Vytvořit",
+      "save": "Uložit",
+      "no_images": "Žádné obrázky nebyly nahrány.",
+      "upload_image": "Nahrát obrázek",
+      "required": "Toto pole je povinné.",
+      "achievementId": "ID trofeje",
+      "achievementId_required": "ID trofeje je povinné.",
+      "description": "Popis",
+      "description_required": "Popis je povinný.",
+      "images": "Obrázky",
+      "userId": "ID uživatele",
+      "task": "Udělit za úlohu",
+      "grant_title": "Udělení trofeje",
+      "delete_image": "Smazat tento obrázek",
+      "make_thumbnail": "Označit tuto trofej"
     },
     "tasks": {
       "wave-selection": {

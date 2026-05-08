@@ -3,32 +3,31 @@
   <div class="content">
     <h2 class="title">{{'admin.achievements.title'|translate}}</h2>
 
-    <div class="alert alert-warning">
-      ⚠️ WIP ⚠️
-    </div>
+    <a class="btn btn-ksi"
+      [routerLink]="['/', routes.routes.admin._, routes.routes.admin.achievements._, routes.routes.admin.achievements.edit, '0']">
+      {{ icon.ADD }} {{ 'admin.achievements.new' | translate }}</a>
 
-    <button class="btn btn-outline-primary">{{'admin.achievements.new'|translate}}</button>
-
-    <ng-container *ngFor="let x of [{n: 'yearly', x: achievementsYearly$}, {n: 'persistent', x: achievementsPersistent$}]">
-      <h3>{{('admin.achievements.' + x.n) | translate}}</h3>
+    <ng-container
+      *ngFor="let x of [{title: 'yearly', items: yearly$}, {title: 'persistent', items: persistent$}]">
+      <h3>{{('admin.achievements.' + x.title) | translate}}</h3>
       <table class="table table-striped table-hover table-responsive-md" ksiTheme>
         <thead>
-        <tr>
-          <th scope="col">{{'admin.achievements.picture' | translate}}</th>
-          <th scope="col">{{'admin.achievements.name' | translate}}</th>
-          <th scope="col">{{'admin.achievements.actions' | translate}}</th>
-        </tr>
+          <tr>
+            <th scope="col">{{'admin.achievements.picture' | translate}}</th>
+            <th scope="col">{{'admin.achievements.name' | translate}}</th>
+            <th scope="col">{{'admin.achievements.actions' | translate}}</th>
+          </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let achievement of (x.x | async)">
-          <td><img [src]="achievement.picture" alt=""></td>
-          <td>{{achievement.title}}</td>
-          <td>
-            <button class="btn btn-outline-primary" (click)="give(achievement)">{{'admin.achievements.give.btn' | translate}}</button>
-            <button class="btn btn-outline-secondary" (click)="editAchievement(achievement)">{{'admin.achievements.edit.btn' | translate}}</button>
-            <button class="btn btn-outline-danger" (click)="deleteAchievement(achievement)">{{'admin.achievements.delete.btn' | translate}}</button>
-          </td>
-        </tr>
+          <tr *ngFor="let achievement of (x.items | async)">
+            <td><img [src]="achievement.picture" alt="{{achievement.title}}" style="max-width: 32px;"></td>
+            <td>{{achievement.title}}</td>
+            <td>
+              <a class="btn btn-outline-primary" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.achievements._, routes.routes.admin.achievements.grant]" [queryParams]="{achievement: achievement.id}"> {{ icon.ADD }} {{ 'admin.achievements.give.btn' | translate }}</a>
+              <a class="btn btn-outline-primary" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.achievements._, routes.routes.admin.achievements.edit, achievement.id]"> {{ icon.EDIT }} {{ 'admin.achievements.edit.btn' | translate }}</a>
+            <button class="btn btn-outline-primary" (click)="deleteItem(achievement.id)">{{ icon.DELETE }} {{'admin.achievements.delete.btn' | translate}}</button>
+            </td>
+          </tr>
         </tbody>
       </table>
     </ng-container>

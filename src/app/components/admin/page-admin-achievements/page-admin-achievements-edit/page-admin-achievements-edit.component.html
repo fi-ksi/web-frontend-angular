@@ -1,0 +1,70 @@
+<ksi-admin-sidebar></ksi-admin-sidebar>
+
+<div class="content-container">
+    <div class="content">
+        <h2>{{ editMode === EditMode.New ? ('admin.achievements.edit_page.new' | translate) :
+            ('admin.achievements.edit_page.edit' |
+            translate) }}</h2>
+        <a [routerLink]="['/', routes.routes.admin._, routes.routes.admin.achievements._]"> {{ 'admin.achievements.back'
+            | translate
+            }}</a>
+
+        <form [formGroup]="form" (ngSubmit)="save()">
+            <div class="form-group">
+                <label for="title">{{ 'admin.achievements.title' | translate }}*</label>
+                <input type="text" id="title" class="form-control" formControlName="title" required>
+                <div *ngIf="form.get('title')?.invalid && form.get('title')?.touched" class="text-danger">
+                    {{ 'admin.achievements.title.required' | translate }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="description">{{ 'admin.achievements.description' | translate }}*</label>
+                <quill-editor class="reply-editor" formControlName="description"></quill-editor>
+
+                <div *ngIf="form.get('description')?.invalid && form.get('description')?.touched" class="text-danger">
+                    {{ 'admin.achievements.description.required' | translate }}
+                </div>
+            </div>
+
+            <div class="form-group form-check">
+                <input type="checkbox" id="persistent" class="form-check-input" formControlName="persistent">
+                <label class="form-check-label" for="persistent">
+                    {{ 'admin.achievements.persistent' | translate }}
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label>{{ 'admin.achievements.images' | translate }}</label>
+
+                <div *ngIf="images?.content?.files?.length > 0; else noFiles" class="achievement-images-selection">
+                    <div class="achievement-image-card"
+                        [class.selected]="form.get('picture')?.value === getImageUrl(file)"
+                        *ngFor="let file of images.content.files">{{ file }}
+                        <img [src]="getImageUrl(file)" alt="{{ file }}" style="max-width: 100px; max-height: 100px;"
+                            class="achievement-image-preview">
+                        <button type="button" class="btn btn-sm btn-danger" (click)="deleteFile(file)">{{
+                            'admin.achievements.delete_image' | translate }}</button>
+                        <button *ngIf="form.get('picture')?.value  != getImageUrl(file)" type="button"
+                            class="btn btn-sm btn-secondary" (click)="makeThumbnail(file)">{{
+                            'admin.achievements.make_thumbnail' | translate }}</button>
+                        <button *ngIf="form.get('picture')?.value === getImageUrl(file)" disabled type="button"
+                            class="btn btn-sm btn-secondary">{{ 'admin.achievements.thumbnail' | translate }}</button>
+                    </div>
+                </div>
+                <ng-template #noFiles>
+                    <p>{{ 'admin.achievements.no_images' | translate }}</p>
+                </ng-template>
+
+                <button type="button" class="btn btn-sm btn-primary" (click)="uploadFile()">
+                    {{ 'admin.achievements.upload_image' | translate }}
+                </button>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                {{ editMode === EditMode.New ? ('admin.achievements.create' | translate) : ('admin.achievements.save' |
+                translate) }}
+            </button>
+        </form>
+    </div>
+</div>

@@ -36,19 +36,16 @@
         routerLinkActive="active" (click)="hideFullMenu($event)">
         {{'admin.navbar.articles' | translate}}
       </a>
-      <a *ngIf="userService.isAdmin$ | async" class="nav-btn"
-        [routerLink]="['/', routes.routes.admin._, routes.routes.admin.exec]" routerLinkActive="active"
+      <a class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.exec]" routerLinkActive="active"
         (click)="hideFullMenu($event)">
         {{'admin.navbar.exec' | translate}}
       </a>
-      <a *ngIf="userService.isAdmin$ | async" class="nav-btn"
-        [routerLink]="['/', routes.routes.admin._, routes.routes.admin.users]" routerLinkActive="active"
-        (click)="hideFullMenu($event)">
+      <a class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.users]"
+        routerLinkActive="active" (click)="hideFullMenu($event)">
         {{'admin.navbar.users' | translate}}
       </a>
-      <a *ngIf="userService.isAdmin$ | async" class="nav-btn"
-        [routerLink]="['/', routes.routes.admin._, routes.routes.admin.grading]" routerLinkActive="active"
-        (click)="hideFullMenu($event)">
+      <a class="nav-btn" [routerLink]="['/', routes.routes.admin._, routes.routes.admin.grading]"
+        routerLinkActive="active" (click)="hideFullMenu($event)">
         {{'admin.navbar.grading' | translate}}
       </a>
 

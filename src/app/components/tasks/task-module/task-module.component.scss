@@ -3,10 +3,19 @@
 
 :host {
   display: block;
-  padding: $ksi-padding 0;
 
   --border-color: #{$ksi-orange-140};
-  $border-color: var(--border-color);
+
+  --width: calc(25px * 1.2);
+  --height: calc(60px * 1.2);
+  --radius: var(--rad1);
+
+  --rad1: 12px;
+  --rad2: 8px;
+  // --rad1: 32px;
+  // --rad2: 19px;
+
+  margin: 0 var(--width);
 
   &.result-ok {
     --border-color: #{$ksi-green-100};
@@ -16,33 +25,29 @@
     --border-color: #{$ksi-red-100};
   }
 
-  border: 2px solid $border-color;
-  transition: border-color 0.5s;
-  @include round-corner;
-
-  > * {
-    padding: 0 $ksi-padding;
+  * {
+    transition: background-color 0.5s;
   }
 
+  @include round-corner;
+
   .header {
-    transition: border-color 0.5s;
     display: flex;
     justify-content: space-between;
     align-items: center;
     line-height: 1;
 
+    background-color: $ksi-gray-190;
+    border-radius: var(--radius);
+    padding: 20px 24px;
+
     .name {
       font-weight: bold;
     }
 
-    &:not(.packed) {
-      padding-bottom: $ksi-padding;
-      border-bottom: 2px solid $border-color;
-    }
-
     @media print {
       padding-bottom: $ksi-padding;
-      border-bottom: 2px solid $border-color;
+      border-bottom: 2px solid var(--border-color); // Updated here
     }
 
     .points {
@@ -64,6 +69,9 @@
   }
 
   .content-container {
+    min-height: 100px;
+    padding: 0 24px 24px 24px;
+
     &.packed {
       visibility: hidden;
       max-height: 0;
@@ -77,13 +85,108 @@
     }
   }
 
+  &.minimized .content-container {
+    height: 100px;
+  }
+
   .result {
     text-align: center;
     padding: $ksi-margin-small;
     margin: $ksi-margin 0 $ksi-margin-small;
 
-    &.error, &.nok {
+    &.error,
+    &.nok {
       background: $ksi-red-100;
     }
+  }
+
+  &.success {
+
+    .top-graphic,
+    .bottom-graphic,
+    .top-graphic::after,
+    .top-graphic::before,
+    .bottom-graphic::after,
+    .bottom-graphic::before {
+      background-color: green;
+    }
+  }
+
+  .top-graphic,
+  .bottom-graphic,
+  .top-graphic::after,
+  .top-graphic::before,
+  .bottom-graphic::after,
+  .bottom-graphic::before {
+    background-color: $ksi-red-100;
+    position: relative;
+  }
+
+  .top-graphic {
+    height: calc(var(--width) + var(--radius));
+    margin-bottom: calc(-1 * var(--radius));
+  }
+
+  .bottom-graphic {
+    height: calc(var(--width) + var(--radius));
+    margin-top: calc(-1 * var(--radius));
+  }
+
+  .top-graphic::before,
+  .top-graphic::after,
+  .bottom-graphic::before,
+  .bottom-graphic::after {
+    content: "";
+    position: absolute;
+    width: var(--width);
+    height: var(--height); // Using corrected variable name
+    border-radius: var(--radius);
+  }
+
+  .top-graphic::before {
+    top: 0;
+    left: calc(-1 * var(--width));
+    border-radius: var(--rad1) 0 var(--rad2) var(--rad2);
+  }
+
+  .top-graphic::after {
+    top: 0;
+    right: calc(-1 * var(--width));
+    border-radius: 0 var(--rad1) var(--rad2) var(--rad2);
+  }
+
+  .bottom-graphic::before {
+    bottom: 0;
+    left: calc(-1 * var(--width));
+    border-radius: var(--rad2) var(--rad2) 0 var(--rad1);
+  }
+
+  .bottom-graphic::after {
+    bottom: 0;
+    right: calc(-1 * var(--width));
+    border-radius: var(--rad2) var(--rad2) var(--rad1) 0;
+  }
+
+  .module {
+    border-radius: var(--radius);
+    background-color: white;
+    position: relative;
+    overflow-y: hidden;
+    z-index: 1;
+  }
+
+  &:not(.minimized) .showmore {
+    display: none;
+  }
+
+  &.minimized .showmore {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    background: linear-gradient(to top, antiquewhite, transparent);
+    height: 80px;
   }
 }

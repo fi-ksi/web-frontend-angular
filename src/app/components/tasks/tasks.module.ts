@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { TasksRoutingModule } from './tasks-routing.module';
 import { PageTasksComponent } from './page-tasks/page-tasks.component';
 import { WaveComponent } from './wave/wave.component';
@@ -57,7 +59,8 @@ import { TaskTipComponent } from './task-body/task-tip/task-tip.component';
     SharedModule,
     ReactiveFormsModule,
     TooltipModule,
-    ProgressbarModule
+    ProgressbarModule,
+    NgbDropdownModule
   ]
 })
 export class TasksModule { }

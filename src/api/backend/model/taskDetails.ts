@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-export interface TaskDetails { 
+export interface TaskDetails {
     id: number;
     body: string;
     thread: number;
@@ -19,4 +19,5 @@ export interface TaskDetails {
     comment: number;
     solution: string;
     achievements: Array<number>;
+    taskIcon: string;
 }

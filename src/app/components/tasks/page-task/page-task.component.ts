@@ -11,10 +11,10 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, distinctUntilChanged, filter, map, mergeMap, shareReplay, tap } from 'rxjs/operators';
 import { BehaviorSubject, combineLatest, Observable, of, Subscription, throwError } from 'rxjs';
-import {IUser, OpenedTemplate, TaskFullInfo} from '../../../models';
+import { IUser, OpenedTemplate, TaskFullInfo } from '../../../models';
 import { UserService } from '../../../services';
 import { environment } from '../../../../environments/environment';
-import {UserScore} from '../../../../api/backend';
+import { UserScore } from '../../../../api/backend';
 
 @Component({
   selector: 'ksi-page-task',
@@ -28,24 +28,24 @@ export class PageTaskComponent implements OnInit, OnDestroy {
   authors$: Observable<number[]>;
   subpage$: Observable<TemplateRef<unknown>>;
 
-  @ViewChild('bodyDiscussion', {static: true})
+  @ViewChild('bodyDiscussion', { static: true })
   templateBodyDiscussion: TemplateRef<unknown>;
 
-  @ViewChild('bodySolution', {static: true})
+  @ViewChild('bodySolution', { static: true })
   templateBodySolution: TemplateRef<unknown>;
 
-  @ViewChild('bodyAssigment', {static: true})
+  @ViewChild('bodyAssigment', { static: true })
   templateBodyAssigment: TemplateRef<unknown>;
 
-  @ViewChild('bodyResults', {static: true})
+  @ViewChild('bodyResults', { static: true })
   templateBodyResults: TemplateRef<unknown>;
 
-  @ViewChild('bodyAssessment', {static: true})
+  @ViewChild('bodyAssessment', { static: true })
   templateBodyAssessment: TemplateRef<unknown>;
 
   private templateRefMapper: Map<TemplateRef<unknown>, string>;
 
-  public userScores$: Observable<{user: IUser, score: number}[]>;
+  public userScores$: Observable<{ user: IUser, score: number }[]>;
 
   private openedModal: OpenedTemplate | null = null;
 
@@ -55,6 +55,7 @@ export class PageTaskComponent implements OnInit, OnDestroy {
 
   private moduleChangeSubs: Subscription[] = [];
 
+  public environmentBackend: string = environment.backend;
   constructor(
     private backend: BackendService,
     private route: ActivatedRoute,
@@ -96,7 +97,7 @@ export class PageTaskComponent implements OnInit, OnDestroy {
           mergeMap(() => this.backend.http.taskDetailsGetSingle(task.id))
         )
       ])),
-      map(([head, detail]) => ({head, detail})),
+      map(([head, detail]) => ({ head, detail })),
       tap((task) => {
         this.title.subtitle = task.head.title;
 
@@ -111,7 +112,7 @@ export class PageTaskComponent implements OnInit, OnDestroy {
                   environment.logger.debug('[TASK] this task was just solved!');
                   this.refreshTaskDetailsSubject.next();
                   this.tasks.updateTask(newTask, true);
-                  this.router.navigate([], {fragment: this.routes.routes.tasks.solution}).then();
+                  this.router.navigate([], { fragment: this.routes.routes.tasks.solution }).then();
                 }
               });
             }))
@@ -170,7 +171,7 @@ export class PageTaskComponent implements OnInit, OnDestroy {
     this.userScores$ = this.task$.pipe(
       mergeMap(
         (task: TaskFullInfo | null) => {
-          if (task === null){
+          if (task === null) {
             return of([]);
           }
 
@@ -225,10 +226,10 @@ export class PageTaskComponent implements OnInit, OnDestroy {
     }
     if (body) {
       const title = this.templateRefMapper.get(body) || '';
-      const modal = this.openedModal = this.modal.showModalTemplate(body, title, {class: 'modal-full-page'});
+      const modal = this.openedModal = this.modal.showModalTemplate(body, title, { class: 'modal-full-page' });
       const sub = this.openedModal.visible$.pipe(filter((visible) => !visible)).subscribe(() => {
         if (this.openedModal === modal) {
-          this.router.navigate([], {fragment: undefined}).then();
+          this.router.navigate([], { fragment: undefined }).then();
         }
         sub.unsubscribe();
       });

@@ -1,72 +1,78 @@
 <nav class="navigation-bar" [class.clickable]="!(showFullMenu$ | async)" (click)="showFullMenu()">
   <ng-container *ngIf="(showFullMenu$ | async); else menuOpener">
-    <a class="logo" routerLink="/" routerLinkActive="active">
-      <img src="assets/img/karlik_color.png" alt="{{'root.navbar.logo' | translate}}">
-      <span>{{ ((useLongTitle$ | async) ? 'root.navbar.title.long' : 'root.navbar.title.short') | translate}}</span>
-    </a>
-
     <div class="navigation">
+      <a class="logo" routerLink="/" routerLinkActive="active">
+        <img src="assets/img/karlik_color.png" alt="{{'root.navbar.logo' | translate}}">
+        <span>{{ ((useLongTitle$ | async) ? 'root.navbar.title.long' : 'root.navbar.title.short') | translate}}</span>
+      </a>
+
       <div class="categories">
-        <a class="nav-btn" [routerLink]="['/', routes.routes.tasks._]" routerLinkActive="active" (click)="hideFullMenu($event)">
+        <a class="nav-btn" [routerLink]="['/', routes.routes.tasks._]" routerLinkActive="active"
+          (click)="hideFullMenu($event)">
           {{'root.navbar.category.tasks' | translate}}
         </a>
-        <a class="nav-btn" [routerLink]="['/', routes.routes.results]" routerLinkActive="active" (click)="hideFullMenu($event)">
+        <a class="nav-btn" [routerLink]="['/', routes.routes.results]" routerLinkActive="active"
+          (click)="hideFullMenu($event)">
           {{'root.navbar.category.results' | translate}}
         </a>
-        <a class="nav-btn" [routerLink]="['/', routes.routes.about]" routerLinkActive="active" (click)="hideFullMenu($event)">
+        <a class="nav-btn" [routerLink]="['/', routes.routes.about]" routerLinkActive="active"
+          (click)="hideFullMenu($event)">
           {{'root.navbar.category.about' | translate}}
         </a>
-        <a class="nav-btn" [routerLink]="['/', routes.routes.news]" routerLinkActive="active" (click)="hideFullMenu($event)">
+        <a class="nav-btn" [routerLink]="['/', routes.routes.news]" routerLinkActive="active"
+          (click)="hideFullMenu($event)">
           {{'root.navbar.category.news' | translate}}
         </a>
-        <a class="nav-btn" [routerLink]="['/', routes.routes.discussion]" routerLinkActive="active" (click)="hideFullMenu($event)">
+        <a class="nav-btn" [routerLink]="['/', routes.routes.discussion]" routerLinkActive="active"
+          (click)="hideFullMenu($event)">
           {{'root.navbar.category.discussion' | translate}}
         </a>
-        <a *ngIf="(userService.isTester$ | async)" class="nav-btn"
-           [routerLink]="['/', routes.routes.admin._]"
-           routerLinkActive="active" (click)="hideFullMenu($event)">
+        <a *ngIf="(userService.isTester$ | async)" class="nav-btn" [routerLink]="['/', routes.routes.admin._]"
+          routerLinkActive="active" (click)="hideFullMenu($event)">
           {{'root.navbar.category.admin' | translate}}
         </a>
 
         <div ngbDropdown>
           <span id="dropdown-year" class="nav-btn" ngbDropdownToggle>{{(years.selected$ | async)?.year}}</span>
           <div ngbDropdownMenu aria-labelledby="dropdown-year">
-            <button
-              *ngFor="let year of (selectableYears$ | async)"
-              (click)="years.selected = year"
-              ngbDropdownItem
-            >
+            <button *ngFor="let year of (selectableYears$ | async)" (click)="years.selected = year" ngbDropdownItem>
               {{year.year}}
             </button>
           </div>
         </div>
       </div>
 
-      <ng-container *ngIf="(user$ | async) as user; else notLoggedIn">
-        <div ngbDropdown class="login-container">
-          <div id="dropdown-login" class="nav-btn" ngbDropdownToggle>
-            <span class="username">
-              {{ user.first_name }}
-              {{ user.nick_name ? '"' + user.nick_name + '"' : '' }}
-              {{ user.last_name }}
-            </span>
+      <div class="login-container-wrapper">
+        <a class="nav-btn" (click)="switchTheme()">
+          {{ (theme.theme$ | async) === 'dark' ? '🌙' : '☀️' }}
+        </a>
+
+        <ng-container *ngIf="(user$ | async) as user; else notLoggedIn">
+          <div ngbDropdown class="login-container">
+            <div id="dropdown-login" class="nav-btn" ngbDropdownToggle>
+              <span class="username">
+                {{ user.first_name }}
+                {{ user.nick_name ? '"' + user.nick_name + '"' : '' }}
+                {{ user.last_name }}
+              </span>
+            </div>
+            <div ngbDropdownMenu aria-labelledby="dropdown-login">
+              <button ngbDropdownItem [routerLink]="['/', routes.routes.profile._]">{{'root.navbar.my-profile' |
+                translate}}</button>
+              <button ngbDropdownItem (click)="modal.showFeedbackModal()">{{'root.navbar.feedback' |
+                translate}}</button>
+              <button ngbDropdownItem
+                [routerLink]="['/', routes.routes.profile._, routes.routes.profile.settings._]">{{'root.navbar.settings'
+                |
+                translate}}</button>
+              <button ngbDropdownItem (click)="backend.logout()">{{'root.navbar.logout' | translate}}</button>
+            </div>
           </div>
-          <div ngbDropdownMenu aria-labelledby="dropdown-login">
-            <button ngbDropdownItem
-                    [routerLink]="['/', routes.routes.profile._]"
-            >{{'root.navbar.my-profile' | translate}}</button>
-            <button ngbDropdownItem (click)="modal.showFeedbackModal()">{{'root.navbar.feedback' | translate}}</button>
-            <button ngbDropdownItem (click)="switchTheme()">{{('root.navbar.theme.' + (theme.theme$ | async)) | translate}}</button>
-            <button ngbDropdownItem
-                    [routerLink]="['/', routes.routes.profile._, routes.routes.profile.settings._]"
-            >{{'root.navbar.settings' | translate}}</button>
-            <button ngbDropdownItem (click)="backend.logout()">{{'root.navbar.logout' | translate}}</button>
-          </div>
-        </div>
-      </ng-container>
-      <ng-template #notLoggedIn>
-        <a class="nav-btn" (click)="modal.showLoginModal()">{{'root.navbar.login' | translate}}</a>
-      </ng-template>
+        </ng-container>
+        <ng-template #notLoggedIn>
+          <a class="nav-btn" (click)="modal.showLoginModal()">{{'root.navbar.login' | translate}}</a>
+        </ng-template>
+      </div>
     </div>
     <div *ngIf="showMenuOpener$ | async" class="menu-opener clickable" (click)="hideFullMenu($event)">&#9776;</div>
   </ng-container>
@@ -74,4 +80,4 @@
     <div class="menu-opener">&#9776;</div>
   </ng-template>
 </nav>
-<div class="navbar-separator" [class.loading]="loadingNewPage$ | async"></div>
+<!-- <div class="navbar-separator" [class.loading]="loadingNewPage$ | async"></div> -->

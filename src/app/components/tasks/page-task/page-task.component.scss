@@ -12,8 +12,40 @@
     .head {
       margin-bottom: $ksi-margin;
 
+
+      .task-info-grid {
+        display: grid;
+        font-family: monospace;
+        grid-template-columns: max-content 1fr;
+        gap: 6px 20px;
+        align-items: center;
+
+      }
+
+      .grid-label {
+        font-weight: bold;
+
+      }
+
+
+      .score-divider {
+        margin: 0 4px;
+        color: #888;
+      }
+
+
+
+
+
+      .task-icon {
+        width: 2rem;
+        height: 2rem;
+        margin-right: $ksi-margin-small;
+        vertical-align: middle;
+      }
+
       .task-title {
-          text-transform: none;
+        text-transform: none;
       }
 
       .deadline {
@@ -51,16 +83,19 @@
       }
 
       .discussion {
-        > * {
+        >* {
           padding-right: $ksi-padding-x-small;
         }
       }
 
-      .results, .assessment {
+      .results,
+      .assessment {
         margin-left: $ksi-margin;
       }
 
-      .results, .solution, .assessment {
+      .results,
+      .solution,
+      .assessment {
         display: inline-block;
       }
     }

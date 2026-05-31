@@ -5,14 +5,10 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    gap: $ksi-margin;
 
-    & > * {
+    &>* {
       flex-grow: 1;
-      margin-top: $ksi-margin-small;
-
-      &:not(:last-child) {
-        margin-right: $ksi-margin;
-      }
     }
   }
 }

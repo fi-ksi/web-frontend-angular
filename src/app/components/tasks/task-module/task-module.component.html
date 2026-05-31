@@ -1,41 +1,44 @@
-<div class="header" [class.packed]="packed$ | async">
-  <span class="name">
-    <span *ngIf="resultOk">{{this.icon.CHECKMARK}}</span>
-    <span *ngIf="user.isTester$ | async">
-     ({{module.id}})
+<div class="top-graphic"></div>
+<div class="module">
+  <div class="header" [class.packed]="packed$ | async">
+    <span class="name">
+      <span *ngIf="resultOk">{{this.icon.CHECKMARK}}</span>
+      <span *ngIf="user.isTester$ | async">
+        ({{module.id}})
+      </span>
+      <ksi-task-body [body]="module.name"></ksi-task-body>
     </span>
-    <ksi-task-body [body]="module.name"></ksi-task-body>
-  </span>
-  <span class="points" [class.font-weight-bold]="resultOk">
-    {{ module.max_score | translatePoints }}
-    <button *ngIf="packed$ | async" class="btn btn-ksi unpack" (click)="unpack()">{{'tasks.module.unpack' | translate}}</button>
-  </span>
-</div>
+    <span class="points" [class.font-weight-bold]="resultOk">
+      {{ module.score ?? 0 }}/{{ module.max_score | translatePoints }}
 
-<div class="content-container" [class.packed]="packed$ | async">
-  <article class="description">
-    <ksi-task-body [body]="module.description"></ksi-task-body>
-  </article>
-
-  <div [ngSwitch]="module.type" class="content">
-    <ksi-task-module-text *ngSwitchCase="'text'" [module]="moduleAny"></ksi-task-module-text>
-    <ksi-task-module-quiz *ngSwitchCase="'quiz'" [module]="moduleAny"></ksi-task-module-quiz>
-    <ksi-task-module-programming *ngSwitchCase="'programming'" [module]="moduleAny"></ksi-task-module-programming>
-    <ksi-task-module-general *ngSwitchCase="'general'" [module]="moduleAny"></ksi-task-module-general>
-    <ksi-task-module-sortable *ngSwitchCase="'sortable'" [module]="moduleAny"></ksi-task-module-sortable>
-    <div class="alert alert-danger" *ngSwitchDefault>ERR: Unknown module type: {{module.type}}</div>
+      <button *ngIf="packed$ | async" class="btn btn-ksi unpack" (click)="unpack()">{{'tasks.module.unpack' |
+        translate}}</button>
+    </span>
   </div>
 
-  <ng-container *ngIf="statusChanges$ | async as status">
-    <div
-      [class]="' result alert alert-' + (status.result === 'ok' ? 'success' : 'danger')"
-      style="white-space: pre-line"
-      [innerHTML]="status.error || status.message"
-    ></div>
+  <div class="content-container" [class.packed]="packed$ | async">
+    <article class="description">
+      <ksi-task-body [body]="module.description"></ksi-task-body>
+    </article>
 
-    <ng-container *ngIf="user.isOrg$ | async">
-      <h6 class="report-heading">{{'tasks.module.report'|translate}}</h6>
-      <textarea class="area-code-output" [value]="status.report || ''" [readOnly]="true"></textarea>
+    <div [ngSwitch]="module.type" class="content">
+      <ksi-task-module-text *ngSwitchCase="'text'" [module]="moduleAny"></ksi-task-module-text>
+      <ksi-task-module-quiz *ngSwitchCase="'quiz'" [module]="moduleAny"></ksi-task-module-quiz>
+      <ksi-task-module-programming *ngSwitchCase="'programming'" [module]="moduleAny"></ksi-task-module-programming>
+      <ksi-task-module-general *ngSwitchCase="'general'" [module]="moduleAny"></ksi-task-module-general>
+      <ksi-task-module-sortable *ngSwitchCase="'sortable'" [module]="moduleAny"></ksi-task-module-sortable>
+      <div class="alert alert-danger" *ngSwitchDefault>ERR: Unknown module type: {{module.type}}</div>
+    </div>
+
+    <ng-container *ngIf="statusChanges$ | async as status">
+      <div [class]="' result alert alert-' + (status.result === 'ok' ? 'success' : 'danger')"
+        style="white-space: pre-line" [innerHTML]="status.error || status.message"></div>
+
+      <ng-container *ngIf="user.isOrg$ | async">
+        <h6 class="report-heading">{{'tasks.module.report'|translate}}</h6>
+        <textarea class="area-code-output" [value]="status.report || ''" [readOnly]="true"></textarea>
+      </ng-container>
     </ng-container>
-  </ng-container>
+  </div>
 </div>
+<div class="bottom-graphic"></div>

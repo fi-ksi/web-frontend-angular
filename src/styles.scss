@@ -41,19 +41,24 @@ Codemirror core style
     color: $ksi-code-fg;
     background-color: $ksi-code-bg;
   }
+
   .cm-content {
     background-color: $ksi-code-bg;
   }
+
   .cm-tooltip {
     background-color: $ksi-code-bg;
   }
+
   .cm-selectionBackground,
   .cm-content ::selection {
     background-color: $ksi-code-selection !important;
   }
+
   .cm-activeLineGutter {
     background-color: $ksi-code-bg;
   }
+
   .cm-gutterElement {
     color: #999;
   }
@@ -79,7 +84,9 @@ pre.numberLines code div::before {
 }
 
 table {
-  th, td {
+
+  th,
+  td {
     color: $ksi-page-fg;
   }
 }
@@ -91,7 +98,9 @@ Code highlighting
   color: $ksi-code-fg;
   background: $ksi-code-bg;
 
-  .hljs-meta .hljs-string, .hljs-regexp, .hljs-string{
+  .hljs-meta .hljs-string,
+  .hljs-regexp,
+  .hljs-string {
     color: $ksi-code-string-fg;
   }
 }
@@ -99,7 +108,8 @@ Code highlighting
 .panel.card {
   color: $ksi-page-fg;
 
-  &, .card-header {
+  &,
+  .card-header {
     background: $ksi-page-bg;
     border-color: $ksi-article-preview-border-fg;
   }
@@ -108,10 +118,11 @@ Code highlighting
     color: $ksi-title;
   }
 
-  .accordion-toggle > button {
+  .accordion-toggle>button {
     color: $ksi-page-fg;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       border-color: transparent;
       text-decoration: none;
     }
@@ -139,9 +150,11 @@ Code highlighting
   text-decoration: none;
   transition: background-color 0.1s;
   background-color: $ksi-page-welcome-banner-bg;
-  border-radius: 0;
+  border-radius: 6px;
 
-  &.active,&:hover:not([disabled]),&[aria-expanded=true] {
+  &.active,
+  &:hover:not([disabled]),
+  &[aria-expanded=true] {
     background: $ksi-orange-160 !important;
   }
 }
@@ -188,14 +201,21 @@ blockquote {
 
   .nav-btn {
     color: $ksi-navbar-fg;
-    padding: $ksi-padding;
+    padding: 10px 16px;
     text-decoration: none;
     cursor: pointer;
     transition: background-color 0.1s;
+    // margin: 0 2px;
 
-    &.active,&:hover,&[aria-expanded=true] {
+
+
+    &.active,
+    &:hover,
+    &[aria-expanded=true] {
       background: $ksi-page-welcome-banner-bg !important;
     }
+
+    border-radius: 6px;
   }
 }
 
@@ -206,8 +226,28 @@ blockquote {
 }
 
 /* Make disabled collapsible panel appear non-clickable */
-accordion-group > .panel > .panel-disabled {
+accordion-group>.panel>.panel-disabled {
   * {
     cursor: default !important;
   }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+.header,
+button,
+.btn,
+.logo,
+.nav-btn {
+  font-family: monospace;
 }

@@ -5,7 +5,7 @@
     </span>
   </h1>
   <div class="images">
-    <a (click)="toggleAboutInfo(0)" href="#">
+    <!-- <a (click)="toggleAboutInfo(0)" href="#">
       <img src="assets/img/about/seminar.svg"
            [alt]="'root.welcome.about.seminar.title' | translate"
            [class.active]="aboutInfoShown && aboutInfoSlide === 0"
@@ -22,15 +22,15 @@
            [alt]="'root.welcome.about.achievements.title' | translate"
            [class.active]="aboutInfoShown && aboutInfoSlide === 2"
       >
-    </a>
+    </a> -->
   </div>
 </div>
 
-<div class="begin">
+<!-- <div class="begin">
   <a [routerLink]="['/', routes.routes.tasks._]" class="tasks">
     <button class="btn-lg btn btn-ksi">{{'root.welcome.about.begin' | translate}}</button>
   </a>
-  <a  class="more-info" [routerLink]="['/', routes.routes.about]">- {{'root.welcome.about.more-info' | translate}} -</a>
+  <a class="more-info" [routerLink]="['/', routes.routes.about]">- {{'root.welcome.about.more-info' | translate}} -</a>
   <div class="subjects">
     <a href="#" (click)="toggleAboutInfo(0)" [class.active]="aboutInfoShown && aboutInfoSlide === 0">
       {{'root.welcome.about.seminar.title' | translate}}
@@ -44,21 +44,14 @@
       {{'root.welcome.about.achievements.title' | translate}}
     </a>
   </div>
-</div>
+</div> -->
 
-<carousel class="about-carousel"
-          [activeSlide]="aboutInfoSlide"
-          [collapse]="!aboutInfoShown"
-          [showIndicators]="false"
-          [interval]="0"
-          [isAnimated]="true"
-          (activeSlideChange)="onAboutSlideChange($event)"
->
+<carousel class="about-carousel" [activeSlide]="aboutInfoSlide" [collapse]="!aboutInfoShown" [showIndicators]="false"
+  [interval]="0" [isAnimated]="true" (activeSlideChange)="onAboutSlideChange($event)">
   <slide>
     <div class="content">
       <span class="text">{{'root.welcome.about.seminar.text' | translate}}</span>
-      <button class="btn-lg btn btn-go"
-              [routerLink]="['/', routes.routes.tasks._]">
+      <button class="btn-lg btn btn-go" [routerLink]="['/', routes.routes.tasks._]">
         {{'root.welcome.about.lets-start' | translate}}
       </button>
     </div>
@@ -74,9 +67,7 @@
   <slide>
     <div class="content">
       <span class="text">{{'root.welcome.about.achievements.text' | translate}}</span>
-      <button class="btn-lg btn btn-go"
-              [routerLink]="['/', routes.routes.achievements]"
-      >
+      <button class="btn-lg btn btn-go" [routerLink]="['/', routes.routes.achievements]">
         {{'root.welcome.about.lets-start' | translate}}
       </button>
     </div>
@@ -89,12 +80,8 @@
     <span class="header">{{'root.welcome.news.title' | translate}}</span>
     <ksi-spinner [source]="years.articles$"></ksi-spinner>
     <div class="articles">
-      <ksi-article-preview
-        *ngFor="let article of (years.articles$ | async)"
-        class="article"
-        [article]="article"
-        [clickable]="true"
-      >
+      <ksi-article-preview *ngFor="let article of (years.articles$ | async)" class="article" [article]="article"
+        [clickable]="true">
       </ksi-article-preview>
     </div>
   </div>
@@ -102,10 +89,8 @@
     <span class="header">{{'root.welcome.organisators.title' | translate}}</span>
     <ksi-spinner [source]="years.organisators$"></ksi-spinner>
     <div class="organisators">
-      <a *ngFor="let organiser of (years.organisators$ | async)"
-        class="frame-organisator"
-        [routerLink]="['/', routes.routes.profile._, organiser.id]"
-      >
+      <a *ngFor="let organiser of (years.organisators$ | async)" class="frame-organisator"
+        [routerLink]="['/', routes.routes.profile._, organiser.id]">
         <img [src]="organiser.profile_picture" alt="" class="pic">
         <span class="name">
           {{organiser.first_name | uppercase}}

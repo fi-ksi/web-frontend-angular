@@ -3,18 +3,26 @@
 :host {
   .buttons {
     margin-top: $ksi-margin-small;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: $ksi-margin;
 
-    & > * {
+    &>* {
       flex-grow: 1;
       z-index: 1;
       margin-top: $ksi-margin-small;
-      margin-right: $ksi-margin;
     }
 
   }
+
+  .toggle-btn {
+    min-width: 50px;
+
+    &::after {
+      display: none;
+    }
+  }
+
 
   .report-heading {
     margin-top: $ksi-margin;

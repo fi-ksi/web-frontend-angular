@@ -1,19 +1,58 @@
 <ksi-spinner [source]="task$"></ksi-spinner>
 <main *ngIf="(task$ | async) as task">
   <div class="head">
-    <h2 class="task-title" [innerHTML]="task.head.title"></h2>
-    <div *ngIf="(authors$ | async) as authors" class="authors-container">
+    <div class="row">
+      <img [src]="environmentBackend + task.detail.taskDetails.taskIcon" class="task-icon" alt="Task Icon">
+      <h2 class="task-title" [innerHTML]="task.head.title"></h2>
+    </div>
+
+
+    <!-- Grid of
+      | author | [author(s)]
+      | deadline | [deadline]
+      | score | [score] / [max_score]
+    
+    -->
+
+    <div class="task-info-grid">
+      <div class="grid-label">
+        <span *ngIf="(authors$ | async) as authors">
+          {{(authors.length > 1 ? 'tasks.author.multiple' : 'tasks.author.single') | translate}}
+        </span>
+      </div>
+      <div class="grid-value" *ngIf="(authors$ | async) as authors">
+        <ksi-users-inline class="authors" [users]="authors"></ksi-users-inline>
+      </div>
+
+      <div class="grid-label">{{'tasks.deadline' | translate}}</div>
+      <div class="grid-value">
+        {{task.head.time_deadline | ksiDate}} 23:59
+      </div>
+
+      <div class="grid-label">{{'results.table.score' | translate}}</div>
+      <div class="grid-value score-value">
+        <span class="current-score">67</span>
+        <!-- <span class="current-score">{{task.detail.userScore ?? 0}}</span> -->
+        <span class="score-divider">/</span>
+        <span class="max-score">{{task.head.max_score | translatePoints}}</span>
+      </div>
+    </div>
+
+
+    <!-- <div *ngIf="(authors$ | async) as authors" class="authors-container">
       {{(authors.length > 1 ? 'tasks.author.multiple' : 'tasks.author.single') | translate}}:
       <ksi-users-inline class="authors" [users]="authors"></ksi-users-inline>
     </div>
-    <span class="deadline">{{'tasks.deadline' | translate}}: {{task.head.time_deadline | ksiDate}} 23:59, {{task.head.max_score | translatePoints}}</span>
+    <span class="deadline">{{'tasks.deadline' | translate}}: {{task.head.time_deadline | ksiDate}} 23:59,
+      {{task.head.max_score | translatePoints}}</span> -->
+    <hr />
   </div>
 
   <div *ngIf="deadlinePassed$ | async" class="alert alert-warning">
     {{'tasks.deadline-passed'|translate}}
   </div>
 
-  <div *ngIf="(subpage$ | async) !== templateBodyAssigment" class="back" >
+  <div *ngIf="(subpage$ | async) !== templateBodyAssigment" class="back">
     <a routerLink="." [fragment]="undefined">
       {{icon.BACK}} {{'tasks.back-to-assigment' | translate}}
     </a>
@@ -21,6 +60,7 @@
 
   <ng-container [ngTemplateOutlet]="subpage$ | async"></ng-container>
 </main>
+
 
 <ng-template #bodyDiscussion>
   <ng-container *ngIf="(task$ | async) as task">
@@ -31,11 +71,8 @@
 <ng-template #bodyAssessment>
   <ng-container *ngIf="(task$ | async) as task">
     <h4>{{'tasks.assessment.comment'|translate}}</h4>
-    <ksi-discussion-thread
-      *ngIf="task.detail.taskDetails.comment !== null; else noComment"
-      [allowNewRootPosts]="false"
-      [threadId]="task.detail.taskDetails.comment"
-    ></ksi-discussion-thread>
+    <ksi-discussion-thread *ngIf="task.detail.taskDetails.comment !== null; else noComment" [allowNewRootPosts]="false"
+      [threadId]="task.detail.taskDetails.comment"></ksi-discussion-thread>
     <ng-template #noComment>
       <div class="alert alert-info">
         {{'tasks.assessment.comment-none'|translate}}
@@ -58,16 +95,20 @@
       </a>
 
       <div class="right-container">
-        <a *ngIf="task.detail.taskDetails.solution" class="solution" routerLink="." [fragment]="routes.routes.tasks.solution">
+        <a *ngIf="task.detail.taskDetails.solution" class="solution" routerLink="."
+          [fragment]="routes.routes.tasks.solution">
           {{'tasks.solution' | translate}}
         </a>
 
-        <a *ngIf="(user.isLoggedIn$ | async) && task.detail.taskDetails.comment !== null" class="assessment" routerLink="." [fragment]="routes.routes.tasks.assessment">
+        <a *ngIf="(user.isLoggedIn$ | async) && task.detail.taskDetails.comment !== null" class="assessment"
+          routerLink="." [fragment]="routes.routes.tasks.assessment">
           {{'tasks.assessment.title' | translate}}
         </a>
 
-        <a *ngIf="task.detail.taskDetails.best_scores.length > 0" class='results' routerLink="." [fragment]="routes.routes.tasks.results">
-          {{'tasks.results' | translate}} ({{task.detail.userScores.length + (task.detail.userScores.length >= 100 ? '+' : '')}})
+        <a *ngIf="task.detail.taskDetails.best_scores.length > 0" class='results' routerLink="."
+          [fragment]="routes.routes.tasks.results">
+          {{'tasks.results' | translate}} ({{task.detail.userScores.length + (task.detail.userScores.length >= 100 ? '+'
+          : '')}})
         </a>
       </div>
     </div>
@@ -97,22 +138,24 @@
     <ksi-spinner [source]="userScores$"></ksi-spinner>
     <table class="table table-striped results-table table-responsive-md" ksiTheme>
       <thead>
-      <tr>
-        <th scope="col" class="text-center">{{'results.table.position' | translate}}</th>
-        <th scope="col">{{'results.table.name' | translate}}</th>
-        <th scope="col">{{'results.table.trophies' | translate}}</th>
-        <th scope="col" class="text-center">{{'results.table.score' | translate}}</th>
-      </tr>
+        <tr>
+          <th scope="col" class="text-center">{{'results.table.position' | translate}}</th>
+          <th scope="col">{{'results.table.name' | translate}}</th>
+          <th scope="col">{{'results.table.trophies' | translate}}</th>
+          <th scope="col" class="text-center">{{'results.table.score' | translate}}</th>
+        </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let userScore of (userScores$ | async); let i = index">
-        <td class="text-center">{{i+1}}.</td>
-        <td><a [routerLink]="['/', routes.routes.profile._, userScore.user.id]">{{userScore.user.first_name}} {{userScore.user.last_name}}</a></td>
-        <td>
-          <ksi-icon-achievement *ngFor="let ach of userScore.user.achievements" [achievementId]="ach"></ksi-icon-achievement>
-        </td>
-        <td class="text-center">{{userScore.score}}</td>
-      </tr>
+        <tr *ngFor="let userScore of (userScores$ | async); let i = index">
+          <td class="text-center">{{i+1}}.</td>
+          <td><a [routerLink]="['/', routes.routes.profile._, userScore.user.id]">{{userScore.user.first_name}}
+              {{userScore.user.last_name}}</a></td>
+          <td>
+            <ksi-icon-achievement *ngFor="let ach of userScore.user.achievements"
+              [achievementId]="ach"></ksi-icon-achievement>
+          </td>
+          <td class="text-center">{{userScore.score}}</td>
+        </tr>
       </tbody>
     </table>
   </ng-container>

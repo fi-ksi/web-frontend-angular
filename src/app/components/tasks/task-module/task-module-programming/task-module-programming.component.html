@@ -2,9 +2,14 @@
 <div class="buttons">
   <button [disabled]="codeRun$" class="btn btn-ksi run" (click)="runCode()">{{'tasks.module.programming.run'|translate}}</button>
   <button [disabled]="submission$" class="btn btn-ksi submit" (click)="submit()">{{'tasks.module.submit'|translate}}</button>
-  <button class="btn btn-ksi download" (click)="download()">{{'tasks.module.programming.download'|translate}}</button>
-  <button class="btn btn-ksi upload" (click)="upload()">{{'tasks.module.programming.upload'|translate}}</button>
-  <button class="btn btn-ksi reset" (click)="reset()">{{'tasks.module.programming.reset'|translate}}</button>
+  <div ngbDropdown class="d-inline-block">
+    <button class="btn btn-ksi toggle-btn" id="dropdown-programming-options" ngbDropdownToggle>...</button>
+    <div ngbDropdownMenu aria-labelledby="dropdown-programming-options">
+      <button ngbDropdownItem (click)="download()">{{'tasks.module.programming.download'|translate}}</button>
+      <button ngbDropdownItem (click)="upload()">{{'tasks.module.programming.upload'|translate}}</button>
+      <button ngbDropdownItem (click)="reset()">{{'tasks.module.programming.reset'|translate}}</button>
+    </div>
+  </div>
 </div>
 
 <input #uploadFile type="file" style="display: none" (change)="replaceCode($event)">

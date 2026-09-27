@@ -10,6 +10,12 @@ export interface TaskPanel<T> {
 
 export interface TaskTipData {
   author: number | null;
+  /**
+   * Explicit image to show instead of the author's profile picture.
+   * Can be a task-relative `data/...` path (rewritten to a real URL on
+   * deploy, same as any other task asset) or a full URL.
+   */
+  image?: string | null;
 }
 
 export interface TaskCollapsibleData {

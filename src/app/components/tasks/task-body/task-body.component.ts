@@ -122,11 +122,12 @@ export class TaskBodyComponent implements OnInit {
     // parse KSI tip
     rootElement.querySelectorAll('.ksi-custom.ksi-tip').forEach((el) => {
       const title = el.getAttribute('title') || '';
-      // sometimes backend parses the author attribute as data-author, we have to account for both
+      // sometimes backend parses the author/image attributes as data-author/data-image, we have to account for both
       const authorStr = el.getAttribute('author') || el.getAttribute('data-author');
       const author = authorStr ? Number(authorStr) : null;
+      const image = el.getAttribute('image') || el.getAttribute('data-image') || null;
       const body = el.innerHTML || '';
-      el.replaceWith(this.createKSIPanel<TaskTipData>(title || '', body, TaskTipComponent, 'ksi-tip', {author}));
+      el.replaceWith(this.createKSIPanel<TaskTipData>(title || '', body, TaskTipComponent, 'ksi-tip', {author, image}));
     });
 
     // replace source code

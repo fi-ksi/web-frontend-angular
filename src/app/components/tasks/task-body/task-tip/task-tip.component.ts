@@ -33,8 +33,12 @@ export class TaskTipComponent implements TaskPanel<TaskTipData>, OnInit {
   ngOnInit(): void {
     this.author$ = this.data?.author ?  this.users.getUser(this.data.author) : of(null);
 
-    this.imageSrc$ = this.author$.pipe(
-      map((u) => u ? u.profile_picture : 'assets/img/karlik_color.png')
-    );
+    // An explicit `image` always wins over the author's profile picture,
+    // but `author` (if also given) still drives the profile link/tooltip.
+    this.imageSrc$ = this.data?.image
+      ? of(this.data.image)
+      : this.author$.pipe(
+        map((u) => u ? u.profile_picture : 'assets/img/karlik_color.png')
+      );
   }
 }

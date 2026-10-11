@@ -3,6 +3,7 @@ import { AdminBaseComponent } from '../base/admin-base.component';
 import { IconService, ModalService, RoutesService, UserService } from 'src/app/services';
 import { AdminWavesService } from 'src/app/services/admin/admin-waves.service';
 import { Observable, OperatorFunction, Subscription } from 'rxjs';
+import { shareReplay } from 'rxjs/operators';
 import { Execution, User } from 'src/api/backend';
 import { AdminExecService } from 'src/app/services/admin/admin-exec.service';
 import { debounceTime, distinctUntilChanged, map, withLatestFrom } from 'rxjs/operators';
@@ -46,8 +47,10 @@ export class PageAdminExecComponent implements OnInit, OnDestroy {
   }
 
   formatter = (result: User) => result.email!;
-  users = this.adminUsersService.getUsers();
+  users = this.adminUsersService.getUsers().pipe(shareReplay(1));
   executions: Execution[] = [];
+
+  private usersCache: User[] = [];
 
   data_loaded: boolean = false;
 
@@ -81,9 +84,19 @@ export class PageAdminExecComponent implements OnInit, OnDestroy {
       return;
     }
 
-     console.log(this.form.value.user.id);
-    let sub = this.execService.getExecutions(this.form.value.user.id, this.form.value.moduleId, this.pageSize, this.page - 1).subscribe(res => {
-      console.log(res);
+    const userId = this.resolveUserId();
+    if (userId === null) {
+      // the user typed text but did not pick a user from the dropdown,
+      // so there is no user id to filter by
+      const userControl = this.form.get('user');
+      if (userControl) {
+        userControl.setErrors({ ...userControl.errors, userNotSelected: true });
+        userControl.markAsTouched();
+      }
+      return;
+    }
+
+    const sub = this.execService.getExecutions(userId, this.form.value.moduleId, this.pageSize, this.page - 1).subscribe(res => {
       this.executions = res.execs;
       this.total_execs = res.meta.total;
       this.data_loaded = true;
@@ -92,7 +105,37 @@ export class PageAdminExecComponent implements OnInit, OnDestroy {
     this.subscriptions.push(sub);
   }
 
+  /**
+   * Resolves the user form control value to a user id.
+   * The typeahead stores a User object only when an item is picked from the
+   * dropdown; plain typed text is resolved against loaded users, otherwise null.
+   */
+  private resolveUserId(): number | null {
+    const value = this.form.get('user')?.value;
+    if (value !== null && typeof value === 'object' && typeof value.id === 'number') {
+      return value.id;
+    }
+    if (typeof value === 'string') {
+      const term = value.trim().toLowerCase();
+      if (term) {
+        const matches = this.usersCache.filter((user) =>
+          this.user_formatter(user).toLowerCase() === term ||
+          (user.email != null && user.email.toLowerCase() === term)
+        );
+        if (matches.length === 1) {
+          return matches[0].id;
+        }
+      }
+    }
+    return null;
+  }
+
   ngOnInit(): void {
+    this.subscriptions.push(
+      this.users.subscribe((users) => {
+        this.usersCache = users ?? [];
+      })
+    );
   }
 
   ngOnDestroy() {

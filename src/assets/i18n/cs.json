@@ -517,7 +517,10 @@
     },
     "exec": {
       "moduleId": "ID modulu",
+      "moduleId.required": "ID modulu je povinné.",
       "userId": "Uživatel",
+      "user.required": "Uživatel je povinný.",
+      "user.notSelected": "Vyber uživatele z nabídky.",
       "search": "Hledat",
       "noResults": "Nenalezen žádný výsledek.",
       "head": {

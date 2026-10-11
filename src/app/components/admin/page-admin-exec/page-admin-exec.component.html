@@ -5,19 +5,19 @@
 
         <form [formGroup]="form" (ngSubmit)="load_new_execs()">
             <div class="form-group">
-                <label for="typeahead-template">{{ 'admin.exec.moduleId' | translate }}</label>
-                <input id="typeahead-template" type="number" class="form-control" formControlName="moduleId" />
+                <label for="typeahead-module">{{ 'admin.exec.moduleId' | translate }}</label>
+                <input id="typeahead-module" type="number" class="form-control" formControlName="moduleId" />
                 <div *ngIf="form.get('moduleId')?.invalid && form.get('moduleId')?.touched" class="text-danger">
                     {{ 'admin.exec.moduleId.required' | translate }}
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="typeahead-template">{{ 'admin.exec.userId' | translate }}</label>
-                <input id="typeahead-template" type="text" class="form-control" [ngbTypeahead]="search"
+                <label for="typeahead-user">{{ 'admin.exec.userId' | translate }}</label>
+                <input id="typeahead-user" type="text" class="form-control" [ngbTypeahead]="search"
                     formControlName="user" [inputFormatter]="user_formatter" [resultFormatter]="user_formatter" />
                 <div *ngIf="form.get('user')?.invalid && form.get('user')?.touched" class="text-danger">
-                    {{ 'admin.exec.user.required' | translate }}
+                    {{ (form.get('user')?.hasError('userNotSelected') ? 'admin.exec.user.notSelected' : 'admin.exec.user.required') | translate }}
                 </div>
             </div>
 

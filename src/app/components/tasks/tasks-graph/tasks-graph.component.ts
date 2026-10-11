@@ -26,6 +26,8 @@ export class TasksGraphComponent implements OnInit, OnDestroy {
     this._tasks = [...value];
     this.taskMap = {};
     this.tasksGraphed = TasksService.splitToLevels(value, this.taskMap);
+    // order tasks inside levels so that dependency arrows cross as little as possible
+    TasksService.minimizeEdgeCrossings(this.tasksGraphed, this.taskMap);
     this.watchArrowsDraw();
     this.cd.markForCheck();
   }

@@ -272,6 +272,106 @@ export class TasksService {
     return levels;
   }
 
+  /**
+   * Reorders tasks inside each level to minimize the number of crossing
+   * dependency arrows between the levels.
+   *
+   * Uses the barycenter heuristic (a step of the Sugiyama layered graph
+   * drawing method): in alternating top-down and bottom-up sweeps, tasks
+   * in each level are sorted by the average normalized position of their
+   * neighbours in the other levels. Tasks without known neighbours keep
+   * their relative order (the sort is stable), so the result is deterministic.
+   *
+   * @param levels task levels as returned by {@link splitToLevels} (reordered in place)
+   * @param taskMap map of all tasks by id (as filled by {@link splitToLevels})
+   * @returns the same levels array, for chaining
+   */
+  public static minimizeEdgeCrossings(levels: TaskWithIcon[][], taskMap: TasksMap): TaskWithIcon[][] {
+    if (levels.length < 2) {
+      return levels;
+    }
+
+    // successors[taskId] = ids of tasks that directly depend on it
+    const successors: { [taskId: number]: number[] } = {};
+    Utils.flatArray(levels).forEach((task) => {
+      Utils.flatArray(task.prerequisities).forEach((prereqId) => {
+        if (!(prereqId in taskMap)) {
+          return;
+        }
+        if (!(prereqId in successors)) {
+          successors[prereqId] = [];
+        }
+        successors[prereqId].push(task.id);
+      });
+    });
+
+    const predecessorsOf = (task: TaskWithIcon): number[] =>
+      Utils.flatArray(task.prerequisities).filter((id) => id in taskMap);
+    const successorsOf = (task: TaskWithIcon): number[] =>
+      (task.id in successors ? successors[task.id] : []).filter((id) => id in taskMap);
+
+    // normalized horizontal position of each task inside its level, in [0, 1]
+    const buildPositions = (): TasksLevelMap => {
+      const positions: TasksLevelMap = {};
+      levels.forEach((level) => {
+        (level || []).forEach((task, index) => {
+          positions[task.id] = level.length > 1 ? index / (level.length - 1) : 0.5;
+        });
+      });
+      return positions;
+    };
+
+    const MAX_SWEEPS = 4;
+    for (let sweep = 0; sweep < MAX_SWEEPS; sweep++) {
+      let changed = false;
+      // top-down sweep: order each level by its predecessors
+      for (let l = 0; l < levels.length; l++) {
+        changed = TasksService.orderLevelByBarycenter(levels, l, predecessorsOf, buildPositions()) || changed;
+      }
+      // bottom-up sweep: order each level by its successors
+      for (let l = levels.length - 1; l >= 0; l--) {
+        changed = TasksService.orderLevelByBarycenter(levels, l, successorsOf, buildPositions()) || changed;
+      }
+      if (!changed) {
+        break;
+      }
+    }
+
+    return levels;
+  }
+
+  /**
+   * Sorts a single level by the barycenter (average normalized position)
+   * of each task's neighbours. The sort is stable, so tasks with equal
+   * barycenters (including tasks without neighbours) keep their order.
+   *
+   * @returns true if the order of the level changed
+   */
+  private static orderLevelByBarycenter(
+    levels: TaskWithIcon[][],
+    levelIndex: number,
+    neighboursOf: (task: TaskWithIcon) => number[],
+    positions: TasksLevelMap
+  ): boolean {
+    const level = levels[levelIndex] || [];
+    if (level.length < 2) {
+      return false;
+    }
+    const decorated = level.map((task, index) => {
+      const neighbours = neighboursOf(task).filter((id) => id in positions);
+      const barycenter = neighbours.length === 0
+        ? positions[task.id] // no known neighbours: keep the current relative position
+        : neighbours.reduce((sum, id) => sum + positions[id], 0) / neighbours.length;
+      return { task, index, barycenter };
+    });
+    decorated.sort((a, b) => (a.barycenter - b.barycenter) || (a.index - b.index));
+    if (decorated.every((d, i) => d.task === level[i])) {
+      return false;
+    }
+    levels[levelIndex] = decorated.map((d) => d.task);
+    return true;
+  }
+
   public static getTaskLevel(tasksMap: TasksMap, task?: TaskWithIcon, knownLevels?: TasksLevelMap, taskLevels?: TasksLevels): number {
     if (typeof task === 'undefined' || !(task.id in tasksMap)) {
       return -1;

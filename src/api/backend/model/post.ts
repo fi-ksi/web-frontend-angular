@@ -16,6 +16,7 @@ export interface Post {
     id: number;
     thread: number;
     published_at: string;
+    resolved_at: string | null;
     reaction: Array<number>;
     is_new: boolean;
 }

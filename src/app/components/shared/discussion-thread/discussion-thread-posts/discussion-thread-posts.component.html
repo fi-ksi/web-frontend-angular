@@ -2,9 +2,20 @@
   <div class="head">
     <ksi-users-inline [users]="[post.author]" [showRoles]="true"></ksi-users-inline>,
     {{post.published_at | ksiDate:'short'}}
+    <span class="resolved-badge" *ngIf="isResolved" title="{{'discussion-thread.post.resolved' | translate}}">
+      ✓ {{'discussion-thread.post.resolved' | translate}}
+    </span>
   </div>
   <div class="content" [innerHTML]="post.body"></div>
   <div class="footer" *ngIf="allowActions">
+    <a
+      *ngIf="isOrg$ | async"
+      class="resolve clickable"
+      tooltip="{{(isResolved ? 'discussion-thread.post.unresolve.tooltip' : 'discussion-thread.post.resolve.tooltip') | translate}}"
+      (click)="toggleResolved()"
+    >
+      {{(isResolved ? 'discussion-thread.post.unresolve.title' : 'discussion-thread.post.resolve.title') | translate}}
+    </a>
     <a
       *ngIf="canEdit$ | async"
       class="edit clickable"

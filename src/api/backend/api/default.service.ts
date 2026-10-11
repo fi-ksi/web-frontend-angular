@@ -3421,6 +3421,104 @@ export class DefaultService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
+    public postsResolve(postsId: number, observe?: 'body', reportProgress?: boolean): Observable<PostResponse>;
+    public postsResolve(postsId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PostResponse>>;
+    public postsResolve(postsId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PostResponse>>;
+    public postsResolve(postsId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (postsId === null || postsId === undefined) {
+            throw new Error('Required parameter postsId was null or undefined when calling postsResolve.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<PostResponse>('post',`${this.basePath}/posts/${encodeURIComponent(String(postsId))}/resolve`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     *
+     *
+     * @param postsId
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public postsUnresolve(postsId: number, observe?: 'body', reportProgress?: boolean): Observable<PostResponse>;
+    public postsUnresolve(postsId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PostResponse>>;
+    public postsUnresolve(postsId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PostResponse>>;
+    public postsUnresolve(postsId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (postsId === null || postsId === undefined) {
+            throw new Error('Required parameter postsId was null or undefined when calling postsUnresolve.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ksi) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<PostResponse>('delete',`${this.basePath}/posts/${encodeURIComponent(String(postsId))}/resolve`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     *
+     *
+     * @param postsId
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
     public postsGetSingle(postsId: number, observe?: 'body', reportProgress?: boolean): Observable<PostResponse>;
     public postsGetSingle(postsId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PostResponse>>;
     public postsGetSingle(postsId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PostResponse>>;

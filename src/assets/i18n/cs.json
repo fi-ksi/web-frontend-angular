@@ -315,6 +315,15 @@
         "title": "Smazat",
         "confirmation": "Opravdu chceš smazat tento příspěvek?"
       },
+      "resolve": {
+        "tooltip": "Označit příspěvek jako vyřešený",
+        "title": "Vyřešit"
+      },
+      "unresolve": {
+        "tooltip": "Znovu otevřít příspěvek",
+        "title": "Znovu otevřít"
+      },
+      "resolved": "Vyřešeno",
       "new": "Přidat příspěvek"
     }
   },

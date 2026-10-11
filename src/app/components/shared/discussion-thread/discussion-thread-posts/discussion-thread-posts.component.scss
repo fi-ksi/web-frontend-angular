@@ -17,6 +17,17 @@
 
     .head {
       margin-bottom: $ksi-margin-small;
+
+      .resolved-badge {
+        @include round-corner;
+        margin-left: $ksi-margin-small;
+        padding: 0 $ksi-padding-x-small;
+        background-color: $ksi-green-100;
+        color: white;
+        font-size: 0.8rem;
+        font-weight: bold;
+        white-space: nowrap;
+      }
     }
 
     .footer {

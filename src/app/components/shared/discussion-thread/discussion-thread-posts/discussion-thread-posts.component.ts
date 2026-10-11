@@ -10,7 +10,7 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 import { PostsMap } from '../../../../models';
-import { Post } from '../../../../../api/backend';
+import { Post, PostResponse } from '../../../../../api/backend';
 import { RoutesService, StorageService } from '../../../../services';
 import { BackendService, IconService, ModalService } from '../../../../services';
 import { Router } from '@angular/router';
@@ -75,6 +75,12 @@ export class DiscussionThreadPostsComponent implements OnInit {
 
   canDelete$: Observable<boolean>;
 
+  isOrg$: Observable<boolean>;
+
+  get isResolved(): boolean {
+    return !!this.post?.resolved_at;
+  }
+
   @ViewChild('modalReply', {static: true})
   templateModalReply: TemplateRef<unknown>;
 
@@ -104,6 +110,8 @@ export class DiscussionThreadPostsComponent implements OnInit {
       this.user.isOrg$,
       this.backend.user$.pipe(map((user) => user?.id === this.post.author))
     ]).pipe(map(([isOrg, isAuthor]) => isOrg || isAuthor));
+
+    this.isOrg$ = this.user.isOrg$;
 
     this.canDelete$ = combineLatest(
       [
@@ -162,5 +170,16 @@ export class DiscussionThreadPostsComponent implements OnInit {
           ).then();
         }
       });
+  }
+
+  toggleResolved(): void {
+    const request = this.isResolved
+      ? this.backend.http.postsUnresolve(this.postId)
+      : this.backend.http.postsResolve(this.postId);
+    request.subscribe((resp: PostResponse) => {
+      this.post = {...this.post, resolved_at: resp.post.resolved_at};
+      this.cd.markForCheck();
+      this.postsModified.next();
+    });
   }
 }

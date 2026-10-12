@@ -1,0 +1,43 @@
+@import "../../styles/vars";
+
+.task-module-programming {
+  .code-editor {
+    margin-top: $ksi-margin-small;
+    text-align: left;
+  }
+
+  .buttons {
+    margin-top: $ksi-margin-small;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    & > * {
+      flex-grow: 1;
+      z-index: 1;
+      margin-top: $ksi-margin-small;
+      margin-right: $ksi-margin;
+    }
+  }
+
+  .report-heading {
+    margin-top: $ksi-margin;
+  }
+
+  .submit-progress {
+    margin-top: $ksi-margin-small;
+  }
+
+  .lint-result {
+    margin-top: $ksi-margin-small;
+
+    .problems {
+      font-weight: bold;
+      margin-bottom: $ksi-margin-small;
+    }
+
+    ul {
+      margin-bottom: $ksi-margin-small;
+    }
+  }
+}

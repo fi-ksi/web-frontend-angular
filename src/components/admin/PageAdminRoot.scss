@@ -1,0 +1,15 @@
+@import "../../styles/vars";
+
+.page-admin-root {
+  .title {
+    text-align: center;
+    margin-top: $ksi-margin;
+  }
+
+  .cards {
+    display: flex;
+    gap: $ksi-margin-small;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

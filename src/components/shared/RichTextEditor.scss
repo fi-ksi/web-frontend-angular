@@ -1,0 +1,26 @@
+// Bootstrap 4 form-control look for the Quill snow theme.
+$input-border: #ced4da;
+$input-radius: 0.25rem;
+
+.rich-text-editor {
+  .ql-toolbar.ql-snow {
+    border: 1px solid $input-border;
+    border-bottom: 0;
+    border-radius: $input-radius $input-radius 0 0;
+    background: #fff;
+    font-family: inherit;
+  }
+
+  .ql-container.ql-snow {
+    border: 1px solid $input-border;
+    border-radius: 0 0 $input-radius $input-radius;
+    min-height: 10em;
+    font-size: 1rem;
+    font-family: inherit;
+    background: #fff;
+  }
+
+  .rich-text-editor-loading {
+    min-height: 10em;
+  }
+}

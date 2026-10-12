@@ -1,0 +1,817 @@
+{
+  "root": {
+    "changelog": {
+      "title": "Změny od "
+    },
+    "forbidden": {
+      "title": "Přístup zakázán",
+      "text": "Vypadá to, že jsi přistoupil na stránku, na kterou nemáš oprávnění. Pokud si myslíš, že to byl omyl, můžeš to zkusit znovu nebo kontaktuj organizátory semináře.",
+      "easteregg": "Vypadá to, že tě baví tato stránka, když jsi sem přišel jenom tak."
+    },
+    "navbar": {
+      "logo": "Obrázek tučňáka Karlíka",
+      "login": "Přihlásit se",
+      "logout": "Odhlásit se",
+      "my-profile": "Profil",
+      "settings": "Nastavení",
+      "feedback": "Zpětná vazba",
+      "theme": {
+        "light": "Tmavý režim",
+        "dark": "Světlý režim"
+      },
+      "title": {
+        "long": "Korespondenční seminář z informatiky",
+        "short": "KSI"
+      },
+      "category": {
+        "tasks": "Úlohy",
+        "results": "Výsledky",
+        "about": "O KSI",
+        "news": "Novinky",
+        "discussion": "Diskuze",
+        "admin": "Admin"
+      }
+    },
+    "not-found": {
+      "title": "Nenalezeno",
+      "header": "Nenašli jsme to",
+      "text": {
+        "logged-in": "Hledali jsme všude, ale tuto stránku se nám nepodařilo najít. Pokud si myslíš, že se jedná o omyl a tato stránka by zde měla být, kontaktuj prosím organizátory.",
+        "not-logged-in": "Zkus se přihlásit - je možné, že tato stránka není dostupná pro veřejnost."
+      }
+    },
+    "footer": {
+      "license": " Obsah tohoto webu je poskytován pod licencí CC BY-NC v4.0. Copyright © KSI 2015–2025.  Tato aktivita probíhá díky podpoře Ministerstva školství, mládeže a tělovýchovy, dotace na podporu nadaných žáků základních a středních škol v roce 2024.",
+      "version": "Verze webu",
+      "bug-report": "Nahlásit chybu webu",
+      "privacy-policy": "Zpracování osobních údajů"
+    },
+    "welcome": {
+      "about": {
+        "seminar": {
+          "title": "Pochop informatiku",
+          "text": "KSI, neboli Korespondenční Seminář z Informatiky, je celoroční soutěž pro středoškoláky z České i Slovenské republiky organizovaná studenty Fakulty informatiky Masarykovy univerzity. Cílem semináře je seznámit řešitele se zajímavými oblastmi informatiky a procvičit programátorské, matematické a logické myšlení. Seminář je uzpůsoben jak pro úplné začátečníky, kteří si na jednoduchých příkladech procvičí danou problematiku, tak pro zkušenější řešitele, kteří se pokusí pokořit hlavní soutěžní úlohy."
+        },
+        "kscuk": {
+          "title": "Zúčastni se soustředění a KSÍletů",
+          "text": "Při řešení našeho semináře nemusíš jen sedět doma za počítačem. Během roku pro všechny řešitele pravidelně pořádáme výlety (Ksílety), na kterých se můžeš seznámit s ostatními řešiteli, osobně poznat organizátory a zahrát si kupu zajímavých her. V září se mohou úspěšní řešitelé těšit na týdenní soustředění K-SCUK, které je společné pro KSI a  biologický seminář IBIS. Náplní soustředění je jak odborný program, díky kterému se opět naučíš něco nového z informatiky, tak bohatý doprovodný program."
+        },
+        "achievements": {
+          "title": "Získej všechny trofeje",
+          "text": "Za každou vyřešenou úlohu dostáváš body. Pokud budeš mít na konci roku alespoň 60 % z celkového možného počtu bodů, staneš se úspěšným řešitelem. V průběhu řešení semináře můžeš navíc za překonávání milníků, odevzdávání zajímavých řešení nebo třeba za účast na KSI akcích obdržet nejrůznější odznáčky. Podaří se ti jich získat co nejvíc? Ulovíš i ty nejvzácnější? Soutěž s ostatními řešiteli a posbírej je všechny! "
+        },
+        "begin": "Začni řešit",
+        "lets-start": "Jdu na to",
+        "more-info": "Zjisti více"
+      },
+      "news": {
+        "title": "Novinky"
+      },
+      "organisators": {
+        "title": "Organizátoři KSI"
+      }
+    }
+  },
+  "news": {
+    "title": "Novinky"
+  },
+  "about": {
+    "title": "O KSI"
+  },
+  "results": {
+    "title": "Výsledky",
+    "category": {
+      "highschoolers": "Středoškoláci",
+      "others": "Ostatní"
+    },
+    "table": {
+      "position": "Pozice",
+      "name": "Jméno",
+      "trophies": "Trofeje",
+      "score": "Skóre",
+      "taskNum": "Vyřešených úloh"
+    }
+  },
+  "modal": {
+    "login": {
+      "title": "Přihlaš se do KSI",
+      "email": "e-mail",
+      "password": "heslo",
+      "login": "Přihlásit se",
+      "failed": "Přihlášení selhalo - je kombinace jména a hesla správná?",
+      "register": "Ještě nemám účet, ale chci se zaregistrovat!",
+      "forgotten-password": "Neznám svoje heslo"
+    },
+    "register": {
+      "title": "Registruj se do KSI",
+      "register": "Zaregistrovat se!",
+      "fill-testing": "[DEV] Rychlá registrace",
+      "optional": "Nepovinné - ",
+      "disabled": "Registrování bylo na této verzi webu dočasně vyřazeno",
+      "about-me": {
+        "title": "O mně",
+        "first-name": "Křestní jméno",
+        "nickname": "přezdívka",
+        "last-name": "Příjmení",
+        "sex": {
+          "title": "Pohlaví",
+          "male": "Muž",
+          "female": "Žena"
+        },
+        "shirt-size": "velikost trička"
+      },
+      "account": {
+        "title": "Můj účet",
+        "email": "Email",
+        "password": "Heslo (alespoň 6 znaků)",
+        "password-repeat": "Heslo znovu"
+      },
+      "address": {
+        "title": "Kde bydlím",
+        "street": "Ulice a ČP",
+        "city": "Město",
+        "postal-code": "PSČ",
+        "country": "Země"
+      },
+      "school": {
+        "title": "Moje škola",
+        "name": "Jméno mé školy",
+        "end": "Rok maturity (předpokládaný)"
+      },
+      "tos": {
+        "title": "Souhlasy",
+        "agreed": "Souhlasím s pravidly KSI a ",
+        "text": "zpracováním svých osobních údajů"
+      }
+    },
+    "post-reply": {
+      "save-reply": "Uložit příspěvek",
+      "thread-name": "Název nového vlákna",
+      "total-size": "Celková velikost příspěvku",
+      "title": {
+        "reply": "Vytvořit nový příspěvek",
+        "edit": "Upravit tento příspěvek",
+        "new-thread": "Vytvořit nové celoročníkové vlákno"
+      }
+    },
+    "server-error": {
+      "title": "Stala se chyba...",
+      "text": "Nastala chyba serveru - buď spadl nebo neodpověděl vůbec. S trochou štěstí už pracujeme na opravě. Pokud chyba přetrvává déle, než je zdravé, nebo se vyskytuje až příliš často, prosím zkontroluj svoje připojení k internetu a případně kontaktuj organizátory."
+    },
+    "tos": {
+      "title": "Souhlas se zpracováním osobních údajů",
+      "ok": "Dobře"
+    },
+    "yes-no": {
+      "title": "Prosím potvrď",
+      "yes": "Ano",
+      "no": "Ne"
+    },
+    "reset-password": {
+      "title": "Obnovit zapomenuté heslo",
+      "submit": "Zaslat odkaz na obnovení hesla",
+      "done": "Požadavek úspěšně odeslán, prosím zkontroluj svůj email"
+    },
+    "feedback": {
+      "email": "Tvůj e-mail - vyplň, pokud si přeješ, abychom tě mohli kontaktovat",
+      "title": "Zaslání zpětné vazby organizátorům semináře",
+      "text": "Máš nějaký tip nebo nápad, co a jak zlepšit? Vyskočila na tebe nějaká chyba? Dej nám vědět, ať s tím můžeme něco dělat. Prosíme, <strong>nepoužívej</strong> tento formulář na dotazy k úlohám, či k průběhu semináře. Na tyto dotazy slouží diskuze nebo e-mail ksi@fi.muni.cz. Děkujeme.",
+      "submit": "Odeslat moji zpětnou vazbu",
+      "content": "Co nám chceš sdělit?",
+      "done": "A je to! Tvoje zpráva k nám úspěšně dorazila"
+    }
+  },
+  "tasks": {
+    "title": "Úlohy",
+    "back-to-assigment": "Zpět na zadání",
+    "author": {
+      "single": "Autor",
+      "multiple": "Autoři",
+      "and": "a"
+    },
+    "module": {
+      "of": "z",
+      "submit": "Odevzdat",
+      "server-error": "Server vrátil neplatnou odpověď, nejspíše se něco pokazilo",
+      "report": "Orgovské hlášení",
+      "unpack": "Rozbalit úlohu",
+      "programming": {
+        "run": "Spustit kód",
+        "run-result": "Výstup kódu",
+        "download": "Stáhnout kód",
+        "upload": "Nahrát z disku",
+        "reset": "Obnovit výchozí kód",
+        "reset-confirm": "Tato akce smaže všechny tvoje úpravy. Vážně ji chceš provést?",
+        "lint": {
+          "text": "Zkontrolovat kvalitu kódu pomocí EduLintu",
+          "tooltip": "Dojde k přesměrování na externí službu EduLint",
+          "problems-found": "Tvůj kód vypadá, že by se dal ještě vylepšit. EduLint našel {{count}} zlepšení.",
+          "no-problems-found": "Skvělá práce! EduLint nenašel v tvém kódu žádná další zlepšení."
+        }
+      },
+      "general": {
+        "submitted-files": "Nahrané soubory",
+        "to-upload": "K nahrání",
+        "uploading": "Nahrávané",
+        "upload": "Nahrát",
+        "delete": "odstranit",
+        "delete-confirm": "Vážně chceš smazat tento soubor?",
+        "download": "stáhnout",
+        "select-file": "Vybrat soubory",
+        "size-to-large": "Maximální povolená velikost jednoho souboru je {{size}} MiB",
+        "too-many-files": "Nemůžeš nahrát více než {{count}} souborů"
+      },
+      "result": {
+        "ok": "Tvé řešení je správné!",
+        "nok": "Tvé řešení není správné",
+        "error": "Při vyhodnocování tvého řešení nastala chyba, můžeš to zkusit ještě jednout nebo kontaktuj organizátora"
+      },
+      "sortable": {
+        "result": "Výsledek",
+        "items": "Použij tyto řádky"
+      }
+    },
+    "discussion": "Diskuze",
+    "assessment": {
+      "title": "Opravení",
+      "comment": "Komentář opravujícího",
+      "comment-none": "K tvému odevzdání nebyl přidán žádný komentář opravujícího"
+    },
+    "deadline": "Datum ukončení",
+    "deadline-passed": "Termín odevzdání úlohy již uplynul, úloha nepřijímá nové odpovědi. Stále si ji ale můžeš prohlédnout, včetně řešení.",
+    "feedback": {
+      "send": "Odeslat zpětnou vazbu",
+      "sent": "Máme to, díky!",
+      "intro": "Jaké máš z této úlohy pocity?",
+      "edit": "Upravit zpětnou vazbu",
+      "incomplete": "Prosím, vyplň nejdříve všechny povinné položky",
+      "lime": {
+        "little": "Málo",
+        "much": "Moc"
+      }
+    },
+    "graph": {
+      "task": "Úloha {{ name }}"
+    },
+    "settings": {
+      "open-button": "Vysvětlení grafu a nastavení",
+      "title": "Nastavení zobrazení úloh",
+      "split-waves": "Rozdělit graf podle vln",
+      "explanation": {
+        "title": "Vysvětlení grafu",
+        "nodes": "Uzly",
+        "task": {
+          "algo": "Algoritmická úloha",
+          "programming": "Programovací úloha",
+          "special": "Speciální úloha",
+          "theoretical": "Teoretická úloha",
+          "surprise": "Úloha s překvapením",
+          "mixed": "Smíšená úloha",
+          "large": "Velká úloha",
+          "locked": "Zamčená úloha",
+          "finished": "Opravená úloha",
+          "correcting": "Neopravená úloha"
+        },
+        "edges": {
+          "title": "Hrany",
+          "text": "Pro odemčení úlohy musíte mít odemčené všechny hrany stejné barvy směrující do ní."
+        }
+      }
+    },
+    "solution": "Řešení",
+    "results": "Výsledky",
+    "wave-selection": {
+      "caption": "Výběr zobrazených vln",
+      "all": "Všechny vlny"
+    }
+  },
+  "points": {
+    "single": "bod",
+    "part": "bodu",
+    "a-few": "body",
+    "a-lot": "bodů"
+  },
+  "discussion": {
+    "title": "Celoročníková diskuzní vlákna",
+    "name": "Název",
+    "posts-count": "Počet příspěvků",
+    "show-full": "Zobrazit celou diskuzi",
+    "new": "Založit nové celoročníkové vlákno"
+  },
+  "new": {
+    "single": "nový",
+    "multiple": "nových"
+  },
+  "discussion-thread": {
+    "post": {
+      "expand": "Rozbalit toto vlákno",
+      "link": "Odkaz na tento příspěvek",
+      "reply": {
+        "tooltip": "Odpovědět na tento příspěvek",
+        "title": "Odpovědět"
+      },
+      "edit": {
+        "tooltip": "Upravit tento příspěvek",
+        "title": "Upravit"
+      },
+      "delete": {
+        "tooltip": "Smazat tento příspěvek",
+        "title": "Smazat",
+        "confirmation": "Opravdu chceš smazat tento příspěvek?"
+      },
+      "resolve": {
+        "tooltip": "Označit příspěvek jako vyřešený",
+        "title": "Vyřešit"
+      },
+      "unresolve": {
+        "tooltip": "Znovu otevřít příspěvek",
+        "title": "Znovu otevřít"
+      },
+      "resolved": "Vyřešeno",
+      "new": "Přidat příspěvek"
+    }
+  },
+  "user": {
+    "role": {
+      "admin": {
+        "male": "organizátor",
+        "female": "organizátorka"
+      },
+      "org": {
+        "male": "organizátor",
+        "female": "organizátorka"
+      },
+      "tester": {
+        "male": "organizátor",
+        "female": "organizátorka"
+      },
+      "participant": {
+        "male": "řešitel",
+        "female": "řešitelka"
+      }
+    },
+    "skill": {
+      "none": {
+        "male": "nezkušený",
+        "female": "nezkušená"
+      },
+      "novice": {
+        "male": "nový",
+        "female": "nová"
+      },
+      "skilled": {
+        "male": "zkušený",
+        "female": "zkušená"
+      },
+      "master": {
+        "male": "mistr",
+        "female": "mistryně"
+      },
+      "veteran": {
+        "male": "veterán",
+        "female": "veteránka"
+      }
+    }
+  },
+  "profile": {
+    "my": {
+      "do-change-password": "Chci změnit heslo",
+      "change-password": "Změnit heslo",
+      "edit-profile": "Zpět na editaci profilu",
+      "password-change-failed": "Změna hesla selhala, nezadal jsi špatné heslo?",
+      "password-change-success": "Změna hesla proběhla úspěšně",
+      "save": "Uložit změny",
+      "change-picture": "Nahrát nový profilový obrázek",
+      "discord-join": "přidat se na Discord server KSI",
+      "about-me": {
+        "title": "O mně",
+        "first-name": "Křestní jméno",
+        "nickname": "Přezdívka",
+        "last-name": "Příjmení",
+        "github": "GitHub uživatelské jméno",
+        "discord": "Discord uživatelské jméno",
+        "sex": {
+          "title": "Pohlaví",
+          "male": "Muž",
+          "female": "Žena"
+        },
+        "shirt-size": "Velikost trička"
+      },
+      "account": {
+        "title": "Můj účet",
+        "email": "Email",
+        "password-current": "Stávající heslo",
+        "password": "Nové heslo (alespoň 6 znaků)",
+        "password-repeat": "Heslo znovu"
+      },
+      "address": {
+        "title": "Kde bydlím",
+        "street": "Ulice a ČP",
+        "city": "Město",
+        "postal-code": "PSČ",
+        "country": "Země"
+      },
+      "school": {
+        "title": "Moje škola",
+        "name": "Jméno mé školy",
+        "end": "Rok maturity (předpokládaný)"
+      }
+    },
+    "tasks": {
+      "author": {
+        "male": "Autor úloh",
+        "female": "Autorka úloh"
+      },
+      "participant": {
+        "male": "Vyřešené úlohy",
+        "female": "Vyřešené úlohy"
+      },
+      "no-yet": "V tomto ročníku nemá {{name}} zatím žádné zveřejněné úlohy"
+    },
+    "seasons": {
+      "male": "Účastnil se ročníků",
+      "female": "Účastnila se ročníků"
+    },
+    "trophies": "Získané trofeje",
+    "stats": {
+      "title": "Statistiky",
+      "score": "Skóre",
+      "solved-count": "Vyřešených úloh",
+      "whole-year": "Celý ročník",
+      "cheat": "Bylo u tebe detekováno podvádění nebo jiné chování v přímém rozporu s pravidly semináře",
+      "prediction": {
+        "normal": "Potřebuješ získat ještě {{percent}}% z celkového počtu bodů",
+        "positive": {
+          "male": "Jsi úspěšným řešitelem KSI",
+          "female": "Jsi úspěšnou řešitelkou KSI",
+          "other": "Jsi úspěšným řešitelem KSI"
+        },
+        "negative": {
+          "male": "V tomto ročníku se již nejspíše nemůžeš stát úspěšným řešitelem",
+          "female": "V tomto ročníku se již nejspíše nemůžeš stát úspěšnou řešitelkou",
+          "other": "V tomto ročníku se již nejspíše nemůžeš stát úspěšným řešitelem"
+        }
+      }
+    },
+    "diploma": {
+      "grant": {
+        "button": "Udělit diplom",
+        "confirmation": "Vážně chceš udělit diplom? Tato akce nelze vzít zpět."
+      },
+      "show": "Zobrazit diplom",
+      "modal": {
+        "title": "Diplom",
+        "download": "Stáhnout diplom"
+      }
+    },
+    "grant-successful-trophy": {
+      "button": "Udělit řád úspěšného řešitele"
+    }
+  },
+  "achievements": {
+    "title": "Trofeje"
+  },
+  "admin": {
+    "shared": {
+      "delete-confirmation": "Opravdu chceš smazat tento záznam?",
+      "not-found-redirection": "Záznam nebyl nalezen. Chceš se vrátit na přehled?"
+    },
+    "navbar": {
+      "title": "Admin",
+      "tasks": "Úlohy",
+      "monitor": "Monitor",
+      "email": "E-mail",
+      "discussion": "Diskuze",
+      "achievement": "Trofeje",
+      "instance-config": "Server Admin",
+      "waves": "Vlny",
+      "years": "Ročníky",
+      "articles": "Články",
+      "users": "Uživatelé",
+      "exec": "Spouštění",
+      "grading": "Opravování"
+    },
+    "articles": {
+      "title": "Správa článků",
+      "new": "Přidat nový článek",
+      "edit": {
+        "title": "Upravit článek",
+        "save": "Uložit změny"
+      },
+      "head": {
+        "title": "Titulek",
+        "published_date": "Termín publikace",
+        "released": "Zveřejněn",
+        "actions": "Akce"
+      },
+      "delete": {
+        "btn": "Smazat článek",
+        "confirmation": "Opravdu chcete smazat tento článek?"
+      },
+      "warning": {
+        "title": "Upozornění",
+        "message": "Maximální počet bodů nezahrnuje bonusové body."
+      },
+      "edit_page": {
+        "new": "Nový článek",
+        "edit": "Úprava článku"
+      },
+      "back": "Zpět na přehled",
+      "caption": "Název",
+      "caption.required": "Název je povinný.",
+      "time_published": "Datum a čas vydání",
+      "time_published.required": "Datum a čas vydání je povinné.",
+      "published": "Zveřejněno",
+      "picture": "Náhledový obrázek",
+      "body": "Obsah",
+      "create": "Vytvořit",
+      "save": "Uložit",
+      "files": "Soubory"
+    },
+    "exec": {
+      "moduleId": "ID modulu",
+      "moduleId.required": "ID modulu je povinné.",
+      "userId": "Uživatel",
+      "user.required": "Uživatel je povinný.",
+      "user.notSelected": "Vyber uživatele z nabídky.",
+      "search": "Hledat",
+      "noResults": "Nenalezen žádný výsledek.",
+      "head": {
+        "id": "ID",
+        "time": "Čas spuštění",
+        "result": "Výsledek",
+        "module": "Modul",
+        "user": "Uživatel"
+      },
+      "title": "Výsledky spuštění kódů",
+      "showInfo": "Zobrazit informace"
+    },
+    "waves": {
+      "title": "Správa vln",
+      "new": "Přidat novou vlnu",
+      "edit": {
+        "title": "Upravit vlnu",
+        "save": "Uložit změny"
+      },
+      "head": {
+        "wave": "Vlna",
+        "name": "Název",
+        "guarantor": "Garant",
+        "release": "Zveřejnění",
+        "max-points": "Max. bodů",
+        "task-count": "#úloh",
+        "actions": "Akce"
+      },
+      "warning": {
+        "title": "Upozornění",
+        "message": "Maximum bodů nezahrnuje bonusové body."
+      },
+      "delete": {
+        "btn": "Smazat vlnu",
+        "confirmation": "Opravdu chceš smazat tuto vlnu?"
+      },
+      "edit_page": {
+        "new": "Nová vlna",
+        "edit": "Úprava vlny"
+      },
+      "back": "Zpět na přehled",
+      "caption": "Název",
+      "caption.required": "Název je povinný.",
+      "garant": "Garant",
+      "garant.required": "Garant je povinný.",
+      "time_published": "Datum vydání",
+      "time_published.required": "Datum vydání je povinné.",
+      "index": "Index",
+      "index.required": "Index je povinný.",
+      "create": "Vytvořit",
+      "save": "Uložit"
+    },
+    "users": {
+      "filter": {
+        "label": "Filtr:",
+        "placeholder": "Hledat uživatele..."
+      },
+      "table": {
+        "select": "Vybrat",
+        "id": "ID",
+        "role": "Role",
+        "name": "Jméno",
+        "email": "E-mail",
+        "achievements": "Trofeje",
+        "score": "Skóre",
+        "actions": "Akce",
+        "grant_achievement": "Udělit trofej"
+      },
+      "title": "Správa uživatelů"
+    },
+    "years": {
+      "title": "Správa ročníků",
+      "newYear": "Nový ročník",
+      "index": "Index",
+      "year": "Ročník",
+      "maxPoints": "Max. bodů",
+      "pointPad": "Bodová vycpávka",
+      "taskCount": "#úloh",
+      "sealed": "Zapečetěn",
+      "actions": "Akce",
+      "edit": "Upravit",
+      "delete": "Smazat",
+      "cannotDeleteSealed": "Nelze smazat zapečetěný ročník",
+      "warningTitle": "Upozornění",
+      "warningMessage": "Maximum bodů nezahrnuje bonusové body.",
+      "editPage": {
+        "newYear": "Vytvoření nového ročníku",
+        "edit": "Úprava ročníku",
+        "backToOverview": "Zpět na přehled",
+        "index": "Index",
+        "indexRequired": "Index je povinný.",
+        "year": "Rok",
+        "yearRequired": "Rok je povinný.",
+        "sealed": "Zapečetěný",
+        "pointPad": "Bodová vycpávka",
+        "pointPadInvalid": "Bodová vycpávka musí být číslo.",
+        "activeOrgs": "Aktivní organizátoři",
+        "activeOrgsRequired": "Aktivní organizátoři jsou povinní.",
+        "create": "Vytvořit",
+        "save": "Uložit"
+      }
+    },
+    "root": {
+      "title": "Organizátorské rozhraní",
+      "old-frontend": "Staré admin rozhraní",
+      "tasks": {
+        "title": "Správa úloh",
+        "description": "Přidávání nových úloh. Vypouštění nových verzí úloh. Merge do masteru."
+      },
+      "achievements": {
+        "title": "Správa trofejí",
+        "description": "Přidávání, úprava a přidělování trofejí řešitelům."
+      },
+      "discussion": {
+        "title": "Diskuze u úloh",
+        "description": "Zobrazení všech příspěvků k úlohám z vlny, včetně počtu nepřečtených."
+      },
+      "monitor": {
+        "title": "Monitorovací nástěnka",
+        "description": "Sledování statistik úloh, vln a ročníků. Zpětná vazba od řešitelů."
+      },
+      "email": {
+        "title": "Poslat email",
+        "description": "Zasílání emailů řešitelům ohledně nových vln a dalších akcích."
+      },
+      "instance-config": {
+        "title": "Admin serveru",
+        "description": "Přímé nastavení základních hodnot serveru."
+      }
+    },
+    "monitor": {
+      "new-window": "Otevřít v novém panelu"
+    },
+    "instance-config": {
+      "title": "Nastavení serveru",
+      "key": "Klíč",
+      "value": "Hodnota",
+      "save": "Uložit změny",
+      "actions": "Akce",
+      "null-value": "Nulová hodnota",
+      "edit": "Upravit"
+    },
+    "email": {
+      "summary": "Tento email budu posílat {{successful}} {{sex}} {{school}} účastnících se ročníku {{year}}. Tento email je {{type}}. Pokročilé možnosti {{advancedUsed}} nastaveny.",
+      "title": "Posílání emailů",
+      "success": "Tvůj email se poslal {{count}} účastníkům.",
+      "check": {
+        "title": "Kontrola emailu před odesláním"
+      },
+      "subject": {
+        "title": "Předmět",
+        "initial": "[KSI] "
+      },
+      "reply-to": {
+        "title": "Adresa pro odpověď",
+        "initial": "ksi@fi.muni.cz"
+      },
+      "bcc": {
+        "title": "Slepé kopie (jedna adresa na řádek)"
+      },
+      "school": {
+        "title": "Z daného ročníku poslat podle školy",
+        "hs": "středoškolákům",
+        "other": "NEstředoškolákům",
+        "both": "z jakékoliv školy"
+      },
+      "type": {
+        "title": "Kategorie emailu",
+        "ksi": "informace o průběhu semináře (nová vlna, ...)",
+        "event": "pozvánka na akci (KSÍlet, Poznej FI, ...)"
+      },
+      "sex": {
+        "title": "Z daného ročníku poslat podle pohlaví",
+        "both": "dívkám i chlapcům",
+        "male": "chlapcům",
+        "female": "dívkám"
+      },
+      "to": {
+        "title": "Poslat řešitelům ročníku"
+      },
+      "successful": {
+        "title": "Z daného ročníku poslat podle úspěšnosti",
+        "all": "jakkoliv úspěšným",
+        "successful": "pouze úspěšným"
+      },
+      "advanced": {
+        "title": "Použít pokročilé možnosti",
+        "true": "jsou",
+        "false": "NEJSOU"
+      },
+      "body": "Tělo textu",
+      "send": {
+        "check": "Přejít ke kontrole a odeslání",
+        "send": "Odeslat email"
+      }
+    },
+    "discussion": {
+      "title": "Diskuze u úloh"
+    },
+    "achievements": {
+      "title": "Správa trofejí",
+      "new": "Přidat novou trofej",
+      "picture": "Obr.",
+      "name": "Název",
+      "actions": "Akce",
+      "back": "Zpět na přehled",
+      "yearly": "Pro tento ročník",
+      "persistent": "Trvalé",
+      "give": {
+        "btn": "Udělit"
+      },
+      "edit": {
+        "btn": "Změnit"
+      },
+      "delete": {
+        "btn": "Smazat",
+        "message": "Opravdu chceš smazat tuto trofej?"
+      },
+      "edit_page": {
+        "new": "Vytvořit trofej",
+        "edit": "Upravit trofej",
+        "back": "Zpět na seznam trofejí"
+      },
+      "create": "Vytvořit",
+      "save": "Uložit",
+      "no_images": "Žádné obrázky nebyly nahrány.",
+      "upload_image": "Nahrát obrázek",
+      "required": "Toto pole je povinné.",
+      "achievementId": "ID trofeje",
+      "achievementId_required": "ID trofeje je povinné.",
+      "description": "Popis",
+      "description_required": "Popis je povinný.",
+      "images": "Obrázky",
+      "userId": "ID uživatele",
+      "task": "Udělit za úlohu",
+      "grant_title": "Udělení trofeje",
+      "delete_image": "Smazat tento obrázek",
+      "make_thumbnail": "Označit tuto trofej"
+    },
+    "tasks": {
+      "wave-selection": {
+        "caption": "Výběr zobrazených vln",
+        "all": "Všechny vlny"
+      },
+      "wave": {
+        "tasks": "úloh"
+      },
+      "head": {
+        "id": "ID",
+        "name": "Název",
+        "author": "Autor",
+        "max-points": "Body",
+        "last-deploy": "Poslední nasazení",
+        "state": "Stav",
+        "actions": {
+          "title": "Akce",
+          "deploy": "Nasadit",
+          "merge": {
+            "title": "Merge",
+            "confirmation": "Opravdu chceš nastavit větev této úlohy na master?"
+          }
+        }
+      },
+      "deploy": {
+        "status": {
+          "done": "Úspěšně nasazeno",
+          "deploying": "Nasazuji...",
+          "default": "Ještě nenasazeno",
+          "error": "Při nasazování nastala chyba",
+          "diff": "Provádím diff..."
+        },
+        "log": {
+          "title": "Záznam nasazení úlohy"
+        }
+      }
+    }
+  },
+  "privacy-policy": {
+    "title": "Zásady zpracování osobních údajů"
+  }
+}

@@ -1,0 +1,54 @@
+@import "../../styles/vars";
+@import "../../styles/colors";
+
+.tasks-graph {
+  display: block;
+  position: relative;
+
+  .arrows-container {
+    width: 0;
+    height: 0;
+    overflow: visible;
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+
+    .arrows {
+      line {
+        stroke: $ksi-orange-150;
+        stroke-width: 4;
+        opacity: 0;
+
+        &:not(.animated) {
+          opacity: 1;
+        }
+
+        &.animated {
+          animation-name: fade-in;
+          animation-fill-mode: forwards;
+          animation-duration: 2s;
+        }
+      }
+
+      @keyframes fade-in {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  .row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: $ksi-margin-large;
+
+    .task-icon:not(:last-child) {
+      margin-right: $ksi-margin-large;
+    }
+  }
+}

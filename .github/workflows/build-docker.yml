@@ -1,4 +1,4 @@
-name: Docker Compose Build and Push
+name: Docker Build and Push
 
 on:
   push:
@@ -10,15 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out the repository, including submodules
-        uses: actions/checkout@v3
-        with:
-          submodules: recursive
-          path: web
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "14.18.3"
+      - name: Check out the repository
+        uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -29,9 +22,13 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push Docker images
-        working-directory: ./web
-        run: |
-          npm install
-          npm run build.docker
-          docker compose push
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/ksi-web-frontend-react:latest
+            ${{ secrets.DOCKER_USERNAME }}/ksi-web-frontend-react:${{ github.sha }}
+          build-args: |
+            NEXT_PUBLIC_BACKEND_URL=${{ secrets.NEXT_PUBLIC_BACKEND_URL }}

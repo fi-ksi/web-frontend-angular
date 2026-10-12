@@ -1,0 +1,12 @@
+@import "../../styles/mixins";
+@import "../../styles/vars";
+
+.page-privacy-policy {
+  display: flex;
+  justify-content: center;
+
+  > article {
+    @include ksi-full-width;
+    margin: $ksi-margin;
+  }
+}

@@ -1,0 +1,39 @@
+@import "../../styles/vars";
+
+.post-reply-form {
+  .thread-name {
+    margin-bottom: $ksi-margin-small;
+  }
+
+  .quoted-post {
+    margin-bottom: $ksi-margin-small;
+    padding: $ksi-padding-small;
+    border: 1px solid $ksi-blue-100;
+    border-radius: $ksi-margin-x-small;
+
+    .head {
+      font-size: 0.8rem;
+      color: $ksi-blue-80;
+      margin-bottom: $ksi-margin-x-small;
+    }
+
+    .content {
+      max-height: 10em;
+      overflow: hidden;
+    }
+  }
+
+  .reply-editor {
+    margin: $ksi-margin 0;
+    display: block;
+  }
+
+  .post-size {
+    margin-bottom: $ksi-margin-small;
+    font-size: 0.8rem;
+  }
+
+  .save-reply {
+    width: 100%;
+  }
+}

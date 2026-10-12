@@ -1,0 +1,82 @@
+@import "vars";
+
+@mixin round-corner {
+  border-radius: 4px;
+}
+
+@mixin ksi-card($width: 15ex, $nameHeight: 3em, $descriptionHeight: 5em) {
+  @include round-corner;
+  cursor: pointer;
+  display: block;
+  border: 1px solid $ksi-orange-180;
+  margin: $ksi-margin;
+  background: $ksi-thumbnail-bg;
+  color: $ksi-page-fg;
+  box-sizing: content-box;
+  width: $width;
+  padding: $ksi-padding-small;
+  transition: all 0.3s;
+
+  &:hover {
+    background-color: $ksi-thumbnail-hover-bg;
+    border-color: $ksi-orange-200;
+  }
+
+  .icon {
+    width: $width;
+  }
+
+  .name {
+    margin-top: $ksi-margin-small;
+    box-sizing: content-box;
+    height: $nameHeight;
+    line-height: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-weight: $ksi-semibold;
+  }
+
+  .description {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: $descriptionHeight;
+    line-height: 1;
+    text-align: center;
+  }
+}
+
+@mixin ksi-full-width($applyMargin: false, $maxWidth: 24cm) {
+  max-width: $maxWidth;
+  @if ($applyMargin) {
+    width: calc(100% - (2 * #{$ksi-margin}));
+  } @else {
+    width: 100%;
+  }
+
+  @media print {
+    width: 100%;
+  }
+}
+
+@mixin page-admin {
+  :host {
+    width: 100%;
+    max-width: 100vw;
+    height: 100%;
+    display: flex;
+
+    .content-container {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+
+      .content {
+        @include ksi-full-width(false, 30cm);
+      }
+    }
+  }
+}

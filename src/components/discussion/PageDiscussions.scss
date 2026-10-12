@@ -1,0 +1,47 @@
+@import "../../styles/vars";
+@import "../../styles/mixins";
+
+.page-discussions {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: $ksi-padding $ksi-padding 0;
+  width: 100%;
+
+  .title {
+    color: $ksi-title;
+    text-align: center;
+    margin-bottom: $ksi-margin-small;
+  }
+
+  .controls {
+    display: flex;
+    align-items: baseline;
+    gap: $ksi-margin-large;
+    margin-bottom: $ksi-margin-large;
+
+    .new-thread {
+      cursor: pointer;
+    }
+
+    .wave-filter {
+      margin-bottom: 0;
+      font-size: 0.9rem;
+    }
+  }
+
+  .threads {
+    @include ksi-full-width;
+    text-align: center;
+
+    .has-unread {
+      font-weight: bold;
+    }
+
+    .new-posts-count {
+      font-weight: bold;
+      font-style: italic;
+      margin-left: $ksi-margin-small;
+    }
+  }
+}

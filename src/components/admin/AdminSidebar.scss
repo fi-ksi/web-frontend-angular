@@ -1,0 +1,66 @@
+@import "../../styles/vars";
+
+.admin-sidebar {
+  .sidebar-toggle {
+    display: none;
+  }
+
+  .content {
+    height: 100%;
+    border-right: 4px solid var(--ksi-page-welcome-banner-bg);
+    border-bottom: 1px solid var(--ksi-page-welcome-banner-bg);
+    background: var(--ksi-navbar-bg);
+    position: relative;
+  }
+
+  .navigation-bar {
+    padding: $ksi-margin $ksi-margin-small;
+    margin-right: $ksi-margin-small;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    position: sticky;
+    top: 0;
+
+    .title {
+      color: var(--ksi-navbar-fg);
+      text-decoration: none;
+      margin-bottom: $ksi-margin-small;
+
+      &.active {
+        cursor: default;
+        font-weight: bold;
+      }
+    }
+
+    .nav-btn {
+      &.active {
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-sidebar {
+    .sidebar-toggle {
+      display: flex;
+      justify-content: center;
+      cursor: pointer;
+      padding-top: $ksi-padding-large;
+      background: var(--ksi-navbar-bg);
+      border: none;
+      color: var(--ksi-navbar-fg);
+      width: 100%;
+      font-size: 1.5rem;
+    }
+
+    .content {
+      display: none;
+
+      &.open {
+        display: block;
+      }
+    }
+  }
+}

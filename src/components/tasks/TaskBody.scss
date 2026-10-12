@@ -1,0 +1,27 @@
+@import "../../styles/vars";
+@import "../../styles/mixins";
+
+.task-body.content {
+  display: inline;
+
+  .task-collapsible {
+    display: block;
+    margin: $ksi-margin 0;
+  }
+
+  .task-tip {
+    margin: $ksi-margin 0;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  figure {
+    & > * {
+      max-width: 100%;
+    }
+
+    text-align: center;
+  }
+}

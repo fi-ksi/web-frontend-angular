@@ -1,0 +1,21 @@
+@import "../../styles/vars";
+@import "../../styles/mixins";
+
+.task-module-sortable-place {
+  display: block;
+  cursor: pointer;
+
+  .container {
+    display: block;
+    padding: $ksi-margin-small;
+    text-align: center;
+
+    border: 1px dashed $ksi-gray-100;
+    color: $ksi-gray-100;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: $ksi-gray-230;
+    }
+  }
+}

@@ -1,0 +1,18 @@
+@import "../../styles/vars";
+
+.task-module-text {
+  margin-top: $ksi-margin;
+
+  .question {
+    margin-bottom: $ksi-margin;
+
+    .label, .answer {
+      display: block;
+      width: 100%;
+    }
+  }
+
+  .submit {
+    width: 100%;
+  }
+}

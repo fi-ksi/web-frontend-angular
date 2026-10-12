@@ -1,0 +1,23 @@
+@import "../../styles/vars";
+
+.task-module-quiz {
+  .answers {
+    margin-top: $ksi-margin-small;
+    list-style: none;
+    padding-left: 0;
+
+    .answer {
+      * {
+        cursor: pointer;
+      }
+
+      input {
+        margin-right: $ksi-margin-x-small;
+      }
+    }
+  }
+
+  .submit {
+    width: 100%;
+  }
+}

@@ -1,0 +1,43 @@
+@import "../../styles/vars";
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 27cm;
+  margin: $ksi-margin;
+
+  .profile-picture {
+    position: relative;
+    margin-bottom: $ksi-margin;
+
+    .btn {
+      position: absolute;
+      bottom: -8px;
+      right: -8px;
+    }
+
+    .picture {
+      border-radius: $ksi-border-radius;
+      height: 16em;
+    }
+  }
+
+  .link-subpage {
+    margin: $ksi-margin;
+  }
+
+  .form {
+    min-width: MIN(100%, 40ex);
+  }
+
+  h2 {
+    margin: $ksi-margin-small;
+    text-align: center;
+  }
+
+  .btn-save {
+    margin: $ksi-margin 0;
+  }
+}

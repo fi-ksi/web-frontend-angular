@@ -1,0 +1,98 @@
+@import "../../styles/vars";
+@import "../../styles/mixins";
+
+.discussion-thread-post {
+  display: block;
+  margin: $ksi-margin-small 0;
+
+  .post {
+    @include round-corner;
+    padding: $ksi-padding-small $ksi-padding-small $ksi-padding-x-small;
+    border: 2px solid $ksi-blue-100;
+
+    .content {
+      padding-left: calc(2em + #{$ksi-margin-x-small});
+      word-break: break-word;
+    }
+
+    .head {
+      margin-bottom: $ksi-margin-small;
+
+      .resolved-badge {
+        @include round-corner;
+        margin-left: $ksi-margin-small;
+        padding: 0 $ksi-padding-x-small;
+        background-color: $ksi-green-100;
+        color: white;
+        font-size: 0.8rem;
+        font-weight: bold;
+        white-space: nowrap;
+      }
+    }
+
+    .footer {
+      padding-left: calc(2em + #{$ksi-margin-small});
+      font-size: 0.8rem;
+
+      > * {
+        margin-right: $ksi-margin-small;
+        display: inline-block;
+      }
+    }
+  }
+
+  .children-container {
+    display: flex;
+
+    .line-container {
+      .line {
+        margin-left: $ksi-margin-small;
+        cursor: pointer;
+        border-left: 3px solid $ksi-blue-100;
+        padding: 0 $ksi-padding-small;
+        height: calc(100% + #{$ksi-margin-small});
+        transition: border-color 0.1s;
+
+        &:hover {
+          border-color: $ksi-blue-150;
+        }
+      }
+    }
+
+    .children {
+      flex-grow: 1;
+
+      .discussion-thread-post:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .expand {
+    color: $ksi-blue-80;
+    cursor: pointer;
+    margin-top: $ksi-margin-small;
+    margin-left: $ksi-margin-large;
+    line-height: 1;
+    transition: color 0.2s;
+
+    &:hover {
+      color: $ksi-blue-100;
+    }
+
+    .text {
+      margin-left: $ksi-margin-x-small;
+      font-style: italic;
+    }
+  }
+
+  .user {
+    .pic {
+      height: 1.5em;
+      width: 1.5em;
+      border-radius: 50%;
+      margin-right: $ksi-margin-x-small;
+      vertical-align: baseline;
+    }
+  }
+}

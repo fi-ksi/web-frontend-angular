@@ -1,0 +1,16 @@
+.toright {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.typeahead-wrap {
+  position: relative;
+}
+
+.typeahead-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}

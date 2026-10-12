@@ -1,0 +1,86 @@
+@use "sass:math";
+@import "../../styles/vars";
+
+.task-icon {
+  $size: 5.5em;
+
+  display: block;
+
+  &.disabled {
+    cursor: default;
+  }
+
+  .container {
+    display: block;
+    height: $size;
+    width: $size;
+    box-sizing: content-box;
+    position: relative;
+
+    &:link, &:visited, &:hover, &:active {
+      text-decoration: none !important;
+    }
+  }
+
+  img {
+    height: $size;
+  }
+
+  .invisible-title {
+    color: transparent;
+    display: block;
+    height: $size;
+    width: $size;
+    overflow: visible;
+    position: relative;
+    top: -1 * (math.div($size, 2) + 1);
+    line-height: 1;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .task-icon-tooltip {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
+    width: max-content;
+    max-width: 20rem;
+    padding: 0;
+    border: 2px solid $ksi-orange-130;
+    color: $ksi-page-fg;
+    background-color: $ksi-page-bg;
+    text-align: center;
+    font-size: 1rem;
+
+    .name {
+      display: block;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-bottom: 2px solid $ksi-orange-150;
+      line-height: 1;
+      background: $ksi-navbar-bg;
+      color: $ksi-navbar-fg;
+      padding: $ksi-padding-small $ksi-padding-small;
+    }
+
+    .stats {
+      display: block;
+      font-size: 0.8rem;
+      padding: 0 $ksi-padding-small $ksi-padding-small;
+    }
+
+    .description {
+      display: block;
+      text-align: justify;
+      margin: $ksi-margin-x-small 0;
+      padding: 0 $ksi-padding-small;
+    }
+  }
+
+  .container:hover .task-icon-tooltip {
+    display: block;
+  }
+}

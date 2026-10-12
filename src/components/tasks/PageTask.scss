@@ -1,0 +1,76 @@
+@import "../../styles/vars";
+@import "../../styles/mixins";
+
+.page-task {
+  display: flex;
+  justify-content: center;
+
+  main {
+    margin: $ksi-margin-large $ksi-margin;
+    @include ksi-full-width(true);
+
+    .head {
+      margin-bottom: $ksi-margin;
+
+      .task-title {
+        text-transform: none;
+      }
+
+      .deadline {
+        font-size: 0.8rem;
+      }
+
+      .authors-container {
+        line-height: 1;
+        font-size: 0.9rem;
+        margin-bottom: $ksi-margin-small;
+
+        .authors {
+          margin-left: $ksi-margin-small;
+        }
+      }
+    }
+
+    .back {
+      margin: $ksi-margin 0;
+    }
+
+    .body {
+      margin: $ksi-margin 0 $ksi-margin-large;
+    }
+
+    .bottom {
+      line-height: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.1rem;
+
+      @media print {
+        display: none;
+      }
+
+      .discussion {
+        > * {
+          padding-right: $ksi-padding-x-small;
+        }
+      }
+
+      .results, .assessment {
+        margin-left: $ksi-margin;
+      }
+
+      .results, .solution, .assessment {
+        display: inline-block;
+      }
+    }
+
+    .modules {
+      margin-top: $ksi-margin-large;
+
+      .task-module {
+        margin-bottom: $ksi-margin-large;
+      }
+    }
+  }
+}

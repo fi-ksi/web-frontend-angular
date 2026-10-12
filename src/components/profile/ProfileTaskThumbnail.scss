@@ -1,0 +1,33 @@
+@import "../../styles/vars";
+
+.profile-task-thumbnail {
+  display: flex;
+  align-items: center;
+  width: 15ex;
+  min-height: 3em;
+  padding: 1em;
+  margin: $ksi-margin-x-small;
+  background-color: $ksi-thumbnail-bg;
+  border-radius: $ksi-border-radius;
+  text-decoration: none !important;
+
+  .icon-container {
+    .icon {
+      width: 3em;
+      height: 3em;
+    }
+  }
+
+  .name {
+    margin: 0 $ksi-margin-x-small;
+  }
+
+  .score {
+    &, :hover, :active, :focus {
+      text-decoration: none !important;
+      border-bottom: none !important;
+    }
+    margin: $ksi-margin-x-small;
+    color: $ksi-gray-90;
+  }
+}

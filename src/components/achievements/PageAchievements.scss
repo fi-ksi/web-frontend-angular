@@ -1,0 +1,48 @@
+@import "../../styles/vars";
+
+.achievements-page {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 27cm;
+    margin: $ksi-margin;
+
+    .achievements {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      .achievement {
+        width: 25ex;
+        padding: $ksi-padding;
+        margin: $ksi-margin-small;
+        background-color: $ksi-thumbnail-bg;
+        border-radius: $ksi-border-radius;
+        text-decoration: none;
+        color: $ksi-page-fg;
+        text-align: center;
+
+        .icon {
+          width: 4em;
+          height: 4em;
+        }
+
+        .name {
+          display: block;
+          font-weight: $ksi-semibold;
+          margin-top: $ksi-margin-x-small;
+        }
+
+        .description {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+}

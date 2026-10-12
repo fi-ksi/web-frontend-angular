@@ -1,0 +1,36 @@
+@import "../../styles/vars";
+
+$width: 32cm;
+
+.results-page {
+  margin: $ksi-margin;
+  display: flex;
+  justify-content: center;
+
+  main {
+    max-width: min(#{$width}, 100%);
+    width: $width;
+
+    h2 {
+      margin: $ksi-margin-large 0;
+    }
+
+    h3 {
+      margin: $ksi-margin-large 0 $ksi-margin;
+    }
+
+    .results-table {
+      tr.successful {
+        background: $ksi-successful-result-fg-1;
+
+        &:nth-of-type(2n + 1) {
+          background: $ksi-successful-result-fg-2;
+        }
+      }
+
+      td {
+        vertical-align: middle;
+      }
+    }
+  }
+}

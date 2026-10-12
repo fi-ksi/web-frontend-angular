@@ -1,9 +1,0 @@
-version: '3.8'
-
-services:
-  ksi-fe-dev-local:
-    container_name: ksi-fe-dev
-    image: fi0ksi/ksi-fe-local
-    build: .
-    ports:
-      - "4201:80"

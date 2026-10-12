@@ -1,0 +1,76 @@
+@import "../../styles/vars";
+@import "../../styles/mixins";
+
+.feedback-form {
+  border: 1px solid $ksi-article-preview-border-fg;
+  padding: $ksi-padding;
+  margin-bottom: $ksi-margin;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  .intro {
+    text-align: center;
+    font-weight: bolder;
+    font-size: 1.1rem;
+    margin-bottom: $ksi-margin;
+  }
+
+  .option {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    max-width: 80ex;
+
+    .answer {
+      margin-bottom: $ksi-margin-small;
+
+      &.stars {
+        font-size: 2rem;
+        color: $ksi-page-welcome-banner-bg;
+
+        .star {
+          color: inherit;
+          opacity: 0.35;
+          text-decoration: none;
+          padding: 0 0.1em;
+
+          &.active {
+            opacity: 1;
+          }
+        }
+      }
+
+      &.line {
+        max-width: 40ex;
+        display: flex;
+        align-items: center;
+        line-height: 1;
+
+        .range {
+          flex-grow: 1;
+          margin: 0 $ksi-margin-small;
+        }
+      }
+
+      &.text {
+        margin-top: $ksi-margin-small;
+      }
+    }
+  }
+}
+
+.filled-now, .incomplete {
+  text-align: center;
+  animation: ksi-fade-in 0.5s;
+
+  @keyframes ksi-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

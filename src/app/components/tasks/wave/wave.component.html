@@ -1,8 +1,0 @@
-<ng-container *ngIf="(viewMode$ | async) === 'linear'; else graphView">
-  <div class="list-group">
-    <ksi-wave-task-linear *ngFor="let task of tasksOrdered" [task]="task"></ksi-wave-task-linear>
-  </div>
-</ng-container>
-<ng-template #graphView>
-  <ksi-tasks-graph *ngIf="tasksOrdered" [tasks]="tasksOrdered"></ksi-tasks-graph>
-</ng-template>

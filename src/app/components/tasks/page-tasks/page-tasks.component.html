@@ -12,7 +12,13 @@
   </accordion>
 </ng-container>
 <ng-template #graph>
-  <ksi-tasks-graph class="graph" *ngIf="tasks.tasks$ | async as tasks" [tasks]="tasks"></ksi-tasks-graph>
+  <ng-container *ngIf="tasks.tasks$ | async as taskList">
+    <ksi-tasks-graph 
+      *ngIf="taskList.length > 0" 
+      class="graph" 
+      [tasks]="taskList">
+    </ksi-tasks-graph>
+  </ng-container>
 </ng-template>
 
 <div class="settings-container">

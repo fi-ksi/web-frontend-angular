@@ -112,6 +112,8 @@ export class DefaultService {
             this.configuration = configuration;
             this.basePath = basePath || configuration.basePath || this.basePath;
         }
+        
+        this.basePath = this.basePath.replace(/\/+$/, ''); // remove trailing slash
     }
 
     /**
@@ -3993,51 +3995,53 @@ export class DefaultService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public taskContent2GetSingle(view: string, contentId: string, observe?: 'body', reportProgress?: boolean): Observable<Uint8Array>;
-    public taskContent2GetSingle(view: string, contentId: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Uint8Array>>;
-    public taskContent2GetSingle(view: string, contentId: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Uint8Array>>;
-    public taskContent2GetSingle(view: string, contentId: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        if (view === null || view === undefined) {
-            throw new Error('Required parameter view was null or undefined when calling taskContent2GetSingle.');
-        }
-
-        if (contentId === null || contentId === undefined) {
-            throw new Error('Required parameter contentId was null or undefined when calling taskContent2GetSingle.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        // authentication (ksi) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
-        }
-
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.request<Uint8Array>('get',`${this.basePath}/taskContent/${encodeURIComponent(String(contentId))}/${encodeURIComponent(String(view))}`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
+     public taskContent2GetSingle(view: string, contentId: string, observe?: 'body', reportProgress?: boolean): Observable<Blob>;
+     public taskContent2GetSingle(view: string, contentId: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Blob>>;
+     public taskContent2GetSingle(view: string, contentId: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Blob>>;
+     public taskContent2GetSingle(view: string, contentId: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+ 
+         if (view === null || view === undefined) {
+             throw new Error('Required parameter view was null or undefined when calling taskContent2GetSingle.');
+         }
+ 
+         if (contentId === null || contentId === undefined) {
+             throw new Error('Required parameter contentId was null or undefined when calling taskContent2GetSingle.');
+         }
+ 
+         let headers = this.defaultHeaders;
+ 
+         // authentication (ksi) required
+         if (this.configuration.accessToken) {
+             const accessToken = typeof this.configuration.accessToken === 'function'
+                 ? this.configuration.accessToken()
+                 : this.configuration.accessToken;
+             headers = headers.set('Authorization', 'Bearer ' + accessToken);
+         }
+ 
+         // to determine the Accept header
+         let httpHeaderAccepts: string[] = [
+             'application/json'
+         ];
+         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+         if (httpHeaderAcceptSelected != undefined) {
+             headers = headers.set('Accept', httpHeaderAcceptSelected);
+         }
+ 
+         // to determine the Content-Type header
+         const consumes: string[] = [
+         ];
+ 
+         return this.httpClient.request<Blob>('get',`${this.basePath}/taskContent/${String(contentId)}/${String(view)}`,
+             {
+                 //@ts-ignore
+                 responseType: "blob",
+                 withCredentials: this.configuration.withCredentials,
+                 headers: headers,
+                 observe: observe,
+                 reportProgress: reportProgress
+             }
+         );
+     }
 
     /**
      * 
